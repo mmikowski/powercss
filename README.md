@@ -32,34 +32,38 @@ Here are the recommended tools:
 
 | Capability   | Tool                | Notes                             |
 | ------------ | ------------------- | ----------------------------------|
+| AJAX         | jQuery native       | Use jQuery AJAX methods           |
+| DOM + Util   | jQuery              | A powerful, stable, tight library |
+| Client Data  | [taffyDB][5]        | A powerful and flexible SQL-like  |
+|              |                     | client data management tool       |
 | DynamicCSS   | PowerCSS            | This package                      |
-| Websockets   | [Socket.io][6]      | Prefer websockets over AJAX.      |
-| AJAX         | jQuery native       | Use jQuery AJAX methods.          |
-| Promises     | jQuery native       | Use jQuery promise methods.       |
-| Model Events | [Global Events][2]  | jQuery plugin eliminates having   |
-|              |                     | to manage multiple event types.   |
-| Touch        | [Unified events][3] | Unify desktop and touch events.   |
-| Routing      | [uriAnchor][4]      | jQuery plugin for robust routing. |
+| Model Events | [Global Events][2]  | jQuery plugin allows on to use    |
+|              |                     | the jQuery-style events for all   |
+|              |                     | custom events.                    |
+| Promises     | jQuery native       | Use jQuery promise methods        |
+| Routing      | [uriAnchor][4]      | jQuery plugin for robust routing  |
 |              |                     | Includes support for dependent    |
-|              |                     | and independent query arguments.  |
-| Data Model   | [taffyDB][5]        | A powerful and flexible SQL-like  |
-|              |                     | client data management tool.      |
+|              |                     | and independent query arguments   |
 | SVG          | [D3][7]             | Great for easy graphs and charts  |
 |              | [SVG][8]            | Low-level jQuery plugin           |
 | Templates    | [Dust][9]           | Uses a powerful template DSL that |
 |              |                     | minimizes chances to intemingle   |
-|              |                     | business and display logic.       |
+|              |                     | business and display logic        |
+| Touch        | [Unified events][3] | Unify desktop and touch events    |
+| Websockets   | [Socket io][6]      | Prefer websockets over AJAX       |
 
-This suite of tools has all the capabilities of a bleeding-edge 
-SPA "framework" library within the reliable and mature jQuery ecosystem.
-It can provide an application that is significantly more flexible and
+This suite of tools provides all the capabilities of a bleeding-edge 
+SPA "framework" library within the reliable and mature jQuery ecosystem
+without putting you at the mercy of the limitations or bugs found in
+frameworks.  You control your code, instead of the framework controlling you.
+
+Using best-in-class libraries is significantly more flexible and
 testable since display logic can easily be decoupled from business logic.
-Finally, it leverages jQuery's maturity, performance, and excellent
-tools instead of competing with them.
+And we leverage jQuery's maturity, performance, and excellent tools instead
+of competing with them.
 
 Release Notes
 -------------
-
 ### Copyright (c)
 2016 Michael S. Mikowski (mike[dot]mikowski[at]gmail[dotcom])
 
