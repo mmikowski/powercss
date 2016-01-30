@@ -25,7 +25,6 @@ TODO.
 
 Avoid complex 'SPA framework' libraries 
 ---------------------------------------
-
 jQuery, this, and  a few other well-chosen tools forms
 a fantastic basis for a lean, easy to use SPA architecture
 as detailed in [Single page web applications, JavaScript end-to-end][1].
@@ -62,27 +61,25 @@ Release Notes
 -------------
 
 ### Copyright (c)
-
 2016 Michael S. Mikowski (mike[dot]mikowski[at]gmail[dotcom])
 
 ### License
-
 Dual licensed under the MIT or GPL Version 2 http://jquery.org/license
 
 ### Version 0.0.1
-
 Original commit to stake namespace
 
 TODO
 ----
-
 Add content.
+
+Similar Projects
+----------------
+[absurdjs][11], [responsive.j$][10]
 
 Contribute!
 -----------
-
-If you want to help out, like all jQuery plugins this is hosted at
-GitHub. Any improvements or suggestions are welcome! You can reach me at
+Any improvements or suggestions are welcome! You can reach me at
 mike[dot]mikowski[at]gmail[dotcom].
 
 Cheers, Mike
@@ -99,3 +96,5 @@ END
 [7]:https://github.com/mbostock/d3
 [8]:http://keith-wood.name/svg.html
 [9]:http://linkedin.github.io/dustjs
+[10]:http://www.responsivejs.com/
+[11]:http://absurdjs.com/
