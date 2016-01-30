@@ -1,11 +1,10 @@
-{
-  "name": "powercss",
+{ "name": "powercss",
   "version": "0.0.1",
-  "description": "Make your CSS come alive with JS powered, double-buffered powered CSS. See https://www.youtube.com/watch?v=rnkMjzhxw4s",
+  "description": "PowerCSS provides run-time generated, double-buffered CSS optimized for performance. The core technology is currently used by over 100 million web users every day. See https://www.youtube.com/watch?v=rnkMjzhxw4s.",
   "keywords": [
-    "css", "powercss", "live-css",
-    "jscss", "js-css",
-    "css-js", "cssjs",
+    "css", "powercss", "power-css",
+    "css-alive", "alive-css", "css-live", "live-css",
+    "jscss", "js-css", "css-js", "cssjs",
     "jquery-plugin",
     "ecosystem:jquery",
     "jquery", "plugin",

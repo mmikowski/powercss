@@ -3,14 +3,13 @@ PowerCss
 
 Overview
 --------
-PowerCSS provides run-time generated CSS that is optimized for performance.
-The core technology is currently in use by over 100 million web users every
-day.  See https://www.youtube.com/watch?v=rnkMjzhxw4s.  More docs coming
-soon.
+PowerCSS provides run-time generated, double-buffered CSS optimized for
+performance. The core technology is currently used by over 100 million web 
+users every day. See https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
 Examples
 --------
-Coming soon.
+This first commit is to claim the name space.  Code will be following soon.
 
 Prerequisites
 -------------
