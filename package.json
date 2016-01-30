@@ -1,0 +1,44 @@
+{
+  "name": "powercss",
+  "version": "0.0.1",
+  "description": "Make your CSS come alive with JS powered, double-buffered powered CSS. See https://www.youtube.com/watch?v=rnkMjzhxw4s",
+  "keywords": [
+    "css", "powercss", "live-css",
+    "jscss", "js-css",
+    "css-js", "cssjs",
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "jquery", "plugin",
+    "desktop and mobile",
+    "desktop and touch",
+    "desktop", "touch","mobile",
+    "phone","tablet"
+  ],
+  "main": "powercss.js",
+  "scripts": {
+    "test": "echo \"See powercss.html\" && exit 0;"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmikowski/powercss.git"
+  },
+  "author": "Michael S. Mikowski <mike.mikowski@gmail.com>",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/mmikowski/powercss/issues"
+  },
+  "homepage": "https://github.com/mmikowski/powercss",
+
+  "jquery_extra": "Keys below are not used by the npm manifest",
+  "title": "powercss",
+  "dependencies": {},
+  "licenses": [
+    { "type": "MIT",
+      "url": "https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt"
+    },
+    { "type": "GPLv2",
+      "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+    }
+  ],
+  "maintainers": [ "Michael S. Mikowski <mike.mikowski@gmail.com>" ]
+}
