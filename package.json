@@ -1,6 +1,6 @@
 { "name": "powercss",
-  "version": "0.0.5",
-  "description": "PowerCSS provides run-time generated, double-buffered CSS optimized for performance. The core technology is currently used by over 100 million web users every day. See https://www.youtube.com/watch?v=rnkMjzhxw4s.",
+  "version": "0.0.6",
+  "description": "PowerCSS empowers you to create run-time-logic-defined, highly compressible, extremely fast, infinitely adjustable, optimized, and double-buffered CSS without any CSS files! See https://www.youtube.com/watch?v=rnkMjzhxw4s.",
   "keywords": [
     "css", "power", "powercss", "power-css", "css-power",
     "css-alive", "alive-css", "css-live", "live-css",

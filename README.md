@@ -3,9 +3,9 @@ PowerCss
 
 Overview
 --------
-PowerCSS provides run-time generated, double-buffered CSS optimized for
-performance. The core technology is currently used by over 100 million web
-users every day. See https://www.youtube.com/watch?v=rnkMjzhxw4s.
+PowerCSS empowers you to create run-time-logic-defined, highly compressible,
+extremely fast, infinitely adjustable, optimized, and double-buffered CSS 
+without any CSS files!  See https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
 Examples
 --------
@@ -13,7 +13,8 @@ This first commit is to claim the name space.  Code will be following soon.
 
 Prerequisites
 -------------
-A modern browser, e.g. IE9+.  Chrome or Firefox preferred.
+A modern browser like Chrome or Firefox. IE9+ is also supported for the
+Luddite in your soul or boardroom.
 
 Implementation
 --------------
@@ -45,13 +46,14 @@ mishmash of solutions of varying quality.  Why, for example, should one
 need override Backbone's awful templating and sync mechanisms when just removing
 the framework results in simpler and easier to maintain code?
 
-I once used a framework and found I had to wait months for a new
-version to support a desired feature. Once I updated the library
-I found the excruciating pain of trying to find and fix all the regressions.
-It wasn't easy, of course, because frameworks tend to intermingle display
-and business logic.  So testing a framework application often requires
-an **additional** framework for testing the simplest of logic.
-How, exactly, can we [regression test our application
+I once used a framework and had to wait months for a new
+version to support a desired feature. Once the library was updated,
+I discovered excruciating pain of trying to find and fix all the regressions.
+It wasn't easy, of course, because (a) some of the bugs were within the 
+framework itself, ands (b) frameworks tend to intermingle display
+and business logic.  So testing a Single Page-Framework Application
+(SPFA?) often requires an **additional** framework for testing the
+simplest of logic.  How, exactly, can we [regression test our application
 in less than a second][5] with the framework-of-the-month? Exactly.
 
 Since we control the application, we can easily decouple display and business
@@ -59,7 +61,12 @@ logic and make use simple tools like `nodeunit` for headless testing.
 And we can **leverage** jQuery's maturity, performance, and excellent tools
 instead of **competing** with them.
 
-Here is my current preferred list of libraries:
+I plan to release an `npm` module that includes an architecture diagram,
+some example code, and dependencies to all the libraries I currently favor
+so anyone can get started on a modern SPA without the constraints of the
+framework-of-the-month.  If you are interested, **let me know** and 
+I'll move faster.  And remember, if you don't like a library I've chosen,
+**you can always swap it out!** Here is my current preferred list:
 
 | Capability   | Library              | Notes                             |
 | :----------- | :------------------- | :-------------------------------- |
@@ -76,14 +83,6 @@ Here is my current preferred list of libraries:
 | Testing      | [Nodeunit-b][15]     | Create a lightening fast regression test suite and use it as a commit hook |
 | Touch        | [Unified events][16] | Unified desktop and touch events  |
 | WebSockets   | [Socket io][17]      | The WebSockets protocol is faster and more flexible than AJAX for most applications. Consider using [pure websockets][18] client with a [websocket][19] server on a NodeJs with modern browsers (IE10+) |
-
-
-I plan to release an `npm` module that includes an architecture diagram,
-some example code, and all the above dependencies so one can easily get
-started with the same libraries I use without the constraints of the
-framework-of-the-month.  If you are interested, **let me know** and 
-I'll move faster.  And remember, if you don't like a library I've chosen,
-**you can always just swap it out!**
 
 Release Notes
 -------------
