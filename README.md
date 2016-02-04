@@ -3,9 +3,9 @@ PowerCss
 
 Overview
 --------
-PowerCSS empowers you to create run-time-logic-defined, highly compressible,
-extremely fast, infinitely adjustable, optimized, and double-buffered CSS 
-without any CSS files!  See https://www.youtube.com/watch?v=rnkMjzhxw4s.
+Feel the power of run-time CSS! Create run-time-defined, highly compressible, extremely fast,
+infinitely adjustable, optimized, and double-buffered CSS without any files. 
+https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
 Examples
 --------
