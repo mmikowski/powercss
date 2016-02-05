@@ -12,15 +12,17 @@
  */
 /*global jQuery*/
 
-// PowerCSS by Michael S. Mikowski
+// # PowerCSS by Michael S. Mikowski
 // Feel the power of run-time CSS! Create run-time-defined, 
 // highly compressible, extremely fast, infinitely adjustable,
 // optimized, and double-buffered CSS without any files. 
 // https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
-// # How it works
+// # Getting started (bottom-up)
 //
-// ## A single active StyleSheet Object
+// # How it works (top-down)
+//
+// ## One active StyleSheet object
 // PowerCSS under our control creates and maintains
 // an active StyleSheet Object which is meant to replace
 // **all** of our other site stylesheets.  While it is
@@ -34,29 +36,50 @@
 // StyleSheet object. Many redundancies are when creating
 // this object too.  As a result, the web rendering engine
 // can use just one single optimised StyleSheet Object instead
-// of juggling sometimes dozens of sheets.
+// of juggling sometimes dozens of sheets. We gain even more
+// performance because separate CSS files are eliminated,
+// and PowerCSS definitions compress *much* better than
+// standard CSS.
 //
 // Third-party web components will, of course, provide
 // their own stylesheets, and their sheets should integrate
 // well with PowerCSS.
 //
-// ## Multiple StyleSheet Objects on stand-by
+// ## Multiple StyleSheet objects
 // We can create multiple PowerCSS StyleSheet objects even though
 // only one will be active at any time.  These have, by default, the IDs
 // of pcss-0 and pcss-1, ... pcss-N.  If there is a conflict with
-// other DOM IDs, we can change the prefix using **_setSheetIdPrefix_**
-// This must be called *before* any other methods, or it will throw a
-// nasty exception.
+// other DOM IDs, we can change the prefix using 
+// `pcss._setSheetIdPrefix_( 'pre-' );`. This must be called *before*
+// any other methods, or it will throw a nasty exception.
 //
-// ## Enabling a StyleSheet Object
+// ## Adding a StyleSheet object
+// StyleSheet objects are added like so:
+//
+//    obj_idx = pcss._addStyleSheetObj_(
+//      [ '_vsheet_0_', '_vsheet_2_', ... ],
+//    );
+//
+// The index number of the created object is returned.
+// The method requires a list of virtual sheets, or VSheets as we call
+// them.  These contain the same information as a traditional CSS file.
+// We will describe how to add these shortly.
+//
+// ## Enabling a StyleSheet object
 // We can enable a defined StyleSheet object using
-// **_enableSheetObject_( sheet_idx )**.  This will disable any
-// previously enabled sheet object (if any).
-// We can use this capability for double, tripple, or n-level
-// buffering.  Using StyleSheet Object switching can 
-// much faster than adjusting indivdual CSS values since
-// it results in just one single document reflow.  In some
-// cases, the performance increase can be 10x or greater!
+// `pcss._enableSheetObj_( 0 );`.  This will disable 
+// any previously enabled sheet object (if any) and enable
+// the first one.  We can use this capability for double,
+// tripple, or n-level buffering.  Using StyleSheet Object
+// switching can much faster than adjusting indivdual CSS
+// values since it results in just one single document reflow.
+// In some cases, the performance increase can be 10x or greater!
+//
+// ## Create your VSheet
+// Virtual sheets hold the same information as a traditional CSS file.
+// We may, for example, want to create a VSheet called '_base_css_'.
+// We can do this using the 
+//
 //
 // ## Writing a StyleSheet Object
 //   - Add a VSheet
@@ -80,9 +103,6 @@
 //    All other properties are literals.
 //    Use method: **_setMixinMap_** also **_rmMixinMap_**;
 //    possibly **_updateMixinMap_** (try to avoid, though).
-//
-//    Multiple values are shown in 
-//
 // 
 // Think of this like the stylesheet list in html:
 // merge0VSheetList = [ '_base_css_list_', '_mktg_style_' ];
@@ -499,14 +519,15 @@ var pcss = (function () {
   };
 
   return {
+    _addMixinMap_      : addMixinMap,
     _addVSheetList_    : addVSheetList,
     _rmVSheetList_     : rmVSheetList,
     _getVSheetList_    : getVSheetList,
     _getVSheetKeyList_ : getVSheetKeyList,
 
-    _buildMergedLists_ : 
     _setSheetIdPrefix_ : setSheetIdPrefix,
-    _toggleSheet_      : toggleSheet,
+    _addSheetObj_      : addSheetObj,
+    _enableSheetObj_   : enableSheetObj,
     _writeCSS_         : writeCss
   };
 }());

@@ -1,6 +1,9 @@
 PowerCss
 ========
 
+UNDER ACTIVE DEVELOPMENT.  DO NOT USE (yet)!
+============================================
+
 Overview
 --------
 Feel the power of run-time CSS! Create run-time-defined, highly compressible, extremely fast,
