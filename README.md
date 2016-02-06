@@ -32,7 +32,101 @@ operations by 10x or more.  What's not to like?
 Sound exciting? If so, read on! First we will implement a PowerCSS
 solution, and then we will discuss how and why PowerCSS works.
 
-## Examples
+## Example implementation
+
+### 1. Create Virtual StyleSheet Lists (`vsheets`)
+
+A Virtual StyleSheet List (`VSheet`) contains the same information as a
+traditional CSS file.  An experienced CSS author should be able to
+Virual StyleSheets (`vsheets`) with little trouble.  The format is as follows:
+
+
+    base_vsheet_list = [
+      { _elem_type_   : 'div',
+        _select_code_ : '.'
+        _select_str_  : 'base_div',
+
+        // All keys are lookup keys for CSS rule names.
+        _rule_map_ : {
+          // This first section uses lookup keys for common CSS rule values.
+          _display_       : '_block_',
+          _opacity_       : '_0_',
+          _position_      : '_absolute_',
+          _background_    : '_xfff_',
+
+          // This second section uses literals for CSS rule values.
+          _border_        : '0.125rem solid #aaa',
+          _border_radius_ : '.375rem .375rem 0 0',
+          _box_shadow_    : 'rgba(0, 0, 0, .14) 0 0 .625rem .375rem',
+          _z_index_       : '36',
+          _background_    : [
+            '_blue_',
+            'linear-gradient(...)',
+            '-webkit-linear-gradient(...)',
+            '-moz-linear-gradient(...)'
+          ],
+          _font_size_     : { _do_lock_ : true, _val_data_ : '_16px_' },
+          _transition_    : 'opacity .3s ease'
+        },
+        _close_str_ : ''
+      },
+      ....
+    ];
+
+Assuming we use the default namespaces for powercss, `pcss`, the above code
+will compile into the following CSS:
+
+    div.pcss-_base_div_ {
+      display       : block;
+      opacity       : 0;
+      position      : absolute;
+      background    : #fff;
+
+      border        : 0.125rem solid #aaa;
+      border-radius : .375rem .375rem 0 0;
+      box-shadow    : rgba(0, 0, 0, .14) 0 0 .625rem .375rem;
+      z-index       : 36;
+      background    : blue;
+      background    : linear-gradient(...);
+      background    : -webkit-linear-gradient(...);
+      background    : -moz-linear-gradient(...);
+      font-size     : 16px;
+      transition    : opacity .3s ease
+    }
+
+#### Alternate values
+Sometimes we want to provide alternate rules for a style so that
+our code will work across multiple browsers.  In this case, wrap
+all alternate values in a list. Example:
+
+      _background_    : [
+        '_blue_',
+        'linear-gradient(...)',
+        '-webkit-linear-gradient(...)',
+        '-moz-linear-gradient(...)'
+      ],
+
+#### Locked values
+Typically in a cascade, the last property value in "wins".  However, it
+is feasible to prevent overwriting critical properties with downstream `vsheets`
+by using a value lock. This does **not** implement the dreaded and flawed 
+`!important` declaration in CSS, so don't freak out about that.
+
+      _font_size_     : { _do_lock_ : true, _val_data_ : '_16px_' },
+
+#### Alternative and locked values
+Alternative and locked values may be combined.  Here is an example:
+
+      _background_    : {
+        _do_lock_ : true,
+        _val_data_ : [
+          '_blue_',
+          'linear-gradient(...)',
+          '-webkit-linear-gradient(...)',
+          '-moz-linear-gradient(...)'
+        ],
+
+
 
 ### Adding a StyleSheet Object
 StyleSheet Objects are added like so:
@@ -52,8 +146,8 @@ The active StyleSheet Object is selected like so:
     pcss._selectActiveSheetObj_( 0 );
 
 This will disable any previously enabled sheet object (if any) and enable
-the first one. We can use this capability for double-buffering which can 
-dramatically increase some CSS operations.  For an explanation of the 
+the first one. We can use this capability for double-buffering which can
+dramatically increase some CSS operations.  For an explanation of the
 benefits of this approach, see **How PowerCSS Works**, below.
 
 ### Mixins
@@ -139,9 +233,9 @@ position, so static CSS isn't an option.
 If we were to use JavaScript to make these changes one-by-one to the
 currently active stylesheet, this would be ask the browser rendering
 engine to consider every DOM element for each change. If we have 1,000
-style changes and 1,000 elements, the rendering engine will need to 
-consider adjustising element properties one million times. Of course, 
-the engine will *try* to batch changes, but sometimes that 
+style changes and 1,000 elements, the rendering engine will need to
+consider adjustising element properties one million times. Of course,
+the engine will *try* to batch changes, but sometimes that
 doesn't work well at all, especially if our adjustments take more than
 a tiny fraction of a second. And so we will see our page stutter and jump
 as multiple document reflows occur.
@@ -155,7 +249,7 @@ only has to consider adjusting each of our 1,000 element only once.  That's
 
 ## Virtual StyleSheets (`VSheets`)
 A Virtual StyleSheet (`VSheet) contains the same information as a
-traditional CSS file.  An experienced CSS author should be able to 
+traditional CSS file.  An experienced CSS author should be able to
 convert an existing static stylesheet to a `VSheet` with little pain
 or confusion.  The familiarity and power of the CSS cascade is retained,
 because when we define a PowerCSS StyleSheet Object, we provide it a list
