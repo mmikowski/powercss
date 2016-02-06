@@ -1,61 +1,97 @@
-PowerCSS by Michael S. Mikowski
-===============================
+# PowerCSS by Michael S. Mikowski
 
-UNDER ACTIVE DEVELOPMENT. DO NOT USE (yet)!
-============================================
+# UNDER ACTIVE DEVELOPMENT. DO NOT USE (yet)!
+
 Feel the power of run-time CSS! Create an infinite variety of styles as
 your application needs them without the use of any external CSS. PowerCSS
 is highly compressible and fast thanks to optimized merging, caching,
 and double-buffering.
 https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
-# The Goal
+## Overview
 The greatest problem with static CSS - whether it is written by an
 expert or someone using {less} or Sass - is that it is not generated
-at run-time. That makes development and performance of programatic
-styling awkward at best, and impossible at worst.
+at run-time. That makes the use of application control of styling
+complex at best, and impossible at worst.
 
-PowerCSS provides application controlled-CSS and therefore it is
-infinitely adjustable by the application logic. Do you want to change
+PowerCSS provides application-controlled CSS and therefore it is
+infinitely adjustable by our application logic. Do we want to change
 styling based on every users' device orientation, ambient temperature,
-ambient light, GPS location, *and* time of day? This is *easy and obvious*
-using PowerCSS, and *impossible* with with static CSS solutions.
+ambient light, GPS location, heart rate, *and* time of day? Assuming
+the user device has these sensors, this is *easy and obvious* using
+PowerCSS, and *impossible* with with static CSS solutions.
 
-PowerCSS is designed to be better in almost every respect compared to
-static CSS while allowing experience CSS authors to leverage their
-existing skills in a simple and natural API. When compressed, it downloads
-faster, usually renders faster on first load, and can speed up some CSS
-operations by an order of magnitude - or more. All while offering
-application-controlled CSS.
+We feel that PowerCSS has not only acheived its primary goal, but that
+it is better than static CSS in almost every other aspect as well.
+It provides a simple and familiar API where experienced CSS authors
+can use their existing skill to be up and running in minutes.
+When properly implemented, a PowerCSS solution usually downloads
+faster, renders faster after loading , and can speed up some CSS
+operations by 10x or more.  What's not to like?
 
 Sound exciting? If so, read on! First we will implement a PowerCSS
 solution, and then we will discuss how and why PowerCSS works.
 
+## Examples
 
-# Getting started (bottom-up)
-TODO
+### Adding a StyleSheet Object
+StyleSheet Objects are added like so:
+
+    obj_idx = pcss._addStyleSheetObj_(
+      [ '_vsheet_0_', '_vsheet_2_', ... ]
+    );
+
+The index number of the created object is returned. The method requires
+a list of virtual style sheets - and optionally a list of mixins - to
+generate a single StyleSheet Object. Let's talk about Virtual Sheets
+next.
+
+### Selecting the active StyleSheet Object
+The active StyleSheet Object is selected like so:
+
+    pcss._selectActiveSheetObj_( 0 );
+
+This will disable any previously enabled sheet object (if any) and enable
+the first one. We can use this capability for double-buffering which can 
+dramatically increase some CSS operations.  For an explanation of the 
+benefits of this approach, see **How PowerCSS Works**, below.
+
+### Mixins
+PowerCSS supports mixins that can be reconsidered anytime. Set the map of
+values using the `_setMixinMap_` method. This map applies across all VSheets.
+
 
 # How PowerCSS Works
 PowerCSS uses a number of techniques to provide powerful and fast
 programatic CSS control while leveraging the skills of existing CSS
-authors. Let's we discuss the key concepts we have employed in our efforts.
+authors. Below we discuss the key concepts employed to meet this
+goal.
 
-## PowerCSS applies only one StyleSheet at a time
-Only one PowerCSS-controlled stylesheet is enabled at any time.
-This is intended to replace **all** of our other stylesheets.
-While it is possible to *have* other stylesheets, the goal of PowerCSS is
-to make them obsolete for production applications. Third-party
-web components will, of course, provide their own CSS, and that's OK,
-PowerCSS plays well with others.
+## PowerCSS uses only one StyleSheet Object at a time
+Only one PowerCSS stylesheet is used at any time to style
+the DOM. PowerCSS is intended to replace **all** other stylesheets for
+a application, and external stylesheets are no longer needed.
+While we can and may use external sheets during development,
+we don't need them for production release. Don't worry,
+this isn't as drastic as it sounds. Third-party web components will,
+of course, still provide their own CSS, and that's OK, because PowerCSS
+plays well with others.
 
-Why only one? In a word, speed. First, the work required by the
-rendering engine is reduced as it only needs to reference a single
-stylesheet, instead of sometimes dozens as with other stylesheets -
-each of which are applied as they load. If we have 12 external
-stylesheets, that's potentially 12 document reflows.
-Second, our single active sheet is calculated and optimized by PowerCSS
-before it is ever applied, which means a large amount of redundany
-is removed from the sheet compared to a typical cascade.
+Why use only one StyleSheet Object at a time? In a word, **speed**.
+
+First, the browser rendering engine doesn't need to work loading
+and merging sometimes dozens of external style sheets. Instead, it
+creates a single stylesheet for the browser to use. This prevents
+"document reflows" when a rendering engine must reorder and rerender
+a layout because of styling changes. For example, if we have 12 external
+stylesheets and load them at different times, that may require 12
+document reflows instead of the one required with PowerCSS. Think about how
+when you visit a site how the layout often stutters and jumps while
+loading. That's often due to document reflows.
+
+Second, our single active StyleSheet Object is calculated and optimized
+by PowerCSS before it is ever applied, which means a large amount of
+redundany is removed from the sheet compared to a typical cascade.
 Third, we can cache these sheets and switch between them at will.
 This "double-buffering" capability allow us to change almost
 all styling with just one document reflow, which can be many, many
@@ -71,7 +107,7 @@ You will notice many property names and values - along with error
 messages and class names - in PowerCSS are consistently
 named like so: '_color_'. These symbols can be easily found and
 replaced by a compressor. As a result, the code to produce the
-CSS for our StyleSheet objects can be one quarter the size of the
+CSS for our StyleSheet Objects can be one quarter the size of the
 native CSS after compression.
 
 If you use the same naming convention on classes and ID's, the same
@@ -79,134 +115,70 @@ compression can take place. So a class name like
 `.pcss-_xtable-inner-cell-selected_` can be compressed to something
 like `pcss-qx`. This has numerous performance benefits as well.
 
-## Multiple StyleSheet objects
-PowerCSS maintains multiple StyleSheet objects even though
-only one will be active at any time. These have, by default, the IDs
-of pcss-0, pcss-1, ... pcss-N. If there is a conflict with
-other DOM IDs, we can change the prefix using
-`pcss._setSheetIdPrefix_( 'ig-' );`. This must be called *before*
-any other methods, or it will throw a nasty exception.
+We recommend using UglifyJS and then a tokenizer like the author's
+SuperPack. The latter is not yet publicly released yet, but I've
+used and improved it for 6 years now, and it further reduce compressed
+JS files by around 30% and it works great with CSS symbols.
 
-## Adding a StyleSheet object
-StyleSheet objects are added like so:
+## PowerCSS can maintain multiple StyleSheet Objects
+PowerCSS can maintain multiple StyleSheet Objects even though only one
+is active at any time. These have, by default, the IDs of `pcss-0,
+pcss-1, ... pcss-N.` If there is a conflict with other DOM IDs, we
+can change the prefix using `pcss._setSheetIdPrefix_( 'myprefix-' );`.
+This must be called *before* any other methods, or it will throw a nasty
+exception.
 
-    obj_idx = pcss._addStyleSheetObj_(
-      [ '_vsheet_0_', '_vsheet_2_', ... ]
-    );
+Maintaining multiple defined stylesheets provides us with capability to
+"double-buffer" styling, and limit document reflows to once for a batch
+of styling changes. Consider, for example, if we have a night theme and
+a day theme for a layout, and these layouts not only differed in colors, but
+also in the size and shapes of DOM elements.  Both themes also adjusted
+according to the device capabilities, the ambient temperature, and GPS
+position, so static CSS isn't an option.
 
-The index number of the created object is returned. The method requires
-a list of virtual style sheets - and optionally a list of mixins - to
-generate a single StyleSheet object. Let's talk about Virtual Sheets
-next.
+If we were to use JavaScript to make these changes one-by-one to the
+currently active stylesheet, this would be ask the browser rendering
+engine to consider every DOM element for each change. If we have 1,000
+style changes and 1,000 elements, the rendering engine will need to 
+consider adjustising element properties one million times. Of course, 
+the engine will *try* to batch changes, but sometimes that 
+doesn't work well at all, especially if our adjustments take more than
+a tiny fraction of a second. And so we will see our page stutter and jump
+as multiple document reflows occur.
 
-## Virtual Sheets
-A Virtual Sheet contain the same information as a traditional CSS file,
-and with little adjustment an experienced CSS author should be able to
-in just a few minutes. Adding a StyleSheet object
-with a list of `VSheet`s works very much like including multiple
-static CSS stylesheet files to an HTML document. As with the former, the
-order of the sheets is important!
+With PowerCSS, the active StyleSheet Object is rarely changed. Instead,
+when we have a large change like described above, we write a new stylesheet
+object and then switch to it only when its complete.  Now the browser engine
+only needs to reflow the page once. Using this method, the rendering engine
+only has to consider adjusting each of our 1,000 element only once.  That's
+1,000 *times* fewer considerations than the above example.
 
-## Mixins
-PowerCSS supports mixins that can be reconsidered anytime. Set the map of
-values using the `_setMixinMap_` method. This map applies across all VSheets.
+## Virtual StyleSheets (`VSheets`)
+A Virtual StyleSheet (`VSheet) contains the same information as a
+traditional CSS file.  An experienced CSS author should be able to 
+convert an existing static stylesheet to a `VSheet` with little pain
+or confusion.  The familiarity and power of the CSS cascade is retained,
+because when we define a PowerCSS StyleSheet Object, we provide it a list
+of Virtual StyleSheets in order, just as if we were including static
+style sheet files to a static HTML document.
 
-## Enabling a StyleSheet object
-We can enable a defined StyleSheet object using
-`pcss._enableSheetObj_( 0 );`. This will disable 
-any previously enabled sheet object (if any) and enable
-the first one. We can use this capability for double,
-tripple, or n-level buffering. Using StyleSheet Object
-switching can much faster than adjusting indivdual CSS
-values since it results in just one single document reflow.
-In some cases, the performance increase can be 10x or greater!
-Overview
---------
-Feel the power of run-time CSS! Create an infinite variety of styles as
-your application needs them without the use of any external. It is
-highly compressible and fast thanks to optimized merging, caching,
-and double-buffering.
-https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
-Examples
---------
-This first commit is to claim the name space. Code will be following soon.
-
-Prerequisites
--------------
+## Prerequisites
 A modern browser like Chrome or Firefox. IE9+ is also supported for the
-Luddite in your soul or boardroom.
+Luddite in your soul or your boardroom.
 
-Implementation
---------------
+## Implementation
 See powercss.html for example implementation.
 
-Error handling
---------------
+## Error handling
 PowerCSS will throw an exception if it cannot perform the requested
 method.  It should be invoked within a `try-catch` block.
 
-Avoid complex and controlling SPA frameworks
---------------------------------------------
-My experience is that jQuery, this, and other best-in-class libraries
-are a much better foundation for building a modern SPA instead of the
-framework-of-then-month.  First I start with a simple and clean
-[SPA architecture, p10][1] as detailed in 
-[Single page web applications, JavaScript end-to-end][2]
-(also available directly from [Manning][3]), and then I add libraries
-that are best suited to my application.
+## Use libraries instead of frameworks
+If you are considering using an SPA framework, please read [Do you
+really want an SPA framework?][3] first.
 
-When we use libraries **we** control the code instead of being at the mercy of the
-limitations and bugs in the framework-of-the month. This [inversion
-of control][4] is a major impediment in building a a nimble, flexible, testable,
-and maintainable application that can stand the test of time.
-We can swap libraries out when they are updated or better one becomes
-available - **or not** - based on the time and resource we have available.
-We can mix and match the **best-for-our-purposes** instead of using a framework's
-mishmash of solutions of varying quality.  Why, for example, should one
-need override Backbone's awful templating and sync mechanisms when just removing
-the framework results in simpler and easier to maintain code?
-
-I once used a framework and had to wait months for a new
-version to support a desired feature. Once the library was updated,
-I discovered excruciating pain of trying to find and fix all the regressions.
-It wasn't easy, of course, because (a) some of the bugs were within the 
-framework itself, ands (b) frameworks tend to intermingle display
-and business logic.  So testing a Single Page-Framework Application
-(SPFA?) often requires an **additional** framework for testing the
-simplest of logic.  How, exactly, can we [regression test our application
-in less than a second][5] with the framework-of-the-month? Exactly.
-
-Since we control the application, we can easily decouple display and business
-logic and make use simple tools like `nodeunit` for headless testing.
-And we can **leverage** jQuery's maturity, performance, and excellent tools
-instead of **competing** with them.
-
-I plan to release an `npm` module that includes an architecture diagram,
-some example code, and dependencies to all the libraries I currently favor
-so anyone can get started on a modern SPA without the constraints of the
-framework-of-the-month.  If you are interested, **let me know** and 
-I'll move faster.  And remember, if you don't like a library I've chosen,
-**you can always swap it out!** Here is my current preferred list:
-
-| Capability   | Library              | Notes                             |
-| :----------- | :------------------- | :-------------------------------- |
-| DOM + Util   | [jQuery][6]          | A powerful, stable, tight library |
-| AJAX         | [jQuery][6]          | ... but prefer WebSockets, see below |
-| Client Data  | [TaffyDB][7]         | A powerful and flexible SQL-like client data management tool |
-| DynamicCSS   | [PowerCSS][8]        | This package                      |
-| Linting      | [JSLint][9]          | Avoid stupid mistakes with a commit hook |
-| Events, promises | [Global Events][10] | Use the same event and promise methods for both logical and browser events |
-| Routing      | [uriAnchor][11]      | A jQuery plugin for robust routing that includes support for dependent and independent query arguments |
-| SVG          | [D3][12]             | Easy graphs and charts            |
-|              | [SVG][13]            | Low-level jQuery plugin           |
-| Templates    | [Dust][14]           | Uses a powerful template DSL that minimizes the temptation to intermingle  business and display logic |
-| Testing      | [Nodeunit-b][15]     | Create a lightening fast regression test suite and use it as a commit hook |
-| Touch        | [Unified events][16] | Unified desktop and touch events  |
-| WebSockets   | [Socket io][17]      | The WebSockets protocol is faster and more flexible than AJAX for most applications. Consider using [pure websockets][18] client with a [websocket][19] server on a NodeJs with modern browsers (IE10+) |
-
-Release Notes
--------------
+## Release Notes
 ### Copyright (c)
 2016 Michael S. Mikowski (mike[dot]mikowski[at]gmail[dotcom])
 
@@ -216,43 +188,19 @@ MIT
 ### Version 0.0.x
 Set-up commits and testing.
 
-TODO
-----
+## TODO
 Add content.
 
-Similar Projects
-----------------
+## Similar Projects
 [absurdjs][20], [responsive.j$][21]
 
-Contribute!
------------
+## Contribute!
 Any improvements or suggestions are welcome! You can reach me at
 mike[dot]mikowski[at]gmail[dotcom].
 
 Cheers, Mike
 
-END
----
-[1]:https://github.com/mmikowski/spa/blob/master/slides/2013-10-22-make_it_rock.pdf
-[2]:http://www.amazon.com/dp/1617290750
-[3]:http://manning.com/mikowski
-[4]:https://aerotwist.com/blog/the-cost-of-frameworks
-[5]:https://youtu.be/aoH0J6lL2w0?t=47m15s
-[6]:http://jquery.com/download
-[7]:https://github.com/typicaljoe/taffydb
-[8]:https://www.npmjs.com/package/powercss
-[9]:https://www.npmjs.com/package/jslint
-[10]:https://github.com/mmikowski/jquery.event.gevent
-[11]:https://github.com/mmikowski/urianchor
-[12]:https://github.com/mbostock/d3
-[13]:http://keith-wood.name/svg.html
-[14]:http://linkedin.github.io/dustjs
-[15]:https://www.npmjs.com/package/nodeunit-b
-[16]:https://github.com/mmikowski/jquery.event.ue
-[17]:http://socket.io
-[18]:https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
-[19]:https://www.npmjs.com/package/websocket
-[20]:http://absurdjs.com/
-[21]:http://www.responsivejs.com/
-
-
+## END
+[1]:http://www.amazon.com/dp/1617290750
+[2]:http://manning.com/mikowski
+[3]:http://mmikowski.github.io/no-frameworks
