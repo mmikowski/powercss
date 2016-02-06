@@ -1,6 +1,6 @@
 { "name": "powercss",
   "version": "0.0.7",
-  "description": "WIP! Feel the power of run-time CSS! Create run-time-defined, highly compressible, extremely fast, infinitely adjustable, optimized, and double-buffered CSS without any files. https://www.youtube.com/watch?v=rnkMjzhxw4s.",
+  "description": "Feel the power of run-time CSS! Create an infinite variety of styles as your application needs them without the use of any external CSS. PowerCSS is highly compressible and fast thanks to optimized merging, caching, and double-buffering. https://www.youtube.com/watch?v=rnkMjzhxw4s.",
   "keywords": [
     "css", "power", "powercss", "power-css", "css-power",
     "css-alive", "alive-css", "css-live", "live-css",

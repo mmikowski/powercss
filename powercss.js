@@ -1,6 +1,6 @@
 /*
  * powercss.js
- * Base class for JS-driven CSS
+ * Run-time generated and managed CSS
  *
  * Michael S. Mikowski - mike.mikowski@gmail.com
  */
@@ -13,57 +13,108 @@
 /*global jQuery*/
 
 // # PowerCSS by Michael S. Mikowski
-// Feel the power of run-time CSS! Create run-time-defined, 
-// highly compressible, extremely fast, infinitely adjustable,
-// optimized, and double-buffered CSS without any files. 
+// Feel the power of run-time CSS! Create an infinite variety of styles as
+// your application needs them without the use of any external CSS. PowerCSS
+// is highly compressible and fast thanks to optimized merging, caching,
+// and double-buffering.
 // https://www.youtube.com/watch?v=rnkMjzhxw4s.
-
+//
+// # The Goal
+// The greatest problem with static CSS - whether it is written by an
+// expert or someone using {less} or Sass - is that it is not generated
+// at run-time. That makes development and performance of programatic
+// styling awkward at best, and impossible at worst.
+//
+// PowerCSS provides application controlled-CSS and therefore it is
+// infinitely adjustable by the application logic. Do you want to change
+// styling based on every users' device orientation, ambient temperature,
+// ambient light, GPS location, *and* time of day? This is *easy and obvious*
+// using PowerCSS, and *impossible* with with static CSS solutions.
+//
+// PowerCSS is designed to be better in almost every respect compared to
+// static CSS while allowing experience CSS authors to leverage their
+// existing skills in a simple and natural API. When compressed, it downloads
+// faster, usually renders faster on first load, and can speed up some CSS
+// operations by an order of magnitude - or more. All while offering
+// application-controlled CSS.
+//
+// Sound exciting? If so, read on! First we will implement a PowerCSS
+// solution, and then we will discuss how and why PowerCSS works.
+//
 // # Getting started (bottom-up)
+// TODO
 //
-// # How it works (top-down)
+// # How PowerCSS Works
+// PowerCSS uses a number of techniques to provide powerful and fast
+// programatic CSS control while leveraging the skills of existing CSS
+// authors. Let's we discuss the key concepts we have employed in our efforts.
 //
-// ## One active StyleSheet object
-// PowerCSS under our control creates and maintains
-// an active StyleSheet Object which is meant to replace
-// **all** of our other site stylesheets.  While it is
-// possible to still *have* other stylesheets,
-// the goal of PowerCSS is to make them obsolete and 
-// unnecessary, at least once our app hits production.
+// ## PowerCSS applies only one StyleSheet at a time
+// Only one PowerCSS-controlled stylesheet is enabled at any time.
+// This is intended to replace **all** of our other stylesheets.
+// While it is possible to *have* other stylesheets, the goal of PowerCSS is
+// to make them obsolete for production applications. Third-party
+// web components will, of course, provide their own CSS, and that's OK,
+// PowerCSS plays well with others.
 //
-// The beauty of this approach is that our app can run
-// much faster, because our style cascade is computed once
-// in software and then presented in the one active
-// StyleSheet object. Many redundancies are when creating
-// this object too.  As a result, the web rendering engine
-// can use just one single optimised StyleSheet Object instead
-// of juggling sometimes dozens of sheets. We gain even more
-// performance because separate CSS files are eliminated,
-// and PowerCSS definitions compress *much* better than
-// standard CSS.
+// Why only one? In a word, speed. First, the work required by the
+// rendering engine is reduced as it only needs to reference a single
+// stylesheet, instead of sometimes dozens as with other stylesheets -
+// each of which are applied as they load. If we have 12 external
+// stylesheets, that's potentially 12 document reflows.
+// Second, our single active sheet is calculated and optimized by PowerCSS
+// before it is ever applied, which means a large amount of redundany
+// is removed from the sheet compared to a typical cascade.
+// Third, we can cache these sheets and switch between them at will.
+// This "double-buffering" capability allow us to change almost
+// all styling with just one document reflow, which can be many, many
+// times faster than changing styles individually.
 //
-// Third-party web components will, of course, provide
-// their own stylesheets, and their sheets should integrate
-// well with PowerCSS.
+// ## PowerCSS is highly compressible
+// A PowerCSS app in its compressed state usually presents a styled DOM
+// on inital load *faster* than standard CSS and HTML. While there is
+// some initial overhead for PowerCSS, this is offset by the benefits
+// of much-smaller download size and HTTP requests and other optimizations.
+//
+// You will notice many property names and values - along with error
+// messages and class names - in PowerCSS are consistently
+// named like so: '_color_'.  These symbols can be easily found and
+// replaced by a compressor.  As a result, the code to produce the
+// CSS for our StyleSheet objects can be one quarter the size of the
+// native CSS after compression.
+//
+// If you use the same naming convention on classes and ID's, the same
+// compression can take place.  So a class name like
+// `.pcss-_xtable-inner-cell-selected_` can be compressed to something
+// like `pcss-qx`.  This has numerous performance benefits as well.
 //
 // ## Multiple StyleSheet objects
-// We can create multiple PowerCSS StyleSheet objects even though
-// only one will be active at any time.  These have, by default, the IDs
-// of pcss-0 and pcss-1, ... pcss-N.  If there is a conflict with
-// other DOM IDs, we can change the prefix using 
-// `pcss._setSheetIdPrefix_( 'pre-' );`. This must be called *before*
+// PowerCSS maintains multiple StyleSheet objects even though
+// only one will be active at any time. These have, by default, the IDs
+// of pcss-0, pcss-1, ... pcss-N. If there is a conflict with
+// other DOM IDs, we can change the prefix using
+// `pcss._setSheetIdPrefix_( 'ig-' );`. This must be called *before*
 // any other methods, or it will throw a nasty exception.
 //
 // ## Adding a StyleSheet object
 // StyleSheet objects are added like so:
 //
 //    obj_idx = pcss._addStyleSheetObj_(
-//      [ '_vsheet_0_', '_vsheet_2_', ... ],
+//      [ '_vsheet_0_', '_vsheet_2_', ... ]
 //    );
 //
-// The index number of the created object is returned.
-// The method requires a list of virtual sheets, or VSheets as we call
-// them.  These contain the same information as a traditional CSS file.
-// We will describe how to add these shortly.
+// The index number of the created object is returned. The method requires
+// a list of virtual style sheets - and optionally a list of mixins - to
+// generate a single StyleSheet object.  Let's talk about Virtual Sheets
+// first.
+//
+// ## Virtual Sheets
+// A Virtual Sheet contain the same information as a traditional CSS file,
+// and with little adjustment an experienced CSS author should be able to
+// in just a few minutes. Adding a StyleSheet object
+// with a list of `VSheet`s works very much like including multiple
+// static CSS stylesheet files to an HTML document.  As with the former, the
+// order of the sheets is important!
 //
 // ## Enabling a StyleSheet object
 // We can enable a defined StyleSheet object using
@@ -75,13 +126,8 @@
 // values since it results in just one single document reflow.
 // In some cases, the performance increase can be 10x or greater!
 //
-// ## Create your VSheet
-// Virtual sheets hold the same information as a traditional CSS file.
-// We may, for example, want to create a VSheet called '_base_css_'.
-// We can do this using the 
 //
-//
-// ## Writing a StyleSheet Object
+//  WIP below this line ---------------------
 //   - Add a VSheet
 //   - Create a merged sheet using a list of vsheets (cached)
 //   - Assign to a defined and disabled SS Object (either new(add) or existing)
@@ -107,7 +153,6 @@
 // Think of this like the stylesheet list in html:
 // merge0VSheetList = [ '_base_css_list_', '_mktg_style_' ];
 //
-/
 //
 // var lbSelectList = [
 //    { _select_str_ : '#ao-_lb_', // literal
@@ -493,11 +538,11 @@ var pcss = (function () {
     write_style_el[ vMap._setAttribute_ ]( vMap._disabled_, __true );
     style_str = makeSheetStr( sheet_select_list );
 
-    // Firefox and IE(?)
+    // Old Firefox and IE(?)
     if ( write_style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
       write_style_el[ vMap._cssText_      ] = style_str;
     }
-    // Newer Firefox
+    // New Firefox
     else if ( write_style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
       write_style_el[ vMap._textContent_ ] = style_str;
     }
@@ -527,7 +572,6 @@ var pcss = (function () {
 
     _setSheetIdPrefix_ : setSheetIdPrefix,
     _addSheetObj_      : addSheetObj,
-    _enableSheetObj_   : enableSheetObj,
-    _writeCSS_         : writeCss
+    _enableSheetObj_   : enableSheetObj
   };
 }());

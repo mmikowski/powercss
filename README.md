@@ -1,18 +1,136 @@
-PowerCss
-========
+PowerCSS by Michael S. Mikowski
+===============================
 
-UNDER ACTIVE DEVELOPMENT.  DO NOT USE (yet)!
+UNDER ACTIVE DEVELOPMENT. DO NOT USE (yet)!
 ============================================
+Feel the power of run-time CSS! Create an infinite variety of styles as
+your application needs them without the use of any external CSS. PowerCSS
+is highly compressible and fast thanks to optimized merging, caching,
+and double-buffering.
+https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
+# The Goal
+The greatest problem with static CSS - whether it is written by an
+expert or someone using {less} or Sass - is that it is not generated
+at run-time. That makes development and performance of programatic
+styling awkward at best, and impossible at worst.
+
+PowerCSS provides application controlled-CSS and therefore it is
+infinitely adjustable by the application logic. Do you want to change
+styling based on every users' device orientation, ambient temperature,
+ambient light, GPS location, *and* time of day? This is *easy and obvious*
+using PowerCSS, and *impossible* with with static CSS solutions.
+
+PowerCSS is designed to be better in almost every respect compared to
+static CSS while allowing experience CSS authors to leverage their
+existing skills in a simple and natural API. When compressed, it downloads
+faster, usually renders faster on first load, and can speed up some CSS
+operations by an order of magnitude - or more. All while offering
+application-controlled CSS.
+
+Sound exciting? If so, read on! First we will implement a PowerCSS
+solution, and then we will discuss how and why PowerCSS works.
+
+
+# Getting started (bottom-up)
+TODO
+
+# How PowerCSS Works
+PowerCSS uses a number of techniques to provide powerful and fast
+programatic CSS control while leveraging the skills of existing CSS
+authors. Let's we discuss the key concepts we have employed in our efforts.
+
+## PowerCSS applies only one StyleSheet at a time
+Only one PowerCSS-controlled stylesheet is enabled at any time.
+This is intended to replace **all** of our other stylesheets.
+While it is possible to *have* other stylesheets, the goal of PowerCSS is
+to make them obsolete for production applications. Third-party
+web components will, of course, provide their own CSS, and that's OK,
+PowerCSS plays well with others.
+
+Why only one? In a word, speed. First, the work required by the
+rendering engine is reduced as it only needs to reference a single
+stylesheet, instead of sometimes dozens as with other stylesheets -
+each of which are applied as they load. If we have 12 external
+stylesheets, that's potentially 12 document reflows.
+Second, our single active sheet is calculated and optimized by PowerCSS
+before it is ever applied, which means a large amount of redundany
+is removed from the sheet compared to a typical cascade.
+Third, we can cache these sheets and switch between them at will.
+This "double-buffering" capability allow us to change almost
+all styling with just one document reflow, which can be many, many
+times faster than changing styles individually.
+
+## PowerCSS is highly compressible
+A PowerCSS app in its compressed state usually presents a styled DOM
+on inital load *faster* than standard CSS and HTML. While there is
+some initial overhead for PowerCSS, this is offset by the benefits
+of much-smaller download size and HTTP requests and other optimizations.
+
+You will notice many property names and values - along with error
+messages and class names - in PowerCSS are consistently
+named like so: '_color_'. These symbols can be easily found and
+replaced by a compressor. As a result, the code to produce the
+CSS for our StyleSheet objects can be one quarter the size of the
+native CSS after compression.
+
+If you use the same naming convention on classes and ID's, the same
+compression can take place. So a class name like
+`.pcss-_xtable-inner-cell-selected_` can be compressed to something
+like `pcss-qx`. This has numerous performance benefits as well.
+
+## Multiple StyleSheet objects
+PowerCSS maintains multiple StyleSheet objects even though
+only one will be active at any time. These have, by default, the IDs
+of pcss-0, pcss-1, ... pcss-N. If there is a conflict with
+other DOM IDs, we can change the prefix using
+`pcss._setSheetIdPrefix_( 'ig-' );`. This must be called *before*
+any other methods, or it will throw a nasty exception.
+
+## Adding a StyleSheet object
+StyleSheet objects are added like so:
+
+    obj_idx = pcss._addStyleSheetObj_(
+      [ '_vsheet_0_', '_vsheet_2_', ... ]
+    );
+
+The index number of the created object is returned. The method requires
+a list of virtual style sheets - and optionally a list of mixins - to
+generate a single StyleSheet object. Let's talk about Virtual Sheets
+next.
+
+## Virtual Sheets
+A Virtual Sheet contain the same information as a traditional CSS file,
+and with little adjustment an experienced CSS author should be able to
+in just a few minutes. Adding a StyleSheet object
+with a list of `VSheet`s works very much like including multiple
+static CSS stylesheet files to an HTML document. As with the former, the
+order of the sheets is important!
+
+## Mixins
+PowerCSS supports mixins that can be reconsidered anytime. Set the map of
+values using the `_setMixinMap_` method. This map applies across all VSheets.
+
+## Enabling a StyleSheet object
+We can enable a defined StyleSheet object using
+`pcss._enableSheetObj_( 0 );`. This will disable 
+any previously enabled sheet object (if any) and enable
+the first one. We can use this capability for double,
+tripple, or n-level buffering. Using StyleSheet Object
+switching can much faster than adjusting indivdual CSS
+values since it results in just one single document reflow.
+In some cases, the performance increase can be 10x or greater!
 Overview
 --------
-Feel the power of run-time CSS! Create run-time-defined, highly compressible, extremely fast,
-infinitely adjustable, optimized, and double-buffered CSS without any files. 
+Feel the power of run-time CSS! Create an infinite variety of styles as
+your application needs them without the use of any external. It is
+highly compressible and fast thanks to optimized merging, caching,
+and double-buffering.
 https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
 Examples
 --------
-This first commit is to claim the name space.  Code will be following soon.
+This first commit is to claim the name space. Code will be following soon.
 
 Prerequisites
 -------------
