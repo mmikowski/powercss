@@ -55,8 +55,26 @@ traditional CSS file. An experienced CSS author should be able to
 Virual StyleSheets (`vsheets`) with little trouble. Let's add a `Vsheet`
 to the PowerCSS as shown below:
 
-    var base_vsheet_list; 
+    var
+      base_vsheet_list,
+      diva_vsheet_list
+      ;
+
     base_vsheet_list = [
+      { _elem_type_   : '*',
+        _select_code_ : '_blank_',
+        _select_str_  : '_blank_',
+        _rule_map_     : {
+          _box_sizing_       : '_border_box_',
+          _float_            : '_none_',
+          _margin_           : '_0_',
+        }      
+      },
+      {
+        _elem_type_ : 'input'
+      }
+    ];
+
       { _elem_type_   : 'div',
         _select_code_ : '.'
         _select_str_  : 'base_div',
