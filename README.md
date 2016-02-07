@@ -1,5 +1,4 @@
 # PowerCSS by Michael S. Mikowski
-
 ## THIS LIBRARY IS IN DEVELOPMENT!
 ## PLEASE DO NOT USE FOR ANY PURPOSE AT THIS TIME!
 
@@ -13,6 +12,15 @@ Unleash PowerCSS to create custom CSS for every user that visits your site.
 PowerCSS uses merging, caching, compression, and double-buffering to exceed
 the speed and flexibility of static CSS. 
 https://www.youtube.com/watch?v=rnkMjzhxw4s
+
+## Style
+This plugin is written in the style presented in the book
+book **Single Page Web Applications - JavaScript end-to-end**
+which is available from [Amazon][1] and directly from [Manning][2].
+It passes JSLint.  If you dislike K&R indentation, think that JSLint
+is a waste of time, and want to make closures and line endings
+impossible to find, go ahead and port it to CoffeeScript.  Just
+don't expect any help from me :)
 
 ## The Goal
 The greatest problem with static CSS - whether it is written by an
@@ -96,7 +104,7 @@ Now, let's add another stylesheet.
 
 ### What does this get us?
 Assuming we use the default namespaces for powercss, `pcss`, the above code
-will will cache the `vfollowing CSS, which hopefull is not too surprising:
+will will cache the following CSS, which hopefull is not too surprising:
 
     div.pcss-_base_div_ {
       display       : block;
