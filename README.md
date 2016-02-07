@@ -1,6 +1,11 @@
 # PowerCSS by Michael S. Mikowski
 # PLEASE DO NOT USE FOR ANY PURPOSE AT THIS TIME.
 
+## Use libraries, not frameworks
+This is a library that strives to be best-in-class.
+If you are considering using an SPA framework, please read [Do you
+really want an SPA framework?][0] first.
+
 ## Overview
 Unleash PowerCSS to create custom CSS for every user that visits your site.
 PowerCSS uses merging, caching, compression, and double-buffering to exceed
@@ -281,10 +286,6 @@ See powercss.html for example implementation.
 PowerCSS will throw an exception if it cannot perform the requested
 method.  It should be invoked within a `try-catch` block.
 
-## Use libraries instead of frameworks
-If you are considering using an SPA framework, please read [Do you
-really want an SPA framework?][3] first.
-
 ## Release Notes
 ### Copyright (c)
 2016 Michael S. Mikowski (mike[dot]mikowski[at]gmail[dotcom])
@@ -307,7 +308,7 @@ mike[dot]mikowski[at]gmail[dotcom].
 
 Cheers, Mike
 
-## END
+## End
+[0]:http://mmikowski.github.io/no-frameworks
 [1]:http://www.amazon.com/dp/1617290750
 [2]:http://manning.com/mikowski
-[3]:http://mmikowski.github.io/no-frameworks
