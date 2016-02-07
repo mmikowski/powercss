@@ -22,7 +22,7 @@
 //
 // See README.md for further documentation.
 //
-// THIS IS A WORK IN PROGRESS. 
+// THIS LIBRARY IS IN DEVELOPMENT.
 // PLEASE DO NOT USE FOR ANY PURPOSE AT THIS TIME.
 //
 var pcss = (function () {

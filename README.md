@@ -1,5 +1,7 @@
 # PowerCSS by Michael S. Mikowski
-# PLEASE DO NOT USE FOR ANY PURPOSE AT THIS TIME.
+
+## THIS LIBRARY IS IN DEVELOPMENT!
+## PLEASE DO NOT USE FOR ANY PURPOSE AT THIS TIME!
 
 ## Use libraries, not frameworks
 This is a library that strives to be best-in-class.
