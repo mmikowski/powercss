@@ -1,6 +1,6 @@
 { "name": "powercss",
-  "version": "0.0.8",
-  "description": "Feel the power of run-time CSS! Create an infinite variety of styles as your application needs them without the use of any external CSS. PowerCSS is highly compressible and fast thanks to optimized merging, caching, and double-buffering. https://www.youtube.com/watch?v=rnkMjzhxw4s.",
+  "version": "0.0.10",
+  "description": "Unleash PowerCSS to create custom CSS for every user that visits your site. PowerCSS uses merging, caching, compression, and double-buffering to exceed the speed and flexibility of static CSS. https://www.youtube.com/watch?v=rnkMjzhxw4s",
   "keywords": [
     "css", "power", "powercss", "power-css", "css-power",
     "css-alive", "alive-css", "css-live", "live-css",

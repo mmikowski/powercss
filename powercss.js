@@ -13,78 +13,18 @@
 /*global jQuery*/
 
 // # PowerCSS by Michael S. Mikowski
-// Feel the power of run-time CSS! Create an infinite variety of styles as
-// your application needs them without the use of any external CSS. PowerCSS
-// is highly compressible and fast thanks to optimized merging, caching,
-// and double-buffering.
-// https://www.youtube.com/watch?v=rnkMjzhxw4s.
 //
-// # The Goal
-// The greatest problem with static CSS - whether it is written by an
-// expert or someone using {less} or Sass - is that it is not generated
-// at run-time. That makes development and performance of programatic
-// styling awkward at best, and impossible at worst.
+// ## Overview
+// Unleash PowerCSS to create custom CSS for every user that visits your site.
+// PowerCSS uses merging, caching, compression, and double-buffering to exceed
+// the speed and flexibility of static CSS. 
+// https://www.youtube.com/watch?v=rnkMjzhxw4s
 //
-// PowerCSS provides application controlled-CSS and therefore it is
-// infinitely adjustable by the application logic. Do you want to change
-// styling based on every users' device orientation, ambient temperature,
-// ambient light, GPS location, *and* time of day? This is *easy and obvious*
-// using PowerCSS, and *impossible* with with static CSS solutions.
+// See README.md for further documentation.
 //
-// PowerCSS is designed to be better in almost every respect compared to
-// static CSS while allowing experience CSS authors to leverage their
-// existing skills in a simple and natural API. When compressed, it downloads
-// faster, usually renders faster on first load, and can speed up some CSS
-// operations by an order of magnitude - or more. All while offering
-// application-controlled CSS.
+// THIS IS A WORK IN PROGRESS. 
+// PLEASE DO NOT USE FOR ANY PURPOSE AT THIS TIME.
 //
-// Sound exciting? If so, read on! First we will implement a PowerCSS
-// solution, and then we will discuss how and why PowerCSS works.
-//
-//
-//  WIP below this line ---------------------
-//   - Add a VSheet
-//   - Create a merged sheet using a list of vsheets (cached)
-//   - Assign to a defined and disabled SS Object (either new(add) or existing)
-//   - Enable the SS Object by index
-//
-//   - Need ability to recalc existing sheet (e.g. if mixin_map changes, see
-//   below)
-//
-//  Properties:
-//
-//    mixin_map = { ... custom defined mixins ... }
-//    Consider JSON.stringify() and then hash 'snapshot' to determine if mixin_map
-//    has changed between when a SS Object was last used
-//    and when it is being re-enabled.  If so, recalculate CSS and
-//    reload the SS Object before re-enabling.
-//
-//    mixin_map property values are checked first, then
-//    default css_value_map. All lookup values have this form: '_.*_'
-//    All other properties are literals.
-//    Use method: **_setMixinMap_** also **_rmMixinMap_**;
-//    possibly **_updateMixinMap_** (try to avoid, though).
-// 
-// Think of this like the stylesheet list in html:
-// merge0VSheetList = [ '_base_css_list_', '_mktg_style_' ];
-//
-//
-// var lbSelectList = [
-//    { _select_str_ : '#ao-_lb_', // literal
-//      _rule_map_ : {
-//        _display_       : '_block_',    // lookup mixin then stock
-//        _opacity_       : '_0_',        // lookup
-//        _position_      : '_absolute_', // lookup
-//        _border_        : '0.125rem solid #aaa',
-//        _border_radius_ : '.375rem .375rem 0 0',
-//        _box_shadow_    : 'rgba(0, 0, 0, .14) 0 0 .625rem .375rem',
-//        _background_    : '_xfff_',     // lookup
-//        _z_index_       : '36',
-//        _transition_    : 'opacity .3s ease'
-//      },
-//      end_... (see ref document)
-//    },
-
 var pcss = (function () {
   var
     __String    = String,

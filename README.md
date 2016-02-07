@@ -1,14 +1,13 @@
 # PowerCSS by Michael S. Mikowski
-
-# UNDER ACTIVE DEVELOPMENT. DO NOT USE (yet)!
-
-Feel the power of run-time CSS! Create an infinite variety of styles as
-your application needs them without the use of any external CSS. PowerCSS
-is highly compressible and fast thanks to optimized merging, caching,
-and double-buffering.
-https://www.youtube.com/watch?v=rnkMjzhxw4s.
+# PLEASE DO NOT USE FOR ANY PURPOSE AT THIS TIME.
 
 ## Overview
+Unleash PowerCSS to create custom CSS for every user that visits your site.
+PowerCSS uses merging, caching, compression, and double-buffering to exceed
+the speed and flexibility of static CSS. 
+https://www.youtube.com/watch?v=rnkMjzhxw4s
+
+## The Goal
 The greatest problem with static CSS - whether it is written by an
 expert or someone using {less} or Sass - is that it is not generated
 at run-time. That makes the use of application control of styling
@@ -27,7 +26,7 @@ It provides a simple and familiar API where experienced CSS authors
 can use their existing skill to be up and running in minutes.
 When properly implemented, a PowerCSS solution usually downloads
 faster, renders faster after loading , and can speed up some CSS
-operations by 10x or more.  What's not to like?
+operations by 10x or more. What's not to like?
 
 Sound exciting? If so, read on! First we will implement a PowerCSS
 solution, and then we will discuss how and why PowerCSS works.
@@ -37,10 +36,11 @@ solution, and then we will discuss how and why PowerCSS works.
 ### 1. Create Virtual StyleSheet Lists (`vsheets`)
 
 A Virtual StyleSheet List (`VSheet`) contains the same information as a
-traditional CSS file.  An experienced CSS author should be able to
-Virual StyleSheets (`vsheets`) with little trouble.  The format is as follows:
+traditional CSS file. An experienced CSS author should be able to
+Virual StyleSheets (`vsheets`) with little trouble. Let's add a `Vsheet`
+to the PowerCSS as shown below:
 
-
+    var base_vsheet_list; 
     base_vsheet_list = [
       { _elem_type_   : 'div',
         _select_code_ : '.'
@@ -50,7 +50,7 @@ Virual StyleSheets (`vsheets`) with little trouble.  The format is as follows:
         _rule_map_ : {
           // This first section uses lookup keys for common CSS rule values.
           _display_       : '_block_',
-          _opacity_       : '_0_',
+          _opacity_       : '_1_',
           _position_      : '_absolute_',
           _background_    : '_xfff_',
 
@@ -58,7 +58,7 @@ Virual StyleSheets (`vsheets`) with little trouble.  The format is as follows:
           _border_        : '0.125rem solid #aaa',
           _border_radius_ : '.375rem .375rem 0 0',
           _box_shadow_    : 'rgba(0, 0, 0, .14) 0 0 .625rem .375rem',
-          _z_index_       : '36',
+          _z_index_       : '5',
           _background_    : [
             '_blue_',
             'linear-gradient(...)',
@@ -73,8 +73,23 @@ Virual StyleSheets (`vsheets`) with little trouble.  The format is as follows:
       ....
     ];
 
+    pcss._addVSheetList_( '_base_css_', base_vsheet_list );
+
+Notice that we use an ordered list to define our selectors because 
+selector declaration order will affect CSS.
+
+When we use `pcss._addVSheetList_`, we provide a `VSheet` name and then
+a list data structure that defines this Virtual Stylesheet. PowerCSS 
+remembers records this definition, but it doesn't compile it to CSS yet.
+That comes later. We can always remove a `VSheet` like so:
+
+    pcss._delVSheetList( '_base_css_' );
+
+Now, let's add another stylesheet.
+
+### What does this get us?
 Assuming we use the default namespaces for powercss, `pcss`, the above code
-will compile into the following CSS:
+will will cache the `vfollowing CSS, which hopefull is not too surprising:
 
     div.pcss-_base_div_ {
       display       : block;
@@ -96,7 +111,7 @@ will compile into the following CSS:
 
 #### Alternate values
 Sometimes we want to provide alternate rules for a style so that
-our code will work across multiple browsers.  In this case, wrap
+our code will work across multiple browsers. In this case, wrap
 all alternate values in a list. Example:
 
       _background_    : [
@@ -107,7 +122,7 @@ all alternate values in a list. Example:
       ],
 
 #### Locked values
-Typically in a cascade, the last property value in "wins".  However, it
+Typically in a cascade, the last property value in "wins". However, it
 is feasible to prevent overwriting critical properties with downstream `vsheets`
 by using a value lock. This does **not** implement the dreaded and flawed 
 `!important` declaration in CSS, so don't freak out about that.
@@ -125,8 +140,6 @@ Alternative and locked values may be combined.  Here is an example:
           '-webkit-linear-gradient(...)',
           '-moz-linear-gradient(...)'
         ],
-
-
 
 ### Adding a StyleSheet Object
 StyleSheet Objects are added like so:
