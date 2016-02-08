@@ -57,68 +57,73 @@ to the PowerCSS as shown below:
 
     var
       base_vsheet_list,
-      diva_vsheet_list
+      boxes_vsheet_list,
+      cascade_list
       ;
 
     base_vsheet_list = [
-      { _elem_type_   : '*',
-        _select_code_ : '_blank_',
-        _select_str_  : '_blank_',
+        _select_str_  : '*',
         _rule_map_     : {
-          _box_sizing_       : '_border_box_',
-          _float_            : '_none_',
-          _margin_           : '_0_',
+          _box_sizing_ : '_border_box_',
+          _float_      : '_none_',
+          _margin_     : '_0_',
+          _padding_    : '_0_',
         }      
       },
-      {
-        _elem_type_ : 'input'
-      }
-    ];
 
-      { _elem_type_   : 'div',
-        _select_code_ : '.'
-        _select_str_  : 'base_div',
-
-        // All keys are lookup keys for CSS rule names.
+      { _elem_type_ : 'input',
         _rule_map_ : {
-          // This first section uses lookup keys for common CSS rule values.
-          _display_       : '_block_',
-          _opacity_       : '_1_',
-          _position_      : '_absolute_',
-          _background_    : '_xfff_',
-
-          // This second section uses literals for CSS rule values.
-          _border_        : '0.125rem solid #aaa',
-          _border_radius_ : '.375rem .375rem 0 0',
-          _box_shadow_    : 'rgba(0, 0, 0, .14) 0 0 .625rem .375rem',
-          _z_index_       : '5',
-          _background_    : [
-            '_blue_',
-            'linear-gradient(...)',
-            '-webkit-linear-gradient(...)',
-            '-moz-linear-gradient(...)'
-          ],
-          _font_size_     : { _do_lock_ : true, _val_data_ : '_16px_' },
-          _transition_    : 'opacity .3s ease'
-        },
-        _close_str_ : ''
-      },
-      ....
+          _border_ : '_0_'
+        }
+      }
     ];
 
     pcss._addVSheetList_( '_base_css_', base_vsheet_list );
 
-Notice that we use an ordered list to define our selectors because 
-selector declaration order will affect CSS.
+Selectors are defined in an ordered list because selector order
+*will affect* the resulting styling.
 
 When we use `pcss._addVSheetList_`, we provide a `VSheet` name and then
 a list data structure that defines this Virtual Stylesheet. PowerCSS 
 remembers records this definition, but it doesn't compile it to CSS yet.
-That comes later. We can always remove a `VSheet` like so:
+That comes later.
+
+Now, let's add another Virtual Stylesheet (`VSheet`):
+
+    boxes_vsheet_list = [
+      { _select_str_ : '.pcss-_boxes_',
+        // All keys are lookup keys for CSS rule names.
+        _rule_map_ : {
+          // lookup values
+          _display_       : '_block_',
+          _opacity_       : '_1_',
+          _position_      : '_absolute_',
+          _background_    : '_xfff_',
+          _z_index_       : '_5_',
+          _font_size_     : { _do_lock_ : true, _val_data_ : '_16px_' },
+
+          // Literal values
+          _border_        : '0.125rem solid #aaa',
+          _background_    : [
+            '-webkit-linear-gradient(...)',
+            '-moz-linear-gradient(...)',
+            'linear-gradient(...)',
+            '_blue_'
+          ],
+          _transition_    : 'opacity .3s ease'
+        },
+        _close_str_ : '_blank_'
+      }
+    ];
+
+    pcss._addVSheetList_( '_boxes_css_', base_vsheet_list );
+
+Now we have two `VSheets` added to PowerCSS.  Now let's use them!
+
+We can always remove a `VSheet` like so:
 
     pcss._delVSheetList( '_base_css_' );
 
-Now, let's add another stylesheet.
 
 ### What does this get us?
 Assuming we use the default namespaces for powercss, `pcss`, the above code
