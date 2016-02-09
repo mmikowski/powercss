@@ -1,16 +1,14 @@
-/*
- * powercss.js
+/* PowerCSS - pcss.js
  * Run-time generated and managed CSS
- *
  * Michael S. Mikowski - mike.mikowski@gmail.com
- */
+*/
 /*jslint       browser : true, continue : true,
  devel : true,  indent : 2,      maxerr : 50,
  newcap : true,  nomen : true, plusplus : true,
  regexp : true, sloppy : true,     vars : false,
  white : true,    todo : true,  unparam : true
- */
-/*global jQuery*/
+*/
+/*global pcss:true */
 
 // # PowerCSS by Michael S. Mikowski
 //
@@ -39,6 +37,7 @@ var pcss = (function () {
     __1         = 1,
     __2         = 2,
     __n1        = -1,
+    __undef     = window.undefined,
 
     vMap = {
       _array_          : 'array',
@@ -64,7 +63,7 @@ var pcss = (function () {
     },
 
     topSmap = {
-      _sheet_id_prefix_ : 'pcss-',
+      _sheet_id_prefix_ : __undef,
       _style_el_list_ : [],
       _style_el_idx_  : __n1
     },
@@ -174,8 +173,10 @@ var pcss = (function () {
       _1rem_          : '1rem',
       _2rem_          : '2rem',
       _3rem_          : '3rem',
+      _0p_            : '0%',
       _50p_           : '50%',
       _100p_          : '100%',
+      _200_           : '400',
       _400_           : '400',
       _800_           : '800',
       _xfff_          : '#fff',
@@ -229,19 +230,38 @@ var pcss = (function () {
     makeSheetStr,
     initStyleEls,
 
-    updateCSS,
-    setBaseSheetId
+    addVSheetList,
+    addSheetObj,
+    enableSheetObj,
+
+    // future capabilities!
+    //addMixinMap,
+    //delMixinMap,
+    //getMixinMap,
+
+    //delVSheetList,
+    //getVSheetList,
+    //getVSheetNameList,
+
+    //delSheetObj,
+    //getSheetObj,
+    //getSheetObjList,
+    //getSheetObjCss,
+
+    initModule
     ;
 
-  makeSheetStr = function ( sheetSelectList ) {
+  makeSheetStr = function ( vsheetList ) {
     var
-      select_count,  i, j,
-      pkg_map,       select_str,
+      i, j,
+      select_count,
+      select_map,    select_str,
       rule_map,      close_str,
       rule_key_list, rule_key_count,
       rule_key,      rule_val,
-      rule_val_type,
+      val_type,
 
+      solve_val_type,
       solve_select_list,
       solve_lock_map,
       solve_rule_list,
@@ -251,15 +271,15 @@ var pcss = (function () {
       solveSheetStr
       ;
 
-    select_count = sheetSelectList[ vMap._length_ ];
+    select_count = vsheetList[ vMap._length_ ];
 
     solve_select_list = [];
     solve_lock_map    = {};
     for ( i = __0; i < select_count; i++ ) {
-      pkg_map    = sheetSelectList[ i ];
-      select_str = pkg_map._select_str_;
-      rule_map   = pkg_map._rule_map_;
-      close_str  = pkg_map._close_str_;
+      select_map = vsheetList[ i ];
+      select_str = select_map._select_str_;
+      rule_map   = select_map._rule_map_;
+      close_str  = select_map._close_str_ || __blank;
 
       if ( ! rule_map ) {
         solve_select_list[ vMap._push_]( select_str );
@@ -287,20 +307,21 @@ var pcss = (function () {
 
         // Calc solve val
         rule_val = rule_map[ rule_key ];
-        if ( ( typeof rule_val === vMap._object_ )
-          && ( rule_val[ vMap._hasOwnProp_ ]( '_val_data_' ) )
+        val_type = typeof rule_val;
+        if ( val_type === vMap._object_
+          && rule_val[ vMap._hasOwnProp_ ]( '_val_data_' )
         ) {
           solve_lock_map[ rule_key ] = rule_val._do_lock_;
           rule_val = rule_val._val_data_;
         }
-        rule_val_type = __isArray( rule_val )
+        solve_val_type = __isArray( rule_val )
           ? vMap._array_ : typeof rule_val;
 
-        if ( rule_val_type === vMap._object_ ) {
+        if ( solve_val_type === vMap._object_ ) {
           rule_val = rule_val._val_data_;
         }
 
-        switch( rule_val_type ) {
+        switch( solve_val_type ) {
           case 'string' :
             if ( cssValMap[ vMap._hasOwnProp_ ]( rule_val ) ) {
               solve_val = cssValMap[ rule_val ];
@@ -414,19 +435,17 @@ var pcss = (function () {
     topSmap._style_el_idx_ = write_el_idx;
   };
 
-  setSheetIdPrefix = function ( sheet_id_prefix ) {
-    topSmap._sheet_id_prefix = sheet_id_prefix;
+  initModule = function ( arg_init_map ) {
+    var init_map = arg_init_map || {};
+    topSmap._sheet_id_prefix = init_map._sheet_id_prefix_
+      ? init_map._sheet_id_prefix_ + '-' : 'pcss-';
   };
 
   return {
-    _addMixinMap_      : addMixinMap,
     _addVSheetList_    : addVSheetList,
-    _rmVSheetList_     : rmVSheetList,
-    _getVSheetList_    : getVSheetList,
-    _getVSheetKeyList_ : getVSheetKeyList,
-
-    _setSheetIdPrefix_ : setSheetIdPrefix,
     _addSheetObj_      : addSheetObj,
-    _enableSheetObj_   : enableSheetObj
+    _enableSheetObj_   : enableSheetObj,
+
+    _initModule_       : initModule
   };
 }());

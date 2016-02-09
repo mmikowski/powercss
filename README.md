@@ -32,11 +32,11 @@ PowerCSS provides application-controlled CSS and therefore it is
 infinitely adjustable by our application logic. Do we want to change
 styling based on every users' device orientation, ambient temperature,
 ambient light, GPS location, heart rate, *and* time of day? Assuming
-the user device has these sensors, this is *easy and obvious* using
-PowerCSS, and *impossible* with with static CSS solutions.
+the user device has these sensors, this is *fairly easy and obvious* using
+PowerCSS, and *virutally impossible* with with static CSS solutions.
 
 We feel that PowerCSS has not only acheived its primary goal, but that
-it is better than static CSS in almost every other aspect as well.
+it is better than static CSS in almost every other respect as well.
 It provides a simple and familiar API where experienced CSS authors
 can use their existing skill to be up and running in minutes.
 When properly implemented, a PowerCSS solution usually downloads
@@ -47,64 +47,89 @@ Sound exciting? If so, read on! First we will implement a PowerCSS
 solution, and then we will discuss how and why PowerCSS works.
 
 ## Example
-
 ### 1. Create a test HTML page
 We will be placing a script inside an HTML page to illustrate the basic
-use of PowerCSS. The finished page can be found in `powercss-basic.html`
-in the GitHub repository.
+use of PowerCSS. 
 
-First, let's create `test.html` with the following content:
+First, let's create an HTML file with the following content:
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Basic PowerCSS example</title>
-  <script>
-  window.onload = function () {
-    // add pcss example code here
-  };
-  </script>
-</head>
-<body>
-  <div class="pcss-_box_">PowerCSS 01</div>
-  <div class="pcss-_box_">PowerCSS 02</div>
-  <div class="pcss-_box_">PowerCSS 03
-    <input type="text" value="Example"/>
-  </div>
-</html>
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Basic PowerCSS example</title>
+      <script src="./pcss.js"></script>
+      <script src="./pcss._exampleBasic.js"></script>
+      <script>
+      window.onload = pcss._exampleBasic_;
+      </script>
+    </head>
+    <body>
+      <p>Unleash PowerCSS to create custom CSS for every user that visits your
+      site. PowerCSS uses merging, caching, compression, and double-buffering to
+      exceed the speed and flexibility of static CSS.
+      https://www.youtube.com/watch?v=rnkMjzhxw4s</p>
+      <div class="pcss-_box_">PowerCSS 01</div>
+      <div class="pcss-_box_">PowerCSS 02</div>
+      <div class="pcss-_box_">PowerCSS 03
+        <input title="example" type="text" value="example"/>
+      </div>
+    </body>
+    </html>
 
-### 1. Define and add a Virtual StyleSheet List
+We can find the `pcss._exampleBasic_.js` file in the root 
+directory of the GitHub repository.
+
+### 2. Define and add a Virtual StyleSheet List
 A Virtual StyleSheet List (`VSheet`) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to
-Virual StyleSheets (`vsheets`) with little trouble. Let's define
-and add a `Vsheet` the PowerCSS system as shown below.  Just place this in 
-the `window.onload` function shown above.
+`VSheets` with little trouble. Let's create a file and add a `VSheet` to 
+the PowerCSS data as shown below:
 
-    var
-      base_vsheet_list,
-      box_vsheet_list,
-      sheet_obj_idx,
-      ;
+    /* pss._exampleBasic_.js
+     * Basic example of run-time generated and managed CSS
+     * Michael S. Mikowski - mike.mikowski@gmail.com
+    */
+    /*jslint       browser : true, continue : true,
+     devel : true,  indent : 2,      maxerr : 50,
+     newcap : true,  nomen : true, plusplus : true,
+     regexp : true, sloppy : true,     vars : false,
+     white : true,    todo : true,  unparam : true
+    */
+    /*global*/
 
-    base_vsheet_list = [
-        _select_str_  : '*',
-        _rule_map_     : {
-          _box_sizing_ : '_border_box_',
-          _display_    : '_block_',
-          _float_      : '_none_',
-          _font_size_  : '16px',
-          _margin_     : '_0_',
-          _padding_    : '_0_',
+    // BEGIN pcss._exampleBasic_
+    pcss._exampleBasic_ = function () {
+      var
+        base_vsheet_list,
+        box_vsheet_list,
+        sheet_obj_idx
+        ;
+        
+      pcss._initModule_();
+
+      // Begin add _base_css_ VSheet
+      base_vsheet_list = [
+        { _select_str_  : '*',
+          _rule_map_     : {
+            _box_sizing_ : '_border_box_',
+            _display_    : '_block_',
+            _float_      : '_none_',
+            _font_size_  : '16px',
+            _margin_     : '_0_',
+            _padding_    : '_0_'
+          }
+        },
+        { _select_str_ : 'input',
+          _rule_map_ : {
+            _border_     : '2px solid #ccc',
+            _background_ : 'yellow'
+          }
         }
-      },
-      { _elem_type_ : 'input',
-        _rule_map_ : {
-          _border_ : '_0_'
-          _background_ : 'yellow'
-        }
-      }
-    ];
-    pcss._addVSheetList_( '_base_css_', base_vsheet_list );
+      ];
+      pcss._addVSheetList_( '_base_css_', base_vsheet_list );
+      // End add _base_css_ VSheet
+
+Yes, Virginia, our code really *will* pass JSLint.
 
 When we use `pcss._addVSheetList_`, we provide a `VSheet` name and then
 a list data structure that defines this Virtual Stylesheet. PowerCSS
@@ -120,64 +145,80 @@ Let's define and add another `VSheet`.  This will use a few more
 advanced features, but don't get lost in the details.  We will return to
 them soon enough:
 
-    box_vsheet_list = [
-      { _select_str_ : '.pcss-_box_',
-        _rule_map_ : {
-          _background_    : [
-            '#f85032',
-            '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
-            '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
-            'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
-          ],
-          _border_        : '0.125rem solid #aaa',
-          _display_       : '_block_',
-          _font_size_     : { _do_lock_ : '_true_', _val_data_ : '16px' },
-          _margin_        : '1rem',
-          _opacity_       : '_1_',
-          _position_      : '_absolute_',
-          _padding_       : '5rem',
-          _text_align_    : '_center_',
-          _transition_    : 'opacity .3s ease'
-          _z_index_       : '_5_',
+      // Begin add _box_css_ VSheet
+      box_vsheet_list = [
+        { _select_str_ : '.pcss-_box_',
+          _rule_map_ : {
+            _background_    : [
+              '#f85032',
+              '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+              '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+              'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
+            ],
+            _border_        : '0.125rem solid #aaa',
+            _display_       : '_block_',
+            _font_size_     : { _do_lock_ : '_true_', _val_data_ : '16px' },
+            _margin_        : '1rem',
+            _opacity_       : '_1_',
+            _position_      : '_absolute_',
+            _padding_       : '5rem',
+            _text_align_    : '_center_',
+            _transition_    : 'opacity .3s ease',
+            _z_index_       : '_5_'
+          }
         }
-      }
-    ];
-    pcss._addVSheetList_( '_box_css_', box_vsheet_list );
-
+      ];
+      pcss._addVSheetList_( '_box_css_', box_vsheet_list );
+      // End add _box_css_ VSheet
+    
 Now have two `VSheets` added to PowerCSS.  Let's use them!
 
-### 3. Define and add a Stylesheet Object
-Let's add a StyleSheet Objects like so:
+### 3. Define and add a Sheet Object
+Let's add a Sheet Object like so:
 
-    sheet_obj_idx = pcss._addStyleSheetObj_(
-      [ '_base_css_', '_box_css_' ]
-    );
+      sheet_obj = pcss._addSheetObj_({
+        _cascade_list_   : [ '_base_css_', '_box_css_' ],
+        _sheet_obj_name_ : '_basic_example_'
+      });
 
-The index number of the created object is returned. The method requires
-a list of virtual style sheets.  However, that stylesheet isn't written or
-used yet.  That is our final step.
+The sheet object is returned and contains the attributes `_sheet_idx_`
+and `stylesheet_obj` in addition to those provided ( `_cascade_list_`
+and `_sheet_obj_name_`) . In this example, `_sheet_idx_` will be 0
+since it will be the first pcss-controlled stylesheet claimed.
+The `_cascade_list_` of virtual style sheets which will
+be used later to write the CSS when we enable the Sheet Object.
 
-### 4. Enable the StyleSheet Object
-When we enable a sheet object, PowerCSS will compile the CSS, populate
-the stylesheet.  It will then disable all other PowerCSS controled
-stylesheets and then enable the one we created.
+### 4. Enable the Sheet Object
+When we enable a Sheet Object, PowerCSS creates the CSS and populates 
+the `sheet_obj._stylesheet_obj_` with the results. It will then disables 
+all other PowerCSS-controled stylesheets and enables this 
+StyleSheet Object (`_stylesheet_obj_`).  Let's do that now, and close out
+our function<sup>[1](#footnote_01)<sup>.
 
-    pcss._enableSheetObj_( sheet_obj_idx );
+      pcss._enableSheetObj_( '_basic_example_' );
+    };
+    // END pcss._exampleBasic_
+
+We can find the `pcss._exampleBasic_.js` file in the root 
+directory of the GitHub repository.
 
 ### 5. Marvel at the results
-Save `test.html` and open it in a modern browser.  You should see three
-boxes that have been styled by our StyleSheet Object.  The CSS content
-of this object should look like this:
+When we open `pcss._exampleBasic_.js` in a modern browser, we should see
+three boxes that have been styled by according to our `VSheet` definitions
+and our `_cascade_list_` we provided.  We can see the generated CSS
+by requesting it in the JavaScript console like so: 
+`pcss._getSheetObjCss_( 0 );`. It should look something like this, although 
+I cleaned it up a little and added some comments:
 
     /* start _base_css_ */
     * { box-sizing : border-box;
-        display : block;
-        float   : none;
-        margin  : 0;
-        padding : 0;
+        display    : block;
+        float      : none;
+        margin     : 0;
+        padding    : 0;
     }
     input {
-      border     : 0;
+      border     : 2px solid #ccc;
       background : yellow;
     }
     /* end _base_css_ */
@@ -200,8 +241,7 @@ of this object should look like this:
       z-index    : 5;
     /* end _box_css_ */
 
-
-## Options!
+## Options
 The default behavior of PowerCSS results in a number of benefits over
 static CSS no matter what the preprocessor (e.g. {less} or Sass):
 
@@ -468,6 +508,11 @@ Any improvements or suggestions are welcome! You can reach me at
 mike[dot]mikowski[at]gmail[dotcom].
 
 Cheers, Mike
+
+## Footnotes
+<a id="footnote_01">01</a>: Alternately we could have provided the 
+`_sheet_idx_` of `0` instead of using the `_sheet_obj_name_` (`_basic_example_`).  See, we're flexible!
+
 
 ## End
 [0]:http://mmikowski.github.io/no-frameworks
