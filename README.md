@@ -25,8 +25,8 @@ don't expect any help from me :)
 ## The Goal
 The greatest problem with static CSS - whether it is written by an
 expert or someone using {less} or Sass - is that it is not generated
-at run-time. That makes the use of application control of styling
-complex at best, and impossible at worst.
+at run-time. Application control of styling at best limited, and at
+worst, simply not possible.
 
 PowerCSS provides application-controlled CSS and therefore it is
 infinitely adjustable by our application logic. Do we want to change
@@ -38,9 +38,9 @@ PowerCSS, and *virutally impossible* with with static CSS solutions.
 We feel that PowerCSS has not only acheived its primary goal, but that
 it is better than static CSS in almost every other respect as well.
 It provides a simple and familiar API where experienced CSS authors
-can use their existing skill to be up and running in minutes.
+can use their existing skills to be up and running in minutes.
 When properly implemented, a PowerCSS solution usually downloads
-faster, renders faster after loading , and can speed up some CSS
+faster, renders faster after loading, and can speed up some CSS
 operations by 10x or more. What's not to like?
 
 Sound exciting? If so, read on! First we will implement a PowerCSS
@@ -58,16 +58,12 @@ First, let's create an HTML file with the following content:
     <head>
       <title>Basic PowerCSS example</title>
       <script src="./pcss.js"></script>
-      <script src="./pcss._exampleBasic.js"></script>
+      <script src="./pcss._exampleBasic_.js"></script>
       <script>
       window.onload = pcss._exampleBasic_;
       </script>
     </head>
     <body>
-      <p>Unleash PowerCSS to create custom CSS for every user that visits your
-      site. PowerCSS uses merging, caching, compression, and double-buffering to
-      exceed the speed and flexibility of static CSS.
-      https://www.youtube.com/watch?v=rnkMjzhxw4s</p>
       <div class="pcss-_box_">PowerCSS 01</div>
       <div class="pcss-_box_">PowerCSS 02</div>
       <div class="pcss-_box_">PowerCSS 03
@@ -76,8 +72,8 @@ First, let's create an HTML file with the following content:
     </body>
     </html>
 
-We can find the `pcss._exampleBasic_.js` file in the root 
-directory of the GitHub repository.
+We can find the `pcss._exampleBasic_.html` file that contains 
+in the root directory of the GitHub repository.
 
 ### 2. Define and add a Virtual StyleSheet List
 A Virtual StyleSheet List (`VSheet`) contains the same information as a
@@ -102,7 +98,7 @@ the PowerCSS data as shown below:
       var
         base_vsheet_list,
         box_vsheet_list,
-        sheet_obj_idx
+        metasheet_obj
         ;
         
       pcss._initModule_();
@@ -173,29 +169,32 @@ them soon enough:
     
 Now have two `VSheets` added to PowerCSS.  Let's use them!
 
-### 3. Define and add a Sheet Object
-Let's add a Sheet Object like so:
+### 3. Add a MetaSheet Object
+Let's add a MetaSheet Object like so:
 
-      sheet_obj = pcss._addSheetObj_({
+      metasheet_obj = pcss._addMetaSheetObj_({
         _cascade_list_   : [ '_base_css_', '_box_css_' ],
         _sheet_obj_name_ : '_basic_example_'
       });
 
-The sheet object is returned and contains the attributes `_sheet_idx_`
-and `stylesheet_obj` in addition to those provided ( `_cascade_list_`
-and `_sheet_obj_name_`) . In this example, `_sheet_idx_` will be 0
-since it will be the first pcss-controlled stylesheet claimed.
-The `_cascade_list_` of virtual style sheets which will
-be used later to write the CSS when we enable the Sheet Object.
+The metasheet object (`MetaSheet`) is returned and it contains the attributes
+we provided (`_cascade_list_`and `_sheet_obj_name_`) and two new attributes.
+The `_sheet_idx_` attribute is the index number provided to this `MetaSheet`.
+Its value will be 0 because this is the first one we have added. The 
+`_stylesheet_obj_` points to the native browser StyleSheet object used by
+this `MetaSheet`.
 
-### 4. Enable the Sheet Object
-When we enable a Sheet Object, PowerCSS creates the CSS and populates 
-the `sheet_obj._stylesheet_obj_` with the results. It will then disables 
-all other PowerCSS-controled stylesheets and enables this 
-StyleSheet Object (`_stylesheet_obj_`).  Let's do that now, and close out
+
+### 4. Enable the MetaSheet Object
+When we enable a `MetaSheet`, PowerCSS calculates the CSS and populates 
+the browser StyleSheet Object is has reserved for this `MetaSheet` with
+the results. It will then disables all other PowerCSS-controled StyleSheet
+Objects and enables this one.
+
+Let's add the code to enable our `MetaSheet` now and close
 our function<sup>[1](#footnote_01)<sup>.
 
-      pcss._enableSheetObj_( '_basic_example_' );
+      pcss._enableMetaSheetObj_( '_basic_example_' );
     };
     // END pcss._exampleBasic_
 
@@ -203,7 +202,7 @@ We can find the `pcss._exampleBasic_.js` file in the root
 directory of the GitHub repository.
 
 ### 5. Marvel at the results
-When we open `pcss._exampleBasic_.js` in a modern browser, we should see
+When we open `pcss._exampleBasic_.html` in a modern browser, we should see
 three boxes that have been styled by according to our `VSheet` definitions
 and our `_cascade_list_` we provided.  We can see the generated CSS
 by requesting it in the JavaScript console like so: 
@@ -243,7 +242,7 @@ I cleaned it up a little and added some comments:
 
 ## Options
 The default behavior of PowerCSS results in a number of benefits over
-static CSS no matter what the preprocessor (e.g. {less} or Sass):
+static CSS no matter what the preprocessor (human, {less}, or Sass):
 
 - It can be faster for initial load
 - One can easily double buffer between stylesheets for much faster
