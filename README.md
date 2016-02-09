@@ -49,14 +49,14 @@ solution, and then we will discuss how and why PowerCSS works.
 ## Example
 ### 1. Create a test HTML page
 We will be placing a script inside an HTML page to illustrate the basic
-use of PowerCSS. 
+use of PowerCSS.
 
 First, let's create an HTML file with the following content:
 
     <!DOCTYPE html>
     <html>
     <head>
-      <title>Basic PowerCSS example</title>
+      <title>PowerCSS Basic Example</title>
       <script src="./pcss.js"></script>
       <script src="./pcss._exampleBasic_.js"></script>
       <script>
@@ -64,6 +64,7 @@ First, let's create an HTML file with the following content:
       </script>
     </head>
     <body>
+      <h1>PowerCSS - Basic Example</h1>
       <div class="pcss-_box_">PowerCSS 01</div>
       <div class="pcss-_box_">PowerCSS 02</div>
       <div class="pcss-_box_">PowerCSS 03
@@ -72,26 +73,26 @@ First, let's create an HTML file with the following content:
     </body>
     </html>
 
-We can find the `pcss._exampleBasic_.html` file that contains 
+We can find the `pcss._exampleBasic_.html` file that contains
 in the root directory of the GitHub repository.
 
 ### 2. Define and add a Virtual Stylesheet List
 A Virtual Stylesheet List (**vsheet**) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to
-**vsheet** with little trouble. Let's create a file and add a **vsheet** to 
+**vsheet** with little trouble. Let's create a file and add a **vsheet** to
 the PowerCSS data as shown below:
 
     /* pss._exampleBasic_.js
      * Basic example of run-time generated and managed CSS
      * Michael S. Mikowski - mike.mikowski@gmail.com
     */
-    /*jslint       browser : true, continue : true,
-     devel : true,  indent : 2,      maxerr : 50,
-     newcap : true,  nomen : true, plusplus : true,
-     regexp : true, sloppy : true,     vars : false,
-     white : true,    todo : true,  unparam : true
+    /*jslint        browser : true, continue : true,
+      devel : true,  indent : 2,      maxerr : 50,
+      newcap : true,  nomen : true, plusplus : true,
+      regexp : true, sloppy : true,     vars : false,
+      white : true,    todo : true,  unparam : true
     */
-    /*global*/
+    /*global pcss */
 
     // BEGIN pcss._exampleBasic_
     pcss._exampleBasic_ = function () {
@@ -100,7 +101,7 @@ the PowerCSS data as shown below:
         box_vsheet_list,
         metasheet_obj
         ;
-        
+
       pcss._initModule_();
 
       // Begin add _base_css_ vsheet
@@ -166,7 +167,7 @@ them soon enough:
       ];
       pcss._addVSheetList_( '_box_css_', box_vsheet_list );
       // End add _box_css_ vsheet
-    
+
 Now have two **vsheet**s added to PowerCSS.  Let's use them!
 
 ### 3. Add a Metasheet Object
@@ -178,9 +179,9 @@ Let's add a Metasheet Object (**metasheet**) like so:
       });
       console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
-The returned **metasheet**  contains the attributes we provided 
+The returned **metasheet**  contains the attributes we provided
 (`_cascade_list_`and `_sheet_obj_name_`) and two new attributes.
-The `_sheet_idx_` attribute is the index number provided to this 
+The `_sheet_idx_` attribute is the index number provided to this
 **metasheet**.  Its value will be 0 because this is the first one
 we have added. The `_stylesheet_obj_` attribute points to the native
 browser Stylesheet object used by this **metasheet**.  Its value will
@@ -202,15 +203,15 @@ object with an id of `pcss-0`, calculates the CSS, and then writes it to
 the `pcss-0` browser Stylesheet object.  It then disables all `pcss-*`
 Stylesheets objects and finally, it enables the `pcss-0` Stylesheet object.
 
-We can find the `pcss._exampleBasic_.js` file in the root 
+We can find the `pcss._exampleBasic_.js` file in the root
 directory of the GitHub repository.
 
 ### 5. Marvel at the results
 When we open `pcss._exampleBasic_.html` in a modern browser, we should see
 three boxes that have been styled by according to our **vsheet** definitions
 and our `_cascade_list_` we provided.  We can see the generated CSS
-by requesting it in the JavaScript console like so: 
-`pcss._getSheetObjCss_( 0 );`. It should look something like this, although 
+by requesting it in the JavaScript console like so:
+`pcss._getSheetObjCss_( 0 );`. It should look something like this, although
 I cleaned it up a little and added some comments:
 
     /* start _base_css_ */
@@ -512,7 +513,7 @@ mike[dot]mikowski[at]gmail[dotcom].
 Cheers, Mike
 
 ## Footnotes
-<a id="footnote_01">01</a>: Alternately we could have provided the 
+<a id="footnote_01">01</a>: Alternately we could have provided the
 `_sheet_idx_` of `0` instead of using the `_sheet_obj_name_` (`_basic_example_`).  See, we're flexible!
 
 

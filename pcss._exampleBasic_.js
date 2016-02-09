@@ -1,14 +1,14 @@
 /* pss._exampleBasic_.js
  * Basic example of run-time generated and managed CSS
  * Michael S. Mikowski - mike.mikowski@gmail.com
- */
+*/
 /*jslint       browser : true, continue : true,
- devel : true,  indent : 2,      maxerr : 50,
- newcap : true,  nomen : true, plusplus : true,
- regexp : true, sloppy : true,     vars : false,
- white : true,    todo : true,  unparam : true
- */
-/*global pcss*/
+  devel : true,  indent : 2,      maxerr : 50,
+  newcap : true,  nomen : true, plusplus : true,
+  regexp : true, sloppy : true,     vars : false,
+  white : true,    todo : true,  unparam : true
+*/
+/*global pcss */
 
 // BEGIN pcss._exampleBasic_
 pcss._exampleBasic_ = function () {
@@ -18,7 +18,9 @@ pcss._exampleBasic_ = function () {
     metasheet_obj
     ;
 
-  // Begin add _base_css_ VSheet
+  pcss._initModule_();
+
+  // Begin add _base_css_ vsheet
   base_vsheet_list = [
     { _select_str_  : '*',
       _rule_map_     : {
@@ -38,9 +40,9 @@ pcss._exampleBasic_ = function () {
     }
   ];
   pcss._addVSheetList_( '_base_css_', base_vsheet_list );
-  // End add _base_css_ VSheet
+  // End add _base_css_ vsheet
 
-  // Begin add _box_css_ VSheet
+  // Begin add _box_css_ vsheet
   box_vsheet_list = [
     { _select_str_ : '.pcss-_box_',
       _rule_map_ : {
@@ -64,15 +66,15 @@ pcss._exampleBasic_ = function () {
     }
   ];
   pcss._addVSheetList_( '_box_css_', box_vsheet_list );
-  // End add _box_css_ VSheet
+  // End add _box_css_ vsheet
 
-  metasheet_obj = pcss._addSheetObj_({
+  metasheet_obj = pcss._addMetaSheetObj_({
     _cascade_list_   : [ '_base_css_', '_box_css_' ],
-    _sheet_obj_name_ : '_example_'
+    _sheet_obj_name_ : '_basic_example_'
   });
-  console.log( 'metasheet_obj:', JSON.stringify( metasheet_obj ) );
+  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
-  pcss._enableSheetObj_( '_example_' );
-  console.log( 'metasheet_obj:', JSON.stringify( metasheet_obj )  );
+  pcss._enableMetaSheetObj_( '_basic_example_' );
+  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 };
 // END pcss._exampleBasic_

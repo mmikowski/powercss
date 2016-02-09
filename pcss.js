@@ -231,8 +231,8 @@ var pcss = (function () {
     initStyleEls,
 
     addVSheetList,
-    addSheetObj,
-    enableSheetObj,
+    addMetaSheetObj,
+    enableMetasheetObj,
 
     // future capabilities!
     //addMixinMap,
@@ -243,10 +243,10 @@ var pcss = (function () {
     //getVSheetList,
     //getVSheetNameList,
 
-    //delSheetObj,
-    //getSheetObj,
-    //getSheetObjList,
-    //getSheetObjCss,
+    //delMetasheetObj,
+    //getMetasheetObj,
+    //getMetasheetObjMap,
+    //getMetasheetObjCss,
 
     initModule
     ;
@@ -442,9 +442,9 @@ var pcss = (function () {
   };
 
   return {
-    _addVSheetList_    : addVSheetList,
-    _addSheetObj_      : addSheetObj,
-    _enableSheetObj_   : enableSheetObj,
+    _addVSheetList_      : addVSheetList,
+    _addMetasheetObj_    : addMetasheetObj,
+    _enableMetasheetObj_ : enableMetasheetObj,
 
     _initModule_       : initModule
   };
