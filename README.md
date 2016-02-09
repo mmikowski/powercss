@@ -47,15 +47,42 @@ Sound exciting? If so, read on! First we will implement a PowerCSS
 solution, and then we will discuss how and why PowerCSS works.
 
 ## Example
+
+### 1. Create a test HTML page
+We will be placing a script inside an HTML page to illustrate the basic
+use of PowerCSS. The finished page can be found in `powercss-basic.html`
+in the GitHub repository.
+
+First, let's create `test.html` with the following content:
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic PowerCSS example</title>
+  <script>
+  window.onload = function () {
+    // add pcss example code here
+  };
+  </script>
+</head>
+<body>
+  <div class="pcss-_box_">PowerCSS 01</div>
+  <div class="pcss-_box_">PowerCSS 02</div>
+  <div class="pcss-_box_">PowerCSS 03
+    <input type="text" value="Example"/>
+  </div>
+</html>
+
 ### 1. Define and add a Virtual StyleSheet List
 A Virtual StyleSheet List (`VSheet`) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to
 Virual StyleSheets (`vsheets`) with little trouble. Let's define
-and add a `Vsheet` the PowerCSS system as shown below:
+and add a `Vsheet` the PowerCSS system as shown below.  Just place this in 
+the `window.onload` function shown above.
 
     var
       base_vsheet_list,
-      boxes_vsheet_list,
+      box_vsheet_list,
       sheet_obj_idx,
       ;
 
@@ -65,6 +92,7 @@ and add a `Vsheet` the PowerCSS system as shown below:
           _box_sizing_ : '_border_box_',
           _display_    : '_block_',
           _float_      : '_none_',
+          _font_size_  : '16px',
           _margin_     : '_0_',
           _padding_    : '_0_',
         }
@@ -72,6 +100,7 @@ and add a `Vsheet` the PowerCSS system as shown below:
       { _elem_type_ : 'input',
         _rule_map_ : {
           _border_ : '_0_'
+          _background_ : 'yellow'
         }
       }
     ];
@@ -83,39 +112,46 @@ remembers records this definition, but it doesn't compile it to CSS yet.
 That comes later.
 
 Selectors are defined in an ordered list because selector order
-*is important* and can change how CSS is processed by the browser.
+*is important* and can change how CSS is intepreted by the browser
+rendering engine.
 
 ### 2. Define and add another Virtual StyleSheet List
-Let's define and add another `VSheet`:
+Let's define and add another `VSheet`.  This will use a few more
+advanced features, but don't get lost in the details.  We will return to
+them soon enough:
 
-    boxes_vsheet_list = [
-      { _select_str_ : '.pcss-_boxes_',
+    box_vsheet_list = [
+      { _select_str_ : '.pcss-_box_',
         _rule_map_ : {
-          _display_       : '_block_',
-          _opacity_       : '_1_',
-          _position_      : '_absolute_',
-          _background_    : '_xfff_',
-          _z_index_       : '_5_',
-          _font_size_     : { _do_lock_ : '_true_', _val_data_ : '_16px_' },
-          _border_        : '0.125rem solid #aaa',
           _background_    : [
             '#f85032',
             '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
             '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
             'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
           ],
+          _border_        : '0.125rem solid #aaa',
+          _display_       : '_block_',
+          _font_size_     : { _do_lock_ : '_true_', _val_data_ : '16px' },
+          _margin_        : '1rem',
+          _opacity_       : '_1_',
+          _position_      : '_absolute_',
+          _padding_       : '5rem',
+          _text_align_    : '_center_',
           _transition_    : 'opacity .3s ease'
+          _z_index_       : '_5_',
         }
       }
     ];
-    pcss._addVSheetList_( '_boxes_css_', boxes_vsheet_list );
+    pcss._addVSheetList_( '_box_css_', box_vsheet_list );
 
-There, we now have two `VSheets` added to PowerCSS.  Let's use them!
+Now have two `VSheets` added to PowerCSS.  Let's use them!
 
 ### 3. Define and add a Stylesheet Object
-StyleSheet Objects are added like so:
+Let's add a StyleSheet Objects like so:
 
-    sheet_obj_idx = pcss._addStyleSheetObj_( [ '_base_css_', '_boxes_css_' ] );
+    sheet_obj_idx = pcss._addStyleSheetObj_(
+      [ '_base_css_', '_box_css_' ]
+    );
 
 The index number of the created object is returned. The method requires
 a list of virtual style sheets.  However, that stylesheet isn't written or
@@ -128,19 +164,64 @@ stylesheets and then enable the one we created.
 
     pcss._enableSheetObj_( sheet_obj_idx );
 
-This behavior can be modified.  For example, if we don't want to recompile
-the CSS because none of our mixin maps have changed, we can do the following:
+### 5. Marvel at the results
+Save `test.html` and open it in a modern browser.  You should see three
+boxes that have been styled by our StyleSheet Object.  The CSS content
+of this object should look like this:
 
-    pcss._enableSheetObj_( sheet_obj_idx, { _do_recompile_ : false } );
-
-The StyleSheet Object will contain the following CSS:
-
+    /* start _base_css_ */
     * { box-sizing : border-box;
         display : block;
         float   : none;
         margin  : 0;
         padding : 0;
     }
+    input {
+      border     : 0;
+      background : yellow;
+    }
+    /* end _base_css_ */
+
+    /* start _box_css_ */
+    .pcss-_box_ {
+      background : #f85032;
+      background : -moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%);
+      background : -webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%);
+      background : linear-gradient(to right, #f85032 0%, #3b2c2b 100%);
+      border     : 0.125rem solid #aaa;
+      display    : block;
+      font-size  : 16px;
+      margin     : 1rem;
+      opacity    : 1;
+      position   : absolute;
+      padding    : 5rem;
+      text-align : center;
+      transition : opacity .3s ease'
+      z-index    : 5;
+    /* end _box_css_ */
+
+
+## Options!
+The default behavior of PowerCSS results in a number of benefits over
+static CSS no matter what the preprocessor (e.g. {less} or Sass):
+
+- It can be faster for initial load
+- One can easily double buffer between stylesheets for much faster
+  batch changes
+- The code can compressed to be smaller than any compress CSS
+- CSS can be adjusted at any time as directed by the application
+
+However, there are more benefits available.
+
+--- Continue here
+
+This behavior can be modified.  For example, if we don't want to recompile
+the CSS because none of our mixin maps have changed, we can do the following:
+
+    pcss._enableSheetObj_( sheet_obj_idx, { _do_compile_ : false } );
+
+The StyleSheet Object will contain the following CSS:
+
 
 
 ### What does this get us?
@@ -185,7 +266,7 @@ is feasible to prevent overwriting critical properties with downstream `vsheets`
 by using a value lock. This does **not** implement the dreaded and flawed
 `!important` declaration in CSS, so don't freak out about that.
 
-      _font_size_     : { _do_lock_ : true, _val_data_ : '_16px_' },
+      _font_size_     : { _do_lock_ : true, _val_data_ : '16px' },
 
 #### Alternative and locked values
 Alternative and locked values may be combined.  Here is an example:
@@ -220,7 +301,7 @@ values using the `_setMixinMap_` method. This map applies across all VSheets.
 
 Let's use mixins to simplify our first style sheet:
 
-    var mixin_map, boxes_vsheet_list;
+    var mixin_map, box_vsheet_list;
     mixin_map = {
       _border_red_str : '0.125rem solid #aaa'
       _grad_redblack_list_ : [
@@ -234,8 +315,8 @@ Let's use mixins to simplify our first style sheet:
     };
     pcss._setMixinMap_( mixin_map );
 
-    boxes_vsheet_list = [
-      { _select_str_ : '.pcss-_boxes_',
+    box_vsheet_list = [
+      { _select_str_ : '.pcss-_box_',
         _rule_map_ : {
           _display_       : '_block_',
           _opacity_       : '_1_',
