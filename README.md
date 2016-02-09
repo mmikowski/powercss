@@ -75,10 +75,10 @@ First, let's create an HTML file with the following content:
 We can find the `pcss._exampleBasic_.html` file that contains 
 in the root directory of the GitHub repository.
 
-### 2. Define and add a Virtual StyleSheet List
-A Virtual StyleSheet List (`VSheet`) contains the same information as a
+### 2. Define and add a Virtual Stylesheet List
+A Virtual Stylesheet List (**vsheet**) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to
-`VSheets` with little trouble. Let's create a file and add a `VSheet` to 
+**vsheet** with little trouble. Let's create a file and add a **vsheet** to 
 the PowerCSS data as shown below:
 
     /* pss._exampleBasic_.js
@@ -103,7 +103,7 @@ the PowerCSS data as shown below:
         
       pcss._initModule_();
 
-      // Begin add _base_css_ VSheet
+      // Begin add _base_css_ vsheet
       base_vsheet_list = [
         { _select_str_  : '*',
           _rule_map_     : {
@@ -123,11 +123,11 @@ the PowerCSS data as shown below:
         }
       ];
       pcss._addVSheetList_( '_base_css_', base_vsheet_list );
-      // End add _base_css_ VSheet
+      // End add _base_css_ vsheet
 
 Yes, Virginia, our code really *will* pass JSLint.
 
-When we use `pcss._addVSheetList_`, we provide a `VSheet` name and then
+When we use `pcss._addVSheetList_`, we provide a **vsheet** name and then
 a list data structure that defines this Virtual Stylesheet. PowerCSS
 remembers records this definition, but it doesn't compile it to CSS yet.
 That comes later.
@@ -136,12 +136,12 @@ Selectors are defined in an ordered list because selector order
 *is important* and can change how CSS is intepreted by the browser
 rendering engine.
 
-### 2. Define and add another Virtual StyleSheet List
-Let's define and add another `VSheet`.  This will use a few more
+### 2. Define and add another Virtual Stylesheet List
+Let's define and add another **vsheet**.  This will use a few more
 advanced features, but don't get lost in the details.  We will return to
 them soon enough:
 
-      // Begin add _box_css_ VSheet
+      // Begin add _box_css_ vsheet
       box_vsheet_list = [
         { _select_str_ : '.pcss-_box_',
           _rule_map_ : {
@@ -165,45 +165,49 @@ them soon enough:
         }
       ];
       pcss._addVSheetList_( '_box_css_', box_vsheet_list );
-      // End add _box_css_ VSheet
+      // End add _box_css_ vsheet
     
-Now have two `VSheets` added to PowerCSS.  Let's use them!
+Now have two **vsheet**s added to PowerCSS.  Let's use them!
 
-### 3. Add a MetaSheet Object
-Let's add a MetaSheet Object like so:
+### 3. Add a Metasheet Object
+Let's add a Metasheet Object (**metasheet**) like so:
 
       metasheet_obj = pcss._addMetaSheetObj_({
         _cascade_list_   : [ '_base_css_', '_box_css_' ],
         _sheet_obj_name_ : '_basic_example_'
       });
+      console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
-The metasheet object (`MetaSheet`) is returned and it contains the attributes
-we provided (`_cascade_list_`and `_sheet_obj_name_`) and two new attributes.
-The `_sheet_idx_` attribute is the index number provided to this `MetaSheet`.
-Its value will be 0 because this is the first one we have added. The 
-`_stylesheet_obj_` points to the native browser StyleSheet object used by
-this `MetaSheet`.
+The returned **metasheet**  contains the attributes we provided 
+(`_cascade_list_`and `_sheet_obj_name_`) and two new attributes.
+The `_sheet_idx_` attribute is the index number provided to this 
+**metasheet**.  Its value will be 0 because this is the first one
+we have added. The `_stylesheet_obj_` attribute points to the native
+browser Stylesheet object used by this **metasheet**.  Its value will
+initially be `null`.
 
 
 ### 4. Enable the MetaSheet Object
-When we enable a `MetaSheet`, PowerCSS calculates the CSS and populates 
-the browser StyleSheet Object is has reserved for this `MetaSheet` with
-the results. It will then disables all other PowerCSS-controled StyleSheet
-Objects and enables this one.
 
-Let's add the code to enable our `MetaSheet` now and close
+Let's add the code to enable our **Metasheet** now and close
 our function<sup>[1](#footnote_01)<sup>.
 
       pcss._enableMetaSheetObj_( '_basic_example_' );
+      console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
     };
     // END pcss._exampleBasic_
+
+When we enable our **metasheet**, PowerCSS creates a browser Stylesheet
+object with an id of `pcss-0`, calculates the CSS, and then writes it to
+the `pcss-0` browser Stylesheet object.  It then disables all `pcss-*`
+Stylesheets objects and finally, it enables the `pcss-0` Stylesheet object.
 
 We can find the `pcss._exampleBasic_.js` file in the root 
 directory of the GitHub repository.
 
 ### 5. Marvel at the results
 When we open `pcss._exampleBasic_.html` in a modern browser, we should see
-three boxes that have been styled by according to our `VSheet` definitions
+three boxes that have been styled by according to our **vsheet** definitions
 and our `_cascade_list_` we provided.  We can see the generated CSS
 by requesting it in the JavaScript console like so: 
 `pcss._getSheetObjCss_( 0 );`. It should look something like this, although 
@@ -252,14 +256,13 @@ static CSS no matter what the preprocessor (human, {less}, or Sass):
 
 However, there are more benefits available.
 
---- Continue here
-
+# ALL WRITING BELOW HERE IS CONFLICTING AND INCOMPLETE.
 This behavior can be modified.  For example, if we don't want to recompile
 the CSS because none of our mixin maps have changed, we can do the following:
 
     pcss._enableSheetObj_( sheet_obj_idx, { _do_compile_ : false } );
 
-The StyleSheet Object will contain the following CSS:
+The Stylesheet Object will contain the following CSS:
 
 
 
@@ -319,13 +322,13 @@ Alternative and locked values may be combined.  Here is an example:
           '-moz-linear-gradient(...)'
         ],
 
-### Removing a Virtual StyleSheet
-We can always remove a `VSheet` like so:
+### Removing a Virtual Stylesheet
+We can always remove a **vsheet** like so:
 
     pcss._delVSheetList( '_base_css_' );
 
-### Selecting the active StyleSheet Object
-The active StyleSheet Object is selected like so:
+### Selecting the active Stylesheet Object
+The active Stylesheet Object is selected like so:
 
     pcss._selectActiveSheetObj_( 0 );
 
@@ -336,7 +339,7 @@ benefits of this approach, see **How PowerCSS Works**, below.
 
 ### Mixins
 PowerCSS supports mixins that can be reconsidered anytime. Set the map of
-values using the `_setMixinMap_` method. This map applies across all VSheets.
+values using the `_setMixinMap_` method. This map applies across all **vsheet**s.
 
 Let's use mixins to simplify our first style sheet:
 
@@ -379,7 +382,7 @@ programatic CSS control while leveraging the skills of existing CSS
 authors. Below we discuss the key concepts employed to meet this
 goal.
 
-## PowerCSS uses only one StyleSheet Object at a time
+## PowerCSS uses only one Stylesheet Object at a time
 Only one PowerCSS stylesheet is used at any time to style
 the DOM. PowerCSS is intended to replace **all** other stylesheets for
 a application, and external stylesheets are no longer needed.
@@ -389,7 +392,7 @@ this isn't as drastic as it sounds. Third-party web components will,
 of course, still provide their own CSS, and that's OK, because PowerCSS
 plays well with others.
 
-Why use only one StyleSheet Object at a time? In a word, **speed**.
+Why use only one Stylesheet Object at a time? In a word, **speed**.
 
 First, the browser rendering engine doesn't need to work loading
 and merging sometimes dozens of external style sheets. Instead, it
@@ -401,7 +404,7 @@ document reflows instead of the one required with PowerCSS. Think about how
 when you visit a site how the layout often stutters and jumps while
 loading. That's often due to document reflows.
 
-Second, our single active StyleSheet Object is calculated and optimized
+Second, our single active Stylesheet Object is calculated and optimized
 by PowerCSS before it is ever applied, which means a large amount of
 redundany is removed from the sheet compared to a typical cascade.
 Third, we can cache these sheets and switch between them at will.
@@ -419,7 +422,7 @@ You will notice many property names and values - along with error
 messages and class names - in PowerCSS are consistently
 named like so: '_color_'. These symbols can be easily found and
 replaced by a compressor. As a result, the code to produce the
-CSS for our StyleSheet Objects can be one quarter the size of the
+CSS for our Stylesheet Objects can be one quarter the size of the
 native CSS after compression.
 
 If you use the same naming convention on classes and ID's, the same
@@ -432,8 +435,8 @@ SuperPack. The latter is not yet publicly released yet, but I've
 used and improved it for 6 years now, and it further reduce compressed
 JS files by around 30% and it works great with CSS symbols.
 
-## PowerCSS can maintain multiple StyleSheet Objects
-PowerCSS can maintain multiple StyleSheet Objects even though only one
+## PowerCSS can maintain multiple Stylesheet Objects
+PowerCSS can maintain multiple Stylesheet Objects even though only one
 is active at any time. These have, by default, the IDs of `pcss-0,
 pcss-1, ... pcss-N.` If there is a conflict with other DOM IDs, we
 can change the prefix using `pcss._setSheetIdPrefix_( 'myprefix-' );`.
@@ -458,20 +461,20 @@ doesn't work well at all, especially if our adjustments take more than
 a tiny fraction of a second. And so we will see our page stutter and jump
 as multiple document reflows occur.
 
-With PowerCSS, the active StyleSheet Object is rarely changed. Instead,
+With PowerCSS, the active Stylesheet Object is rarely changed. Instead,
 when we have a large change like described above, we write a new stylesheet
 object and then switch to it only when its complete.  Now the browser engine
 only needs to reflow the page once. Using this method, the rendering engine
 only has to consider adjusting each of our 1,000 element only once.  That's
 1,000 *times* fewer considerations than the above example.
 
-## Virtual StyleSheets (`VSheets`)
-A Virtual StyleSheet (`VSheet) contains the same information as a
+## Virtual Stylesheets
+A Virtual Stylesheet (**vsheet**) contains the same information as a
 traditional CSS file.  An experienced CSS author should be able to
-convert an existing static stylesheet to a `VSheet` with little pain
+convert an existing static stylesheet to a **vsheet** with little pain
 or confusion.  The familiarity and power of the CSS cascade is retained,
-because when we define a PowerCSS StyleSheet Object, we provide it a list
-of Virtual StyleSheets in order, just as if we were including static
+because when we define a PowerCSS Stylesheet Object, we provide it a list
+of Virtual Stylesheets in order, just as if we were including static
 style sheet files to a static HTML document.
 
 

@@ -15,7 +15,7 @@ pcss._exampleBasic_ = function () {
   var
     base_vsheet_list,
     box_vsheet_list,
-    sheet_obj_idx
+    metasheet_obj
     ;
 
   // Begin add _base_css_ VSheet
@@ -66,11 +66,13 @@ pcss._exampleBasic_ = function () {
   pcss._addVSheetList_( '_box_css_', box_vsheet_list );
   // End add _box_css_ VSheet
 
-  sheet_obj = pcss._addSheetObj_({
+  metasheet_obj = pcss._addSheetObj_({
     _cascade_list_   : [ '_base_css_', '_box_css_' ],
     _sheet_obj_name_ : '_example_'
   });
+  console.log( 'metasheet_obj:', JSON.stringify( metasheet_obj ) );
 
   pcss._enableSheetObj_( '_example_' );
+  console.log( 'metasheet_obj:', JSON.stringify( metasheet_obj )  );
 };
 // END pcss._exampleBasic_
