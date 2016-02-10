@@ -76,9 +76,8 @@ repository.
 ### 2. Start the pcss._exampleBasic_.js file
 Now let's start the JavaScript file to provide the example.
 We will call the file `pcss._exampleBasic_.js` and a complete copy can
-be found in the root directory of the GitHub repository.  First,
-we will start with some identification and some 
- 
+be found in the root directory of the GitHub repository.
+
     /* pss._exampleBasic_.js
      * Basic example of run-time generated and managed CSS
      * Michael S. Mikowski - mike.mikowski@gmail.com
@@ -101,7 +100,9 @@ we will start with some identification and some
 
       pcss._initModule_();
 
-Yes, Virginia, our code really *will* pass JSLint.
+Here we start with some identification and JSLint settings, then
+we declare our function variables, and finally we initialize the 
+PowerCSS module.  And, yes, Virginia, our code really *does* pass JSLint.
 
 ### 3. Define and add a Virtual Stylesheet List
 A Virtual Stylesheet List (**vsheet**) contains the same information as a
@@ -135,15 +136,12 @@ the PowerCSS data as shown below.
       });
       // End add _base_css_ vsheet
 
-
-When we use `pcss._addVsheetList_`, we provide a **vsheet** name and then
-a list data structure that defines this Virtual Stylesheet. PowerCSS
-remembers records this definition, but it doesn't compile it to CSS yet.
-That comes later.
-
 Selectors are defined in an ordered list because selector order
 *is important* and can change how CSS is intepreted by the browser
 rendering engine.
+
+PowerCSS records the **vsheet** definition, but it doesn't compile 
+it to CSS. That comes later.
 
 ### 2. Define and add another Virtual Stylesheet List
 Let's define and add another **vsheet**.  This will use a few more
@@ -195,16 +193,19 @@ Let's add a Metasheet Object (**metasheet**) like so:
 The returned **metasheet** object contains the two attributes we provided
 (`_metasheet_id_`and `_cascade_list_`) and four new ones:
 
-- `_last_solve_ms_` is the last time the CSS was fully generated.  In
-   our example, this will be 0.
+- `_last_solve_ms_` is a timestamp of the last time the CSS was
+   generated.  *In our example, the value will be 0 because we haven't
+   generated any CSS yet.*
 - `_merged_vsheet_` is the merged stylesheet prepared from the 
-   `_cascade_list_`.  It is an intermediary format that doesn't
-   consider pesky detail like **mixins**.
+   `_cascade_list_`.  It is an intermediary format that merges the
+   cascade but doesn't resolve values like CSS symbols or **mixins**.
+   *In our example it will be a merge of the vsheets indicated.*
 - `_stylesheet_id_` is the DOM ID reserved for the browser stylesheet
-   object we may create with this **metasheet**.  Its value in this case
-   will be `pcss-0` because this is the first **metasheet** we have added. 
+   object we may create with this **metasheet**. *In our example, it 
+   will be `pcss-0` because this is our first metasheet.*
 - `_stylesheet_obj_` is the native browser Stylesheet object used by the
-  **metasheet**. Its initial value will be `null`.  
+  **metasheet**. *In our example, the value will be null because we haven't
+  enabled this metasheet yet.*
   
 We can verify these values by viewing the debugging output in the JavaScript 
 console.
@@ -212,15 +213,16 @@ console.
 ### 4. Enable the MetaSheet Object
 Let's now enable our **Metasheet** and close our example function.
 
-      pcss._enableMetaSheetObj_( '_basic_example_' );
+      pcss._enableMetaSheetObj_({ _metasheet_id_ : '_basic_example_' });
       console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
     };
     // END pcss._exampleBasic_
 
-When we enable our **metasheet**, PowerCSS creates a browser Stylesheet
-object with an id of `pcss-0`, calculates the CSS, and then writes it to
-the `pcss-0` browser Stylesheet object.  It then disables all `pcss-*`
-Stylesheets objects and finally, it enables the `pcss-0` Stylesheet object.
+When we enable our **metasheet**, PowerCSS creates a *disabled* browser
+Stylesheet object with an id of `pcss-0`, calculates the CSS, and then 
+writes it to the `pcss-0` browser Stylesheet object.  It then disables
+all `pcss-*` Stylesheets objects and, finally, it enables the `pcss-0`
+Stylesheet object.
 
 We can verify these changes by viewing the debugging output in the JavaScript 
 console. 
@@ -232,6 +234,8 @@ and our `_cascade_list_` we provided.  We can see the generated CSS
 by requesting it in the JavaScript console like so:
 `pcss._getSheetObjCss_( 0 );`. It should look something like this, although
 I cleaned it up a little and added some comments:
+
+TODO verify this content (bring back concat string to compare)
 
     /* start _base_css_ */
     * { box-sizing : border-box;
