@@ -39,7 +39,6 @@ pcss = (function () {
 
     __0  = 0,
     __1  = 1,
-    __10 = 10,
     __n1 = -1,
     __undef = window.undefined,
 
@@ -239,7 +238,7 @@ pcss = (function () {
       _stylesheet_idx_    : __n1,
       _vsheet_list_map_   : {}
     },
-    addCssRule
+    insertCssRule
 
     // Baseline capabilities
     // addStylesheetObj,
@@ -280,22 +279,22 @@ pcss = (function () {
     topSmap._stylesheet_idx_++;
     return stylesheet_id;
   }
-  addCssRule = (function () {
+  insertCssRule = (function () {
     var
       add_rule_str    = 'addRule',
       insert_rule_str = 'insertRule',
 
-      cmd_str, add_css_rule;
+      cmd_str, insert_css_rule;
 
-    add_css_rule = function ( sheet_obj, select_str, rule_str, idx ) {
+    insert_css_rule = function ( sheet_obj, select_str, rule_str, idx ) {
       var is_success = __true;
 
       if ( ! cmd_str ) {
+        if ( sheet_obj[ insert_rule_str ] ) {
+          cmd_str = 'i';
+        }
         if ( sheet_obj[ add_rule_str ] ) {
           cmd_str = 'a';
-        }
-        else if ( sheet_obj[ insert_rule_str ] ) {
-          cmd_str = 'i';
         }
       }
 
@@ -329,56 +328,20 @@ pcss = (function () {
       }
       return is_success;
     };
-    return add_css_rule;
+    return insert_css_rule;
   }());
-  // END styleUtil method /addCssRule/
-
-
-  // BEGIN non-browser utility /getMapVal/
-  // Purpose : Get a deep map attribute value
-  // Input   : A map and a JSON path in array form
-  //   e.g. [ 'people','men','bob' ]
-  // Returns : Found value, or undefined if not found
-  // Throws  : None
-  // Limitation: Only supports maps with keys up to 10 levels deep.
-  //   This hardcoded limit can be easily overwritten.
-  //
-  function getMapVal( base_map, arg_path_list ) {
-    var key, i, walk_map, walk_val, is_good, path_list;
-    if ( ! base_map ) { return __undef; }
-
-    walk_map  = base_map;
-    is_good   = __true;
-    path_list = arg_path_list[ vMap._slice_ ]( __0 );
-
-    _PATH_: for ( i = __0; i < __10; i++ ) {
-      key = path_list[ vMap._shift_ ]();
-      if ( key === __undef ) { break; }
-
-      walk_val = walk_map[ key ];
-      if ( walk_val === __undef || walk_val === __null ) {
-        is_good = __false; break _PATH_;
-      }
-      walk_map = walk_val;
-    }
-
-    if ( is_good ) { return walk_map; }
-
-    return __undef;
-  }
-  // END non-browser utility /getMapVal/
+  // END styleUtil method /insertCssRule/
 
   function addStylesheetObj ( style_id ) {
     var
       head_el = __docRef[ vMap._head_ ],
-      style_el, sheet_list, sheet_count, sheet_obj, i
+      style_el, stylesheet_obj
       ;
 
     // Create element and set properties
     style_el = __docRef[ vMap._createElement_ ]( 'style' );
     style_el[ vMap._setAttribute_ ]( vMap._type_, vMap._text_css_ );
     style_el[ vMap._setAttribute_ ]( vMap._id_, style_id );
-    style_el[ vMap._setAttribute_ ]( vMap._disabled_, __true );
 
     // Old Firefox and IE (need to test)
     if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
@@ -397,20 +360,11 @@ pcss = (function () {
     // Add to head
     head_el[ vMap._appendChild_ ]( style_el );
 
-    // Begin find and return the sheet object
-    sheet_list  = __docRef[ vMap._styleSheets_ ];
-    sheet_count = sheet_list[ vMap._length_ ];
-    sheet_obj   = __null;
+    // Stylesheet object is *not* the same as the style element!
+    stylesheet_obj = style_el.sheet;
+    stylesheet_obj[ vMap._disabled_ ] = __true;
 
-    for ( i = __0; i < sheet_count; i++ ) {
-      sheet_obj = sheet_list[ i ];
-      if ( sheet_obj[ vMap._id_ ] === style_id
-         || getMapVal( sheet_obj, [ 'ownerNode', 'id' ] ) === style_id
-      ) { break; }
-    }
-    sheet_obj[ vMap._disabled_ ] = __true;
-
-    return sheet_obj;
+    return stylesheet_obj;
     // End find and return the sheet object
   }
 
@@ -491,8 +445,7 @@ pcss = (function () {
           // Begin init lock list
           if ( rule_lock_list ) {
             merge_rpt_map._rule_lock_list_ = cloneData( rule_lock_list );
-            merge_rpt_map[ 'lock_on_' + __String( i ) ]
-              = __j2str( rule_lock_list );
+            merge_rpt_map[ 'lock_on_' + __String( i ) ] = __j2str( rule_lock_list );
           }
           else {
             merge_rpt_map._rule_lock_list_ = [];
@@ -507,7 +460,7 @@ pcss = (function () {
     return merge_vsheet_list;
   }
 
-  function loadStylesheetObj ( mergedVsheet, stylesheet_obj ) {
+  function loadStylesheetObj ( stylesheet_obj, mergeVsheet ) {
     var
       mixin_map = topSmap._mixin_map_ || {},
 
@@ -515,23 +468,22 @@ pcss = (function () {
       select_map,     select_str,
       rule_map,       close_str,
       rule_key_list,  rule_key_count,
-      rule_key,       rule_val,
+      rule_key,       rule_data,
 
-      outer_val, outer_val_type,
-      inner_val_list, inner_val_count,
+      outer_data, outer_data_type,
+      inner_data_list, inner_data_count,
 
-      solve_select_list,
-      solve_val_type,
-      solve_rule_list,
-      solve_key,        solve_val,
-      solve_select_str
+      solve_select_list, solve_data_type,
+      solve_rule_list,   solve_key,
+      solve_val_str,     
+      solve_select_str,  solve_rule_str
       ;
 
-    select_count = mergedVsheet[ vMap._length_ ];
+    select_count = mergeVsheet[ vMap._length_ ];
     solve_select_list = [];
 
     for ( i = __0; i < select_count; i++ ) {
-      select_map = mergedVsheet[ i ];
+      select_map = mergeVsheet[ i ];
       select_str = select_map._select_str_;
       rule_map = select_map._rule_map_;
       close_str = select_map._close_str_ || __blank;
@@ -571,35 +523,35 @@ pcss = (function () {
         //   => alternate list.  The first value is a lookup,
         //      the second is a literal.
         //
-        outer_val = rule_map[ rule_key ];
-        outer_val_type = __isArray( outer_val )
-          ? vMap._array_ : typeof outer_val;
+        outer_data = rule_map[ rule_key ];
+        outer_data_type = __isArray( outer_data )
+          ? vMap._array_ : typeof outer_data;
 
-        inner_val_list = outer_val_type === vMap._object_
-          ? outer_val._alt_list_ || [] : [ outer_val ];
-        inner_val_count = inner_val_list[ vMap._length_ ];
+        inner_data_list = outer_data_type === vMap._object_
+          ? outer_data._alt_list_ || [] : [ outer_data ];
+        inner_data_count = inner_data_list[ vMap._length_ ];
 
         // Calc solve val
-        for ( k = __0; k < inner_val_count; k++ ) {
-          rule_val       = inner_val_list[ k ];
-          solve_val_type = __isArray( rule_val )
-            ? vMap._array_ : typeof rule_val;
+        for ( k = __0; k < inner_data_count; k++ ) {
+          rule_data       = inner_data_list[ k ];
+          solve_data_type = __isArray( rule_data )
+            ? vMap._array_ : typeof rule_data;
 
-          switch ( solve_val_type ) {
+          switch ( solve_data_type ) {
             case vMap._string_ :
-              if ( cssValMap[ vMap._hasOwnProp_ ]( rule_val ) ) {
-                solve_val = cssValMap[ rule_val ];
+              if ( cssValMap[ vMap._hasOwnProp_ ]( rule_data ) ) {
+                solve_val_str = cssValMap[ rule_data ];
               }
               else {
-                logIt( rule_val, '_css_rule_val_not_found_' );
+                logIt( rule_data, '_css_rule_data_not_found_' );
               }
               break;
             case vMap._array_ :
-              if ( rule_val[ vMap._length_ ] > __0 ) {
-                solve_val = rule_val[ __0 ];
+              if ( rule_data[ vMap._length_ ] > __0 ) {
+                solve_val_str = rule_data[ __0 ];
               }
               else {
-                logIt( rule_val, '_empty_array_' );
+                logIt( rule_data, '_empty_array_' );
               }
               break;
             default :
@@ -607,20 +559,16 @@ pcss = (function () {
               break;
           }
           // Store rule string
-          solve_rule_list[ vMap._push_ ]( solve_key + ':' + solve_val );
+          solve_rule_list[ vMap._push_ ]( solve_key + ':' + solve_val_str );
         }
       }
 
       solve_select_str = select_str;
-
-      if ( solve_rule_list[ vMap._length_ ] > __0 ) {
-        solve_select_str += '{'
-          + solve_rule_list[ vMap._join_ ]( ';' )
-          + ';}';
-      }
+      solve_rule_str   = solve_rule_list[ vMap._length_ ] > __0
+        ? solve_rule_list[ vMap._join_ ]( ';' ) : __blank;
 
       if ( close_str ) { solve_select_str += close_str; }
-      addCssRule( stylesheet_obj, solve_select_str );
+      insertCssRule( stylesheet_obj, solve_select_str, solve_rule_str, i );
     }
   }
   // END private methods
@@ -656,12 +604,12 @@ pcss = (function () {
     }
 
     metasheet_obj = {
-      _last_solve_ms_  : __0,
-      _metasheet_id_   : metasheet_id,
-      _cascade_list_   : cascade_list,
-      _merged_vsheet_  : mergeCascadeList( cascade_list ),
-      _stylesheet_id_  : stylesheet_id,
-      _stylesheet_obj_ : __null
+      _last_solve_ms_     : __0,
+      _metasheet_id_      : metasheet_id,
+      _cascade_list_      : cascade_list,
+      _merge_vsheet_list_ : mergeCascadeList( cascade_list ),
+      _stylesheet_id_     : stylesheet_id,
+      _stylesheet_obj_    : __null
     };
 
     metasheet_obj_map[ metasheet_id ] = metasheet_obj;
@@ -747,13 +695,14 @@ pcss = (function () {
     if ( do_calc ) {
       loadStylesheetObj(
         stylesheet_obj,
-        metasheet_obj._merged_sheet_map_
+        metasheet_obj._merge_vsheet_list_
       );
       metasheet_obj._last_solve_ms_ = Date.now();
     }
-    // TODO 1. Disable all stylesheets that match our prefix
+    // TODO Disable all stylesheets that match our prefix
     //  (use substring(0, prefix-length)) to compare id's.
-    // TODO 2. Enable this stylesheet_obj
+    stylesheet_obj[ vMap._disabled_ ] = __false;
+
   }
 
   function initModule ( arg_opt_map ) {

@@ -32,10 +32,16 @@ pcss._exampleBasic_ = function () {
         _padding_    : '_0_'
       }
     },
+    { _select_str_  : 'head',
+      _rule_map_     : {
+        _display_    : '_none_'
+      }
+    },
     { _select_str_ : 'input',
       _rule_map_ : {
+        _background_ : [ 'yellow' ],
         _border_     : [ '2px solid #ccc' ],
-        _background_ : [ 'yellow' ]
+        _padding_    : [ '.5rem' ]
       }
     }
   ];
@@ -83,11 +89,9 @@ pcss._exampleBasic_ = function () {
     _metasheet_id_ : '_basic_example_',
     _cascade_list_ : [ '_base_css_', '_box_css_' ]
   });
-  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
   pcss._enableMetasheetObj_({
     _metasheet_id_ : '_basic_example_'
   });
-  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 };
 // END pcss._exampleBasic_
