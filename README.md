@@ -47,11 +47,11 @@ Sound exciting? If so, read on! First we will implement a PowerCSS
 solution, and then we will discuss how and why PowerCSS works.
 
 ## Example
-### 1. Create a test HTML page
-We will be placing a script inside an HTML page to illustrate the basic
-use of PowerCSS.
-
-First, let's create an HTML file with the following content:
+### 1. Create pcss._exampleBasic.html page
+Let's create an HTML file to illustrate the basic capabilities
+of PowerCSS. We will call the file `pcss._exampleBasic_.html` and
+a complete copy can be found in the root directory of the GitHub 
+repository.
 
     <!DOCTYPE html>
     <html>
@@ -73,15 +73,12 @@ First, let's create an HTML file with the following content:
     </body>
     </html>
 
-We can find the `pcss._exampleBasic_.html` file that contains
-in the root directory of the GitHub repository.
-
-### 2. Define and add a Virtual Stylesheet List
-A Virtual Stylesheet List (**vsheet**) contains the same information as a
-traditional CSS file. An experienced CSS author should be able to
-**vsheet** with little trouble. Let's create a file and add a **vsheet** to
-the PowerCSS data as shown below:
-
+### 2. Start the pcss._exampleBasic_.js file
+Now let's start the JavaScript file to provide the example.
+We will call the file `pcss._exampleBasic_.js` and a complete copy can
+be found in the root directory of the GitHub repository.  First,
+we will start with some identification and some 
+ 
     /* pss._exampleBasic_.js
      * Basic example of run-time generated and managed CSS
      * Michael S. Mikowski - mike.mikowski@gmail.com
@@ -104,6 +101,14 @@ the PowerCSS data as shown below:
 
       pcss._initModule_();
 
+Yes, Virginia, our code really *will* pass JSLint.
+
+### 3. Define and add a Virtual Stylesheet List
+A Virtual Stylesheet List (**vsheet**) contains the same information as a
+traditional CSS file. An experienced CSS author should be able to
+**vsheet** with little trouble. Let's create a file and add a **vsheet** to
+the PowerCSS data as shown below. 
+
       // Begin add _base_css_ vsheet
       base_vsheet_list = [
         { _select_str_  : '*',
@@ -111,24 +116,27 @@ the PowerCSS data as shown below:
             _box_sizing_ : '_border_box_',
             _display_    : '_block_',
             _float_      : '_none_',
-            _font_size_  : '16px',
+            _font_size_  : ['16px'],
             _margin_     : '_0_',
             _padding_    : '_0_'
           }
         },
         { _select_str_ : 'input',
           _rule_map_ : {
-            _border_     : '2px solid #ccc',
-            _background_ : 'yellow'
+            _border_     : ['2px solid #ccc'],
+            _background_ : ['yellow']
           }
         }
       ];
-      pcss._addVSheetList_( '_base_css_', base_vsheet_list );
+      
+      pcss._addVsheetList_({
+        _vsheet_id_   : '_base_css_',
+        _vsheet_list_ : base_vsheet_list 
+      });
       // End add _base_css_ vsheet
 
-Yes, Virginia, our code really *will* pass JSLint.
 
-When we use `pcss._addVSheetList_`, we provide a **vsheet** name and then
+When we use `pcss._addVsheetList_`, we provide a **vsheet** name and then
 a list data structure that defines this Virtual Stylesheet. PowerCSS
 remembers records this definition, but it doesn't compile it to CSS yet.
 That comes later.
@@ -145,27 +153,32 @@ them soon enough:
       // Begin add _box_css_ vsheet
       box_vsheet_list = [
         { _select_str_ : '.pcss-_box_',
+          _rule_lock_list_ : [ '_font_size_' ], 
           _rule_map_ : {
             _background_    : [
-              '#f85032',
-              '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
-              '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
-              'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
+              ['#f85032'],
+              ['-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)'],
+              ['-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)'],
+              ['linear-gradient(to right, #f85032 0%, #3b2c2b 100%)']
             ],
-            _border_        : '0.125rem solid #aaa',
+            _border_        : ['0.125rem solid #aaa'],
             _display_       : '_block_',
-            _font_size_     : { _do_lock_ : '_true_', _val_data_ : '16px' },
+            _font_size_     : ['24px'],
             _margin_        : '1rem',
             _opacity_       : '_1_',
-            _position_      : '_absolute_',
-            _padding_       : '5rem',
+            _position_      : '_relative_',
+            _padding_       : ['5rem'],
             _text_align_    : '_center_',
-            _transition_    : 'opacity .3s ease',
-            _z_index_       : '_5_'
+            _transition_    : ['opacity .3s ease'],
+            _z_index_       : ['5']
           }
         }
       ];
-      pcss._addVSheetList_( '_box_css_', box_vsheet_list );
+      
+      pcss._addVsheetList_({
+        _vsheet_id_   : '_box_css_',
+        _vsheet_list_ : box_vsheet_list
+      });
       // End add _box_css_ vsheet
 
 Now have two **vsheet**s added to PowerCSS.  Let's use them!
@@ -174,24 +187,30 @@ Now have two **vsheet**s added to PowerCSS.  Let's use them!
 Let's add a Metasheet Object (**metasheet**) like so:
 
       metasheet_obj = pcss._addMetaSheetObj_({
-        _cascade_list_   : [ '_base_css_', '_box_css_' ],
-        _sheet_obj_name_ : '_basic_example_'
+        _metasheet_id_ : '_basic_example_',
+        _cascade_list_ : [ '_base_css_', '_box_css_' ]
       });
       console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
-The returned **metasheet**  contains the attributes we provided
-(`_cascade_list_`and `_sheet_obj_name_`) and two new attributes.
-The `_sheet_idx_` attribute is the index number provided to this
-**metasheet**.  Its value will be 0 because this is the first one
-we have added. The `_stylesheet_obj_` attribute points to the native
-browser Stylesheet object used by this **metasheet**.  Its value will
-initially be `null`.
+The returned **metasheet** object contains the two attributes we provided
+(`_metasheet_id_`and `_cascade_list_`) and four new ones:
 
+- `_last_solve_ms_` is the last time the CSS was fully generated.  In
+   our example, this will be 0.
+- `_merged_vsheet_` is the merged stylesheet prepared from the 
+   `_cascade_list_`.  It is an intermediary format that doesn't
+   consider pesky detail like **mixins**.
+- `_stylesheet_id_` is the DOM ID reserved for the browser stylesheet
+   object we may create with this **metasheet**.  Its value in this case
+   will be `pcss-0` because this is the first **metasheet** we have added. 
+- `_stylesheet_obj_` is the native browser Stylesheet object used by the
+  **metasheet**. Its initial value will be `null`.  
+  
+We can verify these values by viewing the debugging output in the JavaScript 
+console.
 
 ### 4. Enable the MetaSheet Object
-
-Let's add the code to enable our **Metasheet** now and close
-our function<sup>[1](#footnote_01)<sup>.
+Let's now enable our **Metasheet** and close our example function.
 
       pcss._enableMetaSheetObj_( '_basic_example_' );
       console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
@@ -203,8 +222,8 @@ object with an id of `pcss-0`, calculates the CSS, and then writes it to
 the `pcss-0` browser Stylesheet object.  It then disables all `pcss-*`
 Stylesheets objects and finally, it enables the `pcss-0` Stylesheet object.
 
-We can find the `pcss._exampleBasic_.js` file in the root
-directory of the GitHub repository.
+We can verify these changes by viewing the debugging output in the JavaScript 
+console. 
 
 ### 5. Marvel at the results
 When we open `pcss._exampleBasic_.html` in a modern browser, we should see
@@ -245,17 +264,95 @@ I cleaned it up a little and added some comments:
       z-index    : 5;
     /* end _box_css_ */
 
-## Options
+## The Allure of Options
 The default behavior of PowerCSS results in a number of benefits over
-static CSS no matter what the preprocessor (human, {less}, or Sass):
+static CSS no matter what the origin (human expert, {less}, or Sass):
 
 - It can be faster for initial load
 - One can easily double buffer between stylesheets for much faster
   batch changes
-- The code can compressed to be smaller than any compress CSS
+- The code can compressed to be smaller than native CSS
 - CSS can be adjusted at any time as directed by the application
 
 However, there are more benefits available.
+
+### Mixins
+PowerCSS supports mixins that can be reconsidered anytime. Set the map of
+values using the `_setMixinMap_` method. This map applies across all 
+**vsheet**s.
+
+Let's use mixins to simplify our first style sheet:
+
+    var mixin_map, box_vsheet_list;
+    mixin_map = {
+      _border_red_str : '0.125rem solid #aaa'
+      _grad_redblack_list_ : [
+        '#f85032',
+        '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+        '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+        'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
+      ],
+      _trans_opacity_str_   : 'opacity .3s ease',
+    };
+    pcss._setMixinMap_( mixin_map );
+
+    box_vsheet_list = [ 
+      { _select_str_ : '.pcss-_box_',
+        _rule_lock_list_ : [ '_font_size_' ]
+        _rule_map_ : {
+          _display_       : '_block_',
+          _opacity_       : '_1_',
+          _position_      : '_absolute_',
+          _background_    : '_xfff_',
+          _z_index_       : '_5_',
+          _font_size_     : '16px',
+          _border_        : '_border_gray_str_',
+          _background_    : '_grad_redblack_list_',
+          _transition_    : '_trans_opacity_str_'
+        }
+      }
+    ];
+
+Of course, this doesn't save us too much verbosity here.  But one with a 
+modicum of an imagination could probably see how this could save us a great
+deal of time for doing things like changing colors, gradients, and borders
+consistently across our CSS.
+
+If you change the `mixin_map`, and the `_last_solve_ms_` timestamp on 
+**metasheet** is older than the `mixin_map` `_last_update_ms_` timestamp,
+PowerCSS will recalculate the CSS before reenabling that **metasheet**.
+
+### Alternate values
+Sometimes we want to provide alternate rules for a style so that
+our code will work across multiple browsers. In this case, wrap
+all alternate values in a list. Example:
+
+    _background_ : [
+      '#f85032',
+      '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+      '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+      'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
+    ],
+
+
+### Locked values
+Typically in a cascade, the last property value in "wins". However, it
+is feasible to prevent overwriting critical properties by **vsheet**s later
+in the cascade.  One just needs to specify rules to be locked for
+the provided rule map in the **vsheet** definition:
+
+    box_vsheet_list = [
+      { _select_str_ : '.pcss-_box_',
+        _locked_rule_list_ : [ '_font_size_' ],
+        _rule_map_ : {
+          _font_size_ : '16px'
+          // ...
+        }
+      }
+    ]
+    
+This prevents any later **vsheet** from overriding the value for
+`_font_size_` for *the .pcss-_box_ selector* in the cascade.
 
 # ALL WRITING BELOW HERE IS CONFLICTING AND INCOMPLETE.
 This behavior can be modified.  For example, if we don't want to recompile
@@ -290,43 +387,10 @@ will will cache the following CSS, which hopefull is not too surprising:
       transition    : opacity .3s ease
     }
 
-#### Alternate values
-Sometimes we want to provide alternate rules for a style so that
-our code will work across multiple browsers. In this case, wrap
-all alternate values in a list. Example:
-
-    _background_ : [
-      '#f85032',
-      '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
-      '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
-      'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
-    ],
-
-
-#### Locked values
-Typically in a cascade, the last property value in "wins". However, it
-is feasible to prevent overwriting critical properties with downstream `vsheets`
-by using a value lock. This does **not** implement the dreaded and flawed
-`!important` declaration in CSS, so don't freak out about that.
-
-      _font_size_     : { _do_lock_ : true, _val_data_ : '16px' },
-
-#### Alternative and locked values
-Alternative and locked values may be combined.  Here is an example:
-
-      _background_    : {
-        _do_lock_ : true,
-        _val_data_ : [
-          '_blue_',
-          'linear-gradient(...)',
-          '-webkit-linear-gradient(...)',
-          '-moz-linear-gradient(...)'
-        ],
-
 ### Removing a Virtual Stylesheet
 We can always remove a **vsheet** like so:
 
-    pcss._delVSheetList( '_base_css_' );
+    pcss._delVsheetList( '_base_css_' );
 
 ### Selecting the active Stylesheet Object
 The active Stylesheet Object is selected like so:
@@ -339,42 +403,6 @@ dramatically increase some CSS operations.  For an explanation of the
 benefits of this approach, see **How PowerCSS Works**, below.
 
 ### Mixins
-PowerCSS supports mixins that can be reconsidered anytime. Set the map of
-values using the `_setMixinMap_` method. This map applies across all **vsheet**s.
-
-Let's use mixins to simplify our first style sheet:
-
-    var mixin_map, box_vsheet_list;
-    mixin_map = {
-      _border_red_str : '0.125rem solid #aaa'
-      _grad_redblack_list_ : [
-        '#f85032',
-        '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
-        '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
-        'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
-      ],
-      _trans_opacity_str_   : 'opacity .3s ease',
-      _font_16px_lock_map_ : { _do_lock_ : '_true_', _val_data_ : '_16px_' },
-    };
-    pcss._setMixinMap_( mixin_map );
-
-    box_vsheet_list = [
-      { _select_str_ : '.pcss-_box_',
-        _rule_map_ : {
-          _display_       : '_block_',
-          _opacity_       : '_1_',
-          _position_      : '_absolute_',
-          _background_    : '_xfff_',
-          _z_index_       : '_5_',
-          _font_size_     : '_font_16px_lock_map_',
-          _border_        : '_border_gray_str_',
-          _background_    : '_grad_redblack_list_',
-          _transition_    : '_trans_opacity_str_'
-        }
-      }
-    ];
-
-
 
 
 # How PowerCSS Works
@@ -513,9 +541,6 @@ mike[dot]mikowski[at]gmail[dotcom].
 Cheers, Mike
 
 ## Footnotes
-<a id="footnote_01">01</a>: Alternately we could have provided the
-`_sheet_idx_` of `0` instead of using the `_sheet_obj_name_` (`_basic_example_`).  See, we're flexible!
-
 
 ## End
 [0]:http://mmikowski.github.io/no-frameworks
