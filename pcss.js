@@ -32,14 +32,14 @@ pcss = (function () {
     __str2j = JSON.parse,
     __blank = '',
     __docRef = document,
-    // __false = false,
+    __false = false,
     __isArray = Array.isArray,
     __null = null,
     __true = true,
 
-    __0 = 0,
-    __1 = 1,
-    // __2 = 2,
+    __0  = 0,
+    __1  = 1,
+    __10 = 10,
     __n1 = -1,
     __undef = window.undefined,
 
@@ -63,6 +63,10 @@ pcss = (function () {
       _length_         : 'length',
       _push_           : 'push',
       _setAttribute_   : 'setAttribute',
+      _shift_          : 'shift',
+      _slice_          : 'slice',
+      _splice_         : 'splice',
+      _styleSheets_    : 'styleSheets',
       _textContent_    : 'textContent',
       _text_           : 'text',
       _text_css_       : 'text/css',
@@ -234,11 +238,11 @@ pcss = (function () {
       _stylesheet_prefix_ : __undef,
       _stylesheet_idx_    : __n1,
       _vsheet_list_map_   : {}
-    }
+    },
+    addCssRule
 
     // Baseline capabilities
-    // addStyleSheetObj,
-    // makeCssStr,
+    // addStylesheetObj,
 
     // addVsheetList,
     // addMetasheetObj,
@@ -276,34 +280,138 @@ pcss = (function () {
     topSmap._stylesheet_idx_++;
     return stylesheet_id;
   }
+  addCssRule = (function () {
+    var
+      add_rule_str    = 'addRule',
+      insert_rule_str = 'insertRule',
 
-  function addStyleSheetObj ( stylesheet_id, css_str ) {
+      cmd_str, add_css_rule;
+
+    add_css_rule = function ( sheet_obj, select_str, rule_str, idx ) {
+      var is_success = __true;
+
+      if ( ! cmd_str ) {
+        if ( sheet_obj[ add_rule_str ] ) {
+          cmd_str = 'a';
+        }
+        else if ( sheet_obj[ insert_rule_str ] ) {
+          cmd_str = 'i';
+        }
+      }
+
+      switch ( cmd_str ) {
+        case 'a' :
+          try {
+            sheet_obj[ add_rule_str ]( select_str, rule_str, idx );
+          }
+          catch ( error0 ) {
+            logIt( '_warn_', select_str, rule_str, idx, error0 );
+            is_success = __false;
+          }
+          break;
+
+        case 'i' :
+          try {
+            sheet_obj[ insert_rule_str ](
+              select_str + '{' + rule_str + '}', idx
+            );
+          }
+          catch ( error1 ) {
+            logIt( '_warn_', select_str, rule_str, idx, error1 );
+            is_success = __false;
+          }
+          break;
+
+        default :
+          logIt( '_error_', '_no_means_to_add_css_rule_' );
+          is_success = __false;
+          break;
+      }
+      return is_success;
+    };
+    return add_css_rule;
+  }());
+  // END styleUtil method /addCssRule/
+
+
+  // BEGIN non-browser utility /getMapVal/
+  // Purpose : Get a deep map attribute value
+  // Input   : A map and a JSON path in array form
+  //   e.g. [ 'people','men','bob' ]
+  // Returns : Found value, or undefined if not found
+  // Throws  : None
+  // Limitation: Only supports maps with keys up to 10 levels deep.
+  //   This hardcoded limit can be easily overwritten.
+  //
+  function getMapVal( base_map, arg_path_list ) {
+    var key, i, walk_map, walk_val, is_good, path_list;
+    if ( ! base_map ) { return __undef; }
+
+    walk_map  = base_map;
+    is_good   = __true;
+    path_list = arg_path_list[ vMap._slice_ ]( __0 );
+
+    _PATH_: for ( i = __0; i < __10; i++ ) {
+      key = path_list[ vMap._shift_ ]();
+      if ( key === __undef ) { break; }
+
+      walk_val = walk_map[ key ];
+      if ( walk_val === __undef || walk_val === __null ) {
+        is_good = __false; break _PATH_;
+      }
+      walk_map = walk_val;
+    }
+
+    if ( is_good ) { return walk_map; }
+
+    return __undef;
+  }
+  // END non-browser utility /getMapVal/
+
+  function addStylesheetObj ( style_id ) {
     var
       head_el = __docRef[ vMap._head_ ],
-      stylesheet_obj
+      style_el, sheet_list, sheet_count, sheet_obj, i
       ;
-    stylesheet_obj = __docRef[ vMap._createElement_ ]( 'style' );
 
-    stylesheet_obj[ vMap._setAttribute_ ]( vMap._type_, vMap._text_css_ );
-    stylesheet_obj[ vMap._setAttribute_ ]( vMap._id_, stylesheet_id );
-    stylesheet_obj[ vMap._setAttribute_ ]( vMap._disabled_, __true );
+    // Create element and set properties
+    style_el = __docRef[ vMap._createElement_ ]( 'style' );
+    style_el[ vMap._setAttribute_ ]( vMap._type_, vMap._text_css_ );
+    style_el[ vMap._setAttribute_ ]( vMap._id_, style_id );
+    style_el[ vMap._setAttribute_ ]( vMap._disabled_, __true );
 
     // Old Firefox and IE (need to test)
-    if ( stylesheet_obj[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
-      stylesheet_obj[       vMap._cssText_ ] = css_str;
+    if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
+      style_el[       vMap._cssText_ ] = __blank;
     }
     // New Firefox
-    else if ( stylesheet_obj[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
-      stylesheet_obj[        vMap._textContent_ ] = css_str;
+    else if ( style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
+      style_el[        vMap._textContent_ ] = __blank;
     }
     // Webkit
     else {
-      __docRef[ vMap._createTextNode_  ] = __blank;
-      stylesheet_obj[ vMap._innerHTML_ ] = css_str;
+      __docRef[ vMap._createTextNode_ ] = __blank;
+      style_el[      vMap._innerText_ ] = __blank;
     }
 
-    head_el[ vMap._appendChild_ ]( stylesheet_obj );
-    return stylesheet_obj;
+    // Add to head
+    head_el[ vMap._appendChild_ ]( style_el );
+
+    // Begin find and return the sheet object
+    sheet_list  = __docRef[ vMap._styleSheets_ ];
+    sheet_count = sheet_list[ vMap._length_ ];
+    sheet_obj   = __null;
+
+    for ( i = __0; i < sheet_count; i++ ) {
+      sheet_obj = sheet_list[ i ];
+      if ( sheet_obj[ vMap._id_ ] === style_id
+         || getMapVal( sheet_obj, [ 'ownerNode', 'id' ] ) === style_id
+      ) { break; }
+    }
+    sheet_obj[ vMap._disabled_ ] = __true;
+
+    return sheet_obj;
+    // End find and return the sheet object
   }
 
   function cloneData ( data ) {
@@ -399,8 +507,10 @@ pcss = (function () {
     return merge_vsheet_list;
   }
 
-  function makeCssStr ( mergedVsheet ) {
+  function loadStylesheetObj ( mergedVsheet, stylesheet_obj ) {
     var
+      mixin_map = topSmap._mixin_map_ || {},
+
       i, j, k,        select_count,
       select_map,     select_str,
       rule_map,       close_str,
@@ -414,7 +524,7 @@ pcss = (function () {
       solve_val_type,
       solve_rule_list,
       solve_key,        solve_val,
-      solve_select_str, solve_sheet_str
+      solve_select_str
       ;
 
     select_count = mergedVsheet[ vMap._length_ ];
@@ -434,13 +544,15 @@ pcss = (function () {
       rule_key_list = Object.keys( rule_map );
       rule_key_count = rule_key_list[ vMap._length_ ];
 
+      // Calc solve_key
       solve_rule_list = [];
       for ( j = __0; j < rule_key_count; j++ ) {
-
-        // Calc solve_key
         rule_key = rule_key_list[ j ];
         if ( cssKeyMap[ vMap._hasOwnProp_ ]( rule_key ) ) {
           solve_key = cssKeyMap[ rule_key ];
+        }
+        else if ( mixin_map[ vMap._hasOwnProp_ ]( rule_key ) ) {
+          solve_key = mixin_map[ rule_key ];
         }
         else {
           logIt( rule_key, '_css_rule_key_not_found_' );
@@ -499,18 +611,17 @@ pcss = (function () {
         }
       }
 
-      // Construct selector and store
-      solve_select_str = select_str + '{'
-        + solve_rule_list[ vMap._join_ ]( ';' ) + '}'
-      ;
+      solve_select_str = select_str;
+
+      if ( solve_rule_list[ vMap._length_ ] > __0 ) {
+        solve_select_str += '{'
+          + solve_rule_list[ vMap._join_ ]( ';' )
+          + ';}';
+      }
+
       if ( close_str ) { solve_select_str += close_str; }
-
-      solve_select_list[ vMap._push_ ]( solve_select_str );
+      addCssRule( stylesheet_obj, solve_select_str );
     }
-
-    // Join all selectors for sheet
-    solve_sheet_str = solve_select_list[ vMap._join_ ]( __blank );
-    return solve_sheet_str;
   }
   // END private methods
 
@@ -611,21 +722,38 @@ pcss = (function () {
 
       metasheet_obj_map = topSmap._metasheet_obj_map_,
       metasheet_obj     = metasheet_obj_map[ metasheet_id ],
+      do_calc           = __true,
 
-      css_str
+      stylesheet_obj
       ;
 
     if ( ! metasheet_obj ) {
       throw '_metasheet_obj_id_not_found_' + metasheet_id;
     }
 
-    css_str = makeCssStr( metasheet_obj._merged_vsheet_ );
-    metasheet_obj._last_solve_ms_ = Date.now();
+    stylesheet_obj = metasheet_obj._stylesheet_obj_;
+    if ( stylesheet_obj ) {
+      // TODO check time stamps; do not recalc if no change in
+      // mixin match since last recalc. (may want to timestamp
+      // all vsheets too once we allow updating)
+      do_calc = __false;
+    }
+    else {
+      stylesheet_obj = addStylesheetObj( metasheet_obj._stylesheet_id_ );
+      metasheet_obj._stylesheet_obj_ = stylesheet_obj;
+      do_calc = __true;
+    }
 
-    metasheet_obj._stylesheet_obj = addStyleSheetObj(
-      metasheet_obj._metasheet_id_,
-      css_str
-    );
+    if ( do_calc ) {
+      loadStylesheetObj(
+        stylesheet_obj,
+        metasheet_obj._merged_sheet_map_
+      );
+      metasheet_obj._last_solve_ms_ = Date.now();
+    }
+    // TODO 1. Disable all stylesheets that match our prefix
+    //  (use substring(0, prefix-length)) to compare id's.
+    // TODO 2. Enable this stylesheet_obj
   }
 
   function initModule ( arg_opt_map ) {
