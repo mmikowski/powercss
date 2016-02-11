@@ -2,13 +2,27 @@
  * Basic example of run-time generated and managed CSS
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
-/*jslint       browser : true, continue : true,
+/*jslint        browser : true, continue : true,
   devel : true,  indent : 2,      maxerr : 50,
   newcap : true,  nomen : true, plusplus : true,
   regexp : true, sloppy : true,     vars : false,
   white : true,    todo : true,  unparam : true
 */
 /*global pcss */
+
+//  I. Recommended units: rem and %.
+// II. Recommended order: Outside-In
+//    1. display, visibility, opacity, z-index
+//    2. box-sizing, position, floats, clear
+//    3. top, right, bottom, left and vertical-align
+//    4. margin defs, box-shadow
+//    5. border, border-radius
+//    6. height, width
+//    7. padding, overflow, cursor
+//    8. background, text-align, white-space,
+//    9. content defs - font-size, line-height, font, color everything else
+//    -- break --
+//    10. css transition or animation definitions
 
 // BEGIN pcss._exampleBasic_
 pcss._exampleBasic_ = function () {
@@ -22,26 +36,34 @@ pcss._exampleBasic_ = function () {
 
   // Begin add _base_css_ vsheet
   base_vsheet_list = [
-    { _select_str_  : '*',
+    { _select_str_  : 'body',
       _rule_map_     : {
-        _box_sizing_ : '_border_box_',
         _display_    : '_block_',
-        _float_      : '_none_',
-        _font_size_  : [ '16px' ],
+        _box_sizing_ : '_border_box_',
+        _padding_    : '_2rem_',
         _margin_     : '_0_',
-        _padding_    : '_0_'
-      }
-    },
-    { _select_str_  : 'head',
-      _rule_map_     : {
-        _display_    : '_none_'
+        _font_family_: '_font_sans_',
+        _font_size_  : [ '16px' ]
       }
     },
     { _select_str_ : 'input',
       _rule_map_ : {
-        _background_ : [ 'yellow' ],
-        _border_     : [ '2px solid #ccc' ],
-        _padding_    : [ '.5rem' ]
+        _margin_        : [ '.5rem' ],
+        _border_        : [ '.125rem solid #ddd' ],
+        _border_radius_ : [ '.5rem' ],
+        _outline_       : '_none_',
+        _padding_       : [ '.5rem' ],
+        _background_    : [ '#888' ],
+        _font_size_     : '_1rem_',
+        _color_         : '_xddd_'
+      }
+    },
+    {
+      _select_str_ : 'input:focus',
+      _rule_map_   : {
+        _border_color_ : '_xfff_',
+        _background_   : [ '#444' ],
+        _color_        : '_xfff_'
       }
     }
   ];
@@ -57,24 +79,29 @@ pcss._exampleBasic_ = function () {
     { _select_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
       _rule_map_ : {
-        _background_    : {
+        _display_        : '_inline_block_',
+        _opacity_        : '_1_',
+        _box_sizing_     : '_border_box_',
+        _position_       : '_relative_',
+        _vertical_align_ : '_top_',
+        _margin_         : '_1rem_',
+        _border_         : [ '0.25rem solid #aaa' ],
+        _border_radius_  : '_1rem_',
+        _width_          : [ '16rem' ],
+        _height_         : [ '8rem' ],
+        _padding_top_    : '_1rem_',
+        _background_     : {
           _alt_list_ : [
-            ['#f85032'],
-            ['-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)'],
-            ['-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)'],
-            ['linear-gradient(to right, #f85032 0%, #3b2c2b 100%)']
+            [ '#f85032' ],
+            [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+            [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+            [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
           ]
         },
-        _border_        : [ '0.125rem solid #aaa' ],
-        _display_       : '_block_',
-        _font_size_     : [ '24px' ],
-        _margin_        : [ '1rem' ],
-        _opacity_       : '_1_',
-        _position_      : '_relative_',
-        _padding_       : [ '5rem' ],
-        _text_align_    : '_center_',
-        _transition_    : [ 'opacity .3s ease'],
-        _z_index_       : ['5']
+        _font_size_      : [ '24px' ],
+        _font_weight_    : '_800_',
+        _color_          : '_xfff_',
+        _text_align_     : '_center_'
       }
     }
   ];
@@ -89,9 +116,9 @@ pcss._exampleBasic_ = function () {
     _metasheet_id_ : '_basic_example_',
     _cascade_list_ : [ '_base_css_', '_box_css_' ]
   });
+  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
-  pcss._enableMetasheetObj_({
-    _metasheet_id_ : '_basic_example_'
-  });
+  pcss._enableMetasheetObj_({ _metasheet_id_ : '_basic_example_' });
+  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 };
 // END pcss._exampleBasic_

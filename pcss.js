@@ -172,7 +172,6 @@ pcss = (function () {
 
     // Common CSS values
     cssValMap = {
-      __moz_none_     : '-moz-none',
       _0_             : '0',
       _1_             : '1',
       _1rem_          : '1rem',
@@ -184,6 +183,8 @@ pcss = (function () {
       _200_           : '400',
       _400_           : '400',
       _800_           : '800',
+      _xddd_          : '#ddd',
+      _xeee_          : '#eee',
       _xfff_          : '#fff',
       _absolute_      : 'absolute',
       _antialiased_   : 'antialiased',
@@ -203,7 +204,7 @@ pcss = (function () {
       _ellipsis_      : 'ellipsis',
       _fixed_         : 'fixed',
       _font_fixed_    : 'courier, fixed',
-      _font_sans_     : 'helvetica, arial, sans-serif',
+      _font_sans_     : 'arial, helvetica, sans-serif',
       _hidden_        : 'hidden',
       _important_     : ' !important',
       _inherit_       : 'inherit',
@@ -475,7 +476,7 @@ pcss = (function () {
 
       solve_select_list, solve_data_type,
       solve_rule_list,   solve_key,
-      solve_val_str,     
+      solve_val_str,
       solve_select_str,  solve_rule_str
       ;
 
@@ -621,7 +622,7 @@ pcss = (function () {
     if ( ! topSmap._stylesheet_prefix_ ) {
       throw '_please_run_initmodule_first_';
     }
-    target_fn.apply( this, arguments );
+    return target_fn.apply( this, arguments );
   }
 
 // updateCSS = function ( sheet_select_list ) {

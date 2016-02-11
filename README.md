@@ -68,7 +68,7 @@ repository.
       <div class="pcss-_box_">PowerCSS 01</div>
       <div class="pcss-_box_">PowerCSS 02</div>
       <div class="pcss-_box_">PowerCSS 03
-        <input title="example" type="text" value="example"/>
+        <input title="example" type="text" value="example" />
       </div>
     </body>
     </html>
@@ -100,9 +100,10 @@ be found in the root directory of the GitHub repository.
 
       pcss._initModule_();
 
-Here we start with some identification and JSLint settings, then
+We our module with some identification and JSLint settings, then
 we declare our function variables, and finally we initialize the 
-PowerCSS module.  And, yes, Virginia, our code really *does* pass JSLint.
+PowerCSS module.  And, yes, Virginia, our code really *does* 
+pass JSLint.
 
 ### 3. Define and add a Virtual Stylesheet List
 A Virtual Stylesheet List (**vsheet**) contains the same information as a
@@ -112,33 +113,34 @@ the PowerCSS data as shown below.
 
       // Begin add _base_css_ vsheet
       base_vsheet_list = [
-        { _select_str_  : '*',
+        { _select_str_  : 'body',
           _rule_map_     : {
             _box_sizing_ : '_border_box_',
             _display_    : '_block_',
             _float_      : '_none_',
-            _font_size_  : ['16px'],
+            _font_family_: '_font_sans_',
+            _font_size_  : [ '16px' ],
             _margin_     : '_0_',
-            _padding_    : '_0_'
+            _padding_    : '_2rem_'
           }
         },
         { _select_str_ : 'input',
           _rule_map_ : {
-            _border_     : ['2px solid #ccc'],
-            _background_ : ['yellow']
+            _background_ : [ 'yellow' ],
+            _border_     : [ '2px solid #ccc' ],
+            _padding_    : [ '.5rem' ]
           }
         }
       ];
-      
+
       pcss._addVsheetList_({
         _vsheet_id_   : '_base_css_',
-        _vsheet_list_ : base_vsheet_list 
+        _vsheet_list_ : base_vsheet_list
       });
       // End add _base_css_ vsheet
-
-Selectors are defined in an ordered list because selector order
-*is important* and can change how CSS is intepreted by the browser
-rendering engine.
+      
+Selector order change how CSS is rendered. We use a list to represent the
+**vsheet** for this reason.
 
 PowerCSS records the **vsheet** definition, but it doesn't compile 
 it to CSS. That comes later.
