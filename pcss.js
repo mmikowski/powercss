@@ -235,11 +235,11 @@ pcss = (function () {
 
     topSmap = {
       _metasheet_obj_map_ : {},
-      _stylesheet_prefix_ : __undef,
-      _stylesheet_idx_    : __n1,
+      _style_el_prefix_ : __undef,
+      _style_el_idx_    : __n1,
       _vsheet_list_map_   : {}
-    },
-    insertCssRule
+    }
+    // insertCssRule
 
     // Baseline capabilities
     // addStylesheetObj,
@@ -270,73 +270,73 @@ pcss = (function () {
     Array.prototype.push.apply( arg_list, arguments );
     console.log( arg_list );
   }
-  function createStylesheetId () {
-    var stylesheet_id = topSmap._stylesheet_prefix_
-      + __String( topSmap._stylesheet_idx_ + __1 );
+  function createStyleElId () {
+    var style_el_id = topSmap._style_el_prefix_
+      + __String( topSmap._style_el_idx_ + __1 );
 
-    if ( !! __docRef[ vMap._getElById_ ]( stylesheet_id ) ) {
-      throw '_sheet_id_is_already_in_use_ ' + stylesheet_id;
+    if ( !! __docRef[ vMap._getElById_ ]( style_el_id ) ) {
+      throw '_sheet_id_is_already_in_use_ ' + style_el_id;
     }
-    topSmap._stylesheet_idx_++;
-    return stylesheet_id;
+    topSmap._style_el_idx_++;
+    return style_el_id;
   }
-  insertCssRule = (function () {
-    var
-      add_rule_str    = 'addRule',
-      insert_rule_str = 'insertRule',
+  //insertCssRule = (function () {
+  //  var
+  //    add_rule_str    = 'addRule',
+  //    insert_rule_str = 'insertRule',
 
-      cmd_str, insert_css_rule;
+  //    cmd_str, insert_css_rule;
 
-    insert_css_rule = function ( sheet_obj, select_str, rule_str, idx ) {
-      var is_success = __true;
+  //  insert_css_rule = function ( sheet_obj, select_str, rule_str, idx ) {
+  //    var is_success = __true;
 
-      if ( ! cmd_str ) {
-        if ( sheet_obj[ insert_rule_str ] ) {
-          cmd_str = 'i';
-        }
-        if ( sheet_obj[ add_rule_str ] ) {
-          cmd_str = 'a';
-        }
-      }
+  //    if ( ! cmd_str ) {
+  //      if ( sheet_obj[ insert_rule_str ] ) {
+  //        cmd_str = 'i';
+  //      }
+  //      if ( sheet_obj[ add_rule_str ] ) {
+  //        cmd_str = 'a';
+  //      }
+  //    }
 
-      switch ( cmd_str ) {
-        case 'a' :
-          try {
-            sheet_obj[ add_rule_str ]( select_str, rule_str, idx );
-          }
-          catch ( error0 ) {
-            logIt( '_warn_', select_str, rule_str, idx, error0 );
-            is_success = __false;
-          }
-          break;
+  //    switch ( cmd_str ) {
+  //      case 'a' :
+  //        try {
+  //          sheet_obj[ add_rule_str ]( select_str, rule_str, idx );
+  //        }
+  //        catch ( error0 ) {
+  //          logIt( '_warn_', select_str, rule_str, idx, error0 );
+  //          is_success = __false;
+  //        }
+  //        break;
 
-        case 'i' :
-          try {
-            sheet_obj[ insert_rule_str ](
-              select_str + '{' + rule_str + '}', idx
-            );
-          }
-          catch ( error1 ) {
-            logIt( '_warn_', select_str, rule_str, idx, error1 );
-            is_success = __false;
-          }
-          break;
+  //      case 'i' :
+  //        try {
+  //          sheet_obj[ insert_rule_str ](
+  //            select_str + '{' + rule_str + '}', idx
+  //          );
+  //        }
+  //        catch ( error1 ) {
+  //          logIt( '_warn_', select_str, rule_str, idx, error1 );
+  //          is_success = __false;
+  //        }
+  //        break;
 
-        default :
-          logIt( '_error_', '_no_means_to_add_css_rule_' );
-          is_success = __false;
-          break;
-      }
-      return is_success;
-    };
-    return insert_css_rule;
-  }());
+  //      default :
+  //        logIt( '_error_', '_no_means_to_add_css_rule_' );
+  //        is_success = __false;
+  //        break;
+  //    }
+  //    return is_success;
+  //  };
+  //  return insert_css_rule;
+  //}());
   // END styleUtil method /insertCssRule/
 
-  function addStylesheetObj ( style_id ) {
+  function addStyleEl ( style_id ) {
     var
       head_el = __docRef[ vMap._head_ ],
-      style_el, stylesheet_obj
+      style_el
       ;
 
     // Create element and set properties
@@ -344,28 +344,10 @@ pcss = (function () {
     style_el[ vMap._setAttribute_ ]( vMap._type_, vMap._text_css_ );
     style_el[ vMap._setAttribute_ ]( vMap._id_, style_id );
 
-    // Old Firefox and IE (need to test)
-    if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
-      style_el[       vMap._cssText_ ] = __blank;
-    }
-    // New Firefox
-    else if ( style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
-      style_el[        vMap._textContent_ ] = __blank;
-    }
-    // Webkit
-    else {
-      __docRef[ vMap._createTextNode_ ] = __blank;
-      style_el[      vMap._innerText_ ] = __blank;
-    }
-
     // Add to head
     head_el[ vMap._appendChild_ ]( style_el );
 
-    // Stylesheet object is *not* the same as the style element!
-    stylesheet_obj = style_el.sheet;
-    stylesheet_obj[ vMap._disabled_ ] = __true;
-
-    return stylesheet_obj;
+    return style_el;
     // End find and return the sheet object
   }
 
@@ -461,7 +443,7 @@ pcss = (function () {
     return merge_vsheet_list;
   }
 
-  function loadStylesheetObj ( stylesheet_obj, mergeVsheet ) {
+  function createCssStr ( mergeVsheet ) {
     var
       mixin_map = topSmap._mixin_map_ || {},
 
@@ -476,8 +458,7 @@ pcss = (function () {
 
       solve_select_list, solve_data_type,
       solve_rule_list,   solve_key,
-      solve_val_str,
-      solve_select_str,  solve_rule_str
+      solve_val_str,     solve_select_str
       ;
 
     select_count = mergeVsheet[ vMap._length_ ];
@@ -490,7 +471,7 @@ pcss = (function () {
       close_str = select_map._close_str_ || __blank;
 
       if ( ! rule_map ) {
-        solve_select_list[ vMap._push_ ]( select_str );
+        solve_select_list[ vMap._push_ ]( select_str + close_str );
         continue;
       }
 
@@ -564,12 +545,30 @@ pcss = (function () {
         }
       }
 
-      solve_select_str = select_str;
-      solve_rule_str   = solve_rule_list[ vMap._length_ ] > __0
+      solve_select_str = select_str + '{';
+      solve_select_str += solve_rule_list[ vMap._length_ ] > __0
         ? solve_rule_list[ vMap._join_ ]( ';' ) : __blank;
+      solve_select_str += '}' + close_str;
+      solve_select_list[ vMap._push_ ]( solve_select_str );
+      // insertCssRule( stylesheet_obj, solve_select_str, solve_rule_str, i );
+    }
+    return solve_select_list[ vMap._join_]( '\n' );
+  }
 
-      if ( close_str ) { solve_select_str += close_str; }
-      insertCssRule( stylesheet_obj, solve_select_str, solve_rule_str, i );
+  function writeToStyleEl ( style_el, css_str )  {
+    var text_el;
+    // Old Firefox and IE(?)
+    if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
+      style_el[ vMap._cssText_ ] = css_str;
+    }
+    // New Firefox
+    else if ( style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
+      style_el[ vMap._textContent_ ] = css_str;
+    }
+    // Webkit
+    else {
+      text_el = __docRef[ vMap._createTextNode_ ]( css_str );
+      style_el[ vMap._appendChild_ ]( text_el );
     }
   }
   // END private methods
@@ -595,7 +594,7 @@ pcss = (function () {
       metasheet_id      = opt_map._metasheet_id_ || [],
       cascade_list      = opt_map._cascade_list_ || [],
       metasheet_obj_map = topSmap._metasheet_obj_map_,
-      stylesheet_id     = createStylesheetId(),
+      style_el_id       = createStyleElId(),
 
       metasheet_obj
       ;
@@ -609,8 +608,8 @@ pcss = (function () {
       _metasheet_id_      : metasheet_id,
       _cascade_list_      : cascade_list,
       _merge_vsheet_list_ : mergeCascadeList( cascade_list ),
-      _stylesheet_id_     : stylesheet_id,
-      _stylesheet_obj_    : __null
+      _style_el_id_       : style_el_id,
+      _style_el_          : __null
     };
 
     metasheet_obj_map[ metasheet_id ] = metasheet_obj;
@@ -619,11 +618,28 @@ pcss = (function () {
 
   function initCheck () {
     var target_fn = this;
-    if ( ! topSmap._stylesheet_prefix_ ) {
+    if ( ! topSmap._style_el_prefix_ ) {
       throw '_please_run_initmodule_first_';
     }
     return target_fn.apply( this, arguments );
   }
+
+// Old Firefox and IE (need to test)
+// if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
+//   style_el[       vMap._cssText_ ] = __blank;
+// }
+// // New Firefox
+// else if ( style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
+//   style_el[        vMap._textContent_ ] = __blank;
+// }
+// // Webkit
+// else {
+//   __docRef[ vMap._createTextNode_ ] = __blank;
+//   style_el[      vMap._innerText_ ] = __blank;
+// }
+// Stylesheet object is *not* the same as the style element!
+//stylesheet_obj = style_el.sheet;
+//stylesheet_obj[ vMap._disabled_ ] = __true;
 
 // updateCSS = function ( sheet_select_list ) {
 //   var
@@ -673,43 +689,41 @@ pcss = (function () {
       metasheet_obj     = metasheet_obj_map[ metasheet_id ],
       do_calc           = __true,
 
-      stylesheet_obj
+      css_str, style_el
       ;
 
     if ( ! metasheet_obj ) {
       throw '_metasheet_obj_id_not_found_' + metasheet_id;
     }
 
-    stylesheet_obj = metasheet_obj._stylesheet_obj_;
-    if ( stylesheet_obj ) {
+    style_el = metasheet_obj._style_el_;
+    if ( style_el ) {
       // TODO check time stamps; do not recalc if no change in
       // mixin match since last recalc. (may want to timestamp
       // all vsheets too once we allow updating)
       do_calc = __false;
     }
     else {
-      stylesheet_obj = addStylesheetObj( metasheet_obj._stylesheet_id_ );
-      metasheet_obj._stylesheet_obj_ = stylesheet_obj;
+      style_el = addStyleEl( metasheet_obj._style_el_id_ );
+      metasheet_obj._style_el_ = style_el;
       do_calc = __true;
     }
 
     if ( do_calc ) {
-      loadStylesheetObj(
-        stylesheet_obj,
-        metasheet_obj._merge_vsheet_list_
-      );
+      css_str = createCssStr( metasheet_obj._merge_vsheet_list_ );
+      writeToStyleEl( style_el, css_str );
       metasheet_obj._last_solve_ms_ = Date.now();
     }
     // TODO Disable all stylesheets that match our prefix
     //  (use substring(0, prefix-length)) to compare id's.
-    stylesheet_obj[ vMap._disabled_ ] = __false;
+    style_el.sheet[ vMap._disabled_ ] = __false;
 
   }
 
   function initModule ( arg_opt_map ) {
     var opt_map = arg_opt_map || {};
-    topSmap._stylesheet_prefix_ = ( !! opt_map._stylesheet_prefix_ )
-      ? opt_map._stylesheet_prefix_ + '-' : 'pcss-';
+    topSmap._style_el_prefix_ = ( !! opt_map._style_el_prefix_ )
+      ? opt_map._style_el_prefix_ + '-' : 'pcss-';
   }
 
   return {
