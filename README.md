@@ -1,6 +1,6 @@
 # PowerCSS 0.1.x by Michael S. Mikowski
 This 0.1.x library is in development and is intended for early
-adopters. It should be relatively stable and reliable, however, 
+adopters. It should be relatively stable and reliable, however,
 many features, testing, and example have yet to be completed.
 Use with caution.
 
@@ -52,7 +52,7 @@ solution, and then we will discuss how and why PowerCSS works.
 ### 1. Create `pcss._example001_.html` page
 Let's create an HTML file to illustrate the basic capabilities
 of PowerCSS. We will call the file `pcss._example001_.html` and
-a complete copy can be found in the root directory of the GitHub 
+a complete copy can be found in the root directory of the GitHub
 repository.
 
     <!DOCTYPE html>
@@ -106,7 +106,7 @@ be found in the root directory of the GitHub repository.
      *    -- break --
      *     10. css transition or animation definitions
     */
-    
+
     // BEGIN pcss._example001_
     pcss._example001_ = function () {
       var
@@ -118,7 +118,7 @@ be found in the root directory of the GitHub repository.
       pcss._initModule_();
 
 We start our module with identification, JSLint settings, and a reminder
-about my preferred CSS attribute order. Then we declare our function 
+about my preferred CSS attribute order. Then we declare our function
 variables, and finally we initialize the PowerCSS module.
 And, yes, Virginia, our code really *does* pass JSLint.
 
@@ -126,7 +126,7 @@ And, yes, Virginia, our code really *does* pass JSLint.
 A Virtual Stylesheet List (**vsheet**) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to
 **vsheet** with little trouble. Let's create a file and add a **vsheet** to
-the PowerCSS data as shown below. 
+the PowerCSS data as shown below.
 
       // Begin add _base_css_ vsheet
       base_vsheet_list = [
@@ -167,11 +167,11 @@ the PowerCSS data as shown below.
         _vsheet_list_ : base_vsheet_list
       });
       // End add _base_css_ vsheet
-      
+
 Selector order change how CSS is rendered. We use a list to represent the
 **vsheet** for this reason.
 
-PowerCSS records the **vsheet** definition, but it doesn't compile 
+PowerCSS records the **vsheet** definition, but it doesn't compile
 it to CSS. That comes later.
 
 ### 4. Define and add another Virtual Stylesheet List
@@ -233,7 +233,7 @@ The returned **metasheet** object contains the following attributes:
 
 - `_cascade_list_` as provided.
 - `_metasheet_id_` as provided.
-- `_merge_vsheet_list_` is the merged stylesheet prepared from the 
+- `_merge_vsheet_list_` is the merged stylesheet prepared from the
    `_cascade_list_`. It is an intermediary format that merges the
    cascade but doesn't resolve values like CSS symbols or **mixins**.
    *In this example it is calculated and saved*.
@@ -244,14 +244,14 @@ The returned **metasheet** object contains the following attributes:
   enabled this metasheet yet.*
 - `_style_el_id_` is the DOM ID reserved for the browser style element
    we will create when we enable this **metasheet**.
-   *In this example, it will be `pcss-0` because this is our 
+   *In this example, it will be `pcss-0` because this is our
    first metasheet.*
 - `_timesheet_map_` includes various timesheets that are used to only
   update the parts of the CSS generation process that need updating.
   *In this example, all times are set to the current timestamp, except
   for `_last_css_ms_` as the CSS has not yet been generated.*
-   
-We can verify these values by viewing the debugging output in the JavaScript 
+
+We can verify these values by viewing the debugging output in the JavaScript
 console.
 
 ### 6. Enable the MetaSheet Object
@@ -263,14 +263,14 @@ Let's now enable the **metasheet** and close our example function.
     // END pcss._example001_
 
 When we enable the **metasheet**, PowerCSS creates a *disabled* browser
-style element with an id of `pcss-0`, calculates the CSS, and then 
+style element with an id of `pcss-0`, calculates the CSS, and then
 writes it to the `pcss-0` style element. It then disables
 all `pcss-*` CSS, and, finally, it enables the `pcss-0` style element.
 
 ### 7. Marvel at the results
 When we open `pcss._example001_.html` in a modern browser, we should see
-three boxes that have been styled by according to the **metasheet** 
-definition. We can view the generated CSS in the browser using the 
+three boxes that have been styled by according to the **metasheet**
+definition. We can view the generated CSS in the browser using the
 development tools and modify it as if we had written it ourselves.
 I formated it and added some comments below.
 
@@ -333,8 +333,8 @@ The **Power** in PowerCSS is provided by the flexibility, speed, and
 application control you can exercise using its features.
 
 ## The Allure of Options
-Even the default behavior of compressed PowerCSS can results in benefits 
-over static CSS: 
+Even the default behavior of compressed PowerCSS can results in benefits
+over static CSS:
 
 - It can be faster for initial load, depending on network speed.
 - The code can compressed to be smaller than native CSS
@@ -365,7 +365,7 @@ wrap all alternate values in an object with an `_alt_list_` property.
         [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
       ]
     }
-    
+
 ### Locked values
 Typically in a cascade, the last property value in "wins". However, it
 is feasible to prevent overwriting critical properties by **vsheet**s later
@@ -381,7 +381,7 @@ the provided rule map in the **vsheet** definition:
         }
       }
     ]
-    
+
 This prevents any later **vsheet** from overriding the value for
 `_font_size_` for *the .pcss-_box_ selector* in the cascade.
 
@@ -420,7 +420,6 @@ I have yet to test across all platforms. Use with care.
 - setMetasheetMixinMap
 - getVsheetMixinMap
 - setVsheetMixinMap
-
 - delVsheetList
 - getVsheetList
 - delMetasheetObj
