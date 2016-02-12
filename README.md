@@ -1,8 +1,9 @@
 # PowerCSS 0.1.x by Michael S. Mikowski
 This 0.1.x library is in development and is intended for early
-adopters. It should be relatively stable and reliable, however,
-many features, testing, and example have yet to be completed.
-Use with caution.
+adopters.  It should be relatively stable and reliable, however,
+many features, testing, and examples have yet to be completed.
+Use with caution and check back often - the library is changing
+at a rapid pace.
 
 ## Use libraries, not frameworks
 This is a library that strives to be best-in-class.
@@ -49,6 +50,21 @@ Sound exciting? If so, read on! First we will implement a PowerCSS
 solution, and then we will discuss how and why PowerCSS works.
 
 ## Example
+Let's review the workflow before we jump into the example.
+
+1. Create an HTML document that includes the pcss.js library and the code
+   necessary to use it.
+2. In our JS library, create one or more virtual stylesheets (**vsheet**s).
+   These look very much like traditional stylesheets in JSON syntax.
+3. Create a **metasheet** which includes an ordered list (or *cascade*) of
+   **vsheets**.  Again, this is very much like the workflow where we add
+   static CSS files to an HTML document.
+4. Enable the **metasheet** to apply the CSS.
+
+We were careful to change as little of the existing CSS workflow as possible
+while adding the Power of JS to CSS creation and management.  We hope you'll
+be happy with the results.  Now let's get started.
+
 ### 1. Create `pcss._example001_.html` page
 Let's create an HTML file to illustrate the basic capabilities
 of PowerCSS. We will call the file `pcss._example001_.html` and
@@ -339,32 +355,125 @@ over static CSS:
 - It can be faster for initial load, depending on network speed.
 - The code can compressed to be smaller than native CSS
 
-There are many more benefits available, however. Let's explore them.
+There are many more benefits available, however. Let's explore how we can
+adjust our example to take advantage of PowerCSS.
 
-### Double-buffering
-### Mixin maps
-#### VSheet Mixin maps
-#### Metasheet Mixin maps
-#### The Global Mixin maps
-PowerCSS will support a global **mixin** map that can be
-changed at anytime. Method: `_setGlobalMixinMap_( mixin_map );`
-This global map applies across all **vsheets**s.
+### CSS Keys
+One may notice that all the keys for our CSS are look like `_this_`.
+This format allows for a very high level of compression compared to regular
+CSS.  If there is a CSS key you require, simply add it to the PowerCSS
+key map, and it will be used accordingly.  We have compiled a pretty
+exhaustive list, but are always more.  Alternately, if your application
+only uses a small subset of these keys, you may prune this map.
 
-### CSS Keyword values
+We are considering how to best modularize the CSS key and CSS value
+maps.  Suggestions are welcome :)
+
+### Value subsitutions
+There are three types of CSS values supported by PowerCSS. They are:
+
+1. Mixin values : `_key_`
+2. Literals     : `[ 'value' ]`
+3. Alternates   : `{ _alt_list_ : [ ... ] }`
+
+In addition, we can `lock` a value in a cascade.  
+These are all discussed in detail below.
+
+### Mixin values
+**Important!** As of the 0.1.x release, only the **builtin** mixin values
+are supported. We expect to add the additional levels in a few days.
+All mixin maps will be settable through a `pcss._setMixinMap_()` method.
+Details will follow as these are released.
+
+Mixin values available at four levels in PowerCSS.  They are only
+used at this time to set CSS values, not key names. These levels are
+as follows:
+
+1. At the **builtin** level. This is a set of common values that
+   are available by default. Examples include `_fixed_`, which
+   resolves to 'fixed' in the resulting CSS.  We use the `_name_`
+   format because it allows for very high levels of compression.
+2. At the **global** level. This mixin map will be used across all
+   **metasheets** and, as a consequence, by all **vsheets** they use.
+3. At the **metasheet** level. This mixin map is exclusive to one
+   **metasheet** and will be used by all **vsheets** in cascade list.
+4. At the **vsheet** level.  This mixin map is exclusive to one **vsheet**.
+
+When resolving mixin symbols, the "closest" match "wins." Let's consider the
+following PowerCSS rule definition as an example:
+
+    rule_map : { background : _bcolor_, ... }
+
+Now let's set a value at three levels.  The the available values would
+then be:
+
+    builtin._bcolor_   = undefined;
+    global._bcolor_    = 'red';
+    metasheet._bcolor_ = 'green';
+    vsheet._bcolor_    = 'blue';
+
+Here the **vsheet** level value, 'blue', will "win" and the CSS processor
+will use that instead of any **metasheet**, **global**, or **builtin** value.
+In other words, the resulting CSS will read `background:blue`.
+
+What if we used a **vsheet** that didn't have a mixin\_map?  Then
+the mixin value would be set at three levels:
+
+    builtin._bcolor_   = undefined;
+    global._bcolor_    = [ 'red'   ];
+    metasheet._bcolor_ = [ 'green' ];
+    vsheet._bcolor_    = undefined;
+
+Here the **metasheet** level value, 'green', will "win" and the CSS processor
+will use that instead of any **global**, or **builtin** value.
+In other words, the resulting CSS will read `background:green`.
+And so on.  If at the end of this cascade the value is undefined, a blank
+string will be used as the value and a warning logged to the console.
+
+An astute reader will notice that a **vsheet** can be used across many
+**metasheets**.  This is a very powerful feature, but it is important to keep
+that in mind when setting vsheet-specific mixin maps.
+
 ### Literal values
+Literal values are just that: a string you want to use as-is.  Simply wrap any
+string in an array to have it read as a literal, as illustrated below:
+
+    rule_map : { background : [ 'blue' ], ... }
+
+We use an array wrapper as a literal array wrapper so that the code will be
+very compressor friendly.
+
 ### Alternate values
 Sometimes we want to provide alternate rules for a style so that
 our code will work across multiple browsers. In this case, we can
 wrap all alternate values in an object with an `_alt_list_` property.
 
-    _background_     : {
+    _background_ : {
       _alt_list_ : [
+        '_xfff_',
         [ '#f85032' ],
         [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
         [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
         [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
       ]
     }
+
+The resulting CSS will look like so:
+
+      background : #fff;
+      background : #f85032;
+      background : -moz-linear-gradient(left, #f85032 0%, #6d362d 100%);
+      background : -webkit-linear-gradient(left, #f85032 0%, #6d362d 100%);
+      background : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
+
+We are not limited literal values as the us of the builtin mixin key 
+like `_xfff_` shows.  We could even define the `alt_map` as a mixin,
+and replace the above declaration like so:
+
+    _background_ : _bk_red_black_map_
+
+Remember the order of alternatives in CSS is important: the last supported
+declaration will be used in lieu of all others.
 
 ### Locked values
 Typically in a cascade, the last property value in "wins". However, it
@@ -383,11 +492,20 @@ the provided rule map in the **vsheet** definition:
     ]
 
 This prevents any later **vsheet** from overriding the value for
-`_font_size_` for *the .pcss-_box_ selector* in the cascade.
+`_font_size_` for the `.pcss-_box_` selector in the cascade.
+
+An astute reader will again notice that a **vsheet** can be used across many
+**metasheets**.  Therefore, one must be careful when setting locks on a 
+**vsheet** that will be reused in more than once.
+
+### Compression
+Not yet written.
+
+### Double-buffering
+Not yet written.
 
 ## Stay tuned...
 There are lots of features and examples coming up soon.
-
 
 ## Release Notes
 ### Copyright (c)
@@ -408,18 +526,17 @@ I have yet to test across all platforms. Use with care.
 
 ## TODO
 ### Enhance implemented capabilities
-- addVsheetList
-- addMetasheetObj
+- addVsheetList: consider renaming to setVsheetList; add mixin\_map opt
+- addMetasheetObj: consider renaming to setMetasheetObj; add mixin\_map opt
 - enableMetasheetObj
 
 ### Planned future capabilities
+- nodejs support, especially with nodeunit-b
+- CSS string output for debugging and regression testing
 - timestamp-based minimal processing
-- getGlobalMixinMap
-- setGlobalMixinMap
-- getMetasheetMixinMap
-- setMetasheetMixinMap
-- getVsheetMixinMap
-- setVsheetMixinMap
+- force full rerender on request (for debug purposes)
+- getMixinMap( global or metasheet or vsheet, id )
+- setMixinMap( global or metasheet or vsheet, id, mixin\_map )
 - delVsheetList
 - getVsheetList
 - delMetasheetObj
