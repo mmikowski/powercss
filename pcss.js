@@ -36,6 +36,7 @@ pcss = (function () {
     __isArray = Array.isArray,
     __null = null,
     __true = true,
+    __timeStamp = Date.now,
 
     __0  = 0,
     __1  = 1,
@@ -593,8 +594,10 @@ pcss = (function () {
       opt_map           = arg_opt_map            || {},
       metasheet_id      = opt_map._metasheet_id_ || [],
       cascade_list      = opt_map._cascade_list_ || [],
+      mixin_map         = opt_map._mixin_map_    || {},
       metasheet_obj_map = topSmap._metasheet_obj_map_,
       style_el_id       = createStyleElId(),
+      now_ms            = __timeStamp(),
 
       metasheet_obj
       ;
@@ -604,12 +607,18 @@ pcss = (function () {
     }
 
     metasheet_obj = {
-      _last_solve_ms_     : __0,
-      _metasheet_id_      : metasheet_id,
       _cascade_list_      : cascade_list,
       _merge_vsheet_list_ : mergeCascadeList( cascade_list ),
+      _metasheet_id_      : metasheet_id,
+      _mixin_map_         : mixin_map,
+      _style_el_          : __null,
       _style_el_id_       : style_el_id,
-      _style_el_          : __null
+      _timestamp_map_     : {
+        _last_vsheet_   : now_ms,
+        _last_mixin_ms_ : now_ms,
+        _last_merge_ms_ : now_ms,
+        _last_css_ms_   : __0
+      }
     };
 
     metasheet_obj_map[ metasheet_id ] = metasheet_obj;
@@ -712,7 +721,7 @@ pcss = (function () {
     if ( do_calc ) {
       css_str = createCssStr( metasheet_obj._merge_vsheet_list_ );
       writeToStyleEl( style_el, css_str );
-      metasheet_obj._last_solve_ms_ = Date.now();
+      metasheet_obj._last_solve_ms_ = __timeStamp();
     }
     // TODO Disable all stylesheets that match our prefix
     //  (use substring(0, prefix-length)) to compare id's.

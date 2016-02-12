@@ -1,5 +1,5 @@
-/* pss._exampleBasic_.js
- * Basic example of run-time generated and managed CSS
+/* pss._example001_.js
+ * First of run-time generated and managed CSS
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
 /*jslint        browser : true, continue : true,
@@ -10,22 +10,23 @@
 */
 /*global pcss */
 
-//  I. Recommended units: rem and %.
-// II. Recommended order: Outside-In
-//    1. display, visibility, opacity, z-index
-//    2. box-sizing, position, floats, clear
-//    3. top, right, bottom, left and vertical-align
-//    4. margin defs, box-shadow
-//    5. border, border-radius
-//    6. height, width
-//    7. padding, overflow, cursor
-//    8. background, text-align, white-space,
-//    9. content defs - font-size, line-height, font, color everything else
-//    -- break --
-//    10. css transition or animation definitions
+/*  I. Recommended units: rem and %.
+ * II. Recommended order: Outside-In
+ *    1. display, visibility, opacity, z-index
+ *    2. box-sizing, position, floats, clear
+ *    3. top, right, bottom, left and vertical-align
+ *    4. margin defs, box-shadow
+ *    5. border, border-radius
+ *    6. height, width
+ *    7. padding, overflow, cursor
+ *    8. background, text-align, white-space,
+ *    9. content defs - font-size, line-height, font, color everything else
+ *    -- break --
+ *    10. css transition or animation definitions
+*/
 
-// BEGIN pcss._exampleBasic_
-pcss._exampleBasic_ = function () {
+// BEGIN pcss._example001_
+pcss._example001_ = function () {
   var
     base_vsheet_list,
     box_vsheet_list,
@@ -49,6 +50,7 @@ pcss._exampleBasic_ = function () {
     { _select_str_ : 'input',
       _rule_map_ : {
         _margin_        : [ '.5rem' ],
+        _width_         : [ '10rem' ],
         _border_        : [ '.125rem solid #ddd' ],
         _border_radius_ : [ '.5rem' ],
         _outline_       : '_none_',
@@ -85,7 +87,8 @@ pcss._exampleBasic_ = function () {
         _position_       : '_relative_',
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
-        _border_         : [ '0.25rem solid #aaa' ],
+        _box_shadow_     : [ 'rgba( 0, 0, 0, .5) 0 0 .25rem 0' ],
+        _border_         : [ '0.25rem solid #eee' ],
         _border_radius_  : '_1rem_',
         _width_          : [ '16rem' ],
         _height_         : [ '8rem' ],
@@ -113,12 +116,12 @@ pcss._exampleBasic_ = function () {
   // End add _box_css_ vsheet
 
   metasheet_obj = pcss._addMetasheetObj_({
-    _metasheet_id_ : '_basic_example_',
-    _cascade_list_ : [ '_base_css_', '_box_css_' ]
+    _cascade_list_ : [ '_base_css_', '_box_css_' ],
+    _metasheet_id_ : '_example001_'
   });
   console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
-  pcss._enableMetasheetObj_({ _metasheet_id_ : '_basic_example_' });
+  pcss._enableMetasheetObj_({ _metasheet_id_ : '_example001_' });
   console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 };
-// END pcss._exampleBasic_
+// END pcss._example001_

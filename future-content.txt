@@ -1,0 +1,288 @@
+## The Allure of Options
+Even the default behavior of compressed PowerCSS can results in benefits 
+over static CSS: 
+
+- It can be faster for initial load, depending on network speed.
+- The code can compressed to be smaller than native CSS
+
+There are many more benefits available, however.  Let's explore them.
+
+### Double-buffering
+### Mixins
+### Alternate values
+### Locked values
+
+- One can easily double buffer between stylesheets for much faster
+  batch changes.
+- CSS can be adjusted at any time as directed by the application
+
+### Mixins
+PowerCSS supports mixins that can be reconsidered anytime. Set the map of
+values using the `_setMixinMap_` method. This map applies across all 
+**vsheet**s.
+
+Let's use mixins to simplify our first style sheet:
+
+    var mixin_map, box_vsheet_list;
+    mixin_map = {
+      _border_red_str : '0.125rem solid #aaa'
+      _grad_redblack_list_ : [
+        '#f85032',
+        '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+        '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+        'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
+      ],
+      _trans_opacity_str_   : 'opacity .3s ease',
+    };
+    pcss._setGlobalMixinMap_( mixin_map );
+
+    box_vsheet_list = [ 
+      { _select_str_ : '.pcss-_box_',
+        _rule_lock_list_ : [ '_font_size_' ]
+        _rule_map_ : {
+          _display_       : '_block_',
+          _opacity_       : '_1_',
+          _position_      : '_absolute_',
+          _background_    : '_xfff_',
+          _z_index_       : '_5_',
+          _font_size_     : '16px',
+          _border_        : '_border_gray_str_',
+          _background_    : '_grad_redblack_list_',
+          _transition_    : '_trans_opacity_str_'
+        }
+      }
+    ];
+
+Of course, this doesn't save us too much verbosity here.  But one with a 
+modicum of an imagination could probably see how this could save us a great
+deal of time for doing things like changing colors, gradients, and borders
+consistently across our CSS.
+
+If you change the `mixin_map`, and the `_last_solve_ms_` timestamp on 
+**metasheet** is older than the `mixin_map` `_last_update_ms_` timestamp,
+PowerCSS will recalculate the CSS before reenabling that **metasheet**.
+
+### Alternate values
+Sometimes we want to provide alternate rules for a style so that
+our code will work across multiple browsers. In this case, wrap
+all alternate values in a list. Example:
+
+    _background_ : [
+      '#f85032',
+      '-moz-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+      '-webkit-linear-gradient(left, #f85032 0%, #3b2c2b 100%)',
+      'linear-gradient(to right, #f85032 0%, #3b2c2b 100%)'
+    ],
+
+
+### Locked values
+Typically in a cascade, the last property value in "wins". However, it
+is feasible to prevent overwriting critical properties by **vsheet**s later
+in the cascade.  One just needs to specify rules to be locked for
+the provided rule map in the **vsheet** definition:
+
+    box_vsheet_list = [
+      { _select_str_ : '.pcss-_box_',
+        _locked_rule_list_ : [ '_font_size_' ],
+        _rule_map_ : {
+          _font_size_ : '16px'
+          // ...
+        }
+      }
+    ]
+    
+This prevents any later **vsheet** from overriding the value for
+`_font_size_` for *the .pcss-_box_ selector* in the cascade.
+
+# ALL WRITING BELOW HERE IS CONFLICTING AND INCOMPLETE.
+This behavior can be modified.  For example, if we don't want to recompile
+the CSS because none of our mixin maps have changed, we can do the following:
+
+    pcss._enableSheetObj_( sheet_obj_idx, { _do_compile_ : false } );
+
+The Stylesheet Object will contain the following CSS:
+
+
+
+### What does this get us?
+Assuming we use the default namespaces for powercss, `pcss`, the above code
+will will cache the following CSS, which hopefull is not too surprising:
+
+
+    input {
+      display       : block;
+      opacity       : 0;
+      position      : absolute;
+      background    : #fff;
+
+      border        : 0.125rem solid #aaa;
+      border-radius : .375rem .375rem 0 0;
+      box-shadow    : rgba(0, 0, 0, .14) 0 0 .625rem .375rem;
+      z-index       : 36;
+      background    : blue;
+      background    : linear-gradient(...);
+      background    : -webkit-linear-gradient(...);
+      background    : -moz-linear-gradient(...);
+      font-size     : 16px;
+      transition    : opacity .3s ease
+    }
+
+### Removing a Virtual Stylesheet
+We can always remove a **vsheet** like so:
+
+    pcss._delVsheetList( '_base_css_' );
+
+### Selecting the active Stylesheet Object
+The active Stylesheet Object is selected like so:
+
+    pcss._selectActiveSheetObj_( 0 );
+
+This will disable any previously enabled sheet object (if any) and enable
+the first one. We can use this capability for double-buffering which can
+dramatically increase some CSS operations.  For an explanation of the
+benefits of this approach, see **How PowerCSS Works**, below.
+
+### Mixins
+
+
+# How PowerCSS Works
+PowerCSS uses a number of techniques to provide powerful and fast
+programatic CSS control while leveraging the skills of existing CSS
+authors. Below we discuss the key concepts employed to meet this
+goal.
+
+## PowerCSS uses only one Stylesheet Object at a time
+Only one PowerCSS stylesheet is used at any time to style
+the DOM. PowerCSS is intended to replace **all** other stylesheets for
+a application, and external stylesheets are no longer needed.
+While we can and may use external sheets during development,
+we don't need them for production release. Don't worry,
+this isn't as drastic as it sounds. Third-party web components will,
+of course, still provide their own CSS, and that's OK, because PowerCSS
+plays well with others.
+
+Why use only one Stylesheet Object at a time? In a word, **speed**.
+
+First, the browser rendering engine doesn't need to work loading
+and merging sometimes dozens of external style sheets. Instead, it
+creates a single stylesheet for the browser to use. This prevents
+"document reflows" when a rendering engine must reorder and rerender
+a layout because of styling changes. For example, if we have 12 external
+stylesheets and load them at different times, that may require 12
+document reflows instead of the one required with PowerCSS. Think about how
+when you visit a site how the layout often stutters and jumps while
+loading. That's often due to document reflows.
+
+Second, our single active Stylesheet Object is calculated and optimized
+by PowerCSS before it is ever applied, which means a large amount of
+redundany is removed from the sheet compared to a typical cascade.
+Third, we can cache these sheets and switch between them at will.
+This "double-buffering" capability allow us to change almost
+all styling with just one document reflow, which can be many, many
+times faster than changing styles individually.
+
+## PowerCSS is highly compressible
+A PowerCSS app in its compressed state usually presents a styled DOM
+on inital load *faster* than standard CSS and HTML. While there is
+some initial overhead for PowerCSS, this is offset by the benefits
+of much-smaller download size and HTTP requests and other optimizations.
+
+You will notice many property names and values - along with error
+messages and class names - in PowerCSS are consistently
+named like so: '_color_'. These symbols can be easily found and
+replaced by a compressor. As a result, the code to produce the
+CSS for our Stylesheet Objects can be one quarter the size of the
+native CSS after compression.
+
+If you use the same naming convention on classes and ID's, the same
+compression can take place. So a class name like
+`.pcss-_xtable-inner-cell-selected_` can be compressed to something
+like `pcss-qx`. This has numerous performance benefits as well.
+
+We recommend using UglifyJS and then a tokenizer like the author's
+SuperPack. The latter is not yet publicly released yet, but I've
+used and improved it for 6 years now, and it further reduce compressed
+JS files by around 30% and it works great with CSS symbols.
+
+## PowerCSS can maintain multiple Stylesheet Objects
+PowerCSS can maintain multiple Stylesheet Objects even though only one
+is active at any time. These have, by default, the IDs of `pcss-0,
+pcss-1, ... pcss-N.` If there is a conflict with other DOM IDs, we
+can change the prefix using `pcss._setSheetIdPrefix_( 'myprefix-' );`.
+This must be called *before* any other methods, or it will throw a nasty
+exception.
+
+Maintaining multiple defined stylesheets provides us with capability to
+"double-buffer" styling, and limit document reflows to once for a batch
+of styling changes. Consider, for example, if we have a night theme and
+a day theme for a layout, and these layouts not only differed in colors, but
+also in the size and shapes of DOM elements.  Both themes also adjusted
+according to the device capabilities, the ambient temperature, and GPS
+position, so static CSS isn't an option.
+
+If we were to use JavaScript to make these changes one-by-one to the
+currently active stylesheet, this would be ask the browser rendering
+engine to consider every DOM element for each change. If we have 1,000
+style changes and 1,000 elements, the rendering engine will need to
+consider adjustising element properties one million times. Of course,
+the engine will *try* to batch changes, but sometimes that
+doesn't work well at all, especially if our adjustments take more than
+a tiny fraction of a second. And so we will see our page stutter and jump
+as multiple document reflows occur.
+
+With PowerCSS, the active Stylesheet Object is rarely changed. Instead,
+when we have a large change like described above, we write a new stylesheet
+object and then switch to it only when its complete.  Now the browser engine
+only needs to reflow the page once. Using this method, the rendering engine
+only has to consider adjusting each of our 1,000 element only once.  That's
+1,000 *times* fewer considerations than the above example.
+
+## Virtual Stylesheets
+A Virtual Stylesheet (**vsheet**) contains the same information as a
+traditional CSS file.  An experienced CSS author should be able to
+convert an existing static stylesheet to a **vsheet** with little pain
+or confusion.  The familiarity and power of the CSS cascade is retained,
+because when we define a PowerCSS Stylesheet Object, we provide it a list
+of Virtual Stylesheets in order, just as if we were including static
+style sheet files to a static HTML document.
+
+
+## Prerequisites
+A modern browser like Chrome or Firefox. IE9+ is also supported for the
+Luddite in your soul or your boardroom.
+
+## Implementation
+See powercss.html for example implementation.
+
+## Error handling
+PowerCSS will throw an exception if it cannot perform the requested
+method.  It should be invoked within a `try-catch` block.
+
+## Release Notes
+### Copyright (c)
+2016 Michael S. Mikowski (mike[dot]mikowski[at]gmail[dotcom])
+
+### License
+MIT
+
+### Version 0.0.x
+Set-up commits and testing.
+
+## TODO
+Add content.
+
+## Similar Projects
+[absurdjs][20], [responsive.j$][21]
+
+## Contribute!
+Any improvements or suggestions are welcome! You can reach me at
+mike[dot]mikowski[at]gmail[dotcom].
+
+Cheers, Mike
+
+## Footnotes
+
+## End
+[0]:http://mmikowski.github.io/no-frameworks
+[1]:http://www.amazon.com/dp/1617290750
+[2]:http://manning.com/mikowski

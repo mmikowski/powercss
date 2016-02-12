@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89592935-ae6a-41a0-8b76-20319d4e1022" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/future-content.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/pcss._exampleBasic_.html" afterPath="$PROJECT_DIR$/pcss._example001_.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/pcss._exampleBasic_.js" afterPath="$PROJECT_DIR$/pcss._example001_.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pcss.js" afterPath="$PROJECT_DIR$/pcss.js" />
     </list>
     <ignored path="powercss.iws" />
@@ -27,43 +31,20 @@
     <favorites_list name="powercss" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6175483">
+    <splitter split-orientation="horizontal" split-proportion="0.7073892">
       <split-first>
         <splitter split-orientation="horizontal" split-proportion="0.50791365">
           <split-first>
             <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-              <file leaf-file-name="pcss.js" pinned="false" current-in-tab="false">
+              <file leaf-file-name="pcss.js" pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/pcss.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.0">
-                      <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+                    <state vertical-scroll-proportion="0.5955414">
+                      <caret line="615" column="28" selection-start-line="615" selection-start-column="28" selection-end-line="615" selection-end-column="28" />
                       <folding>
                         <element signature="n#!!doc" expanded="true" />
-                        <marker date="1455216636694" expanded="true" signature="9877:11196" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10076:11159" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10137:10319" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10185:10225" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10269:10309" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10348:11124" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10387:10472" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10502:10621" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10679:10810" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10840:10959" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
+                        <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
                       </folding>
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-              <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-                <entry file="file://$PROJECT_DIR$/README.md">
-                  <provider editor-type-id="MarkdownPreviewEditor">
-                    <state />
-                  </provider>
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="1.1608392">
-                      <caret line="152" column="26" selection-start-line="152" selection-start-column="26" selection-end-line="152" selection-end-column="26" />
-                      <folding />
                     </state>
                   </provider>
                 </entry>
@@ -72,35 +53,15 @@
           </split-first>
           <split-second>
             <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-              <file leaf-file-name="pcss._exampleBasic_.html" pinned="false" current-in-tab="true">
-                <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.html">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.40306833">
-                      <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-                      <folding />
-                    </state>
+              <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/README.md">
+                  <provider editor-type-id="MarkdownPreviewEditor">
+                    <state />
                   </provider>
-                </entry>
-              </file>
-              <file leaf-file-name="pcss.js" pinned="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/pcss.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.0">
-                      <caret line="616" column="2" selection-start-line="616" selection-start-column="2" selection-end-line="616" selection-end-column="2" />
-                      <folding>
-                        <element signature="n#!!doc" expanded="true" />
-                        <marker date="1455216636694" expanded="true" signature="9877:11196" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10076:11159" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10137:10319" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10185:10225" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10269:10309" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10348:11124" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10387:10472" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10502:10621" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10679:10810" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="10840:10959" placeholder="{...}" />
-                        <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
-                      </folding>
+                    <state vertical-scroll-proportion="0.60912055">
+                      <caret line="400" column="0" selection-start-line="400" selection-start-column="0" selection-end-line="400" selection-end-column="0" />
+                      <folding />
                     </state>
                   </provider>
                 </entry>
@@ -111,24 +72,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="pcss.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/pcss.js">
+          <file leaf-file-name="pcss._example001_.js" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/pcss._example001_.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5720054">
-                  <caret line="550" column="31" selection-start-line="550" selection-start-column="31" selection-end-line="550" selection-end-column="31" />
-                  <folding>
-                    <element signature="n#!!doc" expanded="true" />
-                    <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="pcss._exampleBasic_.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.1727707">
+                  <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                   </folding>
@@ -140,6 +88,13 @@
       </split-second>
     </splitter>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -149,10 +104,12 @@
         <option value="$PROJECT_DIR$/powercss.js" />
         <option value="$PROJECT_DIR$/example_basic.js" />
         <option value="$PROJECT_DIR$/powercss-basic.html" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/pcss._exampleBasic_.html" />
         <option value="$PROJECT_DIR$/pcss._exampleBasic_.js" />
         <option value="$PROJECT_DIR$/pcss.js" />
+        <option value="$PROJECT_DIR$/exampleBasic_output.css" />
+        <option value="$PROJECT_DIR$/pcss._example001_.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -214,6 +171,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -235,7 +193,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -243,6 +200,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.CSS" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
@@ -311,11 +271,11 @@
     <frame x="0" y="0" width="2548" height="1446" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.05212893" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19284295" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3998441" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32969603" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3998441" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -361,7 +321,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.html">
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
@@ -375,12 +335,12 @@
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
+            <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.js">
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="53" column="34" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
@@ -401,7 +361,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.html">
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
@@ -415,12 +375,12 @@
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
+            <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.js">
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="64" column="35" selection-start-line="64" selection-start-column="35" selection-end-line="64" selection-end-column="35" />
@@ -441,7 +401,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.html">
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
@@ -455,12 +415,12 @@
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
+            <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.js">
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="64" column="35" selection-start-line="64" selection-start-column="35" selection-end-line="64" selection-end-column="35" />
@@ -470,7 +430,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.html">
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="35" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
@@ -484,12 +444,12 @@
           <caret line="441" column="0" selection-start-line="441" selection-start-column="0" selection-end-line="441" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
+            <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.js">
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -505,7 +465,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
+            <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -516,7 +476,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
+            <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -527,7 +487,36 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
+            <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.076923">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pcss.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5955414">
+          <caret line="615" column="28" selection-start-line="615" selection-start-column="28" selection-end-line="615" selection-end-column="28" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1455235180224" expanded="true" signature="24382:24386" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pcss._example001_.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1727707">
+          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -537,38 +526,9 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1608392">
-          <caret line="152" column="26" selection-start-line="152" selection-start-column="26" selection-end-line="152" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.60912055">
+          <caret line="400" column="0" selection-start-line="400" selection-start-column="0" selection-end-line="400" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pcss._exampleBasic_.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40306833">
-          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pcss.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5720054">
-          <caret line="550" column="31" selection-start-line="550" selection-start-column="31" selection-end-line="550" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1455216636694" expanded="true" signature="24077:24081" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
