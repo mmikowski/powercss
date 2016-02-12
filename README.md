@@ -49,7 +49,7 @@ Sound exciting? If so, read on! First we will implement a PowerCSS
 solution, and then we will discuss how and why PowerCSS works.
 
 ## Example
-### 1. Create pcss._example001.html page
+### 1. Create `pcss._example001_.html` page
 Let's create an HTML file to illustrate the basic capabilities
 of PowerCSS. We will call the file `pcss._example001_.html` and
 a complete copy can be found in the root directory of the GitHub 
@@ -75,7 +75,7 @@ repository.
     </body>
     </html>
 
-### 2. Start the pcss._example001_.js file
+### 2. Start the `pcss._example001_.js` file
 Now let's start the JavaScript file to provide the example.
 We will call the file `pcss._example001_.js` and a complete copy can
 be found in the root directory of the GitHub repository.
@@ -174,7 +174,7 @@ Selector order change how CSS is rendered. We use a list to represent the
 PowerCSS records the **vsheet** definition, but it doesn't compile 
 it to CSS. That comes later.
 
-### 2. Define and add another Virtual Stylesheet List
+### 4. Define and add another Virtual Stylesheet List
 Let's define and add another **vsheet**. This will use a few more
 advanced features, but don't get lost in the details. We will return to
 them soon enough:
@@ -220,7 +220,7 @@ them soon enough:
 
 Now we have two **vsheet**s. Let's use them!
 
-### 3. Add a Metasheet Object
+### 5. Add a Metasheet Object
 Let's add a Metasheet Object (**metasheet**) like so:
 
       metasheet_obj = pcss._addMetaSheetObj_({
@@ -254,7 +254,7 @@ The returned **metasheet** object contains the following attributes:
 We can verify these values by viewing the debugging output in the JavaScript 
 console.
 
-### 4. Enable the MetaSheet Object
+### 6. Enable the MetaSheet Object
 Let's now enable the **metasheet** and close our example function.
 
       pcss._enableMetasheetObj_({ _metasheet_id_ : '_example001_' });
@@ -271,7 +271,7 @@ Stylesheet object.
 We can verify these changes by viewing the debugging output in the JavaScript 
 console. 
 
-### 5. Marvel at the results
+### 7. Marvel at the results
 When we open `pcss._example001_.html` in a modern browser, we should see
 three boxes that have been styled by according to the **metasheet** 
 definition. We can view the generated CSS in the browser using the 
