@@ -4,15 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89592935-ae6a-41a0-8b76-20319d4e1022" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/future-content.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/pcss._exampleBasic_.html" afterPath="$PROJECT_DIR$/pcss._example001_.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/pcss._exampleBasic_.js" afterPath="$PROJECT_DIR$/pcss._example001_.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pcss.js" afterPath="$PROJECT_DIR$/pcss.js" />
-    </list>
+    <list default="true" id="89592935-ae6a-41a0-8b76-20319d4e1022" name="Default" comment="" />
     <ignored path="powercss.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -268,7 +260,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="2548" height="1446" extended-state="4" />
+    <frame x="0" y="0" width="2548" height="1446" extended-state="5" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19284295" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />

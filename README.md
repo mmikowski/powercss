@@ -1,6 +1,6 @@
 # PowerCSS 0.1.x by Michael S. Mikowski
 This 0.1.x library is in development and is intended for early
-adopters.  It should be relatively stable and reliable, however, 
+adopters. It should be relatively stable and reliable, however, 
 many features, testing, and example have yet to be completed.
 Use with caution.
 
@@ -19,9 +19,9 @@ https://www.youtube.com/watch?v=rnkMjzhxw4s
 This plugin is written in the style presented in the book
 book **Single Page Web Applications - JavaScript end-to-end**
 which is available from [Amazon][1] and directly from [Manning][2].
-It passes JSLint.  If you dislike K&R indentation, think that JSLint
+It passes JSLint. If you dislike K&R indentation, think that JSLint
 is a waste of time, and want to make closures and line endings
-impossible to find, go ahead and port it to CoffeeScript.  Just
+impossible to find, go ahead and port it to CoffeeScript. Just
 don't expect any help from me :)
 
 ## The Goal
@@ -118,7 +118,7 @@ be found in the root directory of the GitHub repository.
       pcss._initModule_();
 
 We start our module with identification, JSLint settings, and a reminder
-about my preferred CSS attribute order.  Then we declare our function 
+about my preferred CSS attribute order. Then we declare our function 
 variables, and finally we initialize the PowerCSS module.
 And, yes, Virginia, our code really *does* pass JSLint.
 
@@ -175,8 +175,8 @@ PowerCSS records the **vsheet** definition, but it doesn't compile
 it to CSS. That comes later.
 
 ### 2. Define and add another Virtual Stylesheet List
-Let's define and add another **vsheet**.  This will use a few more
-advanced features, but don't get lost in the details.  We will return to
+Let's define and add another **vsheet**. This will use a few more
+advanced features, but don't get lost in the details. We will return to
 them soon enough:
 
       // Begin add _box_css_ vsheet
@@ -218,7 +218,7 @@ them soon enough:
       });
       // End add _box_css_ vsheet
 
-Now we have two **vsheet**s.  Let's use them!
+Now we have two **vsheet**s. Let's use them!
 
 ### 3. Add a Metasheet Object
 Let's add a Metasheet Object (**metasheet**) like so:
@@ -234,7 +234,7 @@ The returned **metasheet** object contains the following attributes:
 - `_cascade_list_` as provided.
 - `_metasheet_id_` as provided.
 - `_merge_vsheet_list_` is the merged stylesheet prepared from the 
-   `_cascade_list_`.  It is an intermediary format that merges the
+   `_cascade_list_`. It is an intermediary format that merges the
    cascade but doesn't resolve values like CSS symbols or **mixins**.
    *In this example it is calculated and saved*.
 - `_mixin_map_` is the **mixin** map used only for this **metasheet**.
@@ -264,7 +264,7 @@ Let's now enable the **metasheet** and close our example function.
 
 When we enable the **metasheet**, PowerCSS creates a *disabled* browser
 Stylesheet object with an id of `pcss-0`, calculates the CSS, and then 
-writes it to the `pcss-0` browser Stylesheet object.  It then disables
+writes it to the `pcss-0` browser Stylesheet object. It then disables
 all `pcss-*` Stylesheets objects and, finally, it enables the `pcss-0`
 Stylesheet object.
 
@@ -373,7 +373,7 @@ wrap all alternate values in an object with an `_alt_list_` property.
 ### Locked values
 Typically in a cascade, the last property value in "wins". However, it
 is feasible to prevent overwriting critical properties by **vsheet**s later
-in the cascade.  One just needs to specify rules to be locked for
+in the cascade. One just needs to specify rules to be locked for
 the provided rule map in the **vsheet** definition:
 
     box_vsheet_list = [
@@ -401,22 +401,42 @@ There are lots of features and examples coming up soon.
 MIT
 
 ### Version 0.1.x
-This is the first "public" release of PowerCSS with a working example.
+This is the first "public release" versions of PowerCSS with a
+single working example.
 
 ### Testing
-I have yet to test across all platforms.  Use with care.
+I have yet to test across all platforms. Use with care.
 
 ## Similar Projects
 [absurdjs][3], [responsive.j$][4]
-## See also
-The Hammer touch library, jQuery mobile.
 
 ## TODO
-Support a wider range of motions
+### Enhance implemented capabilities
+- addStylesheetObj
+- addVsheetList
+- addMetasheetObj
+- enableMetasheetObj
+
+### Planned future capabilities
+- timestamp-based minimal processing
+- getGlobalMixinMap,
+- setGlobalMixinMap,
+- getMetasheetMixinMap,
+- setMetasheetMixinMap,
+- getVsheetMixinMap,
+- setVsheetMixinMap,
+
+- delVsheetList,
+- getVsheetList,
+- delMetasheetObj,
+- getMetasheetObj
+
+
+
 
 ## Contribute!
 If you want to help out, like all jQuery plugins this is hosted at
-GitHub.  Any improvements or suggestions are welcome!
+GitHub. Any improvements or suggestions are welcome!
 You can reach me at mike[dot]mikowski[at]gmail[dotcom].
 
 ## End

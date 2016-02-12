@@ -19,12 +19,10 @@
 // https://www.youtube.com/watch?v=rnkMjzhxw4s
 //
 // See README.md for further documentation.
-//
-// THIS LIBRARY IS IN DEVELOPMENT.
-// PLEASE DO NOT USE FOR ANY PURPOSE AT THIS TIME.
-//
+
 var pcss;
 pcss = (function () {
+  // BEGIN 1. MODULE SCOPE VARIABLES ========================
   var
     __String = String,
 
@@ -240,32 +238,11 @@ pcss = (function () {
       _style_el_idx_    : __n1,
       _vsheet_list_map_   : {}
     }
-    // insertCssRule
-
-    // Baseline capabilities
-    // addStylesheetObj,
-
-    // addVsheetList,
-    // addMetasheetObj,
-    // enableMetasheetObj,
-
-    // Future capabilities!
-    //addMixinMap,
-    //delMixinMap,
-    //getMixinMap,
-
-    //delVsheetList,
-    //getVsheetList,
-    //getVsheetNameList,
-
-    //delMetasheetObj,
-    //getMetasheetObj,
-    //getMetasheetObjMap,
-    //getMetasheetObjCss,
-
     ;
 
-  // BEGIN private methods
+  // END   1. MODULE SCOPE VARIABLES ========================
+  
+  // BEGIN 2. PRIVATE METHODS ===============================
   function logIt () {
     var arg_list = [];
     Array.prototype.push.apply( arg_list, arguments );
@@ -281,58 +258,6 @@ pcss = (function () {
     topSmap._style_el_idx_++;
     return style_el_id;
   }
-  //insertCssRule = (function () {
-  //  var
-  //    add_rule_str    = 'addRule',
-  //    insert_rule_str = 'insertRule',
-
-  //    cmd_str, insert_css_rule;
-
-  //  insert_css_rule = function ( sheet_obj, select_str, rule_str, idx ) {
-  //    var is_success = __true;
-
-  //    if ( ! cmd_str ) {
-  //      if ( sheet_obj[ insert_rule_str ] ) {
-  //        cmd_str = 'i';
-  //      }
-  //      if ( sheet_obj[ add_rule_str ] ) {
-  //        cmd_str = 'a';
-  //      }
-  //    }
-
-  //    switch ( cmd_str ) {
-  //      case 'a' :
-  //        try {
-  //          sheet_obj[ add_rule_str ]( select_str, rule_str, idx );
-  //        }
-  //        catch ( error0 ) {
-  //          logIt( '_warn_', select_str, rule_str, idx, error0 );
-  //          is_success = __false;
-  //        }
-  //        break;
-
-  //      case 'i' :
-  //        try {
-  //          sheet_obj[ insert_rule_str ](
-  //            select_str + '{' + rule_str + '}', idx
-  //          );
-  //        }
-  //        catch ( error1 ) {
-  //          logIt( '_warn_', select_str, rule_str, idx, error1 );
-  //          is_success = __false;
-  //        }
-  //        break;
-
-  //      default :
-  //        logIt( '_error_', '_no_means_to_add_css_rule_' );
-  //        is_success = __false;
-  //        break;
-  //    }
-  //    return is_success;
-  //  };
-  //  return insert_css_rule;
-  //}());
-  // END styleUtil method /insertCssRule/
 
   function addStyleEl ( style_id ) {
     var
@@ -494,15 +419,9 @@ pcss = (function () {
           continue;
         }
 
-        // Here we check if we have an object rule value.
-        // We reserve objects for alternative lists of values
-        // because it is a relatively rare case, and we cannot
-        // count on key names after compression to determine
-        // content intent.
-        //
         // val:   'some_string'   => lookup key
         // val: [ 'some_string' ] => literal
-        // val: { alt_list : [ 'some_string, [ 'some_string ] ] }
+        // val: { _alt_list_ : [ 'some_string, [ 'some_string ] ] }
         //   => alternate list.  The first value is a lookup,
         //      the second is a literal.
         //
@@ -522,6 +441,10 @@ pcss = (function () {
 
           switch ( solve_data_type ) {
             case vMap._string_ :
+              // TODO: Lookup by
+              //   vsheet mixin -> meta mixin -> global mixin -> css maps
+              //   Consider pre-merging maps (profile)
+              //
               if ( cssValMap[ vMap._hasOwnProp_ ]( rule_data ) ) {
                 solve_val_str = cssValMap[ rule_data ];
               }
@@ -551,7 +474,6 @@ pcss = (function () {
         ? solve_rule_list[ vMap._join_ ]( ';' ) : __blank;
       solve_select_str += '}' + close_str;
       solve_select_list[ vMap._push_ ]( solve_select_str );
-      // insertCssRule( stylesheet_obj, solve_select_str, solve_rule_str, i );
     }
     return solve_select_list[ vMap._join_]( '\n' );
   }
@@ -572,9 +494,21 @@ pcss = (function () {
       style_el[ vMap._appendChild_ ]( text_el );
     }
   }
-  // END private methods
 
-  // BEGIN public methods
+  function initCheck () {
+    var target_fn = this;
+    if ( ! topSmap._style_el_prefix_ ) {
+      throw '_please_run_initmodule_first_';
+    }
+    return target_fn.apply( this, arguments );
+  }
+  // END   2. PRIVATE METHODS ===============================
+  
+  // BEGIN 3. MESSAGE EVENT HANDLERS ========================
+  // END   3. MESSAGE EVENT HANDLERS ========================
+
+  // BEGIN 4. PUBLIC METHODS ================================
+  // BEGIN 4.1 public method /addVsheetList/
   function addVsheetList ( arg_opt_map ) {
     var
       opt_map         = arg_opt_map           || {},
@@ -588,7 +522,9 @@ pcss = (function () {
     }
     vsheet_list_map[ vsheet_id ] = vsheet_list;
   }
+  // END 4.1 public method /addVsheetList/
 
+  // BEGIN 4.2 public method /addMetasheetObj/
   function addMetasheetObj ( arg_opt_map ) {
     var
       opt_map           = arg_opt_map            || {},
@@ -624,71 +560,9 @@ pcss = (function () {
     metasheet_obj_map[ metasheet_id ] = metasheet_obj;
     return metasheet_obj;
   }
+  // END 4.2 public method /addMetasheetObj/
 
-  function initCheck () {
-    var target_fn = this;
-    if ( ! topSmap._style_el_prefix_ ) {
-      throw '_please_run_initmodule_first_';
-    }
-    return target_fn.apply( this, arguments );
-  }
-
-// Old Firefox and IE (need to test)
-// if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
-//   style_el[       vMap._cssText_ ] = __blank;
-// }
-// // New Firefox
-// else if ( style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
-//   style_el[        vMap._textContent_ ] = __blank;
-// }
-// // Webkit
-// else {
-//   __docRef[ vMap._createTextNode_ ] = __blank;
-//   style_el[      vMap._innerText_ ] = __blank;
-// }
-// Stylesheet object is *not* the same as the style element!
-//stylesheet_obj = style_el.sheet;
-//stylesheet_obj[ vMap._disabled_ ] = __true;
-
-// updateCSS = function ( sheet_select_list ) {
-//   var
-//     style_el_idx = topSmap._style_el_idx_,
-//
-//     style_el_list, write_el_idx,
-//     used_style_el, write_style_el, style_str
-//     ;
-//
-//   if ( style_el_idx === __n1 ) { initStyleEls(); }
-//
-//   style_el_list   = topSmap._style_el_list;
-//   style_el_idx    = topSmap._style_el_idx_;
-//   write_el_idx    = style_el_idx === __0 ? __1 : __0;
-//   used_style_el   = style_el_list[ style_el_idx ];
-//   write_style_el  = style_el_list[ write_el_idx ];
-//
-//   write_style_el[ vMap._setAttribute_ ]( vMap._disabled_, __true );
-//   style_str = makeCssStr( sheet_select_list );
-//
-//   // Old Firefox and IE(?)
-//   if ( write_style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
-//     write_style_el[ vMap._cssText_      ] = style_str;
-//   }
-//   // New Firefox
-//   else if ( write_style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
-//     write_style_el[ vMap._textContent_ ] = style_str;
-//   }
-//   // Webkit
-//   else {
-//     __docRef[ vMap._createTextNode_ ] = __blank;
-//     write_style_el[ vMap._innerText_    ] = style_str;
-//   }
-
-//   used_style_el[  vMap._setAttribute_ ]( vMap._disabled_, __true  );
-//   write_style_el[ vMap._setAttribute_ ]( vMap._disabled_, __false );
-//
-//   // toggle current in-use stylesheet
-//   topSmap._style_el_idx_ = write_el_idx;
-// };
+  // BEGIN 4.3 public method /enableMetasheetObj/
   function enableMetasheetObj ( arg_opt_map ) {
     var
       opt_map      = arg_opt_map || {},
@@ -728,12 +602,15 @@ pcss = (function () {
     style_el.sheet[ vMap._disabled_ ] = __false;
 
   }
+  // END 4.3 public method /enableMetasheetObj/
 
+  // BEGIN 4.4 public method /initModule/
   function initModule ( arg_opt_map ) {
     var opt_map = arg_opt_map || {};
     topSmap._style_el_prefix_ = ( !! opt_map._style_el_prefix_ )
       ? opt_map._style_el_prefix_ + '-' : 'pcss-';
   }
+  // END 4.4 public method /initModule/
 
   return {
     _initModule_         : initModule,
@@ -743,3 +620,4 @@ pcss = (function () {
     _enableMetasheetObj_ : initCheck.bind( enableMetasheetObj )
   };
 }());
+// END pcss
