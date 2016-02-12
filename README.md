@@ -420,15 +420,15 @@ What if we used a **vsheet** that didn't have a mixin\_map?  Then
 the mixin value would be set at three levels:
 
     builtin._bcolor_   = undefined;
-    global._bcolor_    = [ 'red'   ];
-    metasheet._bcolor_ = [ 'green' ];
+    global._bcolor_    = 'red';
+    metasheet._bcolor_ = 'green';
     vsheet._bcolor_    = undefined;
 
 Here the **metasheet** level value, 'green', will "win" and the CSS processor
 will use that instead of any **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:green`.
-And so on.  If at the end of this cascade the value is undefined, a blank
-string will be used as the value and a warning logged to the console.
+And so on.  If at the end of this scope chain value is undefined, a blank
+string will be used and a warning logged to the console.
 
 An astute reader will notice that a **vsheet** can be used across many
 **metasheets**.  This is a very powerful feature, but it is important to keep
