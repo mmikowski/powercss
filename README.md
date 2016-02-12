@@ -263,13 +263,9 @@ Let's now enable the **metasheet** and close our example function.
     // END pcss._example001_
 
 When we enable the **metasheet**, PowerCSS creates a *disabled* browser
-Stylesheet object with an id of `pcss-0`, calculates the CSS, and then 
-writes it to the `pcss-0` browser Stylesheet object. It then disables
-all `pcss-*` Stylesheets objects and, finally, it enables the `pcss-0`
-Stylesheet object.
-
-We can verify these changes by viewing the debugging output in the JavaScript 
-console. 
+style element with an id of `pcss-0`, calculates the CSS, and then 
+writes it to the `pcss-0` style element. It then disables
+all `pcss-*` CSS, and, finally, it enables the `pcss-0` style element.
 
 ### 7. Marvel at the results
 When we open `pcss._example001_.html` in a modern browser, we should see
@@ -412,27 +408,23 @@ I have yet to test across all platforms. Use with care.
 
 ## TODO
 ### Enhance implemented capabilities
-- addStylesheetObj
 - addVsheetList
 - addMetasheetObj
 - enableMetasheetObj
 
 ### Planned future capabilities
 - timestamp-based minimal processing
-- getGlobalMixinMap,
-- setGlobalMixinMap,
-- getMetasheetMixinMap,
-- setMetasheetMixinMap,
-- getVsheetMixinMap,
-- setVsheetMixinMap,
+- getGlobalMixinMap
+- setGlobalMixinMap
+- getMetasheetMixinMap
+- setMetasheetMixinMap
+- getVsheetMixinMap
+- setVsheetMixinMap
 
-- delVsheetList,
-- getVsheetList,
-- delMetasheetObj,
+- delVsheetList
+- getVsheetList
+- delMetasheetObj
 - getMetasheetObj
-
-
-
 
 ## Contribute!
 If you want to help out, like all jQuery plugins this is hosted at
