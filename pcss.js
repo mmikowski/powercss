@@ -279,6 +279,7 @@ pcss = (function () {
   }
 
   function cloneData ( data ) {
+    if ( data === __undef ) { return data; }
     return __str2j( __j2str( data ) );
   }
 

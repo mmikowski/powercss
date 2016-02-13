@@ -61,25 +61,25 @@ Now let's review the work-flow before we jump into the example.
 
 
 We were careful to change as little of the existing CSS work-flow as
-possible. If you are comfortable with using static CSS, this should be 
+possible. If you are comfortable with using static CSS, this should be
 pretty familiar.
 
 Also, keep in mind that **PowerCSS will never change your data.** This
 means if you provide an array or object as an argument to a PowerCSS call,
-it is **copied** and you can reuse your array or object without fear of 
+it is **copied** and you can reuse your array or object without fear of
 it being modified by PowerCSS at some later time.
 
 ### 1. Create `pcss._example001_.html` file
 Let's create an HTML file named `pcss._example001_.html` to illustrate
 the basic capabilities of PowerCSS. A complete copy of this file can
-be found in the root directory of the GitHub repository.
+be found in the `examples` directory of the GitHub repository.
 
     <!DOCTYPE html>
     <html>
     <head>
-      <title>PowerCSS Example001</title>
-      <script src="./pcss.js"></script>
-      <script src="./pcss._example001_.js"></script>
+      <title>PowerCSS Example 001</title>
+      <script src="../pcss.js"></script>
+      <script src="../pcss._example001_.js"></script>
       <script>
       window.onload = pcss._example001_;
       </script>
@@ -89,7 +89,7 @@ be found in the root directory of the GitHub repository.
       <div class="pcss-_box_">PowerCSS 01</div>
       <div class="pcss-_box_">PowerCSS 02</div>
       <div class="pcss-_box_">PowerCSS 03
-        <input title="example" type="text" placeholder="Your name here"/>
+        <input title="name" type="text" placeholder="your name here"/>
       </div>
     </body>
     </html>
@@ -97,10 +97,10 @@ be found in the root directory of the GitHub repository.
 ### 2. Start the `pcss._example001_.js` file
 Now let's start a JavaScript file named to `pcss._example001_.js` to
 provide PowerCSS directives. A complete copy can of this file can
-be found in the root directory of the GitHub repository.
+be found in the `examples` directory of the GitHub repository.
 
     /* pss._example001_.js
-     * First example of run-time generated and managed CSS
+     * First of run-time generated and managed CSS
      * Michael S. Mikowski - mike.mikowski@gmail.com
     */
     /*jslint        browser : true, continue : true,
@@ -123,7 +123,7 @@ be found in the root directory of the GitHub repository.
      *    8. background, text-align, white-space,
      *    9. content defs - font-size, line-height, font, color everything else
      *    -- break --
-     *     10. css transition or animation definitions
+     *    10. css transition or animation definitions
     */
 
     // BEGIN pcss._example001_
@@ -162,6 +162,7 @@ the format with little trouble. Below we add a **vsheet** definition to
         { _select_str_ : 'input',
           _rule_map_ : {
             _margin_        : [ '.5rem' ],
+            _width_         : [ '10rem' ],
             _border_        : [ '.125rem solid #ddd' ],
             _border_radius_ : [ '.5rem' ],
             _outline_       : '_none_',
@@ -241,8 +242,8 @@ Now we have two **vsheet**s. Let's use them!
 Let's define a metasheet object (**metasheet**) like so:
 
       metasheet_obj = pcss._setMetasheetObj_({
-        _cascade_list_ : [ '_base_css_', '_box_css_' ]
-        _metasheet_id_ : '_example001_',
+        _cascade_list_ : [ '_base_css_', '_box_css_' ],
+        _metasheet_id_ : '_example001_'
       });
       console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
@@ -367,7 +368,7 @@ adjust our example to take advantage of PowerCSS.
 ### Rule key substitution.
 A CSS rule declaration looks like the following:
 
-    background-color : #ffffff;
+    background-color : #fff;
 
 The expression to the left of the color we refer to as the rule **key**.
 The text after the colon but before the semicolon we refer to as the rule
@@ -385,18 +386,19 @@ our rule can be compressed to JavaScript symbols like so:
 
     nx:qr,
 
-This is less than 20% of the size of the native CSS (5 vs 26 characters).
+This is 22% of the size of the native CSS (5 vs 23 characters).
 And some CSS keys and values can be especially verbose.  One downside to
 this approach, of course, is we must declare the symbols initially.
-You can find in the PowerCSS library, `pcss.js`, that we have a 
-`cssKeyMap` defines our keyword meanings.
+The `cssKeyMap` defines our keyword meanings in the PowerCSS library
+file, `pcss.js`.
 
 We have compiled a pretty exhaustive list of commonly used keywords, but
 the rule keys needed will vary from project to project.  We often prune
-or expand this list as needed.
+or expand this list, and suggest you do the same.  Currently if an
+unknown key is encountered, a warning is logged to the console.
 
 We are exploring how to best modularize the CSS key and value
-maps. Suggestions are welcome :)
+mixin maps. Suggestions are welcome :)
 
 ### Rule value substitutions
 There are three types of CSS values supported by PowerCSS. They are:
@@ -418,14 +420,15 @@ used at this time to set CSS values, not key names. These levels are
 as follows:
 
 1. At the **builtin** level. This is a set of common values that
-   are available by default. Examples include `_fixed_`, which
-   resolves to 'fixed' in the resulting CSS. We use the `_name_`
-   format because it allows for very high levels of compression.
+   are available by default.  For example, the symbol `_fixed_`
+   resolves to 'fixed' in the resulting CSS. The `cssValMap` defines
+   our values in the PowerCSS library file, `pcss.js`.
 2. At the **global** level. This mixin map will be used across all
    **metasheets** and, as a consequence, by all **vsheets** they use.
 3. At the **metasheet** level. This mixin map is exclusive to one
    **metasheet** and will be used by all **vsheets** in cascade list.
 4. At the **vsheet** level. This mixin map is exclusive to one **vsheet**.
+
 
 When resolving mixin symbols, the "closest" match "wins." Let's consider the
 following PowerCSS rule definition as an example:
@@ -455,12 +458,12 @@ the mixin value would be set at three levels:
 Here the **metasheet** level value, 'green', will "win" and the CSS processor
 will use that instead of any **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:green`.
-And so on. If at the end of this scope chain value is undefined, a blank
-string will be used and a warning logged to the console.
+And so on. If the value is still undefined at the end of this scope chain,
+a blank string will be used and a warning logged to the console.
 
 An astute reader will notice that a **vsheet** can be used across many
 **metasheets**. This is a very powerful feature, but it is important to keep
-that in mind when setting **vsheet** mixin maps.
+in mind when setting **vsheet** mixin maps.
 
 ### Literal values
 Literal values are just that: a string you want to use as-is. Simply wrap any
@@ -556,7 +559,7 @@ I have yet to test across all platforms. Use with care.
 ### Enhance implemented capabilities
 - setVsheetList: add mixin\_map opt
 - setMetasheetObj: add mixin\_map opt
-- enableMetasheetObj: disable other pcss sheets 
+- enableMetasheetObj: disable other pcss sheets
 
 ### Planned future capabilities
 - nodejs support, especially with nodeunit-b
