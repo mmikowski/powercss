@@ -70,7 +70,7 @@ pcss._example001_ = function () {
     }
   ];
 
-  pcss._addVsheetList_({
+  pcss._setVsheetList_({
     _vsheet_id_   : '_base_css_',
     _vsheet_list_ : base_vsheet_list
   });
@@ -109,13 +109,13 @@ pcss._example001_ = function () {
     }
   ];
 
-  pcss._addVsheetList_({
+  pcss._setVsheetList_({
     _vsheet_id_   : '_box_css_',
     _vsheet_list_ : box_vsheet_list
   });
   // End add _box_css_ vsheet
 
-  metasheet_obj = pcss._addMetasheetObj_({
+  metasheet_obj = pcss._setMetasheetObj_({
     _cascade_list_ : [ '_base_css_', '_box_css_' ],
     _metasheet_id_ : '_example001_'
   });
