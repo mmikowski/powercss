@@ -30,7 +30,10 @@ pcss._example002_ = function () {
   var
     base_vsheet_list,
     box_vsheet_list,
-    metasheet_obj
+    box_rule_map,
+    metasheet_obj,
+    box_switch_el,
+    onclick_fn
     ;
 
   pcss._initModule_();
@@ -115,13 +118,86 @@ pcss._example002_ = function () {
   });
   // End add _box_css_ vsheet
 
-  metasheet_obj = pcss._setMetasheetObj_({
+  // Begin add _box2_css_ vsheet
+  box_rule_map = box_vsheet_list[ 0 ]._rule_map_;
+  box_rule_map._display_    = '_block_';
+  box_rule_map._width_      = undefined;
+  box_rule_map._font_size_  = [ '32px' ];
+  box_rule_map._box_shadow_ = [ 'rgba( 64, 32, 32, .5) 0 0 .5rem 0' ];
+  box_rule_map._background_ = {
+    _alt_list_ : [
+      [ '#4f9831' ],
+      [ '-moz-linear-gradient(left, #4f9831 0%, #eee 100%)' ],
+      [ '-webkit-linear-gradient(left, #4f9831 0%, #eee 100%)' ],
+      [ 'linear-gradient(to bottom, #4f9831 0%, #eee 100%)' ]
+    ]
+  };
+  box_vsheet_list.push({
+    _select_str_ : '.pcss-_box_ input',
+    _rule_map_ : { _background_ : [ '#884' ] }
+  });
+  box_vsheet_list.push({
+    _select_str_ : '.pcss-_box_ input:focus',
+    _rule_map_ : { _background_ : [ '#442' ] }
+  });
+
+  box_vsheet_list.push({
+    _select_str_ : '#pcss-_box_switch_',
+    _rule_map_ : {
+      _position_ : '_absolute_',
+      _z_index_ : '_1_',
+      _top_ : '_0_',
+      _right_ : '_0_',
+      _box_shadow_ : box_rule_map._box_shadow_,
+      _border_width_ : [ '0 0 0.125rem 0.125rem' ],
+      _border_style_ : [ 'solid' ],
+      _border_color_ : [ '#aaa' ],
+      _padding_      : '_1rem_',
+      _background_ : '_xeee_'
+    }
+  });
+
+  pcss._setVsheetList_({
+    _vsheet_id_   : '_box2_css_',
+    _vsheet_list_ : box_vsheet_list
+  });
+  // End add _box2_css_ vsheet
+
+  pcss._setMetasheetObj_({
     _cascade_list_ : [ '_base_css_', '_box_css_' ],
     _metasheet_id_ : '_example001_'
   });
-  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
 
-  pcss._enableMetasheetObj_({ _metasheet_id_ : '_example001_' });
-  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
+  pcss._setMetasheetObj_({
+    _cascade_list_ : [ '_base_css_', '_box2_css_' ],
+    _metasheet_id_ : '_example002_'
+  });
+
+  onclick_fn = function ( event ) {
+    var
+      hash_str = event.target.hash,
+      metasheet_id;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    switch( hash_str ) {
+      case '#one':
+        metasheet_id = '_example001_';
+        break;
+      case '#two':
+        metasheet_id = '_example002_';
+        break;
+      default:
+        return false;
+    }
+    pcss._enableMetasheetObj_({ _metasheet_id_ : metasheet_id });
+    console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
+
+  };
+
+  box_switch_el = document.getElementById( 'pcss-_box_switch_' );
+  box_switch_el.addEventListener( 'click', onclick_fn );
+
 };
 // END pcss._example002_

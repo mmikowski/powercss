@@ -279,7 +279,7 @@ pcss = (function () {
   }
 
   function cloneData ( data ) {
-    if ( data === __undef ) { return data; }
+    if ( data === __undef ) { console.warn( 'wtf?' ); return data; }
     return __str2j( __j2str( data ) );
   }
 
@@ -333,8 +333,10 @@ pcss = (function () {
           rule_key_count = rule_key_list[ vMap._length_ ];
           _RULE_: for ( l = __0; l < rule_key_count; l++ ) {
             rule_key = rule_key_list[ l ];
-            if ( rule_lock_list[ vMap._indexOf_ ]( rule_key ) > __n1 ) {
-              console.warn(
+            if ( rule_lock_list
+              && rule_lock_list[ vMap._indexOf_ ]( rule_key ) > __n1
+            ) {
+              logIt(
                 '_rule_key_locked_for_selector_', select_str, rule_key
               );
               continue _RULE_;
@@ -633,7 +635,7 @@ pcss = (function () {
       }
     }
 
-    style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
+    style_el[ vMap._disabled_ ] = __false;
     // BEGIN 4.3.5 Disable all prior sheets and enable this one
   }
   // END 4.3 Public method /enableMetasheetObj/
