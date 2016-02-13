@@ -415,23 +415,27 @@ are supported. We expect to add the additional levels in a few days.
 All mixin maps will be settable through a `pcss._setMixinMap_()` method.
 Details will follow as these are released.
 
-Mixin values available at four levels in PowerCSS. They are only
-used at this time to set CSS values, not key names. These levels are
-as follows:
+Mixin values come one of **four** sources:
 
-1. At the **builtin** level. This is a set of common values that
-   are available by default.  For example, the symbol `_fixed_`
-   resolves to 'fixed' in the resulting CSS. The `cssValMap` defines
-   our values in the PowerCSS library file, `pcss.js`.
-2. At the **global** level. This mixin map will be used across all
-   **metasheets** and, as a consequence, by all **vsheets** they use.
-3. At the **metasheet** level. This mixin map is exclusive to one
-   **metasheet** and will be used by all **vsheets** in cascade list.
-4. At the **vsheet** level. This mixin map is exclusive to one **vsheet**.
+1. The **builtin** value map, `cssValMap`. This is a set of common 
+   CSS values that are available by default.  For example, the symbol
+   `_fixed_` resolves to 'fixed' in the resulting CSS. This map is
+   found in the the PowerCSS library file, `pcss.js`.
+2. The **global** mixin map is used across all **metasheets** and, as 
+   a consequence, by all **vsheets** they use.
+3. **Metasheet** mixin maps are exclusive to one **metasheet** and 
+   are used by all **vsheets** in their cascade list.
+4. **Vsheet** mixin maps are exclusive to one **vsheet**.
 
+The precidence of these mixin sources (also known as a 'scope chain')
+is as follows:
 
-When resolving mixin symbols, the "closest" match "wins." Let's consider the
-following PowerCSS rule definition as an example:
+    vsheet -> metasheet -> global -> builtin
+
+This means that **vsheets** mixin values have priority over **metasheet**
+mixin values which have priority over **global** mixin values which have 
+priority over **builtin** values.  We think of this as "the closest match
+wins." Consider the following PowerCSS rule definition:
 
     rule_map : { background : '_bcolor_', ... }
 
@@ -443,7 +447,7 @@ then be:
     metasheet._bcolor_ = 'green';
     vsheet._bcolor_    = 'blue';
 
-Here the **vsheet** level value, 'blue', will "win" and the CSS processor
+Here the **vsheet** level value, 'blue', "wins" and the CSS processor
 will use that instead of any **metasheet**, **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:blue`.
 
@@ -455,10 +459,10 @@ the mixin value would be set at three levels:
     metasheet._bcolor_ = 'green';
     vsheet._bcolor_    = undefined;
 
-Here the **metasheet** level value, 'green', will "win" and the CSS processor
+Here the **metasheet** level value, 'green', will "win" and the CSS generator
 will use that instead of any **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:green`.
-And so on. If the value is still undefined at the end of this scope chain,
+And so on. If the value is still undefined at the end of the scope chain,
 a blank string will be used and a warning logged to the console.
 
 An astute reader will notice that a **vsheet** can be used across many
@@ -471,8 +475,9 @@ string in an array to have it read as a literal, as illustrated below:
 
     rule_map : { background : [ 'blue' ], ... }
 
-We use an array wrapper as a literal array wrapper so that the code will be
-very compressor friendly.
+We use an array wrapper as a literal array wrapper so that PowerCSS does not
+rely on symbol names to determine how to parse values. This makes it makes it
+compressor friendly.
 
 ### Alternate values
 Sometimes we want to provide alternate rules for a style so that
