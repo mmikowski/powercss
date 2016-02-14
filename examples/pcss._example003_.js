@@ -30,11 +30,10 @@
 pcss._example003_ = function () {
   var
     base_vsheet_list,   base_mixin_map,
-    box_vsheet_list,    box_mixin_map,
-    box_rule_map,
-    switch_vsheet_list,
-    switch_el,          cascade_obj,
-    link_list,          onclick_fn
+    box_vsheet_list,    // box_mixin_map,
+    switch_vsheet_list, box_rule_map,       
+    switch_el,          link_list,
+    onclick_fn
     ;
 
   pcss._initModule_();
@@ -83,8 +82,8 @@ pcss._example003_ = function () {
 
   pcss._setVsheetList_({
     _vsheet_id_   : '_base_vsheet_',
-    _vsheet_list_ : base_vsheet_list,
-    _mixin_map_   : base_mixin_map
+    _vsheet_list_ : base_vsheet_list
+    // _mixin_map_   : base_mixin_map // alternate
   });
   pcss._setMixinMap_({
     _asset_id_   : '_base_vsheet_',
@@ -195,7 +194,7 @@ pcss._example003_ = function () {
   // End add _switch_vsheet_
 
   // Begin create cascade objects to toggle
-  cascade_obj = pcss._setCascadeObj_({
+  pcss._setCascadeObj_({
     _cascade_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_' ],
     _cascade_id_ : '_example001_'
   });
@@ -225,8 +224,6 @@ pcss._example003_ = function () {
     if ( cascade_id ) {
       pcss._enableCascadeObj_({ _cascade_id_ : cascade_id });
     }
-    event.preventDefault();
-    event.stopPropagation();
   };
 
   switch_el = document.getElementById( 'pcss-_switch_' );

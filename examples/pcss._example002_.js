@@ -31,7 +31,7 @@ pcss._example002_ = function () {
   var
     base_vsheet_list,   box_vsheet_list,
     switch_vsheet_list, box_rule_map,
-    switch_el,          cascade_obj,
+    switch_el,
     link_list,          onclick_fn
     ;
 
@@ -181,7 +181,7 @@ pcss._example002_ = function () {
   // End add _switch_vsheet_
 
   // Begin create cascade objects to toggle
-  cascade_obj = pcss._setCascadeObj_({
+  pcss._setCascadeObj_({
     _cascade_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_' ],
     _cascade_id_ : '_example001_'
   });
@@ -211,8 +211,6 @@ pcss._example002_ = function () {
     if ( cascade_id ) {
       pcss._enableCascadeObj_({ _cascade_id_ : cascade_id });
     }
-    event.preventDefault();
-    event.stopPropagation();
   };
 
   switch_el = document.getElementById( 'pcss-_switch_' );
