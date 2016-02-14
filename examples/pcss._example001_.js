@@ -1,5 +1,6 @@
 /* pss._example001_.js
- * First of run-time generated and managed CSS
+ * Example 001 of run-time generated and managed CSS
+ * using PowerCSS - the basics
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
 /*jslint        browser : true, continue : true,
@@ -35,7 +36,7 @@ pcss._example001_ = function () {
 
   pcss._initModule_();
 
-  // Begin add _base_css_ vsheet
+  // Begin add _base_vsheet_
   base_vsheet_list = [
     { _select_str_  : 'body',
       _rule_map_     : {
@@ -44,39 +45,39 @@ pcss._example001_ = function () {
         _padding_    : '_2rem_',
         _margin_     : '_0_',
         _font_family_: '_font_sans_',
-        _font_size_  : [ '16px' ]
+        _font_size_  : [ '16px' ],
+        _color_      : '_x888_'
       }
     },
     { _select_str_ : 'input',
       _rule_map_ : {
-        _margin_        : [ '.5rem' ],
+        _margin_        : '_d5rem_',
         _width_         : [ '10rem' ],
         _border_        : [ '.125rem solid #ddd' ],
-        _border_radius_ : [ '.5rem' ],
+        _border_radius_ : '_d5rem_',
         _outline_       : '_none_',
-        _padding_       : [ '.5rem' ],
-        _background_    : [ '#888' ],
+        _padding_       : '_d5rem_',
+        _background_    : '_x888_',
         _font_size_     : '_1rem_',
         _color_         : '_xddd_'
       }
     },
-    {
-      _select_str_ : 'input:focus',
+    { _select_str_ : 'input:focus',
       _rule_map_   : {
         _border_color_ : '_xfff_',
-        _background_   : [ '#444' ],
+        _background_   : '_x444_',
         _color_        : '_xfff_'
       }
     }
   ];
 
   pcss._setVsheetList_({
-    _vsheet_id_   : '_base_css_',
+    _vsheet_id_   : '_base_vsheet_',
     _vsheet_list_ : base_vsheet_list
   });
-  // End add _base_css_ vsheet
+  // End add _base_vsheet_
 
-  // Begin add _box_css_ vsheet
+  // Begin add _box_vsheet_
   box_vsheet_list = [
     { _select_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
@@ -101,7 +102,7 @@ pcss._example001_ = function () {
             [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
           ]
         },
-        _font_size_      : [ '24px' ],
+        _font_size_      : '_1d5rem_',
         _font_weight_    : '_800_',
         _color_          : '_xfff_',
         _text_align_     : '_center_'
@@ -110,18 +111,26 @@ pcss._example001_ = function () {
   ];
 
   pcss._setVsheetList_({
-    _vsheet_id_   : '_box_css_',
+    _vsheet_id_   : '_box_vsheet_',
     _vsheet_list_ : box_vsheet_list
   });
-  // End add _box_css_ vsheet
+  // End add _box_vsheet_
 
+  // Begin create a metasheet and enable it
   metasheet_obj = pcss._setMetasheetObj_({
-    _cascade_list_ : [ '_base_css_', '_box_css_' ],
+    _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
     _metasheet_id_ : '_example001_'
   });
-  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
+  console.log( 
+    'metasheet object BEFORE enable',
+    JSON.stringify( metasheet_obj )
+  );
 
   pcss._enableMetasheetObj_({ _metasheet_id_ : '_example001_' });
-  console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
+  console.log( 
+    'metasheet_obj AFTER enable',
+    JSON.stringify( metasheet_obj )
+  );
+  // End create a metasheet and enable it
 };
 // END pcss._example001_

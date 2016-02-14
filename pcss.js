@@ -174,15 +174,34 @@ pcss = (function () {
     cssValMap = {
       _0_             : '0',
       _1_             : '1',
+      _0p_            : '0%',
+      _12d5p_         : '12.5%',
+      _25p_           : '25%',
+      _36d5p_         : '37.5%',
+      _50p_           : '50%',
+      _62d5p_         : '62.5%',
+      _75p_           : '75%',
+      _87d5p_         : '87.5%',
+      _100p_          : '100%',
+      _d125rem_       : '.125rem',
+      _d25rem_        : '.25rem',
+      _d375rem_       : '.375rem',
+      _d5rem_         : '.5rem',
+      _d625rem_       : '.625rem',
+      _d75rem_        : '.75rem',
+      _d875rem_       : '.5rem',
       _1rem_          : '1rem',
+      _1d5rem_        : '1.5rem',
       _2rem_          : '2rem',
       _3rem_          : '3rem',
-      _0p_            : '0%',
-      _50p_           : '50%',
-      _100p_          : '100%',
       _200_           : '400',
       _400_           : '400',
       _800_           : '800',
+      _x444_          : '#444',
+      _x888_          : '#888',
+      _xaaa_          : '#aaa',
+      _xbbb_          : '#bbb',
+      _xccc_          : '#ccc',
       _xddd_          : '#ddd',
       _xeee_          : '#eee',
       _xfff_          : '#fff',
@@ -206,7 +225,6 @@ pcss = (function () {
       _font_fixed_    : 'courier, fixed',
       _font_sans_     : 'arial, helvetica, sans-serif',
       _hidden_        : 'hidden',
-      _important_     : ' !important',
       _inherit_       : 'inherit',
       _inline_block_  : 'inline-block',
       _italic_        : 'italic',
@@ -222,6 +240,7 @@ pcss = (function () {
       _pointer_       : 'pointer',
       _relative_      : 'relative',
       _right_         : 'right',
+      _scroll_        : 'scroll',
       _show_          : 'show',
       _solid_         : 'solid',
       _text_          : 'text',
@@ -240,7 +259,6 @@ pcss = (function () {
       _vsheet_list_map_   : {}
     }
     ;
-
   // END   1. MODULE SCOPE VARIABLES ========================
 
   // BEGIN 2. PRIVATE METHODS ===============================
@@ -279,7 +297,7 @@ pcss = (function () {
   }
 
   function cloneData ( data ) {
-    if ( data === __undef ) { console.warn( 'wtf?' ); return data; }
+    if ( ! data ) { return data; }
     return __str2j( __j2str( data ) );
   }
 
@@ -627,15 +645,14 @@ pcss = (function () {
     // END 4.3.4 Generate and set new CSS if required
 
     // BEGIN 4.3.5 Disable all prior sheets and enable this one
-    for ( i = __0; i < style_el_idx; i++ ) {
+    for ( i = __0; i <= style_el_idx; i++ ) {
       disable_id = style_el_prefix + __String( i );
       disable_el = __docRef[ vMap._getElById_ ]( disable_id );
       if ( disable_el ) {
         disable_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
       }
     }
-
-    style_el[ vMap._disabled_ ] = __false;
+    style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
     // BEGIN 4.3.5 Disable all prior sheets and enable this one
   }
   // END 4.3 Public method /enableMetasheetObj/

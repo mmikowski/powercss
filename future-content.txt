@@ -157,9 +157,8 @@ the DOM. PowerCSS is intended to replace **all** other stylesheets for
 a application, and external stylesheets are no longer needed.
 While we can and may use external sheets during development,
 we don't need them for production release. Don't worry,
-this isn't as drastic as it sounds. Third-party web components will,
-of course, still provide their own CSS, and that's OK, because PowerCSS
-plays well with others.
+this isn't as drastic as it sounds. Third-party web components
+work fine with PowerCSS because it plays well with others.
 
 Why use only one Stylesheet Object at a time? In a word, **speed**.
 

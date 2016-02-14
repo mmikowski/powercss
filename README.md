@@ -1,7 +1,7 @@
-# PowerCSS 0.1.x by Michael S. Mikowski
-This 0.1.x library is in development and is intended for early
-adopters. It should be relatively stable and reliable, however,
-many features, testing, and examples have yet to be completed.
+# PowerCSS 0.2.x by Michael S. Mikowski
+This 0.2.x library is in development and is intended for early
+adopters. It should be relatively stable and reliable and fast.
+Quite a few features, testing, and examples have yet to be completed.
 Use with caution and check back often - the library is changing
 at a rapid pace.
 
@@ -98,9 +98,9 @@ be found in the `examples` directory of the GitHub repository.
 Now let's start a JavaScript file named to `pcss._example001_.js` to
 provide PowerCSS directives. A complete copy can of this file can
 be found in the `examples` directory of the GitHub repository.
-
     /* pss._example001_.js
-     * First of run-time generated and managed CSS
+     * Example 001 of run-time generated and managed CSS
+     * using PowerCSS - the basics
      * Michael S. Mikowski - mike.mikowski@gmail.com
     */
     /*jslint        browser : true, continue : true,
@@ -136,6 +136,7 @@ be found in the `examples` directory of the GitHub repository.
 
       pcss._initModule_();
 
+
 We start our module with identification, JSLint settings, and a reminder
 of preferred CSS attribute order. Then we declare our function variables,
 and finally we initialize the PowerCSS module.  And, yes, Virginia, our
@@ -147,7 +148,7 @@ traditional CSS file. An experienced CSS author should be able to adopt
 the format with little trouble. Below we add a **vsheet** definition to
 `pcss._example001_.js`:
 
-      // Begin add _base_css_ vsheet
+      // Begin add _base_vsheet_
       base_vsheet_list = [
         { _select_str_  : 'body',
           _rule_map_     : {
@@ -156,48 +157,49 @@ the format with little trouble. Below we add a **vsheet** definition to
             _padding_    : '_2rem_',
             _margin_     : '_0_',
             _font_family_: '_font_sans_',
-            _font_size_  : [ '16px' ]
+            _font_size_  : [ '16px' ],
+            _color_      : '_x888_'
           }
         },
         { _select_str_ : 'input',
           _rule_map_ : {
-            _margin_        : [ '.5rem' ],
+            _margin_        : '_d5rem_',
             _width_         : [ '10rem' ],
             _border_        : [ '.125rem solid #ddd' ],
-            _border_radius_ : [ '.5rem' ],
+            _border_radius_ : '_d5rem_',
             _outline_       : '_none_',
-            _padding_       : [ '.5rem' ],
-            _background_    : [ '#888' ],
+            _padding_       : '_d5rem_',
+            _background_    : '_x888_',
             _font_size_     : '_1rem_',
             _color_         : '_xddd_'
           }
         },
-        {
-          _select_str_ : 'input:focus',
+        { _select_str_ : 'input:focus',
           _rule_map_   : {
             _border_color_ : '_xfff_',
-            _background_   : [ '#444' ],
+            _background_   : '_x444_',
             _color_        : '_xfff_'
           }
         }
       ];
 
       pcss._setVsheetList_({
-        _vsheet_id_   : '_base_css_',
+        _vsheet_id_   : '_base_vsheet_',
         _vsheet_list_ : base_vsheet_list
       });
-      // End add _base_css_ vsheet
+      // End add _base_vsheet_
 
-We use an list for selectors because their order is important in CSS.
-PowerCSS records the **vsheet** definition, but it doesn't compile
-it to CSS. That comes later.
+
+We provide our selectors in a list because their order is important
+in CSS.  PowerCSS records the **vsheet** definition, but it doesn't 
+compile it to CSS yet - that comes later.
 
 ### 4. Add a 'box' virtual stylesheet list
 Let's define and add another **vsheet**. Here we use a few
 advanced features, but don't get lost in the details.
 We will return to them soon enough:
 
-      // Begin add _box_css_ vsheet
+      // Begin add _box_vsheet_
       box_vsheet_list = [
         { _select_str_ : '.pcss-_box_',
           _rule_lock_list_ : [ '_font_size_' ],
@@ -222,7 +224,7 @@ We will return to them soon enough:
                 [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
               ]
             },
-            _font_size_      : [ '24px' ],
+            _font_size_      : '_1d5rem_',
             _font_weight_    : '_800_',
             _color_          : '_xfff_',
             _text_align_     : '_center_'
@@ -231,21 +233,27 @@ We will return to them soon enough:
       ];
 
       pcss._setVsheetList_({
-        _vsheet_id_   : '_box_css_',
+        _vsheet_id_   : '_box_vsheet_',
         _vsheet_list_ : box_vsheet_list
       });
-      // End add _box_css_ vsheet
+      // End add _box_vsheet_
+      
 
 Now we have two **vsheet**s. Let's use them!
 
-### 5. Define a metasheet object
-Let's define a metasheet object (**metasheet**) like so:
+### 5. Create a metasheet object
+Let's a metasheet object (**metasheet**) like so:
 
+      // Begin create a metasheet and enable it
       metasheet_obj = pcss._setMetasheetObj_({
-        _cascade_list_ : [ '_base_css_', '_box_css_' ],
+        _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
         _metasheet_id_ : '_example001_'
       });
-      console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
+      console.log( 
+        'metasheet object BEFORE enable',
+        JSON.stringify( metasheet_obj )
+      );
+
 
 The returned **metasheet** object contains the following attributes:
 
@@ -270,24 +278,31 @@ The returned **metasheet** object contains the following attributes:
   *In this example, all times are set to the current timestamp, except
   for `_css_ms_` as the CSS has not yet been generated.*
 
-We can verify these values by viewing the debugging output in the JavaScript
+We can verify these values by viewing the output in the JavaScript
 console.
 
 ### 6. Enable the metasheet object
 Let's now enable the **metasheet** and close our example function.
 
       pcss._enableMetasheetObj_({ _metasheet_id_ : '_example001_' });
-      console.log( 'metasheet_obj', JSON.stringify( metasheet_obj ) );
+      console.log( 
+        'metasheet_obj AFTER enable',
+        JSON.stringify( metasheet_obj )
+      );
+      // End create a metasheet and enable it
     };
     // END pcss._example001_
+
 
 When we enable the **metasheet**, PowerCSS creates a *disabled* browser
 style element with an id of `pcss-0`, calculates the CSS, and then
 writes it to the `pcss-0` style element. It then disables
 all `pcss-*` CSS, and, finally, it enables the `pcss-0` style element.
 
-We can verify these changes by viewing the debugging output in the JavaScript
-console.
+We can verify these changes by viewing the output in the JavaScript
+console.  Can you see the difference in the **metasheet** object?  Both the
+`_timestamp_map_._css_ms_` and the `_style_el_` attribute should have
+changed.
 
 ### 7. Marvel at the results
 When we open `pcss._example001_.html` in a modern browser, we should see
@@ -296,14 +311,15 @@ definition. We can view the generated CSS in the browser using the
 development tools and modify it as if we had written it ourselves.
 Here it is formated with a few comments:
 
-    /* Begin add _base_css_*/
+    /* Begin _base_ style */
     body {
       display     : block;
       box-sizing  : border-box;
       padding     : 2rem;
       margin      : 0;
       font-family : arial, helvetica, sans-serif;
-      font-size   : 16px
+      font-size   : 16px;
+      color       : #888;
     }
 
     input {
@@ -322,9 +338,9 @@ Here it is formated with a few comments:
       background   : #444;
       color        : #fff
     }
-    /* End add _base_css_*/
+    /* End _base_ style */
 
-    /* Begin add _box_css_*/
+    /* Begin _box_ style */
     .pcss-_box_ {
       display        : inline-block;
       opacity        : 1;
@@ -342,12 +358,12 @@ Here it is formated with a few comments:
       background     : -moz-linear-gradient(left, #f85032 0%, #6d362d 100%);
       background     : -webkit-linear-gradient(left, #f85032 0%, #6d362d 100%);
       background     : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
-      font-size      : 24px;
+      font-size      : 1.5rem;
       font-weight    : 800;
       color          : #fff;
       text-align     : center
     }
-    /* End add _box_css_*/
+    /* End _box_ style */
 
 
 Of course, if that was all that PowerCSS provided, why bother?  It
@@ -410,10 +426,10 @@ There are three types of CSS values supported by PowerCSS. They are:
 In addition, we can `lock` a value in a cascade.
 
 ### Mixin values
-**Important!** As of the 0.1.x release, only the **builtin** mixin values
-are supported. We expect to add the additional levels in a few days.
-All mixin maps will be settable through a `pcss._setMixinMap_()` method.
-Details will follow as these are released.
+**Important!** As of the 0.2.x release, only the **builtin** mixin values
+are supported. We expect to add the additional levels in the 0.3.x series
+within a few days. All mixin maps will be settable through a 
+`pcss._setMixinMap_()` method. Details will follow as these are released.
 
 Mixin values come one of **four** sources:
 
@@ -534,10 +550,38 @@ An astute reader will again notice that a **vsheet** can be used across many
 **metasheets**. Therefore, one must be careful when setting locks on a
 **vsheet** that will be reused in more than once.
 
-### Compression
-Not yet written.
-
 ### Double-buffering
+We illustrate "double-buffering" in `pcss._example002_.html` which
+can be be found in the `examples` directory of the GitHub repository.
+Here, we create two **metasheets** then switch between them at will.
+PowerCSS never enables a **metasheet** until the CSS is completely
+written. This "double-buffering" technique allow us to change all
+styles on a page with just one document reflow, which can be insanely
+fast compared to changing styles individually.
+
+Only one **metasheet** is enabled at any time.
+PowerCSS is intended to replace **all** other stylesheets for an
+application, and external stylesheets are no longer needed. While
+we can use external sheets during development, we don't need them
+for production release. Don't worry, this isn't as drastic as it
+sounds. Third-party web components work fine with PowerCSS, as it 
+plays very nicely with others.
+
+Why do we promote this?  There are numerous benefits.  First, the 
+browser rendering engine doesn't need to work loading and merging 
+sometimes dozens of external style sheets. We calculate the cascade
+in software and only provide to the browser an optimized and complete
+single stylesheet to use.  This also removes many HTTP requests for
+external stylsheets.
+
+We have numerous layers of caching as well.  The CSS is never
+rewritten unless something has changed, and even a great deal of our
+processing - the merging of **vsheets** - is cached well before we
+normally need the CSS.  If we change a **mixin** map, we can be
+confident that PowerCSS will identify and change the affected
+**metasheets** when needed.
+
+### Compression
 Not yet written.
 
 ## Stay tuned...
