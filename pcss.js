@@ -253,10 +253,19 @@ pcss = (function () {
     },
 
     topSmap = {
-      _metasheet_obj_map_ : {},
+      _cascade_obj_map_ : {},
+      _vsheet_list_map_ : {},
+      _mixin_map_map_   : {
+        _global_map_  : {
+          _global_id_ : { _time_ms_ : __0, _mixin_map_ : {} }
+        },
+        // use: _cascade_id_ : { _time_ms_: 1455479409, _mixin_map_ : {...},
+        _cascade_map : {},
+        // use: _vsheet_id_ : { _time_ms_: 1455479409, _mixin_map_ : {...},
+        _vsheet_map_  : {}
+      },
       _style_el_prefix_ : __undef,
-      _style_el_idx_    : __n1,
-      _vsheet_list_map_   : {}
+      _style_el_idx_    : __n1
     }
     ;
   // END   1. MODULE SCOPE VARIABLES ========================
@@ -308,12 +317,12 @@ pcss = (function () {
       seen_select_map   = {},
       merge_vsheet_list = [],
 
-      i, vsheet_key, vsheet_list, select_map_count,
-      j, select_map, select_str,
-      rule_lock_list, rule_map,
+      i, vsheet_key,    vsheet_list, select_map_count,
+      j, select_map,    select_str,
+      rule_lock_list,   rule_map,
       clone_select_map, merge_rpt_map,
       merge_select_map, merge_rule_map,
-      merge_lock_list, rule_key_list,
+      merge_lock_list,  rule_key_list,
       rule_key_count,
       l, rule_key
       ;
@@ -393,8 +402,6 @@ pcss = (function () {
 
   function createCssStr ( mergeVsheet ) {
     var
-      mixin_map = topSmap._mixin_map_ || {},
-
       i, j, k,        select_count,
       select_map,     select_str,
       rule_map,       close_str,
@@ -430,17 +437,15 @@ pcss = (function () {
       solve_rule_list = [];
       for ( j = __0; j < rule_key_count; j++ ) {
         rule_key = rule_key_list[ j ];
+
+        // Vsheet Mixin
         if ( cssKeyMap[ vMap._hasOwnProp_ ]( rule_key ) ) {
           solve_key = cssKeyMap[ rule_key ];
-        }
-        else if ( mixin_map[ vMap._hasOwnProp_ ]( rule_key ) ) {
-          solve_key = mixin_map[ rule_key ];
         }
         else {
           logIt( rule_key, '_css_rule_key_not_found_' );
           continue;
         }
-
         // val:   'some_string'   => lookup key
         // val: [ 'some_string' ] => literal
         // val: { _alt_list_ : [ 'some_string, [ 'some_string ] ] }
@@ -542,44 +547,69 @@ pcss = (function () {
 
     if ( vsheet_list_map[ vsheet_id ] ) {
       console.warn( '_updating_vsheet_', vsheet_id );
-      // TODO: search metasheets and set the vsheet timestamp
-      // to now for each metasheet that contains this vsheet.
+      // TODO: search cascade objs and set the vsheet timestamp
+      // to now for each objs that contains this vsheet.
     }
     vsheet_list_map[ vsheet_id ] = vsheet_list;
 
   }
   // END 4.1 Public method /setVsheetList/
 
-  // BEGIN 4.2 Public method /setMetasheetObj/
-  function setMetasheetObj ( arg_opt_map ) {
-    // BEGIN 4.2.1 Init and arguments
+  // BEGIN 4.2 Public method /setMixinMap/
+  function setMixinMap( arg_opt_map ) {
+    var
+      mixin_map_map = topSmap._mixin_map_map_,
+
+      opt_map    = arg_opt_map || {},
+      asset_type = opt_map._asset_type_,
+      asset_id   = opt_map._asset_id_,
+      mixin_map  = opt_map._mixin_map_
+      ;
+    if ( asset_type === '_global_' ) { asset_id = '_global_'; }
+    if ( asset_id && asset_type && mixin_map ) {
+      logIt( '_asset_id_and_asset_type_and_mixin_map_required_' );
+      return __false;
+    }
+    if ( mixin_map_map[ asset_id ] ) {
+      logIt( '_overwriting_existing_mixin_map_' );
+    }
+    mixin_map_map[ asset_type ][ asset_id ] = {
+      _mixin_map_ : cloneData( mixin_map ),
+      _time_ms_   : __timeStamp()
+    };
+  }
+  // END 4.2 Public method /setMixinMap/
+
+  // BEGIN 4.3 Public method /setCascadeObj/
+  function setCascadeObj ( arg_opt_map ) {
+    // BEGIN 4.3.1 Init and arguments
     var
       opt_map           = arg_opt_map                         || {},
-      metasheet_id      = opt_map._metasheet_id_              || [],
+      cascade_id        = opt_map._cascade_id_                || [],
       cascade_list      = cloneData( opt_map._cascade_list_ ) || [],
       mixin_map         = cloneData( opt_map._mixin_map_    ) || {},
 
-      metasheet_obj_map = topSmap._metasheet_obj_map_,
+      cascade_obj_map = topSmap._cascade_obj_map_,
       style_el_id       = createStyleElId(),
       now_ms            = __timeStamp(),
 
-      metasheet_obj
+      cascade_obj
       ;
 
-    if ( metasheet_obj_map[ metasheet_id ] ) {
-      throw '_metasheet_already_exists_' + metasheet_id;
+    if ( cascade_obj_map[ cascade_id ] ) {
+      throw '_cascade_obj_already_exists_' + cascade_id;
     }
-    // END 4.2.1 Init and arguments
+    // END 4.3.1 Init and arguments
 
-    // BEGIN 4.2.2 Define metasheet object
-    metasheet_obj = {
+    // BEGIN 4.3.2 Define cascade object
+    cascade_obj = {
       _cascade_list_      : cascade_list,
       _merge_vsheet_list_ : mergeCascadeList( cascade_list ),
-      _metasheet_id_      : metasheet_id,
+      _cascade_id_        : cascade_id,
       _mixin_map_         : mixin_map,
       _style_el_          : __null,
       _style_el_id_       : style_el_id,
-      _timestamp_map_     : {
+      _time_map_     : {
         _css_ms_    : __0,
         _merge_ms_  : now_ms,
         _mixin_ms_  : now_ms,
@@ -587,64 +617,64 @@ pcss = (function () {
       }
     };
 
-    metasheet_obj_map[ metasheet_id ] = metasheet_obj;
-    return metasheet_obj;
-    // END 4.2.2 Define metasheet object
+    cascade_obj_map[ cascade_id ] = cascade_obj;
+    return cascade_obj;
+    // END 4.3.2 Define cascade object
   }
-  // END 4.2 Public method /setMetasheetObj/
+  // END 4.3 Public method /setCascadeObj/
 
-  // BEGIN 4.3 Public method /enableMetasheetObj/
-  function enableMetasheetObj ( arg_opt_map ) {
-    // BEGIN 4.3.1 Init and arguments
+  // BEGIN 4.4 Public method /enableCascadeObj/
+  function enableCascadeObj ( arg_opt_map ) {
+    // BEGIN 4.4.1 Init and arguments
     var
       opt_map      = arg_opt_map || {},
-      metasheet_id = opt_map._metasheet_id_,
+      cascade_id   = opt_map._cascade_id_,
 
-      metasheet_obj_map = topSmap._metasheet_obj_map_,
-      style_el_idx      = topSmap._style_el_idx_,
-      style_el_prefix   = topSmap._style_el_prefix_,
+      cascade_obj_map = topSmap._cascade_obj_map_,
+      style_el_idx    = topSmap._style_el_idx_,
+      style_el_prefix = topSmap._style_el_prefix_,
 
-      metasheet_obj     = metasheet_obj_map[ metasheet_id ],
+      cascade_obj     = cascade_obj_map[ cascade_id ],
 
-      timestamp_map, last_css_ms, do_rewrite, css_str, style_el,
+      time_map, last_css_ms, do_rewrite, css_str, style_el,
       i, disable_id, disable_el
       ;
 
-    if ( ! metasheet_obj ) {
-      throw '_metasheet_obj_id_not_found_' + metasheet_id;
+    if ( ! cascade_obj ) {
+      throw '_cascade_obj_id_not_found_' + cascade_id;
     }
-    // END 4.3.1 Init and arguments
+    // END 4.4.1 Init and arguments
 
-    // BEGIN 4.3.2 Calculate if CSS should be regenerated
-    timestamp_map = metasheet_obj._timestamp_map_;
-    style_el      = metasheet_obj._style_el_;
+    // BEGIN 4.4.2 Calculate if CSS should be regenerated
+    time_map = cascade_obj._time_map_;
+    style_el = cascade_obj._style_el_;
     if ( style_el ) {
-      last_css_ms = timestamp_map._css_ms_;
+      last_css_ms = time_map._css_ms_;
       do_rewrite = (
-           timestamp_map._merge_ms_  <= last_css_ms
-        && timestamp_map._mixin_ms_  <= last_css_ms
-        && timestamp_map._vsheet_ms_ <= last_css_ms
+           time_map._merge_ms_  <= last_css_ms
+        && time_map._mixin_ms_  <= last_css_ms
+        && time_map._vsheet_ms_ <= last_css_ms
       );
     }
-    // END 4.3.2 Calculate if CSS should be regenerated
+    // END 4.4.2 Calculate if CSS should be regenerated
 
-    // BEGIN 4.3.3 Create new style elment
+    // BEGIN 4.4.3 Create new style elment
     else {
-      style_el = addStyleEl( metasheet_obj._style_el_id_ );
-      metasheet_obj._style_el_ = style_el;
+      style_el = addStyleEl( cascade_obj._style_el_id_ );
+      cascade_obj._style_el_ = style_el;
       do_rewrite = __true;
     }
-    // END 4.3.3 Create new style elment
+    // END 4.4.3 Create new style elment
 
-    // BEGIN 4.3.4 Generate and set new CSS if required
+    // BEGIN 4.4.4 Generate and set new CSS if required
     if ( do_rewrite ) {
-      css_str = createCssStr( metasheet_obj._merge_vsheet_list_ );
+      css_str = createCssStr( cascade_obj._merge_vsheet_list_ );
       writeToStyleEl( style_el, css_str );
-      metasheet_obj._css_ms_ = __timeStamp();
+      time_map._css_ms_ = __timeStamp();
     }
-    // END 4.3.4 Generate and set new CSS if required
+    // END 4.4.4 Generate and set new CSS if required
 
-    // BEGIN 4.3.5 Disable all prior sheets and enable this one
+    // BEGIN 4.4.5 Disable all prior sheets and enable this one
     for ( i = __0; i <= style_el_idx; i++ ) {
       disable_id = style_el_prefix + __String( i );
       disable_el = __docRef[ vMap._getElById_ ]( disable_id );
@@ -653,24 +683,25 @@ pcss = (function () {
       }
     }
     style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
-    // BEGIN 4.3.5 Disable all prior sheets and enable this one
+    // BEGIN 4.4.5 Disable all prior sheets and enable this one
   }
-  // END 4.3 Public method /enableMetasheetObj/
+  // END 4.4 Public method /enableCascadeObj/
 
-  // BEGIN 4.4 Public method /initModule/
+  // BEGIN 4.5 Public method /initModule/
   function initModule ( arg_opt_map ) {
     var opt_map = arg_opt_map || {};
     topSmap._style_el_prefix_ = ( !! opt_map._style_el_prefix_ )
       ? opt_map._style_el_prefix_ + '-' : 'pcss-';
   }
-  // END 4.4 Public method /initModule/
+  // END 4.5 Public method /initModule/
 
   return {
-    _initModule_         : initModule,
+    _initModule_       : initModule,
 
-    _setVsheetList_      : initCheck.bind( setVsheetList      ),
-    _setMetasheetObj_    : initCheck.bind( setMetasheetObj    ),
-    _enableMetasheetObj_ : initCheck.bind( enableMetasheetObj )
+    _setVsheetList_    : initCheck.bind( setVsheetList    ),
+    _setMixinMap_      : initCheck.bind( setMixinMap      ),
+    _setCascadeObj_    : initCheck.bind( setCascadeObj    ),
+    _enableCascadeObj_ : initCheck.bind( enableCascadeObj )
   };
 }());
 // END pcss

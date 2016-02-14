@@ -59,8 +59,8 @@ deal of time for doing things like changing colors, gradients, and borders
 consistently across our CSS.
 
 If you change the `mixin_map`, and the `_last_solve_ms_` timestamp on 
-**metasheet** is older than the `mixin_map` `_last_update_ms_` timestamp,
-PowerCSS will recalculate the CSS before reenabling that **metasheet**.
+**cascade** is older than the `mixin_map` `_last_update_ms_` timestamp,
+PowerCSS will recalculate the CSS before reenabling that **cascade**.
 
 ### Alternate values
 Sometimes we want to provide alternate rules for a style so that

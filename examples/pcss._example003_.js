@@ -1,6 +1,6 @@
-/* pss._example002_.js
- * Example 002 of run-time generated and managed CSS
- * using PowerCSS - double buffering
+/* pss._example003_.js
+ * Example 003 of run-time generated and managed CSS
+ * using PowerCSS - mixins
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
 /*jslint        browser : true, continue : true,
@@ -26,11 +26,13 @@
  *    10. css transition or animation definitions
 */
 
-// BEGIN pcss._example002_
-pcss._example002_ = function () {
+// BEGIN pcss._example003_
+pcss._example003_ = function () {
   var
-    base_vsheet_list,   box_vsheet_list,
-    switch_vsheet_list, box_rule_map,
+    base_vsheet_list,   base_mixin_map,
+    box_vsheet_list,    box_mixin_map,
+    box_rule_map,
+    switch_vsheet_list,
     switch_el,          cascade_obj,
     link_list,          onclick_fn
     ;
@@ -38,6 +40,12 @@ pcss._example002_ = function () {
   pcss._initModule_();
 
   // Begin add _base_vsheet_
+  base_mixin_map = {
+    _body_font_size_  : '16px',
+    _body_font_color_ : '#f88',
+    _input_width_     : '10rem',
+    _input_border_    : '.125rem solid #ddd'
+  };
   base_vsheet_list = [
     { _select_str_  : 'body',
       _rule_map_     : {
@@ -47,15 +55,15 @@ pcss._example002_ = function () {
         _padding_    : '_2rem_',
         _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
-        _font_size_  : [ '16px' ],
-        _color_      : '_x888_'
+        _font_size_  : '_body_font_size_',
+        _color_      : '_body_font_color'
       }
     },
     { _select_str_ : 'input',
       _rule_map_ : {
         _margin_        : '_d5rem_',
-        _width_         : [ '10rem' ],
-        _border_        : [ '.125rem solid #ddd' ],
+        _width_         : '_input_width_',
+        _border_        : '_input_border_',
         _border_radius_ : '_d5rem_',
         _outline_       : '_none_',
         _padding_       : '_d5rem_',
@@ -75,7 +83,13 @@ pcss._example002_ = function () {
 
   pcss._setVsheetList_({
     _vsheet_id_   : '_base_vsheet_',
-    _vsheet_list_ : base_vsheet_list
+    _vsheet_list_ : base_vsheet_list,
+    _mixin_map_   : base_mixin_map
+  });
+  pcss._setMixinMap_({
+    _asset_id_   : '_base_vsheet_',
+    _asset_type_ : '_vsheet_',
+    _mixin_map_  : base_mixin_map
   });
   // End add _base_vsheet_
 

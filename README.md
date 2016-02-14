@@ -1,5 +1,5 @@
-# PowerCSS 0.2.x by Michael S. Mikowski
-This 0.2.x library is in development and is intended for early
+# PowerCSS 0.3.x by Michael S. Mikowski
+This 0.3.x library is in development and is intended for early
 adopters. It should be relatively stable and reliable and fast.
 Quite a few features, testing, and examples have yet to be completed.
 Use with caution and check back often - the library is changing
@@ -54,10 +54,10 @@ Now let's review the work-flow before we jump into the example.
    necessary to use it.
 2. Add one or more virtual stylesheet lists (**vsheet**s) using PowerCSS.
    These look very much like traditional stylesheets in JSON syntax.
-3. Define a **metasheet** which includes an ordered list of **vsheets**.
+3. Define a **cascade** which includes an ordered list of **vsheets**.
    This is very much like traditional CSS development where we link to
    static CSS files in an HTML document.
-4. Enable the **metasheet** to apply the styling.
+4. Enable the **cascade** to apply the styling.
 
 
 We were careful to change as little of the existing CSS work-flow as
@@ -132,7 +132,7 @@ be found in the `examples` directory of the GitHub repository.
       var
         base_vsheet_list,
         box_vsheet_list,
-        metasheet_obj
+        cascade_obj
         ;
 
       pcss._initModule_();
@@ -242,38 +242,38 @@ We will return to them soon enough:
 
 Now we have two **vsheet**s. Let's use them!
 
-### 5. Create a metasheet object
-Let's a metasheet object (**metasheet**) like so:
+### 5. Create a cascade object
+Let's create a cascade object (**cascade**) like so:
 
-      // Begin create a metasheet and enable it
-      metasheet_obj = pcss._setMetasheetObj_({
+      // Begin create a cascade and enable it
+      cascade_obj = pcss._setCascadeObj_({
         _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
-        _metasheet_id_ : '_example001_'
+        _cascade_id_   : '_example001_'
       });
       console.log( 
-        'metasheet object BEFORE enable',
-        JSON.stringify( metasheet_obj )
+        'cascade object BEFORE enable',
+        JSON.stringify( cascade_obj )
       );
 
 
-The returned **metasheet** object contains the following attributes:
+The returned **cascade** object contains the following attributes:
 
 - `_cascade_list_` is as provided.
-- `_metasheet_id_` as provided.
+- `_cascade_id_` as provided.
 - `_merge_vsheet_list_` is a **vsheet** prepared by merging all
-   the **vsheets** in the `_cascade_list_`. It is an intermediary
-   format that resolves additions and redundancies, but it doesn't
-   resolve values like CSS symbols or **mixins**.
-   *In this example it is calculated and saved*.
-- `_mixin_map_` is the **mixin** map used only for this **metasheet**.
-   *In this example it is an empty map.*
-- `_style_el_` is the `style` DOM element used by the **metasheet**.
+  the **vsheets** in the `_cascade_list_`. It is an intermediary
+  format that resolves additions and redundancies, but it doesn't
+  resolve values like CSS symbols or **mixins**.
+  *In this example it is calculated and saved*.
+- `_mixin_map_` is the **mixin** map used only for this **cascade**.
+  *In this example it is an empty map.*
+- `_style_el_` is the `style` DOM element used by the **cascade**.
   *In this example, the value is null because we haven't
-  enabled this metasheet yet.*
+  enabled this cascade yet.*
 - `_style_el_id_` is the DOM ID reserved for the browser style element
-   created when we enable this **metasheet**.
-   *In this example, the value is `pcss-0` because this is our
-   first metasheet.*
+  created when we enable this **cascade**.
+  *In this example, the value is `pcss-0` because this is our
+  first cascade.*
 - `_timesheet_map_` includes various timesheets that are used to only
   update the parts of the CSS generation process that need updating.
   *In this example, all times are set to the current timestamp, except
@@ -282,32 +282,32 @@ The returned **metasheet** object contains the following attributes:
 We can verify these values by viewing the output in the JavaScript
 console.
 
-### 6. Enable the metasheet object
-Let's now enable the **metasheet** and close our example function.
+### 6. Enable the cascade object
+Let's now enable the **cascade** and close our example function.
 
-      pcss._enableMetasheetObj_({ _metasheet_id_ : '_example001_' });
+      pcss._enableCascadeObj_({ _cascade_id_ : '_example001_' });
       console.log( 
-        'metasheet_obj AFTER enable',
-        JSON.stringify( metasheet_obj )
+        'cascade_obj AFTER enable',
+        JSON.stringify( cascade_obj )
       );
-      // End create a metasheet and enable it
+      // End create a cascade and enable it
     };
     // END pcss._example001_
 
 
-When we enable the **metasheet**, PowerCSS creates a *disabled* browser
+When we enable the **cascade**, PowerCSS creates a *disabled* browser
 style element with an id of `pcss-0`, calculates the CSS, and then
 writes it to the `pcss-0` style element. It then disables
 all `pcss-*` CSS, and, finally, it enables the `pcss-0` style element.
 
 We can verify these changes by viewing the output in the JavaScript
-console.  Can you see the difference in the **metasheet** object?  Both the
+console.  Can you see the difference in the **cascade** object?  Both the
 `_timestamp_map_._css_ms_` and the `_style_el_` attribute should have
 changed.
 
 ### 7. Marvel at the results
 When we open `pcss._example001_.html` in a modern browser, we should see
-three boxes that have been styled according to the **metasheet**
+three boxes that have been styled according to the **cascade**
 definition. We can view the generated CSS in the browser using the
 development tools and modify it as if we had written it ourselves.
 Here it is formated with a few comments:
@@ -427,8 +427,7 @@ There are three types of CSS values supported by PowerCSS. They are:
 In addition, we can `lock` a value in a cascade.
 
 ### Mixin values
-**Important!** As of the 0.2.x release, only the **builtin** mixin values
-are supported. We expect to add the additional levels in the 0.3.x series
+3.x series
 within a few days. All mixin maps will be settable through a 
 `pcss._setMixinMap_()` method. Details will follow as these are released.
 
@@ -438,18 +437,18 @@ Mixin values come one of **four** sources:
    CSS values that are available by default.  For example, the symbol
    `_fixed_` resolves to 'fixed' in the resulting CSS. This map is
    found in the the PowerCSS library file, `pcss.js`.
-2. The **global** mixin map is used across all **metasheets** and, as 
+2. The **global** mixin map is used across all **cascades** and, as 
    a consequence, by all **vsheets** they use.
-3. **Metasheet** mixin maps are exclusive to one **metasheet** and 
+3. **Cascade** mixin maps are exclusive to one **cascade** and 
    are used by all **vsheets** in their cascade list.
 4. **Vsheet** mixin maps are exclusive to one **vsheet**.
 
 The precidence of these mixin sources (also known as a 'scope chain')
 is as follows:
 
-    vsheet -> metasheet -> global -> builtin
+    vsheet -> cascade -> global -> builtin
 
-This means that **vsheets** mixin values have priority over **metasheet**
+This means that **vsheets** mixin values have priority over **cascade**
 mixin values which have priority over **global** mixin values which have 
 priority over **builtin** values.  We think of this as "the closest match
 wins." Consider the following PowerCSS rule definition:
@@ -461,11 +460,11 @@ then be:
 
     builtin._bcolor_   = undefined;
     global._bcolor_    = 'red';
-    metasheet._bcolor_ = 'green';
+    cascade._bcolor_   = 'green';
     vsheet._bcolor_    = 'blue';
 
 Here the **vsheet** level value, 'blue', "wins" and the CSS processor
-will use that instead of any **metasheet**, **global**, or **builtin** value.
+will use that instead of any **cascade**, **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:blue`.
 
 What if we used a **vsheet** that didn't have a mixin\_map?  Then
@@ -473,17 +472,17 @@ the mixin value would be set at three levels:
 
     builtin._bcolor_   = undefined;
     global._bcolor_    = 'red';
-    metasheet._bcolor_ = 'green';
+    cascade._bcolor_   = 'green';
     vsheet._bcolor_    = undefined;
 
-Here the **metasheet** level value, 'green', will "win" and the CSS generator
+Here the **cascade** level value, 'green', will "win" and the CSS generator
 will use that instead of any **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:green`.
 And so on. If the value is still undefined at the end of the scope chain,
 a blank string will be used and a warning logged to the console.
 
 An astute reader will notice that a **vsheet** can be used across many
-**metasheets**. This is a very powerful feature, but it is important to keep
+**cascades**. This is a very powerful feature, but it is important to keep
 in mind when setting **vsheet** mixin maps.
 
 ### Literal values
@@ -547,40 +546,48 @@ the provided rule map in the **vsheet** definition:
 This prevents any later **vsheet** from overriding the value for
 `_font_size_` for the `.pcss-_box_` selector in the cascade.
 
-An astute reader will again notice that a **vsheet** can be used across many
-**metasheets**. Therefore, one must be careful when setting locks on a
+An astute reader will again notice that a **vsheet** can be used across
+many **cascades**. Therefore, one must be careful when setting locks on a
 **vsheet** that will be reused in more than once.
 
 ### Double-buffering
 We illustrate "double-buffering" in `pcss._example002_.html` which
 can be be found in the `examples` directory of the GitHub repository.
-Here, we create two **metasheets** then switch between them at will.
-PowerCSS never enables a **metasheet** until the CSS is completely
-written. This "double-buffering" technique allow us to change all
-styles on a page with just one document reflow, which can be insanely
-fast compared to changing styles individually.
+Here, we create two **cascades** then switch between them at will.
+PowerCSS never enables a **cascade** until the CSS is completely
+written and one **cascade** is enabled at any time by PowerCSS.
+This "double-buffering" technique allow us to change all styles
+on a page with just one document reflow, which can be insanely
+fast compared to changing styles individually and across multiple
+stylesheets.
 
-Only one **metasheet** is enabled at any time.
 PowerCSS is intended to replace **all** other stylesheets for an
-application, and external stylesheets are no longer needed. While
-we can use external sheets during development, we don't need them
-for production release. Don't worry, this isn't as drastic as it
-sounds. Third-party web components work fine with PowerCSS, as it 
-plays very nicely with others.
+application. While we can use external sheets for our CSS during
+development, we shouldn't need them for production release.
+Don't worry, this isn't as drastic as it sounds.  PowerCSS
+plays very nicely with others and is designed to avoid conflict
+with third-party web components.
 
-Why do we promote this?  There are numerous benefits.  First, the 
-browser rendering engine doesn't need to work loading and merging 
-sometimes dozens of external style sheets. We calculate the cascade
-in software and only provide to the browser an optimized and complete
-single stylesheet to use.  This also removes many HTTP requests for
-external stylsheets.
+### Speed ###
+We have taken great care to ensure PowerCSS is as fast, or sometimes
+even faster than static CSS.  We calculate the cascades in
+software and only provide to the browser a single optimized stylesheet
+to render. The browser rendering engine doesn't need to work loading
+and merging sometimes dozens of external style sheets. It also
+removes sometimes dozens of HTTP requests for external stylsheets.
 
 We have numerous layers of caching as well.  The CSS is never
 rewritten unless something has changed, and even a great deal of our
 processing - the merging of **vsheets** - is cached well before we
 normally need the CSS.  If we change a **mixin** map, we can be
-confident that PowerCSS will identify and change the affected
-**metasheets** when needed.
+confident that PowerCSS will identify **only** the affected
+**cascades**, and will only update them when needed.
+
+We also want to provide a option to completely compile a **cascade**
+to CSS while your application has some *downtime*, we plan to provide
+`pcss._prepareCascade_()` with a `do_force` option for this as well.
+The `do_force` would force a complete recompilation of the cascade,
+including any intermediary formats.
 
 ### Compression
 Not yet written.
@@ -599,6 +606,26 @@ MIT
 This is the first "public release" versions of PowerCSS with a
 single working example.
 
+### Version 0.2.x
+This series featured double-buffering support and examples
+
+### Version 0.3.x
+WIP:: This series has an API change from 0.2.x where we now use the
+**cascade** term instead of **metasheet**. It's a "twofer" - shorter
+*and* more descriptive.
+
+In addition, we are currently implementing, optimizing, and testing mixins 
+across all levels.
+
+### Version 0.4.x
+TODO: Here we will be implementing `get` and `delete` methods.
+
+### Version 0.5.x
+TODO: Nodejs support, fuller x-browser testing
+
+### Version 0.6.x
+TODO: Final preparation for 1.x release: docs and regression tests
+
 ### Testing
 I have yet to test across all platforms. Use with care.
 
@@ -608,20 +635,20 @@ I have yet to test across all platforms. Use with care.
 ## TODO
 ### Enhance implemented capabilities
 - setVsheetList: add mixin\_map opt
-- setMetasheetObj: add mixin\_map opt
-- enableMetasheetObj: disable other pcss sheets
+- setCascadeObj: add mixin\_map opt
+- enableCascadeObj: disable other pcss sheets
+- setMixinMap( |global,cascade,vsheet|, asset\_id, mixin\_map )
 
 ### Planned future capabilities
 - nodejs support, especially with nodeunit-b
 - CSS string output for debugging and regression testing
 - timestamp-based minimal processing
 - force full rerender on request (for debug purposes)
-- getMixinMap( global or metasheet or vsheet, id )
-- setMixinMap( global or metasheet or vsheet, id, mixin\_map )
+- getMixinMap( global or cascade or vsheet, id )
 - delVsheetList
 - getVsheetList
-- delMetasheetObj
-- getMetasheetObj
+- delCascadeObj
+- getCascadeObj
 
 ## Contribute!
 If you want to help out, like all jQuery plugins this is hosted at

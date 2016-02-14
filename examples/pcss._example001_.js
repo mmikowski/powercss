@@ -31,7 +31,7 @@ pcss._example001_ = function () {
   var
     base_vsheet_list,
     box_vsheet_list,
-    metasheet_obj
+    cascade_obj
     ;
 
   pcss._initModule_();
@@ -116,21 +116,21 @@ pcss._example001_ = function () {
   });
   // End add _box_vsheet_
 
-  // Begin create a metasheet and enable it
-  metasheet_obj = pcss._setMetasheetObj_({
+  // Begin create a cascade and enable it
+  cascade_obj = pcss._setCascadeObj_({
     _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
-    _metasheet_id_ : '_example001_'
+    _cascade_id_ : '_example001_'
   });
   console.log( 
-    'metasheet object BEFORE enable',
-    JSON.stringify( metasheet_obj )
+    'cascade object BEFORE enable',
+    JSON.stringify( cascade_obj )
   );
 
-  pcss._enableMetasheetObj_({ _metasheet_id_ : '_example001_' });
+  pcss._enableCascadeObj_({ _cascade_id_ : '_example001_' });
   console.log( 
-    'metasheet_obj AFTER enable',
-    JSON.stringify( metasheet_obj )
+    'cascade_obj AFTER enable',
+    JSON.stringify( cascade_obj )
   );
-  // End create a metasheet and enable it
+  // End create a cascade and enable it
 };
 // END pcss._example001_
