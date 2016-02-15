@@ -418,19 +418,48 @@ We are exploring how to best modularize the CSS key and value
 mixin maps. Suggestions are welcome :)
 
 ### Rule value substitutions
-There are three types of CSS values supported by PowerCSS. They are:
+There are four types of CSS values supported by PowerCSS. They are:
 
 1. Mixin values : `_key_`
 2. Literals     : `[ 'value' ]`
 3. Alternates   : `{ _alt_list_ : [ ... ] }`
+4. Concatenated : `[ [ 'key or value', ... ] ]` (pending implementation)
 
 In addition, we can `lock` a value in a cascade.
 
 ### Mixin values
-3.x series
-within a few days. All mixin maps will be settable through a 
-`pcss._setMixinMap_()` method. Details will follow as these are released.
+Mixin maps are settable when creating a **vsheet** or
+a **cascade** or later through a `pcss._setMixinMap_()` method, 
+as illustrated below:
 
+      // Vsheet option
+      pcss._setVsheetList_({
+        _vsheet_id_   : '_base_vsheet_',
+        _vsheet_list_ : base_vsheet_list,
+        _mixin_map_   : base_mixin_map
+      });
+      
+      // Cascade option
+      pcss._setCascadeObj_({
+        _cascade_list_ : [ 
+          '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_'
+        ],
+        _cascade_id_ : '_example001_'
+        _mixin_map_   : base_mixin_map
+      });
+      
+      // Any type
+      setMixinMap({
+        _asset_type_ : '_vsheet_',
+        _asset_id_   : '_base_vsheet_',
+        _mixin_map_  : mixin_map
+      });
+      
+When calling `setMixinMap`, `_asset_type_` may be `_vsheet_`, `_cascade_`,
+or `_global_`. The asset id, `_asset_id_`, must be provided for `_vsheet_`
+and `_cascade_` asset types.  There is only one `_global_` mixin map,
+and providing an `_asset_id_` will simply be ignored.
+ 
 Mixin values come one of **four** sources:
 
 1. The **builtin** value map, `cssValMap`. This is a set of common 
@@ -500,15 +529,19 @@ Sometimes we want to provide alternate rules for a style so that
 our code will work across multiple browsers. In this case, we can
 wrap all alternate values in an object with an `_alt_list_` property.
 
-    _background_ : {
-      _alt_list_ : [
-        '_xfff_',
-        [ '#f85032' ],
-        [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-        [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-        [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
-      ]
+    rule_map : {
+      _background_ : {
+        _alt_list_ : [
+          '_xfff_',
+          [ '#f85032' ],
+          [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+          [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+          [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
+        ]
+      },
+      ....
     }
+      
 
 The resulting CSS:
 
@@ -526,6 +559,20 @@ and replace the above declaration like so:
 
 Remember the order of alternatives in CSS is important: the last supported
 declaration will always be used.
+
+### Concatenated values
+**Important** as of 0.3.x release, this feature is not yet implemented
+Sometimes we want to use multiple literal or key values as a single string,
+usually separated by a space.  For this we use a "double list" technique:
+
+      rule_map : {
+      _border_ : [[ '_d125rem_', '_solid_' [ '#f85032' ] ]],
+
+This is very similar to Alternate values.  The resulting CSS:
+
+    border : .125rem solid #f85032
+
+This feature is planned **but not yet implemented.**
 
 ### Locked values
 Typically in a cascade, the last property value in "wins". However, it
@@ -590,10 +637,16 @@ The `do_force` would force a complete recompilation of the cascade,
 including any intermediary formats.
 
 ### Compression
-Not yet written.
+PowerCSS code and modules that use it can be highly compressed thanks to 
+the use of easily recognized symbols.
 
-## Stay tuned...
-There are lots of features and examples coming up soon.
+## Regression tests
+TODO
+
+## Compatibility
+Confirmed to work on Chrome 48, Safari 9, Firefox 44, IE 9+, 
+and Edge browsers.  We expect it to work on much earlier versions of
+Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 
 ## Release Notes
 ### Copyright (c)
@@ -621,13 +674,14 @@ across all levels.
 TODO: Here we will be implementing `get` and `delete` methods.
 
 ### Version 0.5.x
-TODO: Nodejs support, fuller x-browser testing
+TODO: Nodejs support, compatibility test to earlier versions of Firefox and
+ Chrome.
 
 ### Version 0.6.x
-TODO: Final preparation for 1.x release: docs and regression tests
+TODO: regression tests
 
-### Testing
-I have yet to test across all platforms. Use with care.
+### Version 1.x
+TODO: Production-ready code
 
 ## Similar Projects
 [absurdjs][3], [responsive.j$][4]

@@ -10,8 +10,14 @@
 </head>
 <body>
   <h1>PowerCSS</h1>
-  <h2>Example 003: Double buffering</h2>
-  <p>Mixin maps (under construction)</p>
+  <h2>Example 003: Mixin Maps</h2>
+  <p>This shows basic use of mixin maps.  As of 0.3.2, mixin maps
+    have not been optimized or tested.  But they as designed in
+    limited testing we've done so far.  At present, changing an
+    existing mixin map does <b>not</b> yet identify and lazy-change
+    the affected <b>cascades</b> (see documentation), but this
+    should be implemented soon.
+  </p>
   <div id="pcss-_switch_">
     <div id="pcss-_switch_1_" class="pcss-_x_select_">Cascade 001</div>
     <div id="pcss-_switch_2_">Cascade 003</div>

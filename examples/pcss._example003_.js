@@ -55,7 +55,7 @@ pcss._example003_ = function () {
         _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
         _font_size_  : '_body_font_size_',
-        _color_      : '_body_font_color'
+        _color_      : '_body_font_color_'
       }
     },
     { _select_str_ : 'input',
@@ -81,14 +81,9 @@ pcss._example003_ = function () {
   ];
 
   pcss._setVsheetList_({
+    _mixin_map_   : base_mixin_map,
     _vsheet_id_   : '_base_vsheet_',
     _vsheet_list_ : base_vsheet_list
-    // _mixin_map_   : base_mixin_map // alternate
-  });
-  pcss._setMixinMap_({
-    _asset_id_   : '_base_vsheet_',
-    _asset_type_ : '_vsheet_',
-    _mixin_map_  : base_mixin_map
   });
   // End add _base_vsheet_
 
@@ -148,7 +143,8 @@ pcss._example003_ = function () {
   };
   pcss._setVsheetList_({
     _vsheet_id_   : '_box_alt_vsheet_',
-    _vsheet_list_ : box_vsheet_list
+    _vsheet_list_ : box_vsheet_list,
+    _mixin_map_   : { _body_font_color_ : '#080' }
   });
   // End add _box_alt_vsheet_
 
@@ -195,13 +191,17 @@ pcss._example003_ = function () {
 
   // Begin create cascade objects to toggle
   pcss._setCascadeObj_({
-    _cascade_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_' ],
-    _cascade_id_ : '_example001_'
+    _cascade_id_ : '_example001_',
+    _cascade_list_ : [
+      '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_'
+    ]
   });
 
   pcss._setCascadeObj_({
-    _cascade_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_alt_vsheet_' ],
-    _cascade_id_ : '_example002_'
+    _cascade_id_ : '_example002_',
+    _cascade_list_ : [
+      '_base_vsheet_', '_switch_vsheet_', '_box_alt_vsheet_'
+    ]
   });
 
   onclick_fn = function ( event_obj ) {
