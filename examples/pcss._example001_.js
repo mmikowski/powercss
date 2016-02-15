@@ -30,13 +30,12 @@
 pcss._example001_ = function () {
   var
     base_vsheet_list,
-    box_vsheet_list,
-    cascade_obj
+    box_vsheet_list
     ;
 
   pcss._initModule_();
 
-  // Begin add _base_vsheet_
+  // Begin Add _base_vsheet_
   base_vsheet_list = [
     { _select_str_  : 'body',
       _rule_map_     : {
@@ -75,9 +74,9 @@ pcss._example001_ = function () {
     _vsheet_id_   : '_base_vsheet_',
     _vsheet_list_ : base_vsheet_list
   });
-  // End add _base_vsheet_
+  // End Add _base_vsheet_
 
-  // Begin add _box_vsheet_
+  // Begin Add _box_vsheet_
   box_vsheet_list = [
     { _select_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
@@ -114,12 +113,12 @@ pcss._example001_ = function () {
     _vsheet_id_   : '_box_vsheet_',
     _vsheet_list_ : box_vsheet_list
   });
-  // End add _box_vsheet_
+  // End Add _box_vsheet_
 
-  // Begin create a cascade and enable it
+  // Begin Create a cascade and enable it
   pcss._setCascadeObj_({
-    _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
-    _cascade_id_ : '_example001_'
+    _cascade_id_   : '_example001_',
+    _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ]
   });
   console.log( 
     'cascade object BEFORE enable',
@@ -137,6 +136,6 @@ pcss._example001_ = function () {
       _asset_id_   : '_example001_'
     })
   );
-  // End create a cascade and enable it
+  // End Create a cascade and enable it
 };
 // END pcss._example001_

@@ -1,9 +1,8 @@
 # PowerCSS 0.3.x by Michael S. Mikowski
 This 0.3.x library is in development and is intended for early
-adopters. It should be relatively stable and reliable and fast.
-Quite a few features, testing, and examples have yet to be completed.
-Use with caution and check back often - the library is changing
-at a rapid pace.
+adopters. It is relatively stable and fast.  Some features, testing,
+and examples have yet to be completed.  Use with caution and check
+back often - the library is changing at a rapid pace.
 
 ## Use libraries, not frameworks
 This is a library that strives to be best-in-class.
@@ -17,27 +16,27 @@ to exceed the speed and flexibility of static CSS.
 See https://www.youtube.com/watch?v=rnkMjzhxw4s.
 
 ## Code Style
-This plugin is written in the code style presented in the book
+This library is written in the code style presented in the book
 book **Single Page Web Applications - JavaScript end-to-end**
 which is available from [Amazon][1] and directly from [Manning][2].
-It passes JSLint. All object keys have an underdash prefix and suffix
+It passes JSLint. All object keys have an underscore prefix and suffix
 like `_this_` which makes them easy targets for compression.
 
 ## The Goal
-The greatest problem with static CSS - whether it is written by an
-expert or someone using {less} or Sass - is that it is **not** created
+A significant problem with traditional CSS files - whether written by an
+expert or someone using {less} or Sass - is that they are **not** created
 at run-time. Application control of styling is at best limited, and at
 worst, simply not possible.
 
-PowerCSS provides application-controlled CSS and therefore it is
-infinitely adjustable by run-time logic. Do we want to change
-styling based on every users' device orientation, ambient temperature,
-ambient light, GPS location, heart rate, *and* time of day? Assuming
-the user device has these sensors, this is *fairly easy and obvious* using
-PowerCSS, and *virtually impossible* with with static CSS solutions.
+PowerCSS provides our application the tools to write and apply infinitely
+adjustable CSS based on almost any real-time data available to us.
+For example, our application could use PowerCSS to adjust styling based on
+device orientation, ambient temperature, ambient light, GPS location,
+heart rate, or time of day. Traditional static CSS files can't compete with
+this flexibility.
 
 We feel that PowerCSS has not only achieved its primary goal, but that
-it is better than static CSS in almost every other respect as well.
+it is often better than static CSS in many other respects as well.
 It provides a simple and familiar API where experienced CSS authors
 can use their existing skills to be up and running in minutes.
 When properly implemented, a PowerCSS solution usually downloads
@@ -48,7 +47,13 @@ Sound exciting? If so, read on! First we implement a few PowerCSS
 examples, and then we discuss how PowerCSS works.
 
 ## Example 001: The basics
-Now let's review the work-flow before we jump into the example.
+This example is illustrated by `pcss._example001_.html` which
+can be be found in the `examples` directory of the GitHub repository.
+Clone the respository and open the file with your browser to see the
+results.
+
+Let's review the work-flow of PowerCSS before we jump into the first
+example.
 
 1. Create an HTML document that includes the pcss.js library and the code
    necessary to use it.
@@ -64,14 +69,12 @@ We were careful to change as little of the existing CSS work-flow as
 possible. If we are comfortable with using static CSS, this should be
 pretty familiar.
 
-Also, keep in mind that **PowerCSS never changes our data.** This
-means if we provide an array or object as an argument to a PowerCSS call,
-it is **copied** and we can reuse it *without fear of it being modified 
-by PowerCSS at some later time*.  
-
-For the inverse reason, **PowerCSS does not return internal data 
-structures**.  We can instead use the `pcss._getAssetJson_()` and
-`pcss._getMixinJson_()` methods to get snapshots of the data for
+**PowerCSS never changes our data.** This means if we provide an array or
+object as an argument to a PowerCSS call, it is **copied** and we can use
+it again *without fear of it being modified by PowerCSS at some later time*.
+For the inverse reason, **PowerCSS does not return pointers to its
+data**.  We can instead use the `pcss._getAssetJson_()` and
+`pcss._getMixinJson_()` methods to get snapshots of data for
 debugging purposes. We do avoid using these methods for production
 as they can be expensive.
 
@@ -155,7 +158,8 @@ traditional CSS file. An experienced CSS author should be able to adopt
 the format with little trouble. Below we add a **vsheet** definition to
 `pcss._example001_.js`:
 
-      // Begin add _base_vsheet_
+
+      // Begin Add _base_vsheet_
       base_vsheet_list = [
         { _select_str_  : 'body',
           _rule_map_     : {
@@ -194,11 +198,11 @@ the format with little trouble. Below we add a **vsheet** definition to
         _vsheet_id_   : '_base_vsheet_',
         _vsheet_list_ : base_vsheet_list
       });
-      // End add _base_vsheet_
+      // End Add _base_vsheet_
 
 
 We provide our selectors in a list because their order is important
-in CSS.  PowerCSS records the **vsheet** definition, but it doesn't 
+in CSS.  PowerCSS records the **vsheet** definition, but it doesn't
 compile it to CSS yet - that comes later.
 
 ### 4. Add a 'box' virtual stylesheet list
@@ -206,7 +210,7 @@ Let's define and add another **vsheet**. Here we use a few
 advanced features, but don't get lost in the details.
 We will return to them soon enough:
 
-      // Begin add _box_vsheet_
+      // Begin Add _box_vsheet_
       box_vsheet_list = [
         { _select_str_ : '.pcss-_box_',
           _rule_lock_list_ : [ '_font_size_' ],
@@ -243,31 +247,35 @@ We will return to them soon enough:
         _vsheet_id_   : '_box_vsheet_',
         _vsheet_list_ : box_vsheet_list
       });
-      // End add _box_vsheet_
-      
+      // End Add _box_vsheet_
+
 
 Now we have two **vsheet**s. Let's use them!
 
 ### 5. Create a cascade object
 Let's create a cascade object (**cascade**) like so:
 
-      // Begin create a cascade and enable it
-      cascade_obj = pcss._setCascadeObj_({
-        _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
-        _cascade_id_   : '_example001_'
+      // Begin Create a cascade and enable it
+      pcss._setCascadeObj_({
+        _cascade_id_   : '_example001_',
+        _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ]
       });
-      console.log( 
+      console.log(
         'cascade object BEFORE enable',
-        JSON.stringify( cascade_obj )
+        pcss._getAssetJson({
+          _asset_type_ : '_cascade_',
+          _asset_id_   : '_example001_'
+        })
       );
 
 
-The returned **cascade** object contains the following attributes:
+We use the `pcss._getAssetJson_()` method to get a look at the cascade object
+created by PowerCSS.  Here is the full list of attributes:
 
-- `_cascade_list_` is as provided.
 - `_cascade_id_` as provided.
+- `_cascade_list_` is as provided.
 - `_css_str_` is the CSS generated for this **vsheet**.
-  *In this example, the value is blank because we haven't 
+  *In this example, the value is blank because we haven't
   enabled this cascade yet.*
 - `_merged_vsheet_list_` is a **vsheet** prepared by merging all
   the **vsheets** in the `_cascade_list_`. It is an intermediary
@@ -291,11 +299,14 @@ console.
 Let's now enable the **cascade** and close our example function.
 
       pcss._enableCascadeObj_({ _cascade_id_ : '_example001_' });
-      console.log( 
+      console.log(
         'cascade_obj AFTER enable',
-        JSON.stringify( cascade_obj )
+        pcss._getAssetJson({
+          _asset_type_ : '_cascade_',
+          _asset_id_   : '_example001_'
+        })
       );
-      // End create a cascade and enable it
+      // End Create a cascade and enable it
     };
     // END pcss._example001_
 
@@ -306,12 +317,17 @@ of `pcss-0`.  Only once the CSS is completely written do we *disable*
 the alternate stylesheet( `pcss-1`) and enable this one.
 
 We can verify these changes by viewing the output in the JavaScript
-console.  Can you see the difference in the **cascade** object?  Both the
-`_time_map_._css_ms_` and the `_style_el_` attribute should have
-changed.
+console.  There are three changes after enabling the **cascade**:
+
+1. `_css_str_`  is the the generated CSS string
+2. `_style_el_` points to an actual style element
+3. `_time_map_._css_ms_` is a recent timestamp
+
+Of course, what is more imporant is what we see in the browser window.
+Let's take a look at that next.
 
 ### 7. Marvel at the results
-When we open `pcss._example001_.html` in a modern browser, we should 
+When we open `pcss._example001_.html` in a modern browser, we should
 multiple boxes that have been styled according to the **cascade**.
 We can view the generated CSS in the browser using the development
 tools and modify it as if we had written it ourselves.
@@ -325,11 +341,11 @@ Here it is formated with a few comments:
       margin      : 0;
       font-family : arial, helvetica, sans-serif;
       font-size   : 16px;
-      color       : #888;
+      color       : #888
     }
-
     input {
       margin        : .5rem;
+      width         : 10rem;
       border        : .125rem solid #ddd;
       border-radius : .5rem;
       outline       : none;
@@ -338,7 +354,6 @@ Here it is formated with a few comments:
       font-size     : 1rem;
       color         : #ddd
     }
-
     input:focus {
       border-color : #fff;
       background   : #444;
@@ -354,7 +369,7 @@ Here it is formated with a few comments:
       position       : relative;
       vertical-align : top;
       margin         : 1rem;
-      box-shadow     : rgba(0, 0, 0, .5) 0 0 .25rem 0;
+      box-shadow     : rgba( 0, 0, 0, .5) 0 0 .25rem 0;
       border         : 0.25rem solid #eee;
       border-radius  : 1rem;
       width          : 16rem;
@@ -372,14 +387,15 @@ Here it is formated with a few comments:
     /* End _box_ style */
 
 
-Of course, if that was all that PowerCSS provided, why bother?  It
-certainly is simpler to create static CSS a text editor when one wants
-just static styling. However, when we need run-time powered CSS with
-high performance and compressability, that's where PowerCSS really starts
-to shine.
+Of course, if that was all that PowerCSS provided, why bother?
+When we need static styling it is certainly simpler to create
+traditional CSS files using a nice, comfortable text editor or IDE.
+However, when we need our application to change styling based on user
+device or any other environmental factor, that's where PowerCSS really
+starts to shine.
 
 ## The Allure of Options
-Even the default behavior of compressed PowerCSS can results in benefits
+Even the default behavior of PowerCSS can results in benefits
 over static CSS:
 
 - It can be faster for initial load, depending on network speed.
@@ -433,12 +449,36 @@ There are four types of CSS values supported by PowerCSS. They are:
 
 In addition, we can `lock` a value in a cascade.
 
-### Mixin values
-We illustrate "double-buffering" in `pcss._example002_.html` which
+## Example 002: Double-buffering
+This example is illustrated by `pcss._example002_.html` which
 can be be found in the `examples` directory of the GitHub repository.
+Clone the respository and open the file with your browser to see the
+results.
 
+Double-buffering is an common technique to minimize processing and
+flicker across many areas of computer graphics. We create two `style`
+elements, and then switches between the two of them to apply their CSS.
+PowerCSS never enables a `style` element until the CSS is completely
+written to it.  This allows us to change all styles on a page with just
+one document reflow, which can be insanely fast compared to changing
+styles individually or updating multiple stylesheets.
+
+PowerCSS is intended to replace **all** other stylesheets for an
+application. While we can use external sheets for our CSS during
+development, we shouldn't need them for production release.
+Don't worry, this isn't as drastic as it sounds.  PowerCSS
+plays very nicely with others and is designed to avoid conflict
+with third-party web components.
+
+## Example 003: Mixin maps
+This example is illustrated by `pcss._example003_.html` which
+can be be found in the `examples` directory of the GitHub repository.
+Clone the respository and open the file with your browser to see the
+results.
+
+### Setting a mixin map
 Mixin maps are settable when creating a **vsheet** or
-a **cascade** or later through a `pcss._setMixinMap_()` method, 
+a **cascade** or later through a `pcss._setMixinMap_()` method,
 as illustrated below:
 
       // Vsheet option
@@ -447,54 +487,79 @@ as illustrated below:
         _vsheet_list_ : base_vsheet_list,
         _mixin_map_   : base_mixin_map
       });
-      
+
       // Cascade option
       pcss._setCascadeObj_({
-        _cascade_list_ : [ 
-          '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_'
+        _cascade_id_ : '_example001_',
+        _cascade_list_ : [
+          '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_',
         ],
-        _cascade_id_ : '_example001_'
         _mixin_map_   : base_mixin_map
       });
-      
-      // Any type
-      setMixinMap({
-        _asset_type_ : '_vsheet_',
+
+      // Generic solution
+      pcss._setMixinMap_({
         _asset_id_   : '_base_vsheet_',
+        _asset_type_ : '_vsheet_',
         _mixin_map_  : mixin_map
       });
-      
-When calling `setMixinMap`, `_asset_type_` may be `_vsheet_`, `_cascade_`,
-or `_global_`. The asset id, `_asset_id_`, must be provided for `_vsheet_`
-and `_cascade_` asset types.  There is only one `_global_` mixin map,
-and providing an `_asset_id_` will simply be ignored.
- 
-Mixin values come one of **four** sources:
 
-1. The **builtin** value map, `cssValMap`. This is a set of common 
+When we use the generic `pcss._setMixinMap_()` method, the `_asset_type_`
+may be `_vsheet_`, `_cascade_`, or `_global_`. The asset id, `_asset_id_`,
+must be provided for `_vsheet_` and `_cascade_` asset types. 
+There is only one `_global_` mixin map, and providing an `_asset_id_`
+will simply be ignored.  The `_mixin_map_` is a simple key-value pair
+object as illustrated below:
+
+      // Example mixin map
+      mixin_map = {
+        _body_font_size_  : '16px',
+        _body_font_color_ : '#a44',
+        _input_width_     : '10rem',
+        _input_border_    : '.125rem solid #ddd'
+      };
+
+Those are the basics.  We will get into the weeds a little later.  First, 
+let's see how we can retreive a mixin map.
+
+### Getting mixin map JSON
+We can get a copy of a mixin map data by using the `pcss._getMixinJson_()`
+method:
+
+      pcss._getMixinJson_({
+        _asset_id_   : '_base_vsheet_',
+        _asset_type_ : '_vsheet_',
+      });
+
+Now let's discuss when and where we can use mixin maps.
+
+### The four type of mixin maps
+PowerCSS uses values from **four** mixin map types:
+
+1. The **builtin** value map, `cssValMap`. This is a set of common
    CSS values that are available by default.  For example, the symbol
    `_fixed_` resolves to 'fixed' in the resulting CSS. This map is
    found in the the PowerCSS library file, `pcss.js`.
-2. The **global** mixin map is used across all **cascades** and, as 
+2. The **global** mixin map is used across all **cascades** and, as
    a consequence, by all **vsheets** they use.
-3. **Cascade** mixin maps are exclusive to one **cascade** and 
+3. **Cascade** mixin maps are exclusive to one **cascade** and
    are used by all **vsheets** in their cascade list.
 4. **Vsheet** mixin maps are exclusive to one **vsheet**.
 
-The precidence of these mixin sources (also known as a 'scope chain')
+### Mixin map precidence
+The precidence of these mixin maps (also known as a 'scope chain')
 is as follows:
 
-    vsheet -> cascade -> global -> builtin
+    vsheet > cascade > global > builtin
 
 This means that **vsheets** mixin values have priority over **cascade**
-mixin values which have priority over **global** mixin values which have 
-priority over **builtin** values.  We think of this as "the closest match
+mixin values which have priority over **global** mixin values which have
+priority over **builtin** values.  Think of this as "the closest match
 wins." Consider the following PowerCSS rule definition:
 
     rule_map : { background : '_bcolor_', ... }
 
-Now let's set a value at three levels. The the available values would
-then be:
+Now let's set mixin map value at three levels, in psuedo code:
 
     builtin._bcolor_   = undefined;
     global._bcolor_    = 'red';
@@ -517,7 +582,8 @@ Here the **cascade** level value, 'green', will "win" and the CSS generator
 will use that instead of any **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:green`.
 And so on. If the value is still undefined at the end of the scope chain,
-a blank string will be used and a warning logged to the console.
+a warning is issued and the property (`background`, in this case) and the
+property is not set.
 
 An astute reader will notice that a **vsheet** can be used across many
 **cascades**. This is a very powerful feature, but it is important to keep
@@ -550,7 +616,7 @@ wrap all alternate values in an object with an `_alt_list_` property.
       },
       ....
     }
-      
+
 
 The resulting CSS:
 
@@ -607,26 +673,7 @@ An astute reader will again notice that a **vsheet** can be used across
 many **cascades**. Therefore, one must be careful when setting locks on a
 **vsheet** that will be reused in more than once.
 
-### Double-buffering
-We illustrate "double-buffering" in `pcss._example002_.html` which
-can be be found in the `examples` directory of the GitHub repository.
-
-Double-buffering is an common technique to minimize processing and
-flicker across many areas of computer graphics. We create two **style**
-elements, and then switches between the two of them to apply their CSS.
-PowerCSS never enables a **style** element until the CSS is completely
-written to it.  This allows us to change all styles on a page with just
-one document reflow, which can be insanely fast compared to changing
-styles individually or updating multiple stylesheets.
-
-PowerCSS is intended to replace **all** other stylesheets for an
-application. While we can use external sheets for our CSS during
-development, we shouldn't need them for production release.
-Don't worry, this isn't as drastic as it sounds.  PowerCSS
-plays very nicely with others and is designed to avoid conflict
-with third-party web components.
-
-### Speed ###
+## Performance
 We have taken great care to ensure PowerCSS is as fast, or sometimes
 even faster than static CSS.  We calculate the cascades in
 software and only provide to the browser a single optimized stylesheet
@@ -639,18 +686,18 @@ the CSS again unless something has changed, and even already keep
 a great deal of our processing completed and cached before we *need*
 the CSS, and we intend to add more. Examples include the merging of
 **vsheets** and **mixins** and the creation of the style elements as well.
-If we change a **mixin** map, we intend to have PowerCSS identify 
+If we change a **mixin** map, we intend to have PowerCSS identify
 only the affected **cascades** and update only them when needed.
 
-### Compression
-PowerCSS code and modules that use it can be highly compressed thanks to 
+## Compression
+PowerCSS code and modules that use it can be highly compressed thanks to
 the use of easily recognized symbols.
 
 ## Regression tests
 TODO
 
 ## Compatibility
-Confirmed to work on Chrome 48, Safari 9, Firefox 44, IE 9+, 
+Confirmed to work on Chrome 48, Safari 9, Firefox 44, IE 9+,
 and Edge browsers.  We expect it to work on much earlier versions of
 Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 
@@ -672,11 +719,11 @@ This series featured double-buffering support and examples
 This series has an API change from 0.2.x where we now use the
 **cascade** term instead of **metasheet**. It's a shorter
 *and* more descriptive.  Added Mixins and get methods.
-Reverted to true double buffering (only 2 stylesheets).
+Reverted to true double-buffering (only 2 stylesheets).
 
 ### Version 0.4.x
 TODO: Implement `delete` methods.
-We also want to provide a option to partially or completely compile 
+We also want to provide a option to partially or completely compile
 a **cascade** to CSS while our application has some *downtime*.
 We expect to add a `pcss._prepareCascade_()` method for this purpose.
 We wish to allow for a complete recompilation of the cascade for testing
@@ -707,7 +754,6 @@ TODO: Production-ready code
 - CSS string output for debugging and regression testing
 - times-based minimal processing
 - force full rerender on request (for debug purposes)
-- getMixinMap( global or cascade or vsheet, id )
 - delVsheetList
 - getVsheetList
 - delCascadeObj

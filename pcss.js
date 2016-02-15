@@ -510,7 +510,7 @@ pcss = (function () {
         inner_data_count = inner_data_list[ vMap._length_ ];
 
         // Calc solve val
-        for ( k = __0; k < inner_data_count; k++ ) {
+        INNER_RULE: for ( k = __0; k < inner_data_count; k++ ) {
           rule_data       = inner_data_list[ k ];
           solve_data_type = __isArray( rule_data )
             ? vMap._array_ : getType( rule_data );
@@ -525,6 +525,7 @@ pcss = (function () {
               }
               else {
                 logIt( '_css_rule_data_not_found_', rule_data );
+                continue INNER_RULE;
               }
               break;
             case vMap._array_ :
