@@ -61,13 +61,19 @@ Now let's review the work-flow before we jump into the example.
 
 
 We were careful to change as little of the existing CSS work-flow as
-possible. If you are comfortable with using static CSS, this should be
+possible. If we are comfortable with using static CSS, this should be
 pretty familiar.
 
-Also, keep in mind that **PowerCSS will never change your data.** This
-means if you provide an array or object as an argument to a PowerCSS call,
-it is **copied** and you can reuse your array or object without fear of
-it being modified by PowerCSS at some later time.
+Also, keep in mind that **PowerCSS never changes our data.** This
+means if we provide an array or object as an argument to a PowerCSS call,
+it is **copied** and we can reuse it *without fear of it being modified 
+by PowerCSS at some later time*.  
+
+For the inverse reason, **PowerCSS does not return internal data 
+structures**.  We can instead use the `pcss._getAssetJson_()` and
+`pcss._getMixinJson_()` methods to get snapshots of the data for
+debugging purposes. We do avoid using these methods for production
+as they can be expensive.
 
 ### 1. Create `pcss._example001_.html` file
 Let's create an HTML file named `pcss._example001_.html` to illustrate
@@ -260,23 +266,22 @@ The returned **cascade** object contains the following attributes:
 
 - `_cascade_list_` is as provided.
 - `_cascade_id_` as provided.
-- `_merge_vsheet_list_` is a **vsheet** prepared by merging all
+- `_css_str_` is the CSS generated for this **vsheet**.
+  *In this example, the value is blank because we haven't 
+  enabled this cascade yet.*
+- `_merged_vsheet_list_` is a **vsheet** prepared by merging all
   the **vsheets** in the `_cascade_list_`. It is an intermediary
   format that resolves additions and redundancies, but it doesn't
   resolve values like CSS symbols or **mixins**.
   *In this example it is calculated and saved*.
-- `_mixin_map_` is the **mixin** map used only for this **cascade**.
+- `_merged_mixin_map_` is the **mixin** map used only for this **cascade**.
   *In this example it is an empty map.*
 - `_style_el_` is the `style` DOM element used by the **cascade**.
   *In this example, the value is null because we haven't
   enabled this cascade yet.*
-- `_style_el_id_` is the DOM ID reserved for the browser style element
-  created when we enable this **cascade**.
-  *In this example, the value is `pcss-0` because this is our
-  first cascade.*
-- `_timesheet_map_` includes various timesheets that are used to only
-  update the parts of the CSS generation process that need updating.
-  *In this example, all times are set to the current timestamp, except
+- `_time_map_` includes various timestamps that are used to minimize
+  processing to update the CSS generation.
+  *In this example, all times are set to 'now', except
   for `_css_ms_` as the CSS has not yet been generated.*
 
 We can verify these values by viewing the output in the JavaScript
@@ -295,21 +300,21 @@ Let's now enable the **cascade** and close our example function.
     // END pcss._example001_
 
 
-When we enable the **cascade**, PowerCSS creates a *disabled* browser
-style element with an id of `pcss-0`, calculates the CSS, and then
-writes it to the `pcss-0` style element. It then disables
-all `pcss-*` CSS, and, finally, it enables the `pcss-0` style element.
+When we enable the **cascade**, PowerCSS calculates the CSS and
+writes the output to a *disabled* browser style element with an id
+of `pcss-0`.  Only once the CSS is completely written do we *disable*
+the alternate stylesheet( `pcss-1`) and enable this one.
 
 We can verify these changes by viewing the output in the JavaScript
 console.  Can you see the difference in the **cascade** object?  Both the
-`_timestamp_map_._css_ms_` and the `_style_el_` attribute should have
+`_time_map_._css_ms_` and the `_style_el_` attribute should have
 changed.
 
 ### 7. Marvel at the results
-When we open `pcss._example001_.html` in a modern browser, we should see
-three boxes that have been styled according to the **cascade**
-definition. We can view the generated CSS in the browser using the
-development tools and modify it as if we had written it ourselves.
+When we open `pcss._example001_.html` in a modern browser, we should 
+multiple boxes that have been styled according to the **cascade**.
+We can view the generated CSS in the browser using the development
+tools and modify it as if we had written it ourselves.
 Here it is formated with a few comments:
 
     /* Begin _base_ style */
@@ -368,9 +373,10 @@ Here it is formated with a few comments:
 
 
 Of course, if that was all that PowerCSS provided, why bother?  It
-would still be simpler to create static CSS a text editor. However,
-when you need run-time powered, highly compressed, and high-performance
-CSS techniques, PowerCSS really starts to shine.
+certainly is simpler to create static CSS a text editor when one wants
+just static styling. However, when we need run-time powered CSS with
+high performance and compressability, that's where PowerCSS really starts
+to shine.
 
 ## The Allure of Options
 Even the default behavior of compressed PowerCSS can results in benefits
@@ -428,6 +434,9 @@ There are four types of CSS values supported by PowerCSS. They are:
 In addition, we can `lock` a value in a cascade.
 
 ### Mixin values
+We illustrate "double-buffering" in `pcss._example002_.html` which
+can be be found in the `examples` directory of the GitHub repository.
+
 Mixin maps are settable when creating a **vsheet** or
 a **cascade** or later through a `pcss._setMixinMap_()` method, 
 as illustrated below:
@@ -515,7 +524,7 @@ An astute reader will notice that a **vsheet** can be used across many
 in mind when setting **vsheet** mixin maps.
 
 ### Literal values
-Literal values are just that: a string you want to use as-is. Simply wrap any
+Literal values are just that: a string we want to use as-is. Simply wrap any
 string in an array to have it read as a literal, as illustrated below:
 
     rule_map : { background : [ 'blue' ], ... }
@@ -561,18 +570,19 @@ Remember the order of alternatives in CSS is important: the last supported
 declaration will always be used.
 
 ### Concatenated values
-**Important** as of 0.3.x release, this feature is not yet implemented
+**Important** in the 0.3.x releases, this feature is not yet implemented.
 Sometimes we want to use multiple literal or key values as a single string,
 usually separated by a space.  For this we use a "double list" technique:
 
       rule_map : {
       _border_ : [[ '_d125rem_', '_solid_' [ '#f85032' ] ]],
 
-This is very similar to Alternate values.  The resulting CSS:
+This is very similar to alternate values.  The resulting CSS should
+look like this.
 
     border : .125rem solid #f85032
 
-This feature is planned **but not yet implemented.**
+Again, as of 0.3.x, this feature is planned **but not yet implemented.**
 
 ### Locked values
 Typically in a cascade, the last property value in "wins". However, it
@@ -600,13 +610,14 @@ many **cascades**. Therefore, one must be careful when setting locks on a
 ### Double-buffering
 We illustrate "double-buffering" in `pcss._example002_.html` which
 can be be found in the `examples` directory of the GitHub repository.
-Here, we create two **cascades** then switch between them at will.
-PowerCSS never enables a **cascade** until the CSS is completely
-written and one **cascade** is enabled at any time by PowerCSS.
-This "double-buffering" technique allow us to change all styles
-on a page with just one document reflow, which can be insanely
-fast compared to changing styles individually and across multiple
-stylesheets.
+
+Double-buffering is an common technique to minimize processing and
+flicker across many areas of computer graphics. We create two **style**
+elements, and then switches between the two of them to apply their CSS.
+PowerCSS never enables a **style** element until the CSS is completely
+written to it.  This allows us to change all styles on a page with just
+one document reflow, which can be insanely fast compared to changing
+styles individually or updating multiple stylesheets.
 
 PowerCSS is intended to replace **all** other stylesheets for an
 application. While we can use external sheets for our CSS during
@@ -621,20 +632,15 @@ even faster than static CSS.  We calculate the cascades in
 software and only provide to the browser a single optimized stylesheet
 to render. The browser rendering engine doesn't need to work loading
 and merging sometimes dozens of external style sheets. It also
-removes sometimes dozens of HTTP requests for external stylsheets.
+removes the expensive associated HTTP requests for external stylsheets.
 
-We have numerous layers of caching as well.  The CSS is never
-rewritten unless something has changed, and even a great deal of our
-processing - the merging of **vsheets** - is cached well before we
-normally need the CSS.  If we change a **mixin** map, we can be
-confident that PowerCSS will identify **only** the affected
-**cascades**, and will only update them when needed.
-
-We also want to provide a option to completely compile a **cascade**
-to CSS while your application has some *downtime*, we plan to provide
-`pcss._prepareCascade_()` with a `do_force` option for this as well.
-The `do_force` would force a complete recompilation of the cascade,
-including any intermediary formats.
+We have numerous layers of caching as well.  We don't want to write
+the CSS again unless something has changed, and even already keep
+a great deal of our processing completed and cached before we *need*
+the CSS, and we intend to add more. Examples include the merging of
+**vsheets** and **mixins** and the creation of the style elements as well.
+If we change a **mixin** map, we intend to have PowerCSS identify 
+only the affected **cascades** and update only them when needed.
 
 ### Compression
 PowerCSS code and modules that use it can be highly compressed thanks to 
@@ -663,15 +669,18 @@ single working example.
 This series featured double-buffering support and examples
 
 ### Version 0.3.x
-WIP:: This series has an API change from 0.2.x where we now use the
-**cascade** term instead of **metasheet**. It's a "twofer" - shorter
-*and* more descriptive.
-
-In addition, we are currently implementing, optimizing, and testing mixins 
-across all levels.
+This series has an API change from 0.2.x where we now use the
+**cascade** term instead of **metasheet**. It's a shorter
+*and* more descriptive.  Added Mixins and get methods.
+Reverted to true double buffering (only 2 stylesheets).
 
 ### Version 0.4.x
-TODO: Here we will be implementing `get` and `delete` methods.
+TODO: Implement `delete` methods.
+We also want to provide a option to partially or completely compile 
+a **cascade** to CSS while our application has some *downtime*.
+We expect to add a `pcss._prepareCascade_()` method for this purpose.
+We wish to allow for a complete recompilation of the cascade for testing
+purposes.
 
 ### Version 0.5.x
 TODO: Nodejs support, compatibility test to earlier versions of Firefox and
@@ -696,7 +705,7 @@ TODO: Production-ready code
 ### Planned future capabilities
 - nodejs support, especially with nodeunit-b
 - CSS string output for debugging and regression testing
-- timestamp-based minimal processing
+- times-based minimal processing
 - force full rerender on request (for debug purposes)
 - getMixinMap( global or cascade or vsheet, id )
 - delVsheetList

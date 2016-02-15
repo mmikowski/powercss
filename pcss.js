@@ -554,7 +554,7 @@ pcss = (function () {
   }
 
   function writeToStyleEl ( style_el, css_str )  {
-    var text_el;
+    var text_el, childnode_list;
     // Old Firefox and IE(?)
     if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
       style_el[ vMap._cssText_ ] = css_str;
@@ -568,7 +568,7 @@ pcss = (function () {
     else {
       childnode_list = style_el[ vMap._childNodes_ ];
       if ( childnode_list && childnode_list[ vMap._length_ ] > __0 ) {
-        text_el = childnode_list[0];
+        text_el = childnode_list[ __0 ];
         text_el[ vMap._nodeValue_ ] = css_str;
       }
       else {
@@ -759,11 +759,10 @@ pcss = (function () {
     cascade_obj = {
       _cascade_id_         : cascade_id,
       _cascade_list_       : cascade_list,
+      _css_str_            : __blank,
       _merged_vsheet_list_ : result_map._vsheet_list_,
       _merged_mixin_map_   : result_map._mixin_map_,
       _style_el_           : __null,
-      _css_str_            : __blank,
-      _style_el_id_        : __undef,
       _time_map_ : {
         _css_ms_    : __0,
         _merged_ms_ : timestamp_ms,
