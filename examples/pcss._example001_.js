@@ -117,19 +117,25 @@ pcss._example001_ = function () {
   // End add _box_vsheet_
 
   // Begin create a cascade and enable it
-  cascade_obj = pcss._setCascadeObj_({
+  pcss._setCascadeObj_({
     _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
     _cascade_id_ : '_example001_'
   });
   console.log( 
     'cascade object BEFORE enable',
-    JSON.stringify( cascade_obj )
+    pcss._getAssetJson({
+      _asset_type_ : '_cascade_',
+      _asset_id_   : '_example001_'
+    })
   );
 
   pcss._enableCascadeObj_({ _cascade_id_ : '_example001_' });
   console.log( 
     'cascade_obj AFTER enable',
-    JSON.stringify( cascade_obj )
+    pcss._getAssetJson({
+      _asset_type_ : '_cascade_',
+      _asset_id_   : '_example001_'
+    })
   );
   // End create a cascade and enable it
 };

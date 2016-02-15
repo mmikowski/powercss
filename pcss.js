@@ -1,24 +1,15 @@
-/* PowerCSS - pcss.js
+/** PowerCSS - pcss.js
  * Run-time generated and managed CSS
  * Michael S. Mikowski - mike.mikowski@gmail.com
+ * See README.md for further documentation.
 */
-/*jslint       browser : true, continue : true,
- devel : true,  indent : 2,      maxerr : 50,
- newcap : true,  nomen : true, plusplus : true,
- regexp : true, sloppy : true,     vars : false,
- white : true,    todo : true,  unparam : true
+/*jslint        browser : true, continue : true,
+  devel : true,  indent : 2,      maxerr : 50,
+  newcap : true,  nomen : true, plusplus : true,
+  regexp : true, sloppy : true,     vars : false,
+  white : true,    todo : true,  unparam : true
 */
 /*global pcss:true */
-
-// # PowerCSS by Michael S. Mikowski
-//
-// ## Overview
-// Unleash PowerCSS to create custom CSS for every user that visits your site.
-// PowerCSS uses merging, caching, compression, and double-buffering to exceed
-// the speed and flexibility of static CSS.
-// https://www.youtube.com/watch?v=rnkMjzhxw4s
-//
-// See README.md for further documentation.
 
 var pcss;
 pcss = (function () {
@@ -38,7 +29,7 @@ pcss = (function () {
     __timeStamp = Date.now,
 
     __0  = 0,
-    __1  = 1,
+    __2  = 2,
     __n1 = -1,
     __undef = window.undefined,
 
@@ -47,6 +38,7 @@ pcss = (function () {
       _object_         : 'object',
       _string_         : 'string',
       _appendChild_    : 'appendChild',
+      _childNodes_     : 'childNodes',
       _createElement_  : 'createElement',
       _createTextNode_ : 'createTextNode',
       _cssText_        : 'cssText',
@@ -60,6 +52,7 @@ pcss = (function () {
       _innerHTML_      : 'innerHTML',
       _join_           : 'join',
       _length_         : 'length',
+      _nodeValue_      : 'nodeValue',
       _push_           : 'push',
       _setAttribute_   : 'setAttribute',
       _sheet_          : 'sheet',
@@ -266,11 +259,12 @@ pcss = (function () {
         // use: _vsheet_id_ : { _time_ms_: 1455479409, _mixin_map_ : {...},
         _vsheet_  : {}
       },
+      _style_el_list_   : __undef,
       _style_el_prefix_ : __undef,
       _style_el_idx_    : __n1
     }
     ;
-  // END   1. MODULE SCOPE VARIABLES ========================
+  // END 1. MODULE SCOPE VARIABLES ========================
 
   // BEGIN 2. PRIVATE METHODS ===============================
   function logIt () {
@@ -281,33 +275,31 @@ pcss = (function () {
     return typeof arg;
   }
 
-  function createStyleElId () {
-    var style_el_id = topSmap._style_el_prefix_
-      + __String( topSmap._style_el_idx_ + __1 );
-
-    if ( !! __docRef[ vMap._getElById_ ]( style_el_id ) ) {
-      throw '_sheet_id_is_already_in_use_ ' + style_el_id;
-    }
-    topSmap._style_el_idx_++;
-    return style_el_id;
-  }
-
-  function addStyleEl ( style_id ) {
+  function initStyleEls () {
     var
-      head_el = __docRef[ vMap._head_ ],
-      style_el
+      head_el         = __docRef[ vMap._head_ ],
+      style_el_prefix = topSmap._style_el_prefix_,
+      style_el_list   = [],
+
+      i, style_el_id, style_el
       ;
 
-    // Create element and set properties
-    style_el = __docRef[ vMap._createElement_ ]( 'style' );
-    style_el[ vMap._setAttribute_ ]( vMap._type_, vMap._text_css_ );
-    style_el[ vMap._setAttribute_ ]( vMap._id_, style_id );
+    for ( i = __0; i < __2; i++ ) {
+      style_el_id = style_el_prefix +  __String( i );
+      if ( !! __docRef[ vMap._getElById_ ]( style_el_id ) ) {
+        throw '_sheet_id_is_already_in_use_ ' + style_el_id;
+      }
+      // Create element and set properties
+      style_el = __docRef[ vMap._createElement_ ]( 'style' );
+      style_el[ vMap._setAttribute_ ]( vMap._type_, vMap._text_css_ );
+      style_el[ vMap._setAttribute_ ]( vMap._id_, style_el_id );
 
-    // Add to head
-    head_el[ vMap._appendChild_ ]( style_el );
-
-    return style_el;
-    // End find and return the sheet object
+      // Add to head
+      head_el[ vMap._appendChild_ ]( style_el );
+      style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
+      style_el_list[ vMap._push_ ]( style_el );
+    }
+    topSmap._style_el_list_ = style_el_list;
   }
 
   function cloneData ( data ) {
@@ -425,7 +417,8 @@ pcss = (function () {
           // Begin init lock list
           if ( rule_lock_list ) {
             merged_rpt_map._rule_lock_list_ = cloneData( rule_lock_list );
-            merged_rpt_map[ 'lock_on_' + __String( i ) ] = __j2str( rule_lock_list );
+            merged_rpt_map[ 'lock_on_' + __String( i ) ]
+              = __j2str( rule_lock_list );
           }
           else {
             merged_rpt_map._rule_lock_list_ = [];
@@ -490,11 +483,16 @@ pcss = (function () {
           continue;
         }
 
-        // val:   'some_string'   => lookup key
-        // val: [ 'some_string' ] => literal
-        // val: { _alt_list_ : [ 'some_string, [ 'some_string ] ] }
-        //   => alternate list.  The first value is a lookup,
+        // val:   'string'   => lookup key
+        // val: [ 'string' ] => literal
+        // val: { _alt_list_ : [ 'string, [ 'string' ] ] }
+        //   => CSS alternates list.  The first value is a lookup,
         //      the second is a literal.
+        // TODO:
+        // val: [[ 'string', [ 'string' ], 'string' ]]
+        //   => CSS Concatenated value, space delimited.  Example:
+        //   _border_ : [[ '_0d25rem_', '_solid_', [ '#8f93c0' ] ]]
+        //   => border : .25rem solid #8f93c0;
         //
         outer_data = rule_map[ rule_key ];
         // first some tap-dancing to handle mixin complex values
@@ -560,6 +558,7 @@ pcss = (function () {
     // Old Firefox and IE(?)
     if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
       style_el[ vMap._cssText_ ] = css_str;
+      style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
     }
     // New Firefox
     else if ( style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
@@ -567,8 +566,15 @@ pcss = (function () {
     }
     // Webkit
     else {
-      text_el = __docRef[ vMap._createTextNode_ ]( css_str );
-      style_el[ vMap._appendChild_ ]( text_el );
+      childnode_list = style_el[ vMap._childNodes_ ];
+      if ( childnode_list && childnode_list[ vMap._length_ ] > __0 ) {
+        text_el = childnode_list[0];
+        text_el[ vMap._nodeValue_ ] = css_str;
+      }
+      else {
+        text_el = __docRef[ vMap._createTextNode_ ]( css_str );
+        style_el[ vMap._appendChild_ ]( text_el );
+      }
     }
   }
 
@@ -579,15 +585,74 @@ pcss = (function () {
     }
     return target_fn.apply( this, arguments );
   }
-  // END   2. PRIVATE METHODS ===============================
+  // END 2. PRIVATE METHODS ===============================
 
   // BEGIN 3. MESSAGE EVENT HANDLERS ========================
-  // END   3. MESSAGE EVENT HANDLERS ========================
+  // END 3. MESSAGE EVENT HANDLERS ========================
 
   // BEGIN 4. PUBLIC METHODS ================================
-  // BEGIN 4.1 Public method /setMixinMap/
-  function setMixinMap( arg_opt_map ) {
+  // BEGIN 4.1 Public method /getMixinJson/
+  function getMixinJson( arg_opt_map ) {
     // BEGIN 4.1.1 Init and arguments
+    var
+      mixin_map_map = topSmap._mixin_map_map_,
+
+      opt_map    = arg_opt_map || {},
+      asset_type = opt_map._asset_type_,
+      asset_id   = opt_map._asset_id_
+      ;
+    if ( asset_type === '_global_' ) { asset_id = '_global_id_'; }
+    // END 4.1.1 Init and arguments
+
+    // BEGIN 4.1.2 Arg checks
+    if ( ! ( asset_id && asset_type ) ) {
+      logIt( '_asset_id_and_asset_type_and_mixin_map_required_',
+        asset_id, asset_type
+      );
+      return __false;
+    }
+    if ( ! mixin_map_map[ asset_type ] ) {
+      logIt( '_asset_type_not_supported_', asset_type );
+      return;
+    }
+    // END 4.1.2 Arg checks
+    return __j2str( mixin_map_map[ asset_type][ asset_id ] );
+  }
+  // END 4.1 Public method /setMixinJson/
+
+  // BEGIN 4.2 Public method /getAssetJson/
+  function getAssetJson( arg_opt_map ) {
+    // BEGIN 4.2.1 Init and arguments
+    var
+      opt_map    = arg_opt_map || {},
+      asset_type = opt_map._asset_type_,
+      asset_id   = opt_map._asset_id_,
+      asset_map
+      ;
+    // END 4.2.1 Init and arguments
+
+    // BEGIN 4.2.2 Set source map by type
+    switch( asset_type ) {
+      case '_cascade_' :
+        asset_map = topSmap._cascade_obj_map_;
+        break;
+      case '_vsheet_' :
+        asset_map = topSmap._vsheet_list_map_;
+        break;
+      default :
+        logIt( '_asset_type_not_found_', asset_type );
+        asset_map = {};
+        break;
+    }
+    // END 4.2.2 Set source map by type
+
+    return __j2str( asset_map[ asset_id ] );
+  }
+  // END 4.2 Public method /getAssetJson/
+
+  // BEGIN 4.3 Public method /setMixinMap/
+  function setMixinMap( arg_opt_map ) {
+    // BEGIN 4.3.1 Init and arguments
     var
       mixin_map_map = topSmap._mixin_map_map_,
 
@@ -597,9 +662,9 @@ pcss = (function () {
       mixin_map  = opt_map._mixin_map_
       ;
     if ( asset_type === '_global_' ) { asset_id = '_global_id_'; }
-    // END 4.1.1 Init and arguments
+    // END 4.3.1 Init and arguments
 
-    // BEGIN 4.1.2 Arg checks
+    // BEGIN 4.3.2 Arg checks
     if ( ! ( asset_id && asset_type && mixin_map ) ) {
       logIt( '_asset_id_and_asset_type_and_mixin_map_required_',
         asset_id, asset_type, mixin_map
@@ -610,9 +675,9 @@ pcss = (function () {
       logIt( '_asset_type_not_supported_', asset_type );
       return;
     }
-    // END 4.1.2 Arg checks
+    // END 4.3.2 Arg checks
 
-    // BEGIN 4.1.3 Set mixin map and timestamp
+    // BEGIN 4.3.3 Set mixin map and timestamp
     if ( mixin_map_map[ asset_type][ asset_id ] ) {
       logIt( '_overwriting_existing_mixin_map_' );
     }
@@ -620,15 +685,16 @@ pcss = (function () {
       _mixin_map_ : cloneData( mixin_map ),
       _time_ms_   : __timeStamp()
     };
-    // END 4.1.3 Set mixin map and timestamp
+    // END 4.3.3 Set mixin map and timestamp
+
     // TODO: search all cascade objects to update those affected
     // and run mergeCascadeList if needed.
   }
-  // END 4.1 Public method /setMixinMap/
+  // END 4.3 Public method /setMixinMap/
 
-  // BEGIN 4.2 Public method /setVsheetList/
+  // BEGIN 4.4 Public method /setVsheetList/
   function setVsheetList ( arg_opt_map ) {
-    // BEGIN 4.2.1 Init and arguments
+    // BEGIN 4.4.1 Init and arguments
     var
       opt_map     = arg_opt_map                        || {},
       vsheet_id   = opt_map._vsheet_id_                || '_',
@@ -637,9 +703,9 @@ pcss = (function () {
 
       vsheet_list_map = topSmap._vsheet_list_map_
       ;
-    // BEGIN 4.2.1 Init and arguments
+    // BEGIN 4.4.1 Init and arguments
 
-    // BEGIN 4.2.2 Set mixin map if provided
+    // BEGIN 4.4.2 Set mixin map if provided
     if ( mixin_map ) {
       setMixinMap({
         _asset_type_ : '_vsheet_',
@@ -647,7 +713,7 @@ pcss = (function () {
         _mixin_map_  : mixin_map
       });
     }
-    // END 4.2.2 Set mixin map if provided
+    // END 4.4.2 Set mixin map if provided
 
     if ( vsheet_list_map[ vsheet_id ] ) {
       console.warn( '_updating_vsheet_', vsheet_id );
@@ -656,12 +722,11 @@ pcss = (function () {
     }
     vsheet_list_map[ vsheet_id ] = vsheet_list;
   }
-  // END 4.2 Public method /setVsheetList/
+  // END 4.4 Public method /setVsheetList/
 
-
-  // BEGIN 4.3 Public method /setCascadeObj/
+  // BEGIN 4.5 Public method /setCascadeObj/
   function setCascadeObj ( arg_opt_map ) {
-    // BEGIN 4.3.1 Init and arguments
+    // BEGIN 4.5.1 Init and arguments
     var
       opt_map           = arg_opt_map                         || {},
       cascade_id        = opt_map._cascade_id_                || [],
@@ -669,8 +734,7 @@ pcss = (function () {
       mixin_map         = opt_map._mixin_map_,
 
       cascade_obj_map = topSmap._cascade_obj_map_,
-      style_el_id       = createStyleElId(),
-      now_ms            = __timeStamp(),
+      timestamp_ms    = __timeStamp(),
 
       result_map, cascade_obj
       ;
@@ -678,9 +742,9 @@ pcss = (function () {
     if ( cascade_obj_map[ cascade_id ] ) {
       throw '_cascade_obj_already_exists_' + cascade_id;
     }
-    // END 4.3.1 Init and arguments
+    // END 4.5.1 Init and arguments
 
-    // BEGIN 4.3.2 Set mixin map if provided
+    // BEGIN 4.5.2 Set mixin map if provided
     if ( mixin_map ) {
       setMixinMap({
         _asset_type_ : '_cascade_',
@@ -688,9 +752,9 @@ pcss = (function () {
         _mixin_map_  : mixin_map
       });
     }
-    // END 4.3.2 Set mixin map if provided
+    // END 4.5.2 Set mixin map if provided
 
-    // BEGIN 4.3.3 Create and store cascade object
+    // BEGIN 4.5.3 Create and store cascade object
     result_map = mergeCascadeList( cascade_id, cascade_list );
     cascade_obj = {
       _cascade_id_         : cascade_id,
@@ -698,97 +762,103 @@ pcss = (function () {
       _merged_vsheet_list_ : result_map._vsheet_list_,
       _merged_mixin_map_   : result_map._mixin_map_,
       _style_el_           : __null,
-      _style_el_id_        : style_el_id,
+      _css_str_            : __blank,
+      _style_el_id_        : __undef,
       _time_map_ : {
         _css_ms_    : __0,
-        _merged_ms_ : now_ms
+        _merged_ms_ : timestamp_ms,
+        _mixin_ms_  : timestamp_ms,
+        _vsheet_ms_ : timestamp_ms
       }
     };
-
     cascade_obj_map[ cascade_id ] = cascade_obj;
-    return cascade_obj;
-    // END 4.3.3 Create and store cascade object
+    // END 4.5.3 Create and store cascade object
   }
-  // END 4.3 Public method /setCascadeObj/
+  // END 4.5 Public method /setCascadeObj/
 
-  // BEGIN 4.4 Public method /enableCascadeObj/
+  // BEGIN 4.6 Public method /enableCascadeObj/
   function enableCascadeObj ( arg_opt_map ) {
-    // BEGIN 4.4.1 Init and arguments
+    // BEGIN 4.6.1 Init and arguments
     var
       opt_map      = arg_opt_map || {},
       cascade_id   = opt_map._cascade_id_,
 
       cascade_obj_map = topSmap._cascade_obj_map_,
-      style_el_idx    = topSmap._style_el_idx_,
       style_el_prefix = topSmap._style_el_prefix_,
+      style_el_list   = topSmap._style_el_list_,
+      style_el_idx    = topSmap._style_el_idx_,
 
+      write_el_idx    = style_el_idx === 0 ? 1 : 0,
+      write_el        = style_el_list[ write_el_idx ],
       cascade_obj     = cascade_obj_map[ cascade_id ],
 
-      time_map, last_css_ms, do_rewrite, css_str, style_el,
-      i, disable_id, disable_el
+      time_map, last_css_ms, do_rewrite,
+      disable_id, disable_el
       ;
 
     if ( ! cascade_obj ) {
       throw '_cascade_obj_id_not_found_' + cascade_id;
     }
-    // END 4.4.1 Init and arguments
+    // END 4.6.1 Init and arguments
 
-    // BEGIN 4.4.2 Calculate if CSS should be regenerated
-    time_map = cascade_obj._time_map_;
-    style_el = cascade_obj._style_el_;
-    if ( style_el ) {
-      // TODO this should always be false if we
-      // adjust setMixinMap correctly
-      last_css_ms = time_map._css_ms_;
-      do_rewrite = ( time_map._merged_ms_ > last_css_ms );
-    }
-    // END 4.4.2 Calculate if CSS should be regenerated
+    // BEGIN 4.6.2 Calculate if CSS should be regenerated
+    time_map    = cascade_obj._time_map_;
+    last_css_ms = time_map._css_ms_;
+    do_rewrite  = (
+      time_map._merged_ms_    > last_css_ms
+      || time_map._vsheet_ms_ > last_css_ms
+      || time_map._mixin_ms_  > last_css_ms
+    );
+    // END 4.6.2 Calculate if CSS should be regenerated
 
-    // BEGIN 4.4.3 Create new style elment
-    else {
-      style_el = addStyleEl( cascade_obj._style_el_id_ );
-      cascade_obj._style_el_ = style_el;
-      do_rewrite = __true;
-    }
-    // END 4.4.3 Create new style elment
-
-    // BEGIN 4.4.4 Generate and set new CSS if required
+    // BEGIN 4.6.3 Generate and set new CSS if required
     if ( do_rewrite ) {
-      css_str = createCssStr(
+      cascade_obj._css_str_ = createCssStr(
         cascade_obj._merged_vsheet_list_,
         cascade_obj._merged_mixin_map_
       );
-      writeToStyleEl( style_el, css_str );
       time_map._css_ms_ = __timeStamp();
     }
-    // END 4.4.4 Generate and set new CSS if required
+    // END 4.6.3 Generate and set new CSS if required
 
-    // BEGIN 4.4.5 Disable all prior sheets and enable this one
-    for ( i = __0; i <= style_el_idx; i++ ) {
-      disable_id = style_el_prefix + __String( i );
+    // BEGIN 4.6.4 Disable alternate sheet
+    writeToStyleEl( write_el, cascade_obj._css_str_ );
+
+    if ( style_el_idx > __n1 ) {
+      disable_id = style_el_prefix + __String( style_el_idx );
       disable_el = __docRef[ vMap._getElById_ ]( disable_id );
-      if ( disable_el ) {
-        disable_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
-      }
+      disable_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
     }
-    style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
-    // BEGIN 4.4.5 Disable all prior sheets and enable this one
-  }
-  // END 4.4 Public method /enableCascadeObj/
+    // END 4.6.4 Disable alternate sheet
 
-  // BEGIN 4.5 Public method /initModule/
+    // BEGIN 4.6.5 Enable this sheet and update state
+    write_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
+    cascade_obj._style_el_ = write_el;
+    topSmap._style_el_idx_ = write_el_idx;
+    // END 4.6.5 Enable this sheet and update state
+  }
+  // END 4.6 Public method /enableCascadeObj/
+
+  // BEGIN 4.7 Public method /initModule/
   function initModule ( arg_opt_map ) {
     var opt_map = arg_opt_map || {};
+
+    // initialize element prefix
     topSmap._style_el_prefix_ = ( !! opt_map._style_el_prefix_ )
       ? opt_map._style_el_prefix_ + '-' : 'pcss-';
+
+    // create two style elements '<prefix>-0' and '<prefix>-1'
+    initStyleEls();
   }
-  // END 4.5 Public method /initModule/
+  // END 4.7 Public method /initModule/
 
   return {
     _initModule_       : initModule,
 
-    _setVsheetList_    : initCheck.bind( setVsheetList    ),
+    _getMixinJson_     : initCheck.bind( getMixinJson     ),
+    _getAssetJson      : initCheck.bind( getAssetJson     ),
     _setMixinMap_      : initCheck.bind( setMixinMap      ),
+    _setVsheetList_    : initCheck.bind( setVsheetList    ),
     _setCascadeObj_    : initCheck.bind( setCascadeObj    ),
     _enableCascadeObj_ : initCheck.bind( enableCascadeObj )
   };
