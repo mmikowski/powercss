@@ -193,6 +193,7 @@ pcss = (function () {
       _d875rem_       : '.5rem',
       _1rem_          : '1rem',
       _1d5rem_        : '1.5rem',
+      _1d75rem_       : '1.75rem',
       _2rem_          : '2rem',
       _3rem_          : '3rem',
       _200_           : '400',
@@ -275,6 +276,11 @@ pcss = (function () {
   function logIt () {
     console.log.apply( console, arguments );
   }
+
+  function getType ( arg ) {
+    return typeof arg;
+  }
+
   function createStyleElId () {
     var style_el_id = topSmap._style_el_prefix_
       + __String( topSmap._style_el_idx_ + __1 );
@@ -315,7 +321,7 @@ pcss = (function () {
       i, key, val_data
       ;
 
-    if ( ( typeof arg_extend_map ) !== 'object' ){ return; }
+    if ( getType( arg_extend_map ) !== 'object' ){ return; }
     extend_map = cloneData( arg_extend_map );
     key_list   = __ObjKeys( extend_map );
     key_count  = key_list[ vMap._length_ ];
@@ -483,6 +489,7 @@ pcss = (function () {
           logIt( rule_key, '_css_rule_key_not_found_' );
           continue;
         }
+
         // val:   'some_string'   => lookup key
         // val: [ 'some_string' ] => literal
         // val: { _alt_list_ : [ 'some_string, [ 'some_string ] ] }
@@ -490,9 +497,16 @@ pcss = (function () {
         //      the second is a literal.
         //
         outer_data = rule_map[ rule_key ];
-        outer_data_type = __isArray( outer_data )
-          ? vMap._array_ : typeof outer_data;
+        // first some tap-dancing to handle mixin complex values
+        if ( vMap._string_ === getType( outer_data )
+          && merged_mixin_map[ vMap._hasOwnProp_ ]( outer_data )
+          && vMap._string_ !== getType( merged_mixin_map[ outer_data ] )
+        ) {
+          outer_data = merged_mixin_map[ outer_data ];
+        }
 
+        outer_data_type = __isArray( outer_data )
+          ? vMap._array_ : getType( outer_data );
         inner_data_list = outer_data_type === vMap._object_
           ? outer_data._alt_list_ || [] : [ outer_data ];
         inner_data_count = inner_data_list[ vMap._length_ ];
@@ -501,7 +515,7 @@ pcss = (function () {
         for ( k = __0; k < inner_data_count; k++ ) {
           rule_data       = inner_data_list[ k ];
           solve_data_type = __isArray( rule_data )
-            ? vMap._array_ : typeof rule_data;
+            ? vMap._array_ : getType( rule_data );
 
           switch ( solve_data_type ) {
             case vMap._string_ :
@@ -582,7 +596,7 @@ pcss = (function () {
       asset_id   = opt_map._asset_id_,
       mixin_map  = opt_map._mixin_map_
       ;
-    if ( asset_type === '_global_' ) { asset_id = '_global_'; }
+    if ( asset_type === '_global_' ) { asset_id = '_global_id_'; }
     // END 4.1.1 Init and arguments
 
     // BEGIN 4.1.2 Arg checks
