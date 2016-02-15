@@ -1,7 +1,7 @@
 # PowerCSS 0.3.x by Michael S. Mikowski
 This 0.3.x library is in development and is intended for early
-adopters. It is relatively stable and fast.  Some features, testing,
-and examples have yet to be completed.  Use with caution and check
+adopters. It is relatively stable and fast. Some features, testing,
+and examples have yet to be completed. Use with caution and check
 back often - the library is changing at a rapid pace.
 
 ## Use libraries, not frameworks
@@ -73,7 +73,7 @@ pretty familiar.
 object as an argument to a PowerCSS call, it is **copied** and we can use
 it again *without fear of it being modified by PowerCSS at some later time*.
 For the inverse reason, **PowerCSS does not return pointers to its
-data**.  We can instead use the `pcss._getAssetJson_()` and
+data**. We can instead use the `pcss._getAssetJson_()` and
 `pcss._getMixinJson_()` methods to get snapshots of data for
 debugging purposes. We do avoid using these methods for production
 as they can be expensive.
@@ -149,7 +149,7 @@ be found in the `examples` directory of the GitHub repository.
 
 We start our module with identification, JSLint settings, and a reminder
 of preferred CSS attribute order. Then we declare our function variables,
-and finally we initialize the PowerCSS module.  And, yes, Virginia, our
+and finally we initialize the PowerCSS module. And, yes, Virginia, our
 code really *does* pass JSLint.
 
 ### 3. Add a 'base' virtual stylesheet list
@@ -202,7 +202,7 @@ the format with little trouble. Below we add a **vsheet** definition to
 
 
 We provide our selectors in a list because their order is important
-in CSS.  PowerCSS records the **vsheet** definition, but it doesn't
+in CSS. PowerCSS records the **vsheet** definition, but it doesn't
 compile it to CSS yet - that comes later.
 
 ### 4. Add a 'box' virtual stylesheet list
@@ -270,7 +270,7 @@ Let's create a cascade object (**cascade**) like so:
 
 
 We use the `pcss._getAssetJson_()` method to get a look at the cascade object
-created by PowerCSS.  Here is the full list of attributes:
+created by PowerCSS. Here is the full list of attributes:
 
 - `_cascade_id_` as provided.
 - `_cascade_list_` is as provided.
@@ -313,11 +313,11 @@ Let's now enable the **cascade** and close our example function.
 
 When we enable the **cascade**, PowerCSS calculates the CSS and
 writes the output to a *disabled* browser style element with an id
-of `pcss-0`.  Only once the CSS is completely written do we *disable*
+of `pcss-0`. Only once the CSS is completely written do we *disable*
 the alternate stylesheet( `pcss-1`) and enable this one.
 
 We can verify these changes by viewing the output in the JavaScript
-console.  There are three changes after enabling the **cascade**:
+console. There are three changes after enabling the **cascade**:
 
 1. `_css_str_`  is the the generated CSS string
 2. `_style_el_` points to an actual style element
@@ -394,15 +394,32 @@ However, when we need our application to change styling based on user
 device or any other environmental factor, that's where PowerCSS really
 starts to shine.
 
-## The Allure of Options
-Even the default behavior of PowerCSS can results in benefits
-over static CSS:
+## Example 002: Double-buffering
+This example is illustrated by `pcss._example002_.html` which
+can be be found in the `examples` directory of the GitHub repository.
+Clone the respository and open the file with your browser to see the
+results.
 
-- It can be faster for initial load, depending on network speed.
-- The code can compressed to be smaller than native CSS
+Double-buffering is an common technique to minimize processing and
+flicker across many areas of computer graphics. We create two `style`
+elements, and then switches between the two of them to apply their CSS.
+PowerCSS never enables a `style` element until the CSS is completely
+written to it. This allows us to change all styles on a page with just
+one document reflow, which can be insanely fast compared to changing
+styles individually or updating multiple stylesheets.
 
-There are many more benefits available, however. Let's explore how we can
-adjust our example to take advantage of PowerCSS.
+PowerCSS is intended to replace **all** other stylesheets for an
+application. While we can use external sheets for our CSS during
+development, we shouldn't need them for production release.
+Don't worry, this isn't as drastic as it sounds. PowerCSS
+plays very nicely with others and is designed to avoid conflict
+with third-party web components.
+
+## Example 003: Mixin maps
+This example is illustrated by `pcss._example003_.html` which
+can be be found in the `examples` directory of the GitHub repository.
+Clone the respository and open the file with your browser to see the
+results.
 
 ### Rule key substitution.
 A CSS rule declaration looks like the following:
@@ -411,29 +428,29 @@ A CSS rule declaration looks like the following:
 
 The expression to the left of the color we refer to as the rule **key**.
 The text after the colon but before the semicolon we refer to as the rule
-**value**.  Here the key is 'color' and the value is '#ff0'.
+**value**. Here the key is 'color' and the value is '#ff0'.
 
 Our **vsheets** are defined using *rule key substitution*. That is, we
-use a symbol to indicate the actual key instead of the key itself.  For
+use a symbol to indicate the actual key instead of the key itself. For
 example, to declare background-color, we use:
 
     _background_color_ : _xfff_,
 
-At first glance, that might seem silly. However, rule key helps us greatly
-reduce our file size when compressing our files.  In the example above,
-our rule can be compressed to JavaScript symbols like so:
+At first glance, that might seem silly. However, rule key name and value
+symbols help us greatly when compressing our files. In the example above,
+our rule can be compressed to JavaScript like so:
 
     nx:qr,
 
 This is 22% of the size of the native CSS (5 vs 23 characters).
-And some CSS keys and values can be especially verbose.  One downside to
+And some CSS keys and values can be especially verbose. One downside to
 this approach, of course, is we must declare the symbols initially.
 The `cssKeyMap` defines our keyword meanings in the PowerCSS library
 file, `pcss.js`.
 
 We have compiled a pretty exhaustive list of commonly used keywords, but
-the rule keys needed will vary from project to project.  We often prune
-or expand this list, and suggest you do the same.  Currently if an
+the rule keys needed will vary from project to project. We often prune
+or expand this list, and suggest you do the same. Currently if an
 unknown key is encountered, a warning is logged to the console.
 
 We are exploring how to best modularize the CSS key and value
@@ -448,33 +465,6 @@ There are four types of CSS values supported by PowerCSS. They are:
 4. Concatenated : `[ [ 'key or value', ... ] ]` (pending implementation)
 
 In addition, we can `lock` a value in a cascade.
-
-## Example 002: Double-buffering
-This example is illustrated by `pcss._example002_.html` which
-can be be found in the `examples` directory of the GitHub repository.
-Clone the respository and open the file with your browser to see the
-results.
-
-Double-buffering is an common technique to minimize processing and
-flicker across many areas of computer graphics. We create two `style`
-elements, and then switches between the two of them to apply their CSS.
-PowerCSS never enables a `style` element until the CSS is completely
-written to it.  This allows us to change all styles on a page with just
-one document reflow, which can be insanely fast compared to changing
-styles individually or updating multiple stylesheets.
-
-PowerCSS is intended to replace **all** other stylesheets for an
-application. While we can use external sheets for our CSS during
-development, we shouldn't need them for production release.
-Don't worry, this isn't as drastic as it sounds.  PowerCSS
-plays very nicely with others and is designed to avoid conflict
-with third-party web components.
-
-## Example 003: Mixin maps
-This example is illustrated by `pcss._example003_.html` which
-can be be found in the `examples` directory of the GitHub repository.
-Clone the respository and open the file with your browser to see the
-results.
 
 ### Setting a mixin map
 Mixin maps are settable when creating a **vsheet** or
@@ -508,7 +498,7 @@ When we use the generic `pcss._setMixinMap_()` method, the `_asset_type_`
 may be `_vsheet_`, `_cascade_`, or `_global_`. The asset id, `_asset_id_`,
 must be provided for `_vsheet_` and `_cascade_` asset types. 
 There is only one `_global_` mixin map, and providing an `_asset_id_`
-will simply be ignored.  The `_mixin_map_` is a simple key-value pair
+will simply be ignored. The `_mixin_map_` is a simple key-value pair
 object as illustrated below:
 
       // Example mixin map
@@ -519,7 +509,7 @@ object as illustrated below:
         _input_border_    : '.125rem solid #ddd'
       };
 
-Those are the basics.  We will get into the weeds a little later.  First, 
+Those are the basics. We will get into the weeds a little later. First, 
 let's see how we can retreive a mixin map.
 
 ### Getting mixin map JSON
@@ -537,7 +527,7 @@ Now let's discuss when and where we can use mixin maps.
 PowerCSS uses values from **four** mixin map types:
 
 1. The **builtin** value map, `cssValMap`. This is a set of common
-   CSS values that are available by default.  For example, the symbol
+   CSS values that are available by default. For example, the symbol
    `_fixed_` resolves to 'fixed' in the resulting CSS. This map is
    found in the the PowerCSS library file, `pcss.js`.
 2. The **global** mixin map is used across all **cascades** and, as
@@ -554,7 +544,7 @@ is as follows:
 
 This means that **vsheets** mixin values have priority over **cascade**
 mixin values which have priority over **global** mixin values which have
-priority over **builtin** values.  Think of this as "the closest match
+priority over **builtin** values. Think of this as "the closest match
 wins." Consider the following PowerCSS rule definition:
 
     rule_map : { background : '_bcolor_', ... }
@@ -630,25 +620,25 @@ We are not limited literal values as the us of the builtin mixin key
 like `_xfff_` shows. We could even define the `alt_map` as a mixin,
 and replace the above declaration like so:
 
-    _background_ : '_bk_redblack_map_',
+    _background_ : '_bkg_redblack_map_',
 
 Remember the order of alternatives in CSS is important: the last supported
 declaration will always be used.
 
 ### Concatenated values
-**Important** in the 0.3.x releases, this feature is not yet implemented.
+**As of 0.3.x this feature is planned but not yet implemented.**
+
 Sometimes we want to use multiple literal or key values as a single string,
-usually separated by a space.  For this we use a "double list" technique:
+usually separated by a space. For this we use a "double list" technique:
 
       rule_map : {
       _border_ : [[ '_d125rem_', '_solid_' [ '#f85032' ] ]],
 
-This is very similar to alternate values.  The resulting CSS should
+This is very similar to alternate values. The resulting CSS should
 look like this.
 
     border : .125rem solid #f85032
 
-Again, as of 0.3.x, this feature is planned **but not yet implemented.**
 
 ### Locked values
 Typically in a cascade, the last property value in "wins". However, it
@@ -675,13 +665,13 @@ many **cascades**. Therefore, one must be careful when setting locks on a
 
 ## Performance
 We have taken great care to ensure PowerCSS is as fast, or sometimes
-even faster than static CSS.  We calculate the cascades in
+even faster than static CSS. We calculate the cascades in
 software and only provide to the browser a single optimized stylesheet
 to render. The browser rendering engine doesn't need to work loading
 and merging sometimes dozens of external style sheets. It also
 removes the expensive associated HTTP requests for external stylsheets.
 
-We have numerous layers of caching as well.  We don't want to write
+We have numerous layers of caching as well. We don't want to write
 the CSS again unless something has changed, and even already keep
 a great deal of our processing completed and cached before we *need*
 the CSS, and we intend to add more. Examples include the merging of
@@ -691,14 +681,18 @@ only the affected **cascades** and update only them when needed.
 
 ## Compression
 PowerCSS code and modules that use it can be highly compressed thanks to
-the use of easily recognized symbols.
+the use of easily recognized symbols that start and end in an underscore like
+`_css_str_`. After concatentating all JS files in your project, simply replace
+these patterns with unique tokens, preferable using shorter tokens for the
+most common symbols. I have a tool for this purpose, and it reduces minified
+file often around an additional 30-40% compared to UglifyJS alone.
 
 ## Regression tests
 TODO
 
 ## Compatibility
 Confirmed to work on Chrome 48, Safari 9, Firefox 44, IE 9+,
-and Edge browsers.  We expect it to work on much earlier versions of
+and Edge browsers. We expect it to work on much earlier versions of
 Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 
 ## Release Notes
@@ -718,7 +712,7 @@ This series featured double-buffering support and examples
 ### Version 0.3.x
 This series has an API change from 0.2.x where we now use the
 **cascade** term instead of **metasheet**. It's a shorter
-*and* more descriptive.  Added Mixins and get methods.
+*and* more descriptive. Added Mixins and get methods.
 Reverted to true double-buffering (only 2 stylesheets).
 
 ### Version 0.4.x
