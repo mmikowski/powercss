@@ -4,12 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89592935-ae6a-41a0-8b76-20319d4e1022" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/pcss._example003_.html" afterPath="$PROJECT_DIR$/examples/pcss._example003_.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/pcss._example003_.js" afterPath="$PROJECT_DIR$/examples/pcss._example003_.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pcss.js" afterPath="$PROJECT_DIR$/pcss.js" />
-    </list>
+    <list default="true" id="89592935-ae6a-41a0-8b76-20319d4e1022" name="Default" comment="" />
     <ignored path="powercss.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -127,8 +122,8 @@
           <file leaf-file-name="pcss._example003_.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/examples/pcss._example003_.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.48726115">
-                  <caret line="181" column="29" selection-start-line="181" selection-start-column="29" selection-end-line="181" selection-end-column="29" />
+                <state vertical-scroll-proportion="2.4633758">
+                  <caret line="182" column="23" selection-start-line="182" selection-start-column="23" selection-end-line="182" selection-end-column="23" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                   </folding>
@@ -361,7 +356,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="489" y="0" width="1773" height="1446" extended-state="4" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13390805" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32969603" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -684,8 +679,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/pcss._example003_.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48726115">
-          <caret line="181" column="29" selection-start-line="181" selection-start-column="29" selection-end-line="181" selection-end-column="29" />
+        <state vertical-scroll-proportion="2.4633758">
+          <caret line="182" column="23" selection-start-line="182" selection-start-column="23" selection-end-line="182" selection-end-column="23" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

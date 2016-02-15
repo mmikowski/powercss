@@ -161,6 +161,7 @@ pcss._example003_ = function () {
   box_rule_map._font_size_  = '_2rem_';
   box_rule_map._box_shadow_ = '_global_d5_box_shadow_';
   box_rule_map._background_ = '_global_green_grad_map_';
+
   pcss._setVsheetList_({
     _vsheet_id_   : '_box02_vsheet_',
     _vsheet_list_ : box_vsheet_list,
@@ -172,14 +173,17 @@ pcss._example003_ = function () {
 
   // Begin add _box02_vsheet by *revising* box_vsheet_list
   box_rule_map = box_vsheet_list[ 0 ]._rule_map_;
-  box_rule_map._display_      = '_inline_block_';
-  box_rule_map._width_        = [ '18rem' ];
-  box_rule_map._max_width_    = undefined;
-  box_rule_map._font_family_  = '_font_fixed_';
-  box_rule_map._font_size_    = '_1d75rem_';
-  box_rule_map._box_shadow_   = '_global_d25_box_shadow_';
-  box_rule_map._background_   = '_global_blue_grad_map_';
-  box_rule_map._border_width_ = '_d75rem_';
+  box_rule_map._display_       = '_inline_block_';
+  box_rule_map._width_         = [ '18rem' ];
+  box_rule_map._max_width_     = undefined;
+  box_rule_map._box_shadow_    = '_global_d25_box_shadow_';
+  box_rule_map._border_width_  = '_1rem_';
+  box_rule_map._border_radius_ = '_0_';
+  box_rule_map._padding_top_   = '_d5rem_';
+  box_rule_map._font_family_   = '_font_fixed_';
+  box_rule_map._font_size_     = '_1d75rem_';
+  box_rule_map._background_    = '_global_blue_grad_map_';
+
   pcss._setVsheetList_({
     _vsheet_id_   : '_box03_vsheet_',
     _vsheet_list_ : box_vsheet_list,
