@@ -679,12 +679,21 @@ If we change a **mixin** map, we intend to have PowerCSS identify
 only the affected **cascades** and update only them when needed.
 
 ## Compression
+This example is illustrated by `pcss._example004_.html` which
+can be be found in the `examples` directory of the GitHub repository.
+Clone the repository and open the file with your browser to see the
+results.
+
 PowerCSS code and modules that use it can be highly compressed thanks to
 the use of easily recognized symbols that start and end in an underscore like
-`_css_str_`. After concatentating all JS files in your project, simply replace
-these patterns with unique tokens, preferable using shorter tokens for the
-most common symbols. I have a tool for this purpose, and it reduces minified
-file often around an additional 30-40% compared to UglifyJS alone.
+`_css_str_`. After concatentating all JS files in our project, we can simply
+the object key these patterns with unique tokens, using shorter tokens for the
+most common symbols. We can often reduce file size to half again of UglifyJS
+alone!
+
+In our example, the PowerCSS library and the CSS directives where reduced to
+30% of their original size, and to 15% when using the "SuperPack" key
+technique.
 
 ## Regression tests
 TODO

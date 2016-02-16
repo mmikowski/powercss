@@ -34,10 +34,10 @@ pcss = (function () {
     __undef = window.undefined,
 
     vMap = {
-      _array_          : 'array',
-      _object_         : 'object',
-      _string_         : 'string',
       _appendChild_    : 'appendChild',
+      _apply_          : 'apply',
+      _array_          : 'array',
+      _bind_           : 'bind',
       _childNodes_     : 'childNodes',
       _createElement_  : 'createElement',
       _createTextNode_ : 'createTextNode',
@@ -48,17 +48,19 @@ pcss = (function () {
       _head_           : 'head',
       _id_             : 'id',
       _indexOf_        : 'indexOf',
-      _innerText_      : 'innerText',
       _innerHTML_      : 'innerHTML',
+      _innerText_      : 'innerText',
       _join_           : 'join',
       _length_         : 'length',
       _nodeValue_      : 'nodeValue',
+      _object_         : 'object',
       _push_           : 'push',
       _setAttribute_   : 'setAttribute',
       _sheet_          : 'sheet',
       _shift_          : 'shift',
       _slice_          : 'slice',
       _splice_         : 'splice',
+      _string_         : 'string',
       _styleSheets_    : 'styleSheets',
       _textContent_    : 'textContent',
       _text_           : 'text',
@@ -189,7 +191,7 @@ pcss = (function () {
       _1d75rem_       : '1.75rem',
       _2rem_          : '2rem',
       _3rem_          : '3rem',
-      _200_           : '400',
+      _200_           : '200',
       _400_           : '400',
       _800_           : '800',
       _x444_          : '#444',
@@ -268,7 +270,7 @@ pcss = (function () {
 
   // BEGIN 2. PRIVATE METHODS ===============================
   function logIt () {
-    console.log.apply( console, arguments );
+    console.log[ vMap._apply_ ]( console, arguments );
   }
 
   function getType ( arg ) {
@@ -380,7 +382,8 @@ pcss = (function () {
           // Begin merge in latest locks
           if ( rule_lock_list ) {
             merged_lock_list = merged_rpt_map._rule_lock_list_;
-            merged_lock_list.push.apply( merged_lock_list, rule_lock_list );
+            merged_lock_list[ vMap._push_ ][ vMap._apply_ 
+              ]( merged_lock_list, rule_lock_list );
             merged_rpt_map[ 'lock_on_' + __String( i ) ]
               = __j2str( rule_lock_list );
           }
@@ -410,7 +413,7 @@ pcss = (function () {
           // as we want fast O(1) access to it.
           //
           clone_select_map = cloneData( select_map );
-          merged_vsheet_list.push( clone_select_map );
+          merged_vsheet_list[ vMap._push_]( clone_select_map );
           merged_rpt_map = { _select_map_ : clone_select_map };
           // End clone data and place the **same map**
 
@@ -584,7 +587,7 @@ pcss = (function () {
     if ( ! topSmap._style_el_prefix_ ) {
       throw '_please_run_initmodule_first_';
     }
-    return target_fn.apply( this, arguments );
+    return target_fn[ vMap._apply_ ]( this, arguments );
   }
   // END 2. PRIVATE METHODS ===============================
 
@@ -761,7 +764,7 @@ pcss = (function () {
     // END 4.5.2 Set mixin map if provided
 
     if ( vsheet_list_map[ vsheet_id ] ) {
-      console.warn( '_updating_vsheet_', vsheet_id );
+      logIt( '_updating_vsheet_', vsheet_id );
       // TODO: search cascade objs and set the vsheet timestamp
       // to now for each objs that contains this vsheet.
     }
@@ -960,16 +963,16 @@ pcss = (function () {
   return {
     _initModule_        : initModule,
 
-    _getMixinJson_      : initCheck.bind( getMixinJson      ),
-    _getAssetJson       : initCheck.bind( getAssetJson      ),
-    _setMixinMap_       : initCheck.bind( setMixinMap       ),
-    _delMixinMap_       : initCheck.bind( delMixinMap       ),
-    _setVsheetList_     : initCheck.bind( setVsheetList     ),
-    _delVsheetList_     : initCheck.bind( delVsheetList     ),
-    _setCascadeObj_     : initCheck.bind( setCascadeObj     ),
-    _delCascadeObj_     : initCheck.bind( delCascadeObj     ),
-    _enableCascadeObj_  : initCheck.bind( enableCascadeObj  ),
-    _disableCascadeObj_ : initCheck.bind( disableCascadeObj )
+    _getMixinJson_      : initCheck[ vMap._bind_]( getMixinJson      ),
+    _getAssetJson       : initCheck[ vMap._bind_]( getAssetJson      ),
+    _setMixinMap_       : initCheck[ vMap._bind_]( setMixinMap       ),
+    _delMixinMap_       : initCheck[ vMap._bind_]( delMixinMap       ),
+    _setVsheetList_     : initCheck[ vMap._bind_]( setVsheetList     ),
+    _delVsheetList_     : initCheck[ vMap._bind_]( delVsheetList     ),
+    _setCascadeObj_     : initCheck[ vMap._bind_]( setCascadeObj     ),
+    _delCascadeObj_     : initCheck[ vMap._bind_]( delCascadeObj     ),
+    _enableCascadeObj_  : initCheck[ vMap._bind_]( enableCascadeObj  ),
+    _disableCascadeObj_ : initCheck[ vMap._bind_]( disableCascadeObj )
   };
 }());
 // END pcss
