@@ -152,6 +152,14 @@ of preferred CSS attribute order. Then we declare our function variables,
 and finally we initialize the PowerCSS module. And, yes, Virginia, our
 code really *does* pass JSLint.
 
+The `pcss._initModule_()` creates two disabled `style` DOM elements. 
+By default, these will have the IDs of `pcss-0` and `pcss-1`.  We can
+change this by providing an alternate prefix, like so:
+
+    pcss.initModule({ _style_el_prefix_ : 'foo' });
+
+The above example results in the style elements of `foo-0` and `foo-1`. 
+
 ### 3. Add a 'base' virtual stylesheet list
 A virtual stylesheet list (**vsheet**) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to adopt
@@ -312,9 +320,10 @@ Let's now enable the **cascade** and close our example function.
 
 
 When we enable the **cascade**, PowerCSS calculates the CSS and
-writes the output to a *disabled* browser style element with an id
-of `pcss-0`. Only once the CSS is completely written do we *disable*
-the alternate stylesheet( `pcss-1`) and enable this one.
+writes it to the first of two disabled `style` elements
+created on initialization. Once this process is complete, the
+element (`pcss-0`) is enabled and the CSS is applied by the browser
+rendering engine.
 
 We can verify these changes by viewing the output in the JavaScript
 console. There are three changes after enabling the **cascade**:
@@ -575,8 +584,8 @@ a warning is issued and the property (`background`, in this case) and the
 property is not set.
 
 An astute reader will notice that a **vsheet** can be used across many
-**cascades**. This is a very powerful feature, but it is important to keep
-in mind when setting **vsheet** mixin maps.
+**cascades**. This is a very powerful feature, but please keep this in
+in mind when setting mixin maps at the **vsheet** level.
 
 ### Literal values
 Literal values are just that: a string we want to use as-is. Simply wrap any
@@ -659,8 +668,7 @@ This prevents any later **vsheet** from overriding the value for
 `_font_size_` for the `.pcss-_box_` selector in the cascade.
 
 An astute reader will again notice that a **vsheet** can be used across
-many **cascades**. Therefore, one must be careful when setting locks on a
-**vsheet** that will be reused in more than once.
+many **cascades**. Please keep this in mind when locking attrbitues.
 
 ## Performance
 We have taken great care to ensure PowerCSS is as fast, or sometimes
