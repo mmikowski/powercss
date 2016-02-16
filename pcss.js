@@ -679,7 +679,7 @@ pcss = (function () {
     // END 4.3.2 Arg checks
 
     // BEGIN 4.3.3 Set mixin map and timestamp
-    if ( mixin_map_map[ asset_type][ asset_id ] ) {
+    if ( mixin_map_map[ asset_type ][ asset_id ] ) {
       logIt( '_overwriting_existing_mixin_map_' );
     }
     mixin_map_map[ asset_type ][ asset_id ] = {
@@ -693,28 +693,72 @@ pcss = (function () {
   }
   // END 4.3 Public method /setMixinMap/
 
-  // BEGIN 4.4 Public method /setVsheetList/
-  function setVsheetList ( arg_opt_map ) {
-    // BEGIN 4.4.1 Init and arguments
+  // BEGIN 4.3 Public method /delMixinMap/
+  function delMixinMap( arg_opt_map ) {
+    // BEGIN 4.3.1 Init and arguments
     var
-      opt_map     = arg_opt_map                        || {},
-      vsheet_id   = opt_map._vsheet_id_                || '_',
+      mixin_map_map = topSmap._mixin_map_map_,
+
+      opt_map    = arg_opt_map || {},
+      asset_type = opt_map._asset_type_,
+      asset_id   = opt_map._asset_id_
+      ;
+    if ( asset_type === '_global_' ) { asset_id = '_global_id_'; }
+    // END 4.3.1 Init and arguments
+
+    // BEGIN 4.3.2 Arg checks
+    if ( ! ( asset_id && asset_type ) ) {
+      logIt( '_asset_id_and_asset_type_required_',
+        asset_id, asset_type
+      );
+      return __false;
+    }
+    if ( ! mixin_map_map[ asset_type ] ) {
+      logIt( '_asset_type_not_supported_', asset_type );
+      return;
+    }
+    // END 4.3.2 Arg checks
+
+    // BEGIN 4.3.3 Set mixin map and timestamp
+    if ( mixin_map_map[ asset_type][ asset_id ] ) {
+      logIt( '_mixin_map_not_found_' );
+      return;
+    }
+    // END 4.3.3 Set mixin map and timestamp
+
+    // BEGIN 4.3.4
+    // TODO: Check for delete conflicts
+    // END 4.3.4
+
+    // BEGIN 4.3.5
+    // TODO: Adjust time stamps and merge maps
+    // END 4.3.5
+    delete mixin_map_map[ asset_type ][ asset_id ];
+  }
+  // END 4.3 Public method /delMixinMap/
+
+  // BEGIN 4.5 Public method /setVsheetList/
+  function setVsheetList ( arg_opt_map ) {
+    // BEGIN 4.5.1 Init and arguments
+    var
+      opt_map     = arg_opt_map || {},
+      vsheet_id   = opt_map._vsheet_id_,
       vsheet_list = cloneData( opt_map._vsheet_list_ ) || [],
       mixin_map   = opt_map._mixin_map_,
 
       vsheet_list_map = topSmap._vsheet_list_map_
       ;
-    // BEGIN 4.4.1 Init and arguments
+    // BEGIN 4.5.1 Init and arguments
 
-    // BEGIN 4.4.2 Set mixin map if provided
+    // BEGIN 4.5.2 Set mixin map if provided
     if ( mixin_map ) {
       setMixinMap({
-        _asset_type_ : '_vsheet_',
         _asset_id_   : vsheet_id,
+        _asset_type_ : '_vsheet_',
         _mixin_map_  : mixin_map
       });
     }
-    // END 4.4.2 Set mixin map if provided
+    // END 4.5.2 Set mixin map if provided
 
     if ( vsheet_list_map[ vsheet_id ] ) {
       console.warn( '_updating_vsheet_', vsheet_id );
@@ -723,11 +767,38 @@ pcss = (function () {
     }
     vsheet_list_map[ vsheet_id ] = vsheet_list;
   }
-  // END 4.4 Public method /setVsheetList/
+  // END 4.5 Public method /setVsheetList/
 
-  // BEGIN 4.5 Public method /setCascadeObj/
+  // BEGIN 4.6 Public method /delVsheetList/
+  function delVsheetList ( arg_opt_map ) {
+    // BEGIN 4.6.1 Init and arguments
+    var
+      opt_map   = arg_opt_map || {},
+      vsheet_id = opt_map._vsheet_id_,
+
+      vsheet_list_map  = topSmap._vsheet_list_map_,
+      vsheet_mixin_map = topSmap._mixin_map_map_._vsheet_
+      ;
+    // BEGIN 4.6.1 Init and arguments
+
+    // BEGIN 4.6.2
+    // TODO: Check for delete conflicts
+    // END 4.6.2
+
+    // BEGIN 4.6.3
+    // TODO: Adjust time stamps and merge lists
+    // END 4.6.3
+
+    // BEGIN 4.6.4 Execute delete
+    delete vsheet_list_map[  vsheet_id ];
+    delete vsheet_mixin_map[ vsheet_id ];
+    // END 4.6.4 Execute delete
+  }
+  // END 4.6 Public method /delVsheetList/
+
+  // BEGIN 4.7 Public method /setCascadeObj/
   function setCascadeObj ( arg_opt_map ) {
-    // BEGIN 4.5.1 Init and arguments
+    // BEGIN 4.7.1 Init and arguments
     var
       opt_map           = arg_opt_map                         || {},
       cascade_id        = opt_map._cascade_id_                || [],
@@ -743,19 +814,19 @@ pcss = (function () {
     if ( cascade_obj_map[ cascade_id ] ) {
       throw '_cascade_obj_already_exists_' + cascade_id;
     }
-    // END 4.5.1 Init and arguments
+    // END 4.7.1 Init and arguments
 
-    // BEGIN 4.5.2 Set mixin map if provided
+    // BEGIN 4.7.2 Set mixin map if provided
     if ( mixin_map ) {
       setMixinMap({
-        _asset_type_ : '_cascade_',
         _asset_id_   : cascade_id,
+        _asset_type_ : '_cascade_',
         _mixin_map_  : mixin_map
       });
     }
-    // END 4.5.2 Set mixin map if provided
+    // END 4.7.2 Set mixin map if provided
 
-    // BEGIN 4.5.3 Create and store cascade object
+    // BEGIN 4.7.3 Create and store cascade object
     result_map = mergeCascadeList( cascade_id, cascade_list );
     cascade_obj = {
       _cascade_id_         : cascade_id,
@@ -772,13 +843,40 @@ pcss = (function () {
       }
     };
     cascade_obj_map[ cascade_id ] = cascade_obj;
-    // END 4.5.3 Create and store cascade object
+    // END 4.7.3 Create and store cascade object
   }
-  // END 4.5 Public method /setCascadeObj/
+  // END 4.7 Public method /setCascadeObj/
 
-  // BEGIN 4.6 Public method /enableCascadeObj/
+  // BEGIN 4.8 Public method /delCascadeObj/
+  function delCascadeObj ( arg_opt_map ) {
+    // BEGIN 4.8.1 Init and arguments
+    var
+      opt_map    = arg_opt_map || {},
+      cascade_id = opt_map._cascade_id_,
+
+      cascade_obj_map   = topSmap._cascade_obj_map_,
+      cascade_mixin_map = topSmap._mixin_map_map_._cascade_
+      ;
+    // BEGIN 4.8.1 Init and arguments
+
+    // BEGIN 4.8.2
+    // TODO: Check for delete conflicts
+    // END 4.8.2
+
+    // BEGIN 4.8.3
+    // TODO: Adjust time stamps and merge lists
+    // END 4.8.3
+
+    // BEGIN 4.8.4 Execute delete
+    delete cascade_obj_map[   cascade_id ];
+    delete cascade_mixin_map[ cascade_id ];
+    // END 4.8.4 Execute delete
+  }
+  // END 4.8 Public method /delCascadeObj/
+
+  // BEGIN 4.9 Public method /enableCascadeObj/
   function enableCascadeObj ( arg_opt_map ) {
-    // BEGIN 4.6.1 Init and arguments
+    // BEGIN 4.9.1 Init and arguments
     var
       opt_map      = arg_opt_map || {},
       cascade_id   = opt_map._cascade_id_,
@@ -799,9 +897,9 @@ pcss = (function () {
     if ( ! cascade_obj ) {
       throw '_cascade_obj_id_not_found_' + cascade_id;
     }
-    // END 4.6.1 Init and arguments
+    // END 4.9.1 Init and arguments
 
-    // BEGIN 4.6.2 Calculate if CSS should be regenerated
+    // BEGIN 4.9.2 Calculate if CSS should be regenerated
     time_map    = cascade_obj._time_map_;
     last_css_ms = time_map._css_ms_;
     do_rewrite  = (
@@ -809,9 +907,9 @@ pcss = (function () {
       || time_map._vsheet_ms_ > last_css_ms
       || time_map._mixin_ms_  > last_css_ms
     );
-    // END 4.6.2 Calculate if CSS should be regenerated
+    // END 4.9.2 Calculate if CSS should be regenerated
 
-    // BEGIN 4.6.3 Generate and set new CSS if required
+    // BEGIN 4.9.3 Generate and set new CSS if required
     if ( do_rewrite ) {
       cascade_obj._css_str_ = createCssStr(
         cascade_obj._merged_vsheet_list_,
@@ -819,9 +917,9 @@ pcss = (function () {
       );
       time_map._css_ms_ = __timeStamp();
     }
-    // END 4.6.3 Generate and set new CSS if required
+    // END 4.9.3 Generate and set new CSS if required
 
-    // BEGIN 4.6.4 Disable alternate sheet
+    // BEGIN 4.9.4 Disable alternate sheet
     writeToStyleEl( write_el, cascade_obj._css_str_ );
 
     if ( style_el_idx > __n1 ) {
@@ -829,17 +927,24 @@ pcss = (function () {
       disable_el = __docRef[ vMap._getElById_ ]( disable_id );
       disable_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
     }
-    // END 4.6.4 Disable alternate sheet
+    // END 4.9.4 Disable alternate sheet
 
-    // BEGIN 4.6.5 Enable this sheet and update state
+    // BEGIN 4.9.5 Enable this sheet and update state
     write_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
     cascade_obj._style_el_ = write_el;
     topSmap._style_el_idx_ = write_el_idx;
-    // END 4.6.5 Enable this sheet and update state
+    // END 4.9.5 Enable this sheet and update state
   }
-  // END 4.6 Public method /enableCascadeObj/
+  // END 4.9 Public method /enableCascadeObj/
 
-  // BEGIN 4.7 Public method /initModule/
+  // BEGIN 4.10 Public method /disableCascadeObj/
+  function disableCascadeObj( arg_opt_map ) {
+    logIt( '_disableCascadeObj_not_yet_implemented_' );
+  }
+  // END 4.10 Public method /disableCascadeObj/
+
+  // END 4.11 Public method /initModule/
+  // BEGIN 4.11 Public method /initModule/
   function initModule ( arg_opt_map ) {
     var opt_map = arg_opt_map || {};
 
@@ -850,17 +955,21 @@ pcss = (function () {
     // create two style elements '<prefix>-0' and '<prefix>-1'
     initStyleEls();
   }
-  // END 4.7 Public method /initModule/
+  // END 4.11 Public method /initModule/
 
   return {
-    _initModule_       : initModule,
+    _initModule_        : initModule,
 
-    _getMixinJson_     : initCheck.bind( getMixinJson     ),
-    _getAssetJson      : initCheck.bind( getAssetJson     ),
-    _setMixinMap_      : initCheck.bind( setMixinMap      ),
-    _setVsheetList_    : initCheck.bind( setVsheetList    ),
-    _setCascadeObj_    : initCheck.bind( setCascadeObj    ),
-    _enableCascadeObj_ : initCheck.bind( enableCascadeObj )
+    _getMixinJson_      : initCheck.bind( getMixinJson      ),
+    _getAssetJson       : initCheck.bind( getAssetJson      ),
+    _setMixinMap_       : initCheck.bind( setMixinMap       ),
+    _delMixinMap_       : initCheck.bind( delMixinMap       ),
+    _setVsheetList_     : initCheck.bind( setVsheetList     ),
+    _delVsheetList_     : initCheck.bind( delVsheetList     ),
+    _setCascadeObj_     : initCheck.bind( setCascadeObj     ),
+    _delCascadeObj_     : initCheck.bind( delCascadeObj     ),
+    _enableCascadeObj_  : initCheck.bind( enableCascadeObj  ),
+    _disableCascadeObj_ : initCheck.bind( disableCascadeObj )
   };
 }());
 // END pcss

@@ -69,7 +69,7 @@ pcss._example003_ = function () {
 
   pcss._setMixinMap_({
     _asset_type_ : '_global_',
-    _mixin_map_ : global_mixin_map
+    _mixin_map_  : global_mixin_map
   });
 
   // Begin add _base_vsheet_
@@ -115,9 +115,9 @@ pcss._example003_ = function () {
   ];
 
   pcss._setVsheetList_({
-    _mixin_map_   : base_mixin_map,
     _vsheet_id_   : '_base_vsheet_',
-    _vsheet_list_ : base_vsheet_list
+    _vsheet_list_ : base_vsheet_list,
+    _mixin_map_   : base_mixin_map
   });
   // End add _base_vsheet_
 
@@ -165,9 +165,7 @@ pcss._example003_ = function () {
   pcss._setVsheetList_({
     _vsheet_id_   : '_box02_vsheet_',
     _vsheet_list_ : box_vsheet_list,
-    _mixin_map_   : {
-      _base_body_font_color_ : '#080'
-    }
+    _mixin_map_   : { _base_body_font_color_ : '#080' }
   });
   // End add _box02_vsheet by *revising* box_vsheet_list
 

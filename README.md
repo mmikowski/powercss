@@ -12,8 +12,9 @@ really want an SPA framework?][0] first.
 ## Overview
 Unleash PowerCSS to create custom styling for every user that visits your
 site. PowerCSS uses merging, caching, compression, and double-buffering
-to exceed the speed and flexibility of static CSS.
-See https://www.youtube.com/watch?v=rnkMjzhxw4s.
+to exceed the flexibility and often the speed of static CSS files.
+Here is a [presentation](https://www.youtube.com/watch?v=rnkMjzhxw4s) of
+some of the PowerCSS concepts in practice.
 
 ## Code Style
 This library is written in the code style presented in the book
@@ -49,14 +50,14 @@ examples, and then we discuss how PowerCSS works.
 ## Example 001: The basics
 This example is illustrated by `pcss._example001_.html` which
 can be be found in the `examples` directory of the GitHub repository.
-Clone the respository and open the file with your browser to see the
+Clone the repository and open the file with your browser to see the
 results.
 
 Let's review the work-flow of PowerCSS before we jump into the first
 example.
 
-1. Create an HTML document that includes the pcss.js library and the code
-   necessary to use it.
+1. Create an HTML document that includes the PowerCSS library and
+   JavaScript example code which uses it.
 2. Add one or more virtual stylesheet lists (**vsheet**s) using PowerCSS.
    These look very much like traditional stylesheets in JSON syntax.
 3. Define a **cascade** which includes an ordered list of **vsheets**.
@@ -73,10 +74,9 @@ pretty familiar.
 object as an argument to a PowerCSS call, it is **copied** and we can use
 it again *without fear of it being modified by PowerCSS at some later time*.
 For the inverse reason, **PowerCSS does not return pointers to its
-data**. We can instead use the `pcss._getAssetJson_()` and
-`pcss._getMixinJson_()` methods to get snapshots of data for
-debugging purposes. We do avoid using these methods for production
-as they can be expensive.
+data**. Instead there are methods to get JSON snapshots of data for
+debugging purposes. Do avoid using these methods for production
+as they can be expensive and verbose.
 
 ### 1. Create `pcss._example001_.html` file
 Let's create an HTML file named `pcss._example001_.html` to illustrate
@@ -263,8 +263,8 @@ Let's create a cascade object (**cascade**) like so:
       console.log(
         'cascade object BEFORE enable',
         pcss._getAssetJson({
-          _asset_type_ : '_cascade_',
-          _asset_id_   : '_example001_'
+          _asset_id_   : '_example001_',
+          _asset_type_ : '_cascade_'
         })
       );
 
@@ -274,7 +274,7 @@ created by PowerCSS. Here is the full list of attributes:
 
 - `_cascade_id_` as provided.
 - `_cascade_list_` is as provided.
-- `_css_str_` is the CSS generated for this **vsheet**.
+- `_css_str_` is the CSS string generated for this **vsheet**.
   *In this example, the value is blank because we haven't
   enabled this cascade yet.*
 - `_merged_vsheet_list_` is a **vsheet** prepared by merging all
@@ -302,8 +302,8 @@ Let's now enable the **cascade** and close our example function.
       console.log(
         'cascade_obj AFTER enable',
         pcss._getAssetJson({
-          _asset_type_ : '_cascade_',
-          _asset_id_   : '_example001_'
+          _asset_id_   : '_example001_',
+          _asset_type_ : '_cascade_'
         })
       );
       // End Create a cascade and enable it
@@ -397,12 +397,12 @@ starts to shine.
 ## Example 002: Double-buffering
 This example is illustrated by `pcss._example002_.html` which
 can be be found in the `examples` directory of the GitHub repository.
-Clone the respository and open the file with your browser to see the
+Clone the repository and open the file with your browser to see the
 results.
 
 Double-buffering is an common technique to minimize processing and
-flicker across many areas of computer graphics. We create two `style`
-elements, and then switches between the two of them to apply their CSS.
+flicker across many areas of computer graphics. PowerCSS creates two
+`style` elements, and switches between them to apply CSS.
 PowerCSS never enables a `style` element until the CSS is completely
 written to it. This allows us to change all styles on a page with just
 one document reflow, which can be insanely fast compared to changing
@@ -418,7 +418,7 @@ with third-party web components.
 ## Example 003: Mixin maps
 This example is illustrated by `pcss._example003_.html` which
 can be be found in the `examples` directory of the GitHub repository.
-Clone the respository and open the file with your browser to see the
+Clone the repository and open the file with your browser to see the
 results.
 
 ### Rule key substitution.
@@ -496,9 +496,9 @@ as illustrated below:
 
 When we use the generic `pcss._setMixinMap_()` method, the `_asset_type_`
 may be `_vsheet_`, `_cascade_`, or `_global_`. The asset id, `_asset_id_`,
-must be provided for `_vsheet_` and `_cascade_` asset types. 
-There is only one `_global_` mixin map, and providing an `_asset_id_`
-will simply be ignored. The `_mixin_map_` is a simple key-value pair
+must be provided for `_vsheet_` and `_cascade_` asset types.
+There is only one `_global_` mixin map, and any `_asset_id_` provided
+will be ignored. The `_mixin_map_` is a simple key-value pair
 object as illustrated below:
 
       // Example mixin map
@@ -509,8 +509,7 @@ object as illustrated below:
         _input_border_    : '.125rem solid #ddd'
       };
 
-Those are the basics. We will get into the weeds a little later. First, 
-let's see how we can retreive a mixin map.
+Now let's see how we can retrieve a mixin map from PowerCSS.
 
 ### Getting mixin map JSON
 We can get a copy of a mixin map data by using the `pcss._getMixinJson_()`
@@ -617,8 +616,8 @@ The resulting CSS:
       background : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
 
 We are not limited literal values as the us of the builtin mixin key
-like `_xfff_` shows. We could even define the `alt_map` as a mixin,
-and replace the above declaration like so:
+like `_xfff_` shows. We could even define the alternates map shown above
+as a mixin, and replace the above declaration like so:
 
     _background_ : '_bkg_redblack_map_',
 
@@ -703,55 +702,56 @@ Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 MIT
 
 ### Version 0.1.x
-This is the first "public release" versions of PowerCSS with a
-single working example.
+- First "public release" versions of PowerCSS with a working example.
 
 ### Version 0.2.x
-This series featured double-buffering support and examples
+- Added double-buffering support and example
 
 ### Version 0.3.x
-This series has an API change from 0.2.x where we now use the
-**cascade** term instead of **metasheet**. It's a shorter
-*and* more descriptive. Added Mixins and get methods.
-Reverted to true double-buffering (only 2 stylesheets).
+Currently under development.
+- API change from 0.2.x: **metasheet** becomes **cascade**
+- Results-focused documentation updates
+- Added mixin support at 4 levels
+- Reverted to true double-buffering ( only 2 style elements )
+- `setVsheetList`: added mixin\_map opt
+- `setCascadeObj`: added mixin\_map opt
+- `enableCascadeObj`: alternated pcss sheets
+- `setMixinMap`: implemented and documented
+- `delVsheetList`: damn-the-torpedos implementation
+- `delMixinMap`: damn-the-torpedos implementation
+- `delCascadeObj`: placeholder
+
+WIP:
+- `delVsheetList` update logic
+- `delCascadeObj` update logic
+- `delCascadeObj` update logic
+- Add inline API docs to code
 
 ### Version 0.4.x
-TODO: Implement `delete` methods.
-We also want to provide a option to partially or completely compile
-a **cascade** to CSS while our application has some *downtime*.
-We expect to add a `pcss._prepareCascade_()` method for this purpose.
-We wish to allow for a complete recompilation of the cascade for testing
-purposes.
+TODO:
+- Time-based minimal processing
+- pcss._prepareCascade_(): method to partially or completely compile
+   a **cascade** at the developer's discretion
+- Allow a complete (full-force) recompilation of the cascade for testing
 
 ### Version 0.5.x
-TODO: Nodejs support, compatibility test to earlier versions of Firefox and
- Chrome.
+TODO:
+- nodejs support, especially with nodeunit-b
+- Compatibility test to earlier versions of Chrome and firefox
 
 ### Version 0.6.x
-TODO: regression tests
+TODO:
+- regression tests
+- error handling improvements as needed
 
 ### Version 1.x
-TODO: Production-ready code
+TODO:
+- Production-ready code
 
 ## Similar Projects
 [absurdjs][3], [responsive.j$][4]
 
-## TODO
-### Enhance implemented capabilities
-- setVsheetList: add mixin\_map opt
-- setCascadeObj: add mixin\_map opt
-- enableCascadeObj: disable other pcss sheets
-- setMixinMap( |global,cascade,vsheet|, asset\_id, mixin\_map )
-
-### Planned future capabilities
-- nodejs support, especially with nodeunit-b
-- CSS string output for debugging and regression testing
-- times-based minimal processing
 - force full rerender on request (for debug purposes)
-- delVsheetList
-- getVsheetList
-- delCascadeObj
-- getCascadeObj
 
 ## Contribute!
 If you want to help out, like all jQuery plugins this is hosted at
