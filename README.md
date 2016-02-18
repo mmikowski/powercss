@@ -429,40 +429,47 @@ can be be found in the `examples` directory of the GitHub repository.
 Clone the repository and open the file with your browser to see the
 results.
 
-### Rule key substitution.
+### Symbol substitution
 A CSS rule declaration looks like the following:
 
     background-color : #fff;
 
 The expression to the left of the color we refer to as the rule **key**.
 The text after the colon but before the semicolon we refer to as the rule
-**value**. Here the key is 'color' and the value is '#ff0'.
+**value**. Here the key is `color` and the `value` is `#fff`.
 
-Our **vsheets** are defined using *rule key substitution*. That is, we
-use a symbol to indicate the actual key instead of the key itself. For
-example, to declare background-color, we use:
+Our **vsheets** are defined using *symbol substitution*. That is, we
+use a symbol to indicate the actual key and *often* the value instead of
+the literal values. For example, to declare background-color, we use:
 
-    _background_color_ : _xfff_,
+    _background_color_ : '_xfff_'
 
-At first glance, that might seem silly. However, rule key name and value
-symbols help us greatly when compressing our files. In the example above,
-our rule can be compressed to JavaScript like so:
+At first glance, that might seem silly. However, using symbols for rule 
+**keys** and **values** help us greatly when compressing our files.
+In the example above, our rule can be compressed to JavaScript like so:
 
-    nx:qr,
+    nx:'qr'
 
-This is 22% of the size of the native CSS (5 vs 23 characters).
+This is 24% of the size of the native CSS (7 vs 29 characters).
 And some CSS keys and values can be especially verbose. One downside to
 this approach, of course, is we must declare the symbols initially.
-The `cssKeyMap` defines our keyword meanings in the PowerCSS library
-file, `pcss.js`.
+The `cssKeyMap` defines our rule **key** symbols in the PowerCSS library
+file, `pcss.js`, and `cssValMap` defines our common rule **value** symbols.
+**Value** symbols may also be extended with **mixin** maps.
 
-We have compiled a pretty exhaustive list of commonly used keywords, but
-the rule keys needed will vary from project to project. We often prune
-or expand this list, and suggest you do the same. Currently if an
-unknown key is encountered, a warning is logged to the console.
+We have compiled a pretty exhaustive list of commonly used keywords and values,
+but the rule keys needed will vary depending on project. During development,
+if we use a unknown key, a warning is logged to the JavaScript console and
+the rule is skipped. One can easily copy these symbols into `pcss.js`
+and make sure they are defined in `cssKeyMap` or `cssValMap` as required.
 
-We are exploring how to best modularize the CSS key and value
-mixin maps. Suggestions are welcome :)
+Alternately, when we have completed a project, we use a simple Perl script
+to report the number of users for each `_symbol_` across the project. 
+A symbol that only appears once is not used except for its declaration,
+and therefore can be safely deleted, e.g. "pruned."
+
+We are exploring how to better modularize the initialization of 
+the `cssKeyMap` and `cssValMap` data. Suggestions are welcome :)
 
 ### Rule value substitutions
 There are four types of CSS values supported by PowerCSS. They are:
@@ -551,7 +558,7 @@ is as follows:
 
 This means that **vsheets** mixin values have priority over **cascade**
 mixin values which have priority over **global** mixin values which have
-priority over **builtin** values. Think of this as "the closest match
+priority over **builtin** values. Think of this as "the last match
 wins." Consider the following PowerCSS rule definition:
 
     rule_map : { background : '_bcolor_', ... }
@@ -568,19 +575,17 @@ will use that instead of any **cascade**, **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:blue`.
 
 What if we used a **vsheet** that didn't have a mixin\_map?  Then
-the mixin value would be set at three levels:
+the mixin value would be defined at just two levels:
 
     builtin._bcolor_   = undefined;
     global._bcolor_    = 'red';
     cascade._bcolor_   = 'green';
     vsheet._bcolor_    = undefined;
 
-Here the **cascade** level value, 'green', will "win" and the CSS generator
-will use that instead of any **global**, or **builtin** value.
-In other words, the resulting CSS will read `background:green`.
+Here the **cascade** level value will "win" and the CSS generator
+will use 'green' instead of any **global** or **builtin** value.
 And so on. If the value is still undefined at the end of the scope chain,
-a warning is issued and the property (`background`, in this case) and the
-property is not set.
+a warning is issued and the property (`background`, in this case) is skipped. 
 
 An astute reader will notice that a **vsheet** can be used across many
 **cascades**. This is a very powerful feature, but please keep this in
