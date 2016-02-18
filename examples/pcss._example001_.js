@@ -70,7 +70,7 @@ pcss._example001_ = function () {
     }
   ];
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_base_vsheet_',
     _vsheet_list_ : base_vsheet_list
   });
@@ -109,14 +109,14 @@ pcss._example001_ = function () {
     }
   ];
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_box_vsheet_',
     _vsheet_list_ : box_vsheet_list
   });
   // End Add _box_vsheet_
 
   // Begin Create a cascade and enable it
-  pcss._setCascadeObj_({
+  pcss._setCascade_({
     _cascade_id_   : '_example001_',
     _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ]
   });
@@ -128,9 +128,9 @@ pcss._example001_ = function () {
     })
   );
 
-  pcss._enableCascadeObj_({ _cascade_id_ : '_example001_' });
+  pcss._useCascade_({ _cascade_id_ : '_example001_' });
   console.log( 
-    'cascade_obj AFTER enable',
+    'cascade_object AFTER enable',
     pcss._getAssetJson({
       _asset_type_ : '_cascade_',
       _asset_id_   : '_example001_'

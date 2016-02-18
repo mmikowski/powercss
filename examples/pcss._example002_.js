@@ -73,7 +73,7 @@ pcss._example002_ = function () {
     }
   ];
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_base_vsheet_',
     _vsheet_list_ : base_vsheet_list
   });
@@ -112,7 +112,7 @@ pcss._example002_ = function () {
     }
   ];
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_box_vsheet_',
     _vsheet_list_ : box_vsheet_list
   });
@@ -133,7 +133,7 @@ pcss._example002_ = function () {
       [ 'linear-gradient(to bottom, #4f9831 0%, #eee 100%)' ]
     ]
   };
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_box_alt_vsheet_',
     _vsheet_list_ : box_vsheet_list
   });
@@ -174,23 +174,25 @@ pcss._example002_ = function () {
     }
   ];
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_switch_vsheet_',
     _vsheet_list_ : switch_vsheet_list
   });
   // End add _switch_vsheet_
 
-  // Begin create cascade objects to toggle
-  pcss._setCascadeObj_({
+  // Begin create cascades to toggle
+  pcss._setCascade_({
     _cascade_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_' ],
     _cascade_id_ : '_example001_'
   });
 
-  pcss._setCascadeObj_({
+  pcss._setCascade_({
     _cascade_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_alt_vsheet_' ],
     _cascade_id_ : '_example002_'
   });
+  // End create cascades to toggle
 
+  // Begin onclick handler
   onclick_fn = function ( event_obj ) {
     var
       target_el = event_obj.target,
@@ -209,13 +211,17 @@ pcss._example002_ = function () {
       link_list[ 1 ].className = 'pcss-_x_select_';
     }
     if ( cascade_id ) {
-      pcss._enableCascadeObj_({ _cascade_id_ : cascade_id });
+      pcss._useCascade_({ _cascade_id_ : cascade_id });
     }
   };
+  // End onclick handler
 
+  // Begin init
   switch_el = document.getElementById( 'pcss-_switch_' );
   link_list = switch_el.getElementsByTagName( 'div' );
-  pcss._enableCascadeObj_({ _cascade_id_ : '_example001_' });
+
   switch_el.addEventListener( 'click', onclick_fn );
+  pcss._useCascade_({ _cascade_id_ : '_example001_' });
+  // End init
 };
 // END pcss._example002_

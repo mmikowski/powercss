@@ -114,7 +114,7 @@ pcss._example003_ = function () {
     }
   ];
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_base_vsheet_',
     _vsheet_list_ : base_vsheet_list,
     _mixin_map_   : base_mixin_map
@@ -147,7 +147,7 @@ pcss._example003_ = function () {
     }
   ];
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_box01_vsheet_',
     _vsheet_list_ : box_vsheet_list
   });
@@ -162,7 +162,7 @@ pcss._example003_ = function () {
   box_rule_map._box_shadow_ = '_global_d5_box_shadow_';
   box_rule_map._background_ = '_global_green_grad_map_';
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_box02_vsheet_',
     _vsheet_list_ : box_vsheet_list,
     _mixin_map_   : { _base_body_font_color_ : '#080' }
@@ -182,7 +182,7 @@ pcss._example003_ = function () {
   box_rule_map._font_size_     = '_1d75rem_';
   box_rule_map._background_    = '_global_blue_grad_map_';
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_box03_vsheet_',
     _vsheet_list_ : box_vsheet_list,
     _mixin_map_   : { _base_body_font_color_ : '#008' }
@@ -223,28 +223,28 @@ pcss._example003_ = function () {
     }
   ];
 
-  pcss._setVsheetList_({
+  pcss._setVsheet_({
     _vsheet_id_   : '_switch_vsheet_',
     _vsheet_list_ : switch_vsheet_list
   });
   // End add _switch_vsheet_
 
   // Begin create cascade objects to toggle
-  pcss._setCascadeObj_({
+  pcss._setCascade_({
     _cascade_id_ : '_example001_',
     _cascade_list_ : [
       '_base_vsheet_', '_switch_vsheet_', '_box01_vsheet_'
     ]
   });
 
-  pcss._setCascadeObj_({
+  pcss._setCascade_({
     _cascade_id_ : '_example002_',
     _cascade_list_ : [
       '_base_vsheet_', '_switch_vsheet_', '_box02_vsheet_'
     ]
   });
 
-  pcss._setCascadeObj_({
+  pcss._setCascade_({
     _cascade_id_ : '_example003_',
     _cascade_list_ : [
       '_base_vsheet_', '_switch_vsheet_', '_box03_vsheet_'
@@ -279,7 +279,7 @@ pcss._example003_ = function () {
       link_list[ 2 ].className = 'pcss-_x_select_';
     }
     if ( cascade_id ) {
-      pcss._enableCascadeObj_({ _cascade_id_ : cascade_id });
+      pcss._useCascade_({ _cascade_id_ : cascade_id });
     }
   };
   // End click handler
@@ -287,7 +287,7 @@ pcss._example003_ = function () {
   // Begin initialization
   switch_el = document.getElementById( 'pcss-_switch_' );
   link_list = switch_el.getElementsByTagName( 'div' );
-  pcss._enableCascadeObj_({ _cascade_id_ : '_example001_' });
+  pcss._useCascade_({ _cascade_id_ : '_example001_' });
   switch_el.addEventListener( 'click', onclick_fn );
   // End initialization
 };

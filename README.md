@@ -63,7 +63,7 @@ example.
 3. Define a **cascade** which includes an ordered list of **vsheets**.
    This is very much like traditional CSS development where we link to
    static CSS files in an HTML document.
-4. Enable the **cascade** to apply the styling.
+4. Use the **cascade** to apply the styling.
 
 
 We were careful to change as little of the existing CSS work-flow as
@@ -140,8 +140,7 @@ be found in the `examples` directory of the GitHub repository.
     pcss._example001_ = function () {
       var
         base_vsheet_list,
-        box_vsheet_list,
-        cascade_obj
+        box_vsheet_list
         ;
 
       pcss._initModule_();
@@ -152,16 +151,16 @@ of preferred CSS attribute order. Then we declare our function variables,
 and finally we initialize the PowerCSS module. And, yes, Virginia, our
 code really *does* pass JSLint.
 
-The `pcss._initModule_()` creates two disabled `style` DOM elements. 
-By default, these will have the IDs of `pcss-0` and `pcss-1`.  We can
+The `pcss._initModule_()` creates two disabled `style` DOM elements.
+The default IDs of these elements are `pcss-0` and `pcss-1`.  We can
 change this by providing an alternate prefix, like so:
 
     pcss.initModule({ _style_el_prefix_ : 'foo' });
 
-The above example results in the style elements of `foo-0` and `foo-1`. 
+The above example results in the style elements of `foo-0` and `foo-1`.
 
-### 3. Add a 'base' virtual stylesheet list
-A virtual stylesheet list (**vsheet**) contains the same information as a
+### 3. Add a 'base' virtual stylesheet
+A virtual stylesheet (**vsheet**) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to adopt
 the format with little trouble. Below we add a **vsheet** definition to
 `pcss._example001_.js`:
@@ -202,7 +201,7 @@ the format with little trouble. Below we add a **vsheet** definition to
         }
       ];
 
-      pcss._setVsheetList_({
+      pcss._setVsheet_({
         _vsheet_id_   : '_base_vsheet_',
         _vsheet_list_ : base_vsheet_list
       });
@@ -251,7 +250,7 @@ We will return to them soon enough:
         }
       ];
 
-      pcss._setVsheetList_({
+      pcss._setVsheet_({
         _vsheet_id_   : '_box_vsheet_',
         _vsheet_list_ : box_vsheet_list
       });
@@ -260,16 +259,16 @@ We will return to them soon enough:
 
 Now we have two **vsheet**s. Let's use them!
 
-### 5. Create a cascade object
-Let's create a cascade object (**cascade**) like so:
+### 5. Create a cascade
+Let's create a **cascade** like so:
 
-      // Begin Create a cascade and enable it
-      pcss._setCascadeObj_({
+      // Begin Create a cascade and use it
+      pcss._setCascade_({
         _cascade_id_   : '_example001_',
         _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ]
       });
       console.log(
-        'cascade object BEFORE enable',
+        'cascade object BEFORE using it',
         pcss._getAssetJson({
           _asset_id_   : '_example001_',
           _asset_type_ : '_cascade_'
@@ -277,24 +276,24 @@ Let's create a cascade object (**cascade**) like so:
       );
 
 
-We use the `pcss._getAssetJson_()` method to get a look at the cascade object
-created by PowerCSS. Here is the full list of attributes:
+We use the `pcss._getAssetJson_()` method to get a look at the **cascade**
+object created by PowerCSS. Here is the full list of attributes:
 
 - `_cascade_id_` as provided.
 - `_cascade_list_` is as provided.
-- `_css_str_` is the CSS string generated for this **vsheet**.
+- `_css_str_` is the CSS string generated for this **cascade**.
   *In this example, the value is blank because we haven't
-  enabled this cascade yet.*
-- `_merged_vsheet_list_` is a **vsheet** prepared by merging all
-  the **vsheets** in the `_cascade_list_`. It is an intermediary
-  format that resolves additions and redundancies, but it doesn't
-  resolve values like CSS symbols or **mixins**.
+  used this cascade yet.*
+- `_merged_vsheet_list_` is a meta-**vsheet** prepared by merging all
+  the **vsheets** in the `_cascade_list_` in the order provided. 
+  It is an intermediary format.  **mixins** are not yet subsituted.
   *In this example it is calculated and saved*.
-- `_merged_mixin_map_` is the **mixin** map used only for this **cascade**.
+- `_merged_mixin_map_` is a meta-**mixin** prepared by merging the mixin
+  maps in the order of global, cascade, and vsheets.
   *In this example it is an empty map.*
 - `_style_el_` is the `style` DOM element used by the **cascade**.
   *In this example, the value is null because we haven't
-  enabled this cascade yet.*
+  used this cascade yet.*
 - `_time_map_` includes various timestamps that are used to minimize
   processing to update the CSS generation.
   *In this example, all times are set to 'now', except
@@ -303,30 +302,30 @@ created by PowerCSS. Here is the full list of attributes:
 We can verify these values by viewing the output in the JavaScript
 console.
 
-### 6. Enable the cascade object
-Let's now enable the **cascade** and close our example function.
+### 6. Use the cascade
+Let's now use the **cascade** and close our example function.
 
-      pcss._enableCascadeObj_({ _cascade_id_ : '_example001_' });
+      pcss._useCascade_({ _cascade_id_ : '_example001_' });
       console.log(
-        'cascade_obj AFTER enable',
+        'cascade object AFTER use',
         pcss._getAssetJson({
           _asset_id_   : '_example001_',
           _asset_type_ : '_cascade_'
         })
       );
-      // End Create a cascade and enable it
+      // End Create a cascade and use it
     };
     // END pcss._example001_
 
 
-When we enable the **cascade**, PowerCSS calculates the CSS and
+When we use the **cascade**, PowerCSS calculates the CSS and
 writes it to the first of two disabled `style` elements
 created on initialization. Once this process is complete, the
 element (`pcss-0`) is enabled and the CSS is applied by the browser
 rendering engine.
 
 We can verify these changes by viewing the output in the JavaScript
-console. There are three changes after enabling the **cascade**:
+console. There are three changes after using the **cascade**:
 
 1. `_css_str_`  is the the generated CSS string
 2. `_style_el_` points to an actual style element
@@ -481,14 +480,14 @@ a **cascade** or later through a `pcss._setMixinMap_()` method,
 as illustrated below:
 
       // Vsheet option
-      pcss._setVsheetList_({
+      pcss._setVsheet_({
         _vsheet_id_   : '_base_vsheet_',
         _vsheet_list_ : base_vsheet_list,
         _mixin_map_   : base_mixin_map
       });
 
       // Cascade option
-      pcss._setCascadeObj_({
+      pcss._setCascade_({
         _cascade_id_ : '_example001_',
         _cascade_list_ : [
           '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_',
@@ -719,37 +718,53 @@ Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 MIT
 
 ### Version 0.1.x
+- 0.1.x development phase complete.
 - First "public release" versions of PowerCSS with a working example.
 
 ### Version 0.2.x
+- 0.2.x development phase complete.
 - Added double-buffering support and example
 
 ### Version 0.3.x
-Currently under development.
-- API change from 0.2.x: **metasheet** becomes **cascade**
+- 0.3.x development phase complete.
+- API change from 0.2.x: **metasheet** changed to **cascade**
 - Results-focused documentation updates
 - Added mixin support at 4 levels
 - Reverted to true double-buffering ( only 2 style elements )
-- `setVsheetList`: added mixin\_map opt
-- `setCascadeObj`: added mixin\_map opt
-- `enableCascadeObj`: alternated pcss sheets
-- `setMixinMap`: implemented and documented
-- `delVsheetList`: damn-the-torpedos implementation
-- `delMixinMap`: damn-the-torpedos implementation
-- `delCascadeObj`: placeholder
+- Per method changes:
 
-WIP:
-- `delVsheetList` update logic
-- `delCascadeObj` update logic
-- `delCascadeObj` update logic
-- Add inline API docs to code
+    setVsheetList    : added mixin_map option
+    delVsheetList    : damn-the-torpedos implementation
+
+    setMixinMap      : implemented and documented
+    delMixinMap      : damn-the-torpedos implementation
+
+    setCascadeObj    : added mixin_map option
+    delCascadeObj    : damn-the-torpedos implementation
+    enableCascadeObj : alternated pcss sheets
 
 ### Version 0.4.x
-TODO:
-- Time-based minimal processing
-- pcss._prepareCascade_(): method to partially or completely compile
-   a **cascade** at the developer's discretion
-- Allow a complete (full-force) recompilation of the cascade for testing
+- 0.4.x under development
+- API change from 0.3.x:
+
+    setVsheetList    => setVsheet
+    delVsheetList    => delVsheet
+
+    setCascadeObj    => setCascade
+    enableCascadeObj => useCascade
+    delCascadeObj    => delCascade
+
+- Added `pcss._prepareCascade_()`, a method to compile
+   a **cascade** at the developer's discretion without
+   presentation. This has a `do_force` option that should
+   be useful for debugging.
+
+- TODO Add `disable()`
+- TODO Add `changeCascade()`
+- TODO Add `changeVsheet()`
+- TODO Add `changeMixinMap()`
+- TODO Add inline API docs to code
+- TODO Time-based minimal processing
 
 ### Version 0.5.x
 TODO:
