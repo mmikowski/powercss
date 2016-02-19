@@ -122,7 +122,7 @@ pcss._example001_ = function () {
   });
   console.log( 
     'cascade object BEFORE enable',
-    pcss._getAssetJson({
+    pcss._getAssetJson_({
       _asset_type_ : '_cascade_',
       _asset_id_   : '_example001_'
     })
@@ -131,7 +131,7 @@ pcss._example001_ = function () {
   pcss._useCascade_({ _cascade_id_ : '_example001_' });
   console.log( 
     'cascade_object AFTER enable',
-    pcss._getAssetJson({
+    pcss._getAssetJson_({
       _asset_type_ : '_cascade_',
       _asset_id_   : '_example001_'
     })

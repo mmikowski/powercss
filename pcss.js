@@ -253,6 +253,9 @@ pcss = (function () {
     topSmap = {
       _cascade_obj_map_ : {},
       _vsheet_list_map_ : {},
+      _time_map_map_    : {
+
+      },
       _mixin_map_map_   : {
         _global_  : {
           _global_id_ : { _time_ms_ : __0, _mixin_map_ : {} }
@@ -353,9 +356,8 @@ pcss = (function () {
       ;
 
     // TODO: cache this stuff per cascade
-    global_mixin_map  = mixin_map_map._global_._global_id_._mixin_map_;
-    cascade_mixin_map = mixin_map_map._cascade_[ cascade_id ]
-      && mixin_map_map._cascade_[ cascade_id ]._mixin_map_;
+    global_mixin_map  = mixin_map_map._global_._global_id_;
+    cascade_mixin_map = mixin_map_map._cascade_[ cascade_id ];
     merged_mixin_map  = cloneData( global_mixin_map );
     extendMixinMap( merged_mixin_map, cascade_mixin_map );
 
@@ -364,8 +366,7 @@ pcss = (function () {
       vsheet_id        = cascade_list[ i ];
       vsheet_list      = vsheet_list_map[ vsheet_id ] || {};
       select_map_count = vsheet_list[ vMap._length_ ];
-      vsheet_mixin_map = mixin_map_map._vsheet_[ vsheet_id ]
-        && mixin_map_map._vsheet_[ vsheet_id ]._mixin_map_;
+      vsheet_mixin_map = mixin_map_map._vsheet_[ vsheet_id ];
       extendMixinMap( merged_mixin_map, vsheet_mixin_map );
 
       // Begin consider each select_map in the vsheet_list
@@ -585,17 +586,15 @@ pcss = (function () {
 
   function setTimestamp ( arg_opt_map ) {
     var
-      opt_map    = arg_opt_map || {},
-      asset_type = opt_map._asset_type_, // _vsheet_ or _mixin_ or _cascade_
-      asset_id   = opt_map._asset_id_
+      opt_map        = arg_opt_map || {},
+      // global - affects all
+      timestamp_type = opt_map._timestamp_type_
       ;
 
-
     //_time_map_ = {
-    //  _cascade_ms_ : timestamp_ms,
     //  _css_ms_     : __0,
     //  _merged_ms_  : timestamp_ms,
-    //  _mixin_ms_   : timestamp_ms,
+    //  _cascade_ms_ : timestamp_ms,
     //  _vsheet_ms_  : timestamp_ms
     //}
 
@@ -619,17 +618,20 @@ pcss = (function () {
     // 4.1.1 Init and arguments
     var
       mixin_map_map = topSmap._mixin_map_map_,
+      time_map_map  = topSmap._time_map_map_,
 
       opt_map    = arg_opt_map || {},
+      asset_id   = opt_map._asset_id_,
       asset_type = opt_map._asset_type_,
-      asset_id   = opt_map._asset_id_
+
+      mixin_map, time_ms
       ;
     if ( asset_type === '_global_' ) { asset_id = '_global_id_'; }
     // end 4.1.1 Init and arguments
 
     // 4.1.2 Arg checks
     if ( ! ( asset_id && asset_type ) ) {
-      logIt( '_asset_id_and_asset_type_and_mixin_map_required_',
+      logIt( '_asset_id_and_asset_type_required_',
         asset_id, asset_type
       );
       return __false;
@@ -834,7 +836,7 @@ pcss = (function () {
       ;
 
     if ( cascade_obj_map[ cascade_id ] ) {
-      throw '_cascade_obj_already_exists_' + cascade_id;
+      logIt( '_cascade_obj_already_exists_', cascade_id );
     }
     // end 4.7.1 Init and arguments
 
@@ -1007,19 +1009,28 @@ pcss = (function () {
   // end 4. PUBLIC METHODS ====================================
 
   return {
-    _initModule_ : initModule,
+    // General methods
+    _initModule_     : initModule,
+    _getAssetJson_   : initCheck[ vMap._bind_ ]( getAssetJson   ),
 
-    _getMixinJson_   : initCheck[ vMap._bind_ ]( getMixinJson   ),
-    _getAssetJson    : initCheck[ vMap._bind_ ]( getAssetJson   ),
-    _setMixinMap_    : initCheck[ vMap._bind_ ]( setMixinMap    ),
+    // Mixin methods
+    _changeMixinMap_ : initCheck[ vMap._bind_ ]( changeMixinMap ),
     _delMixinMap_    : initCheck[ vMap._bind_ ]( delMixinMap    ),
-    _setVsheet_      : initCheck[ vMap._bind_ ]( setVsheet      ),
+    _getMixinJson_   : initCheck[ vMap._bind_ ]( getMixinJson   ),
+    _setMixinMap_    : initCheck[ vMap._bind_ ]( setMixinMap    ),
+
+    // Vsheet methods
+    _changeVsheet_   : initCheck[ vMap._bind_ ]( changeVsheet   ),
     _delVsheet_      : initCheck[ vMap._bind_ ]( delVsheet      ),
-    _setCascade_     : initCheck[ vMap._bind_ ]( setCascade     ),
+    _setVsheet_      : initCheck[ vMap._bind_ ]( setVsheet      ),
+
+    // Cascade methods
+    _changeCascade_  : initCheck[ vMap._bind_ ]( changeCascade  ),
     _delCascade_     : initCheck[ vMap._bind_ ]( delCascade     ),
-    _useCascade_     : initCheck[ vMap._bind_ ]( useCascade     ),
+    _disableCascade_ : initCheck[ vMap._bind_ ]( disableCascade ),
     _prepareCascade_ : initCheck[ vMap._bind_ ]( prepareCascade ),
-    _disableCascade_ : initCheck[ vMap._bind_ ]( disableCascade )
+    _setCascade_     : initCheck[ vMap._bind_ ]( setCascade     ),
+    _useCascade_     : initCheck[ vMap._bind_ ]( useCascade     )
   };
 }());
 // end pcss

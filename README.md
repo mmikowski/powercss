@@ -75,8 +75,8 @@ object as an argument to a PowerCSS call, it is **copied** and we can use
 it again *without fear of it being modified by PowerCSS at some later time*.
 For the inverse reason, **PowerCSS does not return pointers to its
 data**. Instead there are methods to get JSON snapshots of data for
-debugging purposes. Do avoid using these methods for production
-as they can be expensive and verbose.
+debugging purposes. These should generally be avoided for production code as
+they can be expensive and verbose.
 
 ### 1. Create `pcss._example001_.html` file
 Let's create an HTML file named `pcss._example001_.html` to illustrate
@@ -269,15 +269,15 @@ Let's create a **cascade** like so:
       });
       console.log(
         'cascade object BEFORE using it',
-        pcss._getAssetJson({
+        pcss._getAssetJson_({
           _asset_id_   : '_example001_',
           _asset_type_ : '_cascade_'
         })
       );
 
 
-We use the `pcss._getAssetJson_()` method to get a look at the **cascade**
-object created by PowerCSS. Here is the full list of attributes:
+We use `_getAssetJson_` to get a look at the **cascade** object created by
+PowerCSS.  The full list of attributes is:
 
 - `_cascade_id_` as provided.
 - `_cascade_list_` is as provided.
@@ -285,7 +285,7 @@ object created by PowerCSS. Here is the full list of attributes:
   *In this example, the value is blank because we haven't
   used this cascade yet.*
 - `_merged_vsheet_list_` is a meta-**vsheet** prepared by merging all
-  the **vsheets** in the `_cascade_list_` in the order provided. 
+  the **vsheets** in the `_cascade_list_` in the order provided.
   It is an intermediary format.  **mixins** are not yet subsituted.
   *In this example it is calculated and saved*.
 - `_merged_mixin_map_` is a meta-**mixin** prepared by merging the mixin
@@ -308,7 +308,7 @@ Let's now use the **cascade** and close our example function.
       pcss._useCascade_({ _cascade_id_ : '_example001_' });
       console.log(
         'cascade object AFTER use',
-        pcss._getAssetJson({
+        pcss._getAssetJson_({
           _asset_id_   : '_example001_',
           _asset_type_ : '_cascade_'
         })
@@ -444,7 +444,7 @@ the literal values. For example, to declare background-color, we use:
 
     _background_color_ : '_xfff_'
 
-At first glance, that might seem silly. However, using symbols for rule 
+At first glance, that might seem silly. However, using symbols for rule
 **keys** and **values** help us greatly when compressing our files.
 In the example above, our rule can be compressed to JavaScript like so:
 
@@ -464,11 +464,11 @@ the rule is skipped. One can easily copy these symbols into `pcss.js`
 and make sure they are defined in `cssKeyMap` or `cssValMap` as required.
 
 Alternately, when we have completed a project, we use a simple Perl script
-to report the number of users for each `_symbol_` across the project. 
+to report the number of users for each `_symbol_` across the project.
 A symbol that only appears once is not used except for its declaration,
 and therefore can be safely deleted, e.g. "pruned."
 
-We are exploring how to better modularize the initialization of 
+We are exploring how to better modularize the initialization of
 the `cssKeyMap` and `cssValMap` data. Suggestions are welcome :)
 
 ### Rule value substitutions
@@ -482,9 +482,8 @@ There are four types of CSS values supported by PowerCSS. They are:
 In addition, we can `lock` a value in a cascade.
 
 ### Setting a mixin map
-Mixin maps are settable when creating a **vsheet** or
-a **cascade** or later through a `pcss._setMixinMap_()` method,
-as illustrated below:
+Mixin maps are settable when creating a **vsheet** or a **cascade** or later
+using `_setMixinMap_` as illustrated below:
 
       // Vsheet option
       pcss._setVsheet_({
@@ -509,12 +508,8 @@ as illustrated below:
         _mixin_map_  : mixin_map
       });
 
-When we use the generic `pcss._setMixinMap_()` method, the `_asset_type_`
-may be `_vsheet_`, `_cascade_`, or `_global_`. The asset id, `_asset_id_`,
-must be provided for `_vsheet_` and `_cascade_` asset types.
-There is only one `_global_` mixin map, and any `_asset_id_` provided
-will be ignored. The `_mixin_map_` is a simple key-value pair
-object as illustrated below:
+Set the **API reference** section for details on implementation. The
+`_mixin_map_` is a simple key-value pair object as illustrated below:
 
       // Example mixin map
       mixin_map = {
@@ -527,8 +522,8 @@ object as illustrated below:
 Now let's see how we can retrieve a mixin map from PowerCSS.
 
 ### Getting mixin map JSON
-We can get a copy of a mixin map data by using the `pcss._getMixinJson_()`
-method:
+We can get a copy of a mixin map data by using `_getMixinJson_` as
+illustrated below:
 
       pcss._getMixinJson_({
         _asset_id_   : '_base_vsheet_',
@@ -585,7 +580,7 @@ the mixin value would be defined at just two levels:
 Here the **cascade** level value will "win" and the CSS generator
 will use 'green' instead of any **global** or **builtin** value.
 And so on. If the value is still undefined at the end of the scope chain,
-a warning is issued and the property (`background`, in this case) is skipped. 
+a warning is issued and the property (`background`, in this case) is skipped.
 
 An astute reader will notice that a **vsheet** can be used across many
 **cascades**. This is a very powerful feature, but please keep this in
@@ -707,6 +702,75 @@ In our example, the PowerCSS library and the CSS directives where reduced to
 30% of their original size, and to 15% when using the "SuperPack" key
 technique.
 
+## API reference
+### General methods
+#### `_initModule_`
+     Example   : pcss._initModule_({ _style_el_prefix_ : 'tri' });
+     Purpose   : Initializes style elements using the provided prefix.
+     Arguments : _style_el_prefix_ :
+                 Optional: A prefix to namespace the two style elements.
+                 If not provided, the prefix 'pcss' will be used.
+     Settings  : none
+     Throws    : A string error object if style elements already exist
+     Returns   : --
+
+#### `_getAssetJson_`
+     Example   :
+          pcss._getAssetJson_({
+            _asset_id_   : '_example001_',
+            _asset_type_ : '_cascade_'
+          })
+     Purpose   : Returns a JSON snapshot of a vsheet or cascade definition.
+     Arguments : _asset_id_   - The existing ID of either a cascade or a vsheet.
+                 _asset_type_ - Either '_vsheet_' or '_cascade_'
+                 Both arguments are required.
+     Settings  : none
+     Throws    : none
+     Returns   : A JSON string of the requested asset.
+                 If there is no corresponding asset, the JSON string
+                 returned is 'undefined'.
+
+### Mixin methods
+#### `_changeMixinMap_`
+#### `_delMixinMap_`
+#### `_getMixinJson_`
+
+#### `_setMixinMap_`
+    Example   :
+      pcss._setMixinMap_({
+        _asset_id_   : '_base_vsheet_',
+        _asset_type_ : '_vsheet_',
+        _mixin_map_  : {
+          _font_color_ : '#800',
+          _box_shadow_near_ : 'rgba( 0, 0, 0, .5) 0 0 .25rem 0'
+        }
+      });
+    Purpose   : Set a mixin map associate with an asset.
+    Arguments : _asset_id_    - The existing ID of either a cascade or a vsheet.
+                _asset_type_  - Either '_vsheet_' or '_cascade_' or '_global_'
+                _mixin_map_   - A map of key-value pairs to be used as symbols.
+                All arguments are required unless _asset_type_ is set to
+                '_global_'.  In this case, the _asset_id_ is ignored and
+                may be omitted.
+
+                The precidence of mixin maps is
+                vsheet > cascade > global > builtin
+
+
+### Vsheet methods
+### Cascade methods
+
+#### `_prepareCascade_`
+    Example    : pcss._prepareCascade_({ _cascade_id_ : '_example_id_' });
+    Purpose    : Complete the full calculation of the CSS for a **cascade**
+                 without using it.  Applications can use this to precompute
+                 cascades before using them in time-sensitive situations,
+                 such as in the main loop of a game engine.
+
+    This
+
+   be useful for debugging.
+
 ## Regression tests
 TODO
 
@@ -752,22 +816,20 @@ MIT
 - 0.4.x under development
 - API change from 0.3.x:
 
-    setVsheetList    => setVsheet
     delVsheetList    => delVsheet
+    setVsheetList    => setVsheet
 
-    setCascadeObj    => setCascade
-    enableCascadeObj => useCascade
     delCascadeObj    => delCascade
+    enableCascadeObj => useCascade
+    setCascadeObj    => setCascade
 
-- Added `pcss._prepareCascade_()`, a method to compile
-   a **cascade** at the developer's discretion without
-   presentation. This has a `do_force` option that should
-   be useful for debugging.
+- Added **API reference** section
+- Added `_changeMixinMap_()`
+- Added `_changeVsheet_()`
+- Added `_changeCascade_()`
+- Added `_disableCascade_()`
+- Added `_prepareCascade_()`
 
-- TODO Add `disable()`
-- TODO Add `changeCascade()`
-- TODO Add `changeVsheet()`
-- TODO Add `changeMixinMap()`
 - TODO Add inline API docs to code
 - TODO Time-based minimal processing
 
