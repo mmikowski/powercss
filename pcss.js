@@ -253,9 +253,6 @@ pcss = (function () {
     topSmap = {
       _cascade_obj_map_ : {},
       _vsheet_list_map_ : {},
-      _time_map_map_    : {
-
-      },
       _mixin_map_map_   : {
         _global_  : {
           _global_id_ : { _time_ms_ : __0, _mixin_map_ : {} }
@@ -356,8 +353,9 @@ pcss = (function () {
       ;
 
     // TODO: cache this stuff per cascade
-    global_mixin_map  = mixin_map_map._global_._global_id_;
-    cascade_mixin_map = mixin_map_map._cascade_[ cascade_id ];
+    global_mixin_map  = mixin_map_map._global_._global_id_._mixin_map_;
+    cascade_mixin_map = mixin_map_map._cascade_[ cascade_id ]
+      && mixin_map_map._cascade_[ cascade_id ]._mixin_map_;
     merged_mixin_map  = cloneData( global_mixin_map );
     extendMixinMap( merged_mixin_map, cascade_mixin_map );
 
@@ -366,7 +364,8 @@ pcss = (function () {
       vsheet_id        = cascade_list[ i ];
       vsheet_list      = vsheet_list_map[ vsheet_id ] || {};
       select_map_count = vsheet_list[ vMap._length_ ];
-      vsheet_mixin_map = mixin_map_map._vsheet_[ vsheet_id ];
+      vsheet_mixin_map = mixin_map_map._vsheet_[ vsheet_id ]
+        && mixin_map_map._vsheet_[ vsheet_id ]._mixin_map_;
       extendMixinMap( merged_mixin_map, vsheet_mixin_map );
 
       // Begin consider each select_map in the vsheet_list
@@ -584,22 +583,6 @@ pcss = (function () {
     }
   }
 
-  function setTimestamp ( arg_opt_map ) {
-    var
-      opt_map        = arg_opt_map || {},
-      // global - affects all
-      timestamp_type = opt_map._timestamp_type_
-      ;
-
-    //_time_map_ = {
-    //  _css_ms_     : __0,
-    //  _merged_ms_  : timestamp_ms,
-    //  _cascade_ms_ : timestamp_ms,
-    //  _vsheet_ms_  : timestamp_ms
-    //}
-
-  }
-
   function initCheck () {
     var target_fn = this;
     if ( ! topSmap._style_el_prefix_ ) {
@@ -618,13 +601,10 @@ pcss = (function () {
     // 4.1.1 Init and arguments
     var
       mixin_map_map = topSmap._mixin_map_map_,
-      time_map_map  = topSmap._time_map_map_,
 
       opt_map    = arg_opt_map || {},
       asset_id   = opt_map._asset_id_,
-      asset_type = opt_map._asset_type_,
-
-      mixin_map, time_ms
+      asset_type = opt_map._asset_type_
       ;
     if ( asset_type === '_global_' ) { asset_id = '_global_id_'; }
     // end 4.1.1 Init and arguments
@@ -634,11 +614,11 @@ pcss = (function () {
       logIt( '_asset_id_and_asset_type_required_',
         asset_id, asset_type
       );
-      return __false;
+      return __undef;
     }
     if ( ! mixin_map_map[ asset_type ] ) {
       logIt( '_asset_type_not_supported_', asset_type );
-      return;
+      return __undef;
     }
     // end 4.1.2 Arg checks
     return __j2str( mixin_map_map[ asset_type][ asset_id ] );
@@ -837,6 +817,7 @@ pcss = (function () {
 
     if ( cascade_obj_map[ cascade_id ] ) {
       logIt( '_cascade_obj_already_exists_', cascade_id );
+      return __undef;
     }
     // end 4.7.1 Init and arguments
 
@@ -867,6 +848,7 @@ pcss = (function () {
       }
     };
     cascade_obj_map[ cascade_id ] = cascade_obj;
+    return cascade_id;
     // end 4.7.3 Create and store cascade object
   }
   // end 4.7 Public method /setCascade/

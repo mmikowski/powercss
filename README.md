@@ -482,8 +482,8 @@ There are four types of CSS values supported by PowerCSS. They are:
 In addition, we can `lock` a value in a cascade.
 
 ### Setting a mixin map
-Mixin maps are settable when creating a **vsheet** or a **cascade** or later
-using `_setMixinMap_` as illustrated below:
+Mixin maps are settable when creating a **vsheet** or a **cascade** or 
+separately using `_setMixinMap_` as illustrated below:
 
       // Vsheet option
       pcss._setVsheet_({
@@ -508,8 +508,7 @@ using `_setMixinMap_` as illustrated below:
         _mixin_map_  : mixin_map
       });
 
-Set the **API reference** section for details on implementation. The
-`_mixin_map_` is a simple key-value pair object as illustrated below:
+A `_mixin_map_` is simple key-value pair object as illustrated below:
 
       // Example mixin map
       mixin_map = {
@@ -519,18 +518,9 @@ Set the **API reference** section for details on implementation. The
         _input_border_    : '.125rem solid #ddd'
       };
 
-Now let's see how we can retrieve a mixin map from PowerCSS.
-
-### Getting mixin map JSON
-We can get a copy of a mixin map data by using `_getMixinJson_` as
-illustrated below:
-
-      pcss._getMixinJson_({
-        _asset_id_   : '_base_vsheet_',
-        _asset_type_ : '_vsheet_',
-      });
-
-Now let's discuss when and where we can use mixin maps.
+We can get a copy of a mixin map data by using `_getMixinJson_`, which is 
+very similar to `_setMixinJson_`. Set the **Alternate values** and 
+**API reference** sections below for more details.
 
 ### The four type of mixin maps
 PowerCSS uses values from **four** mixin map types:
@@ -624,10 +614,30 @@ The resulting CSS:
       background : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
 
 We are not limited literal values as the us of the builtin mixin key
-like `_xfff_` shows. We could even define the alternates map shown above
-as a mixin, and replace the above declaration like so:
+like `_xfff_` shows. We could even define the entire alternatives map
+as a mixin, like so:
 
-    _background_ : '_bkg_redblack_map_',
+      mixin_map = {
+         ...
+        _global_red_grad_map_ : {
+          _alt_list_ : [
+            '_xfff_',
+            [ '#f85032' ],
+            [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+            [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+            [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
+          ]
+        }
+      };
+  
+... and replace the above declaration in the **vsheet** definition.  If we
+use gradient many times, we save lots of space, especially after compression.
+Because now everywhere we want to use it, the line declaration becomes:
+
+    _background_ : '_global_red_grad_map_'
+    
+This compresses to something like the following:
+    ck:'_r'
 
 Remember the order of alternatives in CSS is important: the last supported
 declaration will always be used.
@@ -734,6 +744,11 @@ technique.
 #### `_changeMixinMap_`
 #### `_delMixinMap_`
 #### `_getMixinJson_`
+
+      pcss._getMixinJson_({
+        _asset_id_   : '_base_vsheet_',
+        _asset_type_ : '_vsheet_',
+      });
 
 #### `_setMixinMap_`
     Example   :
