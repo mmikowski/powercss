@@ -1014,18 +1014,18 @@ pcss = (function () {
     _getAssetJson_   : initCheck[ vMap._bind_ ]( getAssetJson   ),
 
     // Mixin methods
-    _changeMixinMap_ : initCheck[ vMap._bind_ ]( changeMixinMap ),
+    // _changeMixinMap_ : initCheck[ vMap._bind_ ]( changeMixinMap ),
     _delMixinMap_    : initCheck[ vMap._bind_ ]( delMixinMap    ),
     _getMixinJson_   : initCheck[ vMap._bind_ ]( getMixinJson   ),
     _setMixinMap_    : initCheck[ vMap._bind_ ]( setMixinMap    ),
 
     // Vsheet methods
-    _changeVsheet_   : initCheck[ vMap._bind_ ]( changeVsheet   ),
+    // _changeVsheet_   : initCheck[ vMap._bind_ ]( changeVsheet   ),
     _delVsheet_      : initCheck[ vMap._bind_ ]( delVsheet      ),
     _setVsheet_      : initCheck[ vMap._bind_ ]( setVsheet      ),
 
     // Cascade methods
-    _changeCascade_  : initCheck[ vMap._bind_ ]( changeCascade  ),
+    // _changeCascade_  : initCheck[ vMap._bind_ ]( changeCascade  ),
     _delCascade_     : initCheck[ vMap._bind_ ]( delCascade     ),
     _disableCascade_ : initCheck[ vMap._bind_ ]( disableCascade ),
     _prepareCascade_ : initCheck[ vMap._bind_ ]( prepareCascade ),
