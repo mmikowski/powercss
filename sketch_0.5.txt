@@ -1,0 +1,91 @@
+
+  _style_x_cascade_list_ : [ <cascade_idX>, <cascade_idY> ],
+  _vsheet_map_
+    |- <vsheet_id1>
+    |  |- _vsheet_list_ : <vsheet_list>
+    |  |- _vsheet_ms_   : <timestamp>
+    |  |- _mixin_map_   : <mixin_map>
+    |  +- _mixin_ms_    : <timestamp>
+    |
+    +- <vsheet_id2>
+       |- _vsheet_list_ : <vsheet_list>
+       |- _vsheet_ms_   : <timestamp>
+       |- _mixin_map_   : <mixin_map>
+       +- _mixin_ms_    : <timestamp>
+
+  _cascade_map_
+    |- <cascade_id1>
+    |  |- _cascade_list_        : <cascade_list>
+    |  |- _cascade_ms_          : <timestamp>
+    |  |- _css_str_             : <cascade_css>
+    |  |- _css_ms_              : <timestamp>
+    |  |- _merged_cascade_list_ : <merged_cascade_list>
+    |  |- _merged_cascade_ms_   : <timestamp>
+    |  |- _merged_mixin_map_    : <merged_cascade_list>
+    |  |- _merged_mixin_ms_     : <timestamp> 
+    |  |- _mixin_map_           : {...}
+    |  +- _mixin_ms_            : <timestamp>
+    |
+    +- <cascade_id2>
+       |- _cascade_list_        : <cascade_list>
+       |- _cascade_ms_          : <timestamp>
+       |- _css_str_             : <cascade_css>
+       |- _css_ms_              : <timestamp>
+       |- _merged_cascade_list_ : <merged_cascade_list>
+       |- _merged_cascade_ms_   : <timestamp>
+       |- _merged_mixin_map_    : <merged_cascade_list>
+       |- _merged_mixin_ms_     : <timestamp> 
+       |- _mixin_map_           : {...}
+       +- _mixin_ms_            : <timestamp>
+
+  _global_mixin_map_ : <mixin_map>
+  _global_mixin_ms_  : <timestamp>
+
+General methods
+- `_initModule_`
+- `_getStyleCascadeJson_` // e.g. [ cascade\_idX, cascade\_idY ]
+- `_setGlobalMixinMap_`   //
+- `_getGlobalMixinJson_`  //
+
+Vsheet methods
+- `_getVsheetJson_` //   get select\_list or mixin\_map
+                    //     select\_list\_ms, mixin\_map\_ms
+- `_setVsheet_`     //   mode  : add, change, delete
+                    //   assets: select\_list and/or mixin\_map
+
+Cascade methods
+- `_getCascadeJson_` // get cascade\_obj or mixin\_map
+                     //     select\_list\_ms, mixin\_map\_ms
+- `_setCascade_`     // mode: add, change, delete
+                     // assets: vsheet\_list, mixin\_map
+- `_prepareCascade_`
+- `_useCascade_`
+
+# _vsheet_map_ use cases
+## Add vsheet list
+  - Get existing vsheet record from vsheet_map
+  - If found set warning and return undef
+  - Set vsheet_list per input
+  - Set vsheet_ms per to NOW
+  - No change required to _cascade_map_
+
+## Change vsheet list
+  - Get existing vsheet record from vsheet_map
+  - If not found set warning and return undef
+  - Set vsheet_list per input
+  - Set vsheet_ms per to NOW
+
+  - Consider each cascade object in _cascade_map_
+  - If cascade_list contains vsheet list name:
+    - update cascade_ms to NOW
+  - 
+## Change vsheet mixin_map
+## Delete vsheet list
+
+# _cascade_map_ use cases
+## Change cascade list
+## Change cascade mixin_map
+
+# _global_ use cases
+## Change mixin_map
+

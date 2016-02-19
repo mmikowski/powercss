@@ -1,12 +1,12 @@
-# PowerCSS 0.3.x by Michael S. Mikowski
-This 0.3.x library is in development and is intended for early
+# PowerCSS by Michael S. Mikowski
+This library is under development and is intended for early
 adopters. It is relatively stable and fast. Some features, testing,
 and examples have yet to be completed. Use with caution and check
 back often - the library is changing at a rapid pace.
 
 ## Use libraries, not frameworks
-This is a library that strives to be best-in-class.
-If you are considering using an SPA framework, please read [Do you
+This library strives to be best-in-class.  If you are considering using
+an SPA framework instead of libraries, please read [Do you
 really want an SPA framework?][0] first.
 
 ## Overview
@@ -482,7 +482,7 @@ There are four types of CSS values supported by PowerCSS. They are:
 In addition, we can `lock` a value in a cascade.
 
 ### Setting a mixin map
-Mixin maps are settable when creating a **vsheet** or a **cascade** or 
+Mixin maps are settable when creating a **vsheet** or a **cascade** or
 separately using `_setMixinMap_` as illustrated below:
 
       // Vsheet option
@@ -518,8 +518,8 @@ A `_mixin_map_` is simple key-value pair object as illustrated below:
         _input_border_    : '.125rem solid #ddd'
       };
 
-We can get a copy of a mixin map data by using `_getMixinJson_`, which is 
-very similar to `_setMixinJson_`. Set the **Alternate values** and 
+We can get a copy of a mixin map data by using `_getMixinJson_`, which is
+very similar to `_setMixinJson_`. Set the **Alternate values** and
 **API reference** sections below for more details.
 
 ### The four type of mixin maps
@@ -629,13 +629,13 @@ as a mixin, like so:
           ]
         }
       };
-  
+
 ... and replace the above declaration in the **vsheet** definition.  If we
 use gradient many times, we save lots of space, especially after compression.
 Because now everywhere we want to use it, the line declaration becomes:
 
     _background_ : '_global_red_grad_map_'
-    
+
 This compresses to something like the following:
     ck:'_r'
 
@@ -643,7 +643,7 @@ Remember the order of alternatives in CSS is important: the last supported
 declaration will always be used.
 
 ### Concatenated values
-**As of 0.3.x this feature is planned but not yet implemented.**
+**As of 0.4.x this feature is planned but not yet implemented.**
 
 Sometimes we want to use multiple literal or key values as a single string,
 usually separated by a space. For this we use a "double list" technique:
@@ -713,6 +713,27 @@ In our example, the PowerCSS library and the CSS directives where reduced to
 technique.
 
 ## API reference
+
+General methods
+- `_initModule_`
+- `_getStyleCascadeJson_` // e.g. [ cascade\_idX, cascade\_idY ]
+- `_setGlobalMixinMap_`   //
+- `_getGlobalMixinJson_`  //
+
+Vsheet methods
+- `_getVsheetJson_` //   get select\_list or mixin\_map
+                    //     select\_list\_ms, mixin\_map\_ms
+- `_setVsheet_`     //   mode  : add, change, delete
+                    //   assets: select\_list and/or mixin\_map
+
+Cascade methods
+- `_getCascadeJson_` // get cascade\_obj or mixin\_map
+                     //     select\_list\_ms, mixin\_map\_ms
+- `_setCascade_`     // mode: add, change, delete
+                     // assets: vsheet\_list, mixin\_map
+- `_prepareCascade_`
+- `_useCascade_`
+
 ### General methods
 #### `_initModule_`
      Example   : pcss._initModule_({ _style_el_prefix_ : 'tri' });
@@ -744,6 +765,7 @@ technique.
 #### `_changeMixinMap_`
 #### `_delMixinMap_`
 #### `_getMixinJson_`
+#### `_setMixinMap_`
 
       pcss._getMixinJson_({
         _asset_id_   : '_base_vsheet_',
@@ -773,7 +795,17 @@ technique.
 
 
 ### Vsheet methods
+#### `_changeVsheet_`
+#### `_delVsheet_`
+#### `_getVsheetJson_`
+#### `_setVsheet_`
+
 ### Cascade methods
+#### `_changeCascade_`
+#### `_delCascade_`
+#### `_getCascadeJson_`
+#### `_prepareCascade_`
+#### `_setCascade_`
 
 #### `_prepareCascade_`
     Example    : pcss._prepareCascade_({ _cascade_id_ : '_example_id_' });
@@ -782,9 +814,6 @@ technique.
                  cascades before using them in time-sensitive situations,
                  such as in the main loop of a game engine.
 
-    This
-
-   be useful for debugging.
 
 ## Regression tests
 TODO
