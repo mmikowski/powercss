@@ -79,8 +79,9 @@ function regenCascade( cascade_obj, regen_type ) {
 
 General methods
 - `_initModule_`
-- `_getBufferJson_`       // e.g. [ cascade\_idX, cascade\_idY ]
-- `_setGlobalMixinMap_`   // mode: add, change, delete
+- `_getBufferJson_`    // e.g. [ cascade\_idX, cascade\_idY ]
+- `_setGlobalMixin_`   // mode: add, change, delete
+- `_togglePcss_`       // turn pcss on and off
 
 Vsheet methods
 - `_getVsheetJson_` // get selector\_list or mixin\_map
@@ -95,7 +96,6 @@ Cascade methods
                      // assets: vsheet\_list, mixin\_map
                      // Also use for prepareCascade
 - `_useCascade_`
-- `_disablePcss_`    // Disables both stylesheets
 
 # _vsheet_map_ use cases
 ## Add vsheet

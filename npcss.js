@@ -282,7 +282,6 @@ pcss = (function () {
       _style_el_list_     : __undef,
       _style_el_prefix_   : __undef,
       _style_el_idx_      : __n1
-
     }
     ;
   // end 1. MODULE SCOPE VARIABLES ========================
@@ -673,5 +672,38 @@ pcss = (function () {
     }
     return target_fn[ vMap._apply_ ]( this, arguments );
   }
-  // end 2. PRIVATE METHODS ===============================
+  // end 2. PRIVATE METHODS ===================================
+
+  // 4. PUBLIC METHODS ========================================
+  // 4.x Public method /initModule/
+  function initModule ( arg_opt_map ) {
+    // 4.x.1 init and args
+    var opt_map = arg_opt_map || {};
+
+    // 4.x.2 initialize element prefix
+    topSmap._style_el_prefix_ = ( !! opt_map._style_el_prefix_ )
+      ? opt_map._style_el_prefix_ + '-' : 'pcss-';
+
+    // 4.x.3 create two style elements '<prefix>-0' and '<prefix>-1'
+    initStyleEls();
+  }
+  // end 4.x Public method /initModule/
+  // end 4. PUBLIC METHODS ====================================
+
+  return {
+    // General
+    _initModule_     : initModule,
+    _getBufferJson_  : initCheck[ vMap._bind_ ]( getBufferJson  ),
+    _getGlobalMixin_ : initCheck[ vMap._bind_ ]( setGlobalMixin ),
+    _togglePcss_     : initCheck[ vMap._bind_ ]( togglePcss     ),
+
+    // Vsheet methods
+    _getVsheetJson_   : initCheck[ vMap._bind_ ]( getVsheetJson ),
+    _setVsheet_       : initCheck[ vMap._bind_ ]( setVsheet     ),
+
+    // Cascade methods
+    _getCascadeJson_ : initCheck[ vMap._bind_ ]( getCascadeJson ),
+    _setCascade_     : initCheck[ vMap._bind_ ]( setCascade     ),
+    _useCascade_     : initCheck[ vMap._bind_ ]( useCascade     )
+  };
 }());
