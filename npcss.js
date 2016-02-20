@@ -690,6 +690,173 @@ pcss = (function () {
   // end 4.x Public method /initModule/
   // end 4. PUBLIC METHODS ====================================
 
+  // 4.x Public method /setVsheet/
+  //  - Function call
+  //    _setVsheet_({
+  //      _vsheet_id_     : '_base_',
+  //      _mode_str_      : '_add_',
+  //      _selector_list_ : [...],
+  //      _mixin_map_     : {...},
+  //      _regen_type_    : '_merge_' // '_all_|_prepare_|_merge_|_none_'
+  //    });
+  function setVsheet ( arg_opt_map ) {
+    // 4.x.1 Init and arguments
+    var
+      vsheet_map_map = topSmap._vsheet_map_map_,
+      opt_map        = arg_opt_map || {},
+
+      vsheet_id     = opt_map._vsheet_id_,
+      mode_str      = opt_map._mode_str_,
+      selector_list = opt_map._selector_list_,
+      mixin_map     = opt_map._mixin_map_,
+
+      vsheet_map    = vsheet_map_map[ vsheet_id ]
+      ;
+    // end 4.x.1 Init and arguments
+
+    //  - Get existing vsheet record from vsheet_map
+    switch ( mode_str ) {
+      // 
+      case '_add_' : 
+        // If found log warning and return undef
+        if ( vhseet_map ) {
+          logIt( '_vsheet_already_exists_for_id_', vsheet_id );
+          return;
+        }
+        break;
+      case '_change_' :
+      case '_delete_' :
+        // If not found log warning and return undef
+        if ( ! vhseet_map ) {
+          logIt( '_no_vsheet_exists_for_id_', vsheet_id );
+          return;
+        }
+        break;
+      default :
+        logIt( '_mode_node_supported_', mode_str );
+    }
+    //  - If provided
+    //      topSmap._vsheet_map_.`vsheet_id`._selector_list_ = selector_list
+    //      topSmap._vsheet_map_.`vsheet_id`._selector_ms_     = NOW
+    //      do_vsheet_regen = true;
+    //  - If provided
+    //      vsheet_map.`vsheet_id`._mixin_map_ = mixin_map
+    //      vsheet_map.`vsheet_id`._mixin_ms_  = NOW
+    //      do_vsheet_regen = true;
+    //  - if ( ! do_vsheet_regen ) { return; }
+    // 
+    //  - Consider each cascade_obj in _cascade_map_
+    //    - If vsheet_list contains vsheet_id
+    //      - Set cascade_obj._selector_ms_ to NOW
+    //  - End loop
+    //  - regen_cascade( cascade_obj, regen_type )
+    //  - return vsheet_id
+
+    // 4.x.2 Set mixin map if provided
+    if ( mixin_map ) {
+      setMixinMap({
+        _asset_id_   : vsheet_id,
+        _asset_type_ : '_vsheet_',
+        _mixin_map_  : mixin_map
+      });
+    }
+    // end 4.x.2 Set mixin map if provided
+
+    if ( vsheet_list_map[ vsheet_id ] ) {
+      logIt( '_updating_vsheet_', vsheet_id );
+      // TODO: search cascade objs and set the vsheet timestamp
+      // to now for each objs that contains this vsheet.
+    }
+    vsheet_list_map[ vsheet_id ] = vsheet_list;
+  }
+  // end 4.x Public method /setVsheet/
+
+  //  _vsheet_map_ use cases
+  // # Add vsheet
+  //  - Function call
+  //    _setVsheet_({
+  //      _vsheet_id_     : '_base_',
+  //      _mode_str_      : '_add_',
+  //      _selector_list_ : [...],
+  //      _mixin_map_     : {...},
+  //      _regen_type_    : '_merge_' // '_all_|_prepare_|_merge_|_none_'
+  //    });
+  // 
+  //  - Get existing vsheet record from topSmap._vsheet_map_.`vsheet_id`
+  //  - If found log warning and return undef
+  //  topSmap._sheet_map_.`vsheet_id` = {
+  //    _selector_list_ : [],
+  //    selector_
+  //  };
+  //  - If provided
+  //      topSmap._vsheet_map_.`vsheet_id`._selector_list_ = selector_list
+  //      topSmap._vsheet_map_.`vsheet_id`._selector_ms_     = NOW
+  //  - If provided
+  //      vsheet_map.`vsheet_id`._mixin_map_ = mixin_map
+  //      vsheet_map.`vsheet_id`._mixin_ms_  = NOW
+  //  - An added vsheet list cannot affect cascades, so regen_type is ignored 
+  // 
+  // # Change vsheet (selector_list or mixin_map)
+  //  - Function call
+  //    _setVsheet_({
+  //      _vsheet_id_     : '_base_',
+  //      _mode_str_      : '_change_',
+  //      _selector_list_ : [...],
+  //      _mixin_map_     : {...}
+  //      _regen_type_     : '_merge_' // '_all_|_prepare_|_merge_|_none_'
+  //    });
+  // 
+  //  - Get existing vsheet record from vsheet_map
+  //  - If not found log warning and return undef
+  //  - If provided
+  //      topSmap._vsheet_map_.`vsheet_id`._selector_list_ = selector_list
+  //      topSmap._vsheet_map_.`vsheet_id`._selector_ms_     = NOW
+  //      do_vsheet_regen = true;
+  //  - If provided
+  //      vsheet_map.`vsheet_id`._mixin_map_ = mixin_map
+  //      vsheet_map.`vsheet_id`._mixin_ms_  = NOW
+  //      do_vsheet_regen = true;
+  //  - if ( ! do_vsheet_regen ) { return; }
+  // 
+  //  - Consider each cascade_obj in _cascade_map_
+  //    - If vsheet_list contains vsheet_id
+  //      - Set cascade_obj._selector_ms_ to NOW
+  //  - End loop
+  //  - regen_cascade( cascade_obj, regen_type )
+  //  - return vsheet_id
+  // 
+  // # Delete only vsheet selector list
+  //   Deleting a selector list independently is not supported.
+  //   However, one may change the _selector_list_ to an empty array
+  //   for a similar effect.
+  // 
+  // # Delete only vsheet mixin map
+  //   Deleting a vsheet mixin map independently is not supported.
+  //   However, one may change the _mixin_map_ to an empty object
+  //   for a similar effect.
+  // 
+  // # Delete a vsheet
+  //  - Function call
+  //    _setVsheet_({
+  //      _vsheet_id_  : '_base_',
+  //      _mode_str_   : '_delete_',
+  //      _regen_type_ : '_merge_' // '_all_|_prepare_|_merge_| _none_'
+  //    });
+  // 
+  //  - Get existing vsheet record from vsheet_map
+  //  - If not found log warning and return undef
+  //  - Delete topSmap._vsheet_map_.`vsheet_id`
+  //      do_vsheet_regen = true;
+  //  - if ( ! do_vsheet_regen ) { return; }
+  // 
+  //  - Consider each cascade_obj in _cascade_map_
+  //    - If vsheet_list contains `vsheet_id`
+  //      - Remove `vsheet_id` from vsheet_list
+  //      - Set cascade_obj._vsheet_ms_ to NOW
+  //  - End
+  //  - regen_cascade( cascade_obj, regen_type )
+  //  - return `vsheet_id`
+
   return {
     // General
     _initModule_     : initModule,
