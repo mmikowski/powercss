@@ -712,28 +712,7 @@ In our example, the PowerCSS library and the CSS directives where reduced to
 30% of their original size, and to 15% when using the "SuperPack" key
 technique.
 
-## API reference
-
-General methods
-- `_initModule_`
-- `_getStyleCascadeJson_` // e.g. [ cascade\_idX, cascade\_idY ]
-- `_setGlobalMixinMap_`   //
-- `_getGlobalMixinJson_`  //
-
-Vsheet methods
-- `_getVsheetJson_` //   get select\_list or mixin\_map
-                    //     select\_list\_ms, mixin\_map\_ms
-- `_setVsheet_`     //   mode  : add, change, delete
-                    //   assets: select\_list and/or mixin\_map
-
-Cascade methods
-- `_getCascadeJson_` // get cascade\_obj or mixin\_map
-                     //     select\_list\_ms, mixin\_map\_ms
-- `_setCascade_`     // mode: add, change, delete
-                     // assets: vsheet\_list, mixin\_map
-- `_prepareCascade_`
-- `_useCascade_`
-
+## API reference 4.x.x
 ### General methods
 #### `_initModule_`
      Example   : pcss._initModule_({ _style_el_prefix_ : 'tri' });
@@ -793,7 +772,6 @@ Cascade methods
                 The precidence of mixin maps is
                 vsheet > cascade > global > builtin
 
-
 ### Vsheet methods
 #### `_changeVsheet_`
 #### `_delVsheet_`
@@ -813,7 +791,6 @@ Cascade methods
                  without using it.  Applications can use this to precompute
                  cascades before using them in time-sensitive situations,
                  such as in the main loop of a game engine.
-
 
 ## Regression tests
 TODO
@@ -874,11 +851,11 @@ MIT
 - Added `_disableCascade_()`
 - Added `_prepareCascade_()`
 
-- TODO Add inline API docs to code
-- TODO Time-based minimal processing
-
 ### Version 0.5.x
 TODO:
+- Refactor and simplify API
+- Add inline API docs to code
+- Time-based minimal processing
 - nodejs support, especially with nodeunit-b
 - Compatibility test to earlier versions of Chrome and firefox
 
@@ -886,6 +863,7 @@ TODO:
 TODO:
 - regression tests
 - error handling improvements as needed
+- force full rerender on request (for debug purposes)
 
 ### Version 1.x
 TODO:
@@ -893,8 +871,6 @@ TODO:
 
 ## Similar Projects
 [absurdjs][3], [responsive.j$][4]
-
-- force full rerender on request (for debug purposes)
 
 ## Contribute!
 If you want to help out, like all jQuery plugins this is hosted at
