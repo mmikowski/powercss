@@ -440,7 +440,7 @@ pcss = (function () {
     };
   }
 
-  function createCssStr ( merged_vsheet, merged_mixin_map ) {
+  function makeCssStr ( merged_vsheet, merged_mixin_map ) {
     var
       i, j, k,        select_count,
       select_map,     select_str,
@@ -558,23 +558,34 @@ pcss = (function () {
     return solve_select_list[ vMap._join_]( '\n' );
   }
 
+  // TODO: Profile on major browser
+  // This function only updates the css_str in the style element
+  // only if it appears changed.  The idea is should be much faster
+  // than blindly writting the css_str. However, this may be redundant
+  // with browsers optimizations.
+  //
   function writeToStyleEl ( style_el, css_str ) {
     var text_el, childnode_list;
     // Old Firefox and IE(?)
     if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
-      style_el[ vMap._cssText_ ] = css_str;
-      style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
+      if ( style_el[ vMap._cssText_ ] !== css_str ) {
+        style_el[ vMap._cssText_ ] = css_str;
+      }
     }
     // New Firefox
     else if ( style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
-      style_el[ vMap._textContent_ ] = css_str;
+      if ( style_el[ vMap._textContent_ ] !== css_str ) {
+        style_el[ vMap._textContent_ ] = css_str;
+      }
     }
     // Webkit
     else {
       childnode_list = style_el[ vMap._childNodes_ ];
       if ( childnode_list && childnode_list[ vMap._length_ ] > __0 ) {
         text_el = childnode_list[ __0 ];
-        text_el[ vMap._nodeValue_ ] = css_str;
+        if ( text_el[ vMap._nodeValue_ ] !== css_str ) {
+          text_el[ vMap._nodeValue_ ] = css_str;
+        }
       }
       else {
         text_el = __docRef[ vMap._createTextNode_ ]( css_str );
@@ -915,7 +926,7 @@ pcss = (function () {
     // end 4.9.2 Calculate if CSS should be regenerated
 
     // 4.9.3 Write CSS and set timestamp
-    cascade_obj._css_str_ = createCssStr(
+    cascade_obj._css_str_ = makeCssStr(
       cascade_obj._merged_vsheet_list_,
       cascade_obj._merged_mixin_map_
     );
