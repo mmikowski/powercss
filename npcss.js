@@ -250,21 +250,39 @@ pcss = (function () {
       _vertical_      : 'vertical'
     },
 
+    topCmap = {
+      _regen_type_list_ : [ '_none_', '_merge_', '_prepare_', '_all_' ]
+    },
+
+    //  _vsheet_map_map_
+    //    +- `vsheet_id1`
+    //       |- _vsheet_id_     : `vsheet_id1`
+    //       |- _selector_list_ : `selector_list`
+    //       |- _selector_ms_   : `timestamp`
+    //       |- _mixin_map_     : `mixin_map`
+    //       +- _mixin_ms_      : `timestamp`
+    //
+    // _cascade_map_
+    //   |- `cascade_id1`
+    //      |- _cascade_id_           : `cascade_id1`
+    //      |- _vsheet_id_list_       : `vsheet_id_list`
+    //      |- _vsheet_ms_            : `timestamp`
+    //      |- _mixin_map_            : {...}
+    //      |- _mixin_ms_             : `timestamp`
+    //      |- _merged_selector_list_ : `merged_selector_list`
+    //      |- _merged_mixin_map_     : `merged_mixin_map`
+    //      |- _merged_selector_ms_   : `timestamp`
+    //      |- _css_str_              : `cascade_css`
+    //      +- _css_ms_               : `timestamp`
     topSmap = {
-      _cascade_map_ : {},
-      _vsheet_map_ : {},
-      _mixin_map_map_   : {
-        _global_  : {
-          _global_id_ : { _time_ms_ : __0, _mixin_map_ : {} }
-        },
-        // use: _cascade_id_ : { _time_ms_: 1455479409, _mixin_map_ : {...},
-        _cascade_ : {},
-        // use: _vsheet_id_ : { _time_ms_: 1455479409, _mixin_map_ : {...},
-        _vsheet_  : {}
-      },
-      _style_el_list_   : __undef,
-      _style_el_prefix_ : __undef,
-      _style_el_idx_    : __n1
+      _global_mixin_map_  : {},
+      _global_mixin_ms_   : __0,
+      _vsheet_map_map_    : {},
+      _cascade_map_map_   : {},
+      _style_el_list_     : __undef,
+      _style_el_prefix_   : __undef,
+      _style_el_idx_      : __n1
+
     }
     ;
   // end 1. MODULE SCOPE VARIABLES ========================
@@ -328,25 +346,25 @@ pcss = (function () {
     }
   }
 
-  function mergeCascadeList ( cascade_id, cascade_vsheet_list, cascade_mixin_map ) {
+  function mergeCascade ( arg_vsheet_id_list, arg_mixin_map ) {
     var
-      mixin_map_map = topSmap._mixin_map_map_,
-      vsheet_map    = topSmap._vsheet_map_,
+      vsheet_map_map = topSmap._vsheet_map_map_,
 
-      vsheet_count       = cascade_list[ vMap._length_ ],
-      seen_select_map    = {},
-      merged_vsheet_list = [],
+      vsheet_count         = arg_vsheet_id_list[ vMap._length_ ],
+      seen_selector_map    = {},
+      merged_selector_list = [],
 
       merged_mixin_map,
       global_mixin_map,
 
-      i, vsheet_id,      selector_list,
-      vsheet_mixin_map,  select_map_count,
-      j, select_map,     select_str,
-      rule_lock_list,    rule_map,
-      clone_select_map,  merged_rpt_map,
-      merged_select_map, merged_rule_map,
-      merged_lock_list,  rule_key_list,
+      i, vsheet_id,        vsheet_map,
+      selector_list,
+      vsheet_mixin_map,    selector_count,
+      j, selector_map,     selector_str,
+      rule_lock_list,      rule_map,
+      clone_selector_map,  merged_rpt_map,
+      merged_selector_map, merged_rule_map,
+      merged_lock_list,    rule_key_list,
       rule_key_count,
       l, rule_key
       ;
@@ -354,33 +372,37 @@ pcss = (function () {
     // TODO: cache this stuff per cascade
     global_mixin_map  = topSmap._global_mixin_map || {};
     merged_mixin_map  = cloneData( global_mixin_map );
-    extendMixinMap( merged_mixin_map, cascade_mixin_map );
+    extendMixinMap( merged_mixin_map, arg_mixin_map );
 
     // Begin consider each vsheet in the cascade list
-    for ( i = __0; i < vsheet_count; i++ ) {
-      vsheet_id        = cascade_list[ i ];
-      vsheet_list      = vsheet_map[ vsheet_id ] || {};
-      select_map_count = vsheet_list[ vMap._length_ ];
-      vsheet_mixin_map = mixin_map_map._vsheet_[ vsheet_id ]
-        && mixin_map_map._vsheet_[ vsheet_id ]._mixin_map_;
+    _VSHEET_: for ( i = __0; i < vsheet_count; i++ ) {
+      vsheet_id        = arg_vsheet_id_list[ i ];
+      vsheet_map       = vsheet_map_map[ vsheet_id ];
+      if ( ! vsheet_map ) { 
+        logIt( '_cannot_find_vsheet_map_for_id_', vsheet_map );
+        continue _VSHEET_;
+      }
+      selector_list    = vsheet_map._selector_list_ || [];
+      selector_count   = selector_list[ vMap._length_ ];
+      vsheet_mixin_map = vsheet_map._mixin_map_;
       extendMixinMap( merged_mixin_map, vsheet_mixin_map );
 
-      // Begin consider each select_map in the vsheet_list
-      for ( j = __0; j < select_map_count; j++ ) {
-        select_map     = vsheet_list[ j ];
-        select_str     = select_map._select_str_;
-        rule_lock_list = select_map._rule_lock_list_;
-        rule_map       = select_map._rule_map_;
+      // Begin consider each selector_map in the selector_list
+      for ( j = __0; j < selector_count; j++ ) {
+        selector_map     = selector_list[ j ];
+        selector_str     = selector_map._selector_str_;
+        rule_lock_list   = selector_map._rule_lock_list_;
+        rule_map         = selector_map._rule_map_;
 
-        merged_rpt_map = seen_select_map[ select_str ];
+        merged_rpt_map = seen_selector_map[ selector_str ];
         if ( merged_rpt_map ) {
-          merged_select_map = merged_rpt_map._select_map_;
-          merged_rule_map   = merged_select_map._rule_map_;
+          merged_selector_map = merged_rpt_map._selector_map_;
+          merged_rule_map   = merged_selector_map._rule_map_;
 
           // Begin merge in latest locks
           if ( rule_lock_list ) {
             merged_lock_list = merged_rpt_map._rule_lock_list_;
-            merged_lock_list[ vMap._push_ ][ vMap._apply_ 
+            merged_lock_list[ vMap._push_ ][ vMap._apply_
               ]( merged_lock_list, rule_lock_list );
             merged_rpt_map[ 'lock_on_' + __String( i ) ]
               = __j2str( rule_lock_list );
@@ -397,7 +419,7 @@ pcss = (function () {
               && rule_lock_list[ vMap._indexOf_ ]( rule_key ) > __n1
             ) {
               logIt(
-                '_rule_key_locked_for_selector_', select_str, rule_key
+                '_rule_key_locked_for_selector_', selector_str, rule_key
               );
               continue _RULE_;
             }
@@ -407,12 +429,12 @@ pcss = (function () {
         }
         else {
           // Begin clone data and place the **same map**
-          // both into the merged_vsheet_list and the merged_rpt_map
+          // both into the merged_selector_list and the merged_rpt_map
           // as we want fast O(1) access to it.
           //
-          clone_select_map = cloneData( select_map );
-          merged_vsheet_list[ vMap._push_]( clone_select_map );
-          merged_rpt_map = { _select_map_ : clone_select_map };
+          clone_selector_map = cloneData( selector_map );
+          merged_selector_list[ vMap._push_]( clone_selector_map );
+          merged_rpt_map = { _selector_map_ : clone_selector_map };
           // End clone data and place the **same map**
 
           // Begin init lock list
@@ -425,22 +447,22 @@ pcss = (function () {
             merged_rpt_map._rule_lock_list_ = [];
           }
           // End init lock list
-          seen_select_map[ select_str ] = merged_rpt_map;
+          seen_selector_map[ selector_str ] = merged_rpt_map;
         }
       }
-      // End consider each select_map in the vsheet_list
+      // End consider each selector_map in the selector_list
     }
-    // End loop through all vsheet_lists in cascade list
+    // End consider each vsheet in the cascade list
     return {
-      _vsheet_list_ : merged_vsheet_list,
-      _mixin_map_   : merged_mixin_map
+      _selector_list_ : merged_selector_list,
+      _mixin_map_     : merged_mixin_map
     };
   }
 
-  function makeCssStr ( merged_vsheet, merged_mixin_map ) {
+  function makeCssStr ( merged_selector_list, merged_mixin_map ) {
     var
-      i, j, k,        select_count,
-      select_map,     select_str,
+      i, j, k,        selector_count,
+      selector_map,   selector_str,
       rule_map,       close_str,
       rule_key_list,  rule_key_count,
       rule_key,       rule_data,
@@ -448,22 +470,22 @@ pcss = (function () {
       outer_data, outer_data_type,
       inner_data_list, inner_data_count,
 
-      solve_select_list, solve_data_type,
-      solve_rule_list,   solve_key,
-      solve_val_str,     solve_select_str
+      solve_selector_list, solve_data_type,
+      solve_rule_list,     solve_key,
+      solve_val_str,       solve_selector_str
       ;
 
-    select_count = merged_vsheet[ vMap._length_ ];
-    solve_select_list = [];
+    selector_count = merged_selector_list[ vMap._length_ ];
+    solve_selector_list = [];
 
-    for ( i = __0; i < select_count; i++ ) {
-      select_map = merged_vsheet[ i ];
-      select_str = select_map._select_str_;
-      rule_map = select_map._rule_map_;
-      close_str = select_map._close_str_ || __blank;
+    for ( i = __0; i < selector_count; i++ ) {
+      selector_map = merged_selector_list[ i ];
+      selector_str = selector_map._selector_str_;
+      rule_map = selector_map._rule_map_;
+      close_str = selector_map._close_str_ || __blank;
 
       if ( ! rule_map ) {
-        solve_select_list[ vMap._push_ ]( select_str + close_str );
+        solve_selector_list[ vMap._push_ ]( selector_str + close_str );
         continue;
       }
 
@@ -475,7 +497,6 @@ pcss = (function () {
       for ( j = __0; j < rule_key_count; j++ ) {
         rule_key = rule_key_list[ j ];
 
-        // Vsheet Mixin
         if ( cssKeyMap[ vMap._hasOwnProp_ ]( rule_key ) ) {
           solve_key = cssKeyMap[ rule_key ];
         }
@@ -495,8 +516,8 @@ pcss = (function () {
         //   _border_ : [[ '_0d25rem_', '_solid_', [ '#8f93c0' ] ]]
         //   => border : .25rem solid #8f93c0;
         //
-        outer_data = rule_map[ rule_key ];
         // first some tap-dancing to handle mixin complex values
+        outer_data = rule_map[ rule_key ];
         if ( vMap._string_ === getType( outer_data )
           && merged_mixin_map[ vMap._hasOwnProp_ ]( outer_data )
           && vMap._string_ !== getType( merged_mixin_map[ outer_data ] )
@@ -546,20 +567,20 @@ pcss = (function () {
         }
       }
 
-      solve_select_str = select_str + '{';
-      solve_select_str += solve_rule_list[ vMap._length_ ] > __0
+      solve_selector_str = selector_str + '{';
+      solve_selector_str += solve_rule_list[ vMap._length_ ] > __0
         ? solve_rule_list[ vMap._join_ ]( ';' ) : __blank;
-      solve_select_str += '}' + close_str;
-      solve_select_list[ vMap._push_ ]( solve_select_str );
+      solve_selector_str += '}' + close_str;
+      solve_selector_list[ vMap._push_ ]( solve_selector_str );
     }
-    return solve_select_list[ vMap._join_]( '\n' );
+    return solve_selector_list[ vMap._join_]( '\n' );
   }
 
-  // TODO: Profile on major browser
-  // This function only updates the css_str in the style element
-  // only if it appears changed.  The idea is should be much faster
-  // than blindly writting the css_str. However, this may be redundant
-  // with browsers optimizations.
+  // TODO: Profile on major browsers
+  // This function updates the css_str in the style element
+  // ONLY if it appears changed.  This SHOULD be much faster
+  // than blindly writting the css_str. However, browsers may already
+  // do this check, so it may be redundant. Profile to determine answer.
   //
   function writeToStyleEl ( style_el, css_str ) {
     var text_el, childnode_list;
@@ -591,6 +612,60 @@ pcss = (function () {
     }
   }
 
+  function regenCascade( cascade_map, regen_type ) {
+    var 
+      now_ms = __timeStamp(),
+      result_map, style_el, write_idx, write_el;
+
+    if ( topCmap._regen_type_list_.indexOf( regen_type ) === -1 ) {
+      logIt( '_regen_type_not_supported_', regen_type );
+      return;
+    }
+    // _none_ level regen
+    if ( regen_type === '_none_' ) { return regen_type; }
+
+    // _merge_ level regen
+    if ( cascade_map._merged_selector_ms_ < cascade_map._vsheet_ms_
+      || cascade_map._merged_selector_ms_ < cascade_map._mixin_ms_
+      || cascade_map._merged_selector_ms_ < topSmap._global_mixin_ms_
+    ) {
+      result_map = mergeCascade(
+        cascade_map._vsheet_id_list_, cascade_map._mixin_map_
+      );
+      cascade_map._merged_selector_list_ = result_map._merged_selector_list_;
+      cascade_map._merged_mixin_map_     = result_map._merged_mixin_map_;
+      cascade_map._merged_selector_ms_   = now_ms;
+    }
+    if ( regen_type === '_merge_' ) { return regen_type; }
+
+    // _prepare_ level regen
+    if ( cascade_map._css_ms_ < cascade_map._merged_selector_ms_ ) {
+      cascade_map._css_str_ = makeCssStr(
+        cascade_map._merged_selector_list_,
+        cascade_map._merged_mixin_map_
+      );
+      cascade_map._css_ms_ = now_ms;
+    }
+    if ( regen_type === '_prepare_' ) { return regen_type; }
+
+    //  _all_ level regen
+    if ( topSmap._active_cascade_list[ topSmap._style_el_idx_] 
+      === cascade_map._cascade_id
+    ) {
+      style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
+      write_idx = topSmap._style_el_idx_ === __1 ? __0 : __1;
+      write_el  = topSmap._style_el_list_[ write_idx ]; 
+      writeToStyleEl ( write_el, cascade_map._css_str_ );
+
+      style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
+      write_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
+
+      topSmap._style_el_idx = write_idx;
+      topSmap._active_cascade_list[ write_idx ] = cascade_map._cascade_id;
+    }
+    return regen_type;
+  }
+
   function initCheck () {
     var target_fn = this;
     if ( ! topSmap._style_el_prefix_ ) {
@@ -599,284 +674,4 @@ pcss = (function () {
     return target_fn[ vMap._apply_ ]( this, arguments );
   }
   // end 2. PRIVATE METHODS ===============================
-
-/*
-topSmap = {
-  _vsheet_map_
-    |- `vsheet_id1`
-    |  |- _vsheet_id_     : `vsheet_id1`
-    |  |- _selector_list_ : `selector_list`
-    |  |- _selector_ms_   : `timestamp`
-    |  |- _mixin_map_     : `mixin_map`
-    |  +- _mixin_ms_      : `timestamp`
-    |
-    +- `vsheet_id2`
-       |- _vsheet_id_     : `vsheet_id2`
-       |- _selector_list_ : `selector_list`
-       |- _selector_ms_   : `timestamp`
-       |- _mixin_map_     : `mixin_map`
-       +- _mixin_ms_      : `timestamp`
-
-  _cascade_map_
-    |- `cascade_id1`
-    |  |- _cascade_id_         : `cascade_id1`
-    |  |- _vsheet_list_        : `vsheet_list`
-    |  |- _vsheet_ms_          : `timestamp`
-    |  |- _mixin_map_          : {...}
-    |  |- _mixin_ms_           : `timestamp`
-    |  |- _merged_vsheet_list_ : `merged_vsheet_list`
-    |  |- _merged_mixin_map_   : `merged_mixin_map`
-    |  |- _merged_vsheet_ms_   : `timestamp`
-    |  |- _css_str_            : `cascade_css`
-    |  +- _css_ms_             : `timestamp`
-    |
-    +- `cascade_id2`
-       |- _cascade_id_         : `cascade_id2`
-       |- _vsheet_list_        : `vsheet_list`
-       |- _vsheet_ms_          : `timestamp`
-       |- _mixin_map_          : {...}
-       |- _mixin_ms_           : `timestamp`
-       |- _merged_vsheet_list_ : `merged_vsheet_list`
-       |- _merged_mixin_map_   : `merged_mixin_map`
-       |- _merged_vsheet_ms_   : `timestamp`
-       |- _css_str_            : `cascade_css`
-       +- _css_ms_             : `timestamp`
-
-topCmap._regen_type_list_ = [ '_none_', '_merge_', '_prepare_', '_all_' ];
-
-regen_cascade( cascade_obj, regen_type ) {
-  if ( topCmap._regen_type_list_.indexOf( regen_type ) === -1 ) {
-    lotIt( '_regen_type_not_supported_', regen_type );
-    return;
-  }
-  if ( regen_type === '_none_' ) { return regen_type; }
-  if ( cascade_obj._merged_vsheet_ms_ < cascade_obj._vsheet_ms_
-    || cascade_obj._merged_vsheet_ms_ < cascade_obj._mixin_ms_
-    || cascade_obj._merged_vsheet_ms_ < topSmap._global_mixin_ms_
-  ) {
-    result_map = mergeCascadeList( vsheet_list );
-    cascade_obj._merged_vsheet_list_ = result_map._merged_vsheet_list_
-    cascade_obj._merged_mixin_map_   = result_map._merged_mixin_map_
-    cascade_obj._merged_vsheet_ms_   = NOW
-  }
-  if ( regen_type === '_merge_' ) { return regen_type; }
-  if ( cascade_obj._css_ms_ < cascade_obj._merged_vsheet_ms_ ) {
-    cascade_obj._css_str_ = makeCssStr(
-      cascade_obj._merged_vsheet_list_,
-      cascade_obj._merged_mixin_map_
-    );
-  }
-  if ( regen_type === '_prepare_' ) { return regen_type; }
-
-  if ( topSmap._style_el_idx_
-    === topSmap._active_cascade_list_.indexOf( cascade_obj._cascade_id )
-  ) {
-    style_el = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
-    writeToStyleEl ( style_el, cascade_obj._css_str_ );
-  }
-  return regen_type;
-}
-
-General methods
-- `_initModule_`
-- `_getBufferJson_`       // e.g. [ cascade\_idX, cascade\_idY ]
-- `_setGlobalMixinMap_`   // mode: add, change, delete
-
-Vsheet methods
-- `_getVsheetJson_` // get selector\_list or mixin\_map
-                    //   selector\_list\_ms, mixin\_map\_ms
-- `_setVsheet_`     // mode  : add, change, delete
-                    // assets: selector\_list and/or mixin\_map
-
-Cascade methods
-- `_getCascadeJson_` // get cascade\_obj or mixin\_map
-                     //     selector\_list\_ms, mixin\_map\_ms
-- `_setCascade_`     // mode: add, change, delete
-                     // assets: vsheet\_list, mixin\_map
-                     // Also use for prepareCascade
-- `_useCascade_`
-- `_disablePcss_`    // Disables both stylesheets
-
-# _vsheet_map_ use cases
-## Add vsheet
-  - Function call
-    _setVsheet_({
-      _vsheet_id_     : '_base_',
-      _mode_str_      : '_add_',
-      _selector_list_ : [...],
-      _mixin_map_     : {...},
-      _regen_type_    : '_merge_' // '_all_|_prepare_|_merge_|_none_'
-    });
-
-  - Get existing vsheet record from topSmap._vsheet_map_.`vsheet_id`
-  - If found log warning and return undef
-  topSmap._sheet_map_.`vsheet_id` = {
-    _selector_list_ : [],
-    selector_
-  };
-  - If provided
-      topSmap._vsheet_map_.`vsheet_id`._selector_list_ = selector_list
-      topSmap._vsheet_map_.`vsheet_id`._selector_ms_     = NOW
-  - If provided
-      vsheet_map.`vsheet_id`._mixin_map_ = mixin_map
-      vsheet_map.`vsheet_id`._mixin_ms_  = NOW
-  - An added vsheet list cannot affect cascades, so regen_type is ignored 
-
-## Change vsheet (selector_list or mixin_map)
-  - Function call
-    _setVsheet_({
-      _vsheet_id_     : '_base_',
-      _mode_str_      : '_change_',
-      _selector_list_ : [...],
-      _mixin_map_     : {...}
-      _regen_type_     : '_merge_' // '_all_|_prepare_|_merge_|_none_'
-    });
-
-  - Get existing vsheet record from vsheet_map
-  - If not found log warning and return undef
-  - If provided
-      topSmap._vsheet_map_.`vsheet_id`._selector_list_ = selector_list
-      topSmap._vsheet_map_.`vsheet_id`._selector_ms_     = NOW
-      do_vsheet_regen = true;
-  - If provided
-      vsheet_map.`vsheet_id`._mixin_map_ = mixin_map
-      vsheet_map.`vsheet_id`._mixin_ms_  = NOW
-      do_vsheet_regen = true;
-  - if ( ! do_vsheet_regen ) { return; }
-
-  - Consider each cascade_obj in _cascade_map_
-    - If vsheet_list contains vsheet_id
-      - Set cascade_obj._selector_ms_ to NOW
-  - End loop
-  - regen_cascade( cascade_obj, regen_type )
-  - return vsheet_id
-
-## Delete only vsheet selector list
-   Deleting a selector list independently is not supported.
-   However, one may change the _selector_list_ to an empty array
-   for a similar effect.
-
-## Delete only vsheet mixin map
-   Deleting a vsheet mixin map independently is not supported.
-   However, one may change the _mixin_map_ to an empty object
-   for a similar effect.
-
-## Delete a vsheet
-  - Function call
-    _setVsheet_({
-      _vsheet_id_  : '_base_',
-      _mode_str_   : '_delete_',
-      _regen_type_ : '_merge_' // '_all_|_prepare_|_merge_| _none_'
-    });
-
-  - Get existing vsheet record from vsheet_map
-  - If not found log warning and return undef
-  - Delete topSmap._vsheet_map_.`vsheet_id`
-      do_vsheet_regen = true;
-  - if ( ! do_vsheet_regen ) { return; }
-
-  - Consider each cascade_obj in _cascade_map_
-    - If vsheet_list contains `vsheet_id`
-      - Remove `vsheet_id` from vsheet_list
-      - Set cascade_obj._vsheet_ms_ to NOW
-  - End
-  - regen_cascade( cascade_obj, regen_type )
-  - return `vsheet_id`
-
-## Get vsheet snapshot
-  - function call
-    _getVsheetJson_({
-      _vsheet_id_  : '_base_'
-    });
-
-  - Get existing vsheet record from vsheet_map
-  - If not found log warning and return undef
-  - JSON.stringify record
-
-# _cascade_map_ use cases
-## Add cascade
-  - Function call
-    _setCascade_({
-      _cascade_id_    : '_example001_',
-      _mode_str_      : '_add_',
-      _vsheet_list_   : [ '_base_', '_box_' ],
-      _mixin_map_     : {...},
-      _regen_type_    : '_merge_' // '_all_|_prepare_|_merge_|_none_'
-    });
-
-  - Get existing cascade_obj from topSmap._cascade_map_.`cascade_id`
-  - If found log warning and return undef
-  - Ensure every provided key in the vsheet_list is defined in
-    topSmap._vsheet_map.  If not, log warning and return undef
-
-  - If provided
-      topSmap._cascade_map_.`cascade_id`._vsheet_list_ = vsheet_list
-      topSmap._cascade_map_.`cascade_id`._vsheet_ms_   = NOW
-  - If provided
-      cascade_map.`cascade_id`._mixin_map_ = mixin_map
-      cascade_map.`cascade_id`._mixin_ms_  = NOW
-  - An added cascade list cannot be effect cascades, so regen_type is ignored 
-
-## Change cascade (vsheet_list or mixin_map)
-  - Function call
-    _setCascade_({
-      _cascade_id_   : '_example001_',
-      _mode_str_     : '_change_',
-      _vsheet_list_  : [...],
-      _mixin_map_    : {...}
-      _regen_type_   : '_merge_' // '_all_|_prepare_|_merge_|_none_'
-    });
-
-  - Get existing cascade_obj from topSmap._cascade_map_.`cascade_id`
-  - If not found log warning and return undef
-  - If provided
-      topSmap._cascade_map_.`cascade_id`._vsheet_list_ = vsheet_list
-      topSmap._cascade_map_.`cascade_id`._vsheet_ms_   = NOW
-      do_cascade_regen = true;
-  - If provided
-      topSmap._cascade_map_.`cascade_id`._mixin_map_ = mixin_map
-      topSmap._cascade_map_.`cascade_id`._mixin_ms_  = NOW
-      do_cascade_regen = true;
-  - if ( ! do_cascade_regen ) { return; }
-  - regen_cascade( cascade_obj, regen_type )
-  - return vsheet_id
-
-## Delete only cascade vsheet_list
-   Deleting a cascade list independently is not supported.
-   However, one may change the _selector_list_ to an empty array
-   for a similar effect.
-
-## Delete only cascade mixin map
-   Deleting a cascade mixin map independently is not supported.
-   However, one may change the _mixin_map_ to an empty object
-   for a similar effect.
-
-## Delete a cascade
-  - Function call
-    _setCascade_({
-      _cascade_id_ : '_example001_',
-      _mode_str_   : '_delete_'
-    });
-
-  - Get existing cascade_obj from topSmap._cascade_map_.`cascade_id`
-  - If not found log warning and return undef
-  - Delete topSmap._cascade_map_.`cascade_id`
-  - If this is the active cascade, disable the stylesheet
-  - return `cascade_id`
-
-## Use a cascade
-## Disable pcss
-
-## Get cascade snapshot
-  - function call
-    _getCascadeJson_({
-      _cascade_id_  : '_base_'
-    });
-
-  - Get existing cascade record from cascade_map
-  - If not found log warning and return undef
-  - JSON.stringify record
-
-# _global_ use cases
-## Change mixin_map
-*/
+}());

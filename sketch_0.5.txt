@@ -1,5 +1,7 @@
-
+topCmap._regen_type_list_ = [ '_none_', '_merge_', '_prepare_', '_all_' ];
 topSmap = {
+  _global_mixin_map_  : {},
+  _global_mixin_ms_   : __0,
   _vsheet_map_
     |- `vsheet_id1`
     |  |- _vsheet_id_     : `vsheet_id1`
@@ -18,49 +20,49 @@ topSmap = {
   _cascade_map_
     |- `cascade_id1`
     |  |- _cascade_id_         : `cascade_id1`
-    |  |- _vsheet_list_        : `vsheet_list`
+    |  |- _vsheet_id_list_     : `vsheet_id_list`
     |  |- _vsheet_ms_          : `timestamp`
     |  |- _mixin_map_          : {...}
     |  |- _mixin_ms_           : `timestamp`
-    |  |- _merged_vsheet_list_ : `merged_vsheet_list`
+    |  |- _merged_selector_list_ : `merged_selector_list`
     |  |- _merged_mixin_map_   : `merged_mixin_map`
-    |  |- _merged_vsheet_ms_   : `timestamp`
+    |  |- _merged_selector_ms_   : `timestamp`
     |  |- _css_str_            : `cascade_css`
     |  +- _css_ms_             : `timestamp`
     |
     +- `cascade_id2`
        |- _cascade_id_         : `cascade_id2`
-       |- _vsheet_list_        : `vsheet_list`
+       |- _vsheet_id_list_     : `vsheet_id_list`
        |- _vsheet_ms_          : `timestamp`
        |- _mixin_map_          : {...}
        |- _mixin_ms_           : `timestamp`
-       |- _merged_vsheet_list_ : `merged_vsheet_list`
+       |- _merged_selector_list_ : `merged_selector_list`
        |- _merged_mixin_map_   : `merged_mixin_map`
-       |- _merged_vsheet_ms_   : `timestamp`
+       |- _merged_selector_ms_   : `timestamp`
        |- _css_str_            : `cascade_css`
        +- _css_ms_             : `timestamp`
 
-topCmap._regen_type_list_ = [ '_none_', '_merge_', '_prepare_', '_all_' ];
 
-regen_cascade( cascade_obj, regen_type ) {
+
+function regenCascade( cascade_obj, regen_type ) {
   if ( topCmap._regen_type_list_.indexOf( regen_type ) === -1 ) {
     lotIt( '_regen_type_not_supported_', regen_type );
     return;
   }
   if ( regen_type === '_none_' ) { return regen_type; }
-  if ( cascade_obj._merged_vsheet_ms_ < cascade_obj._vsheet_ms_
-    || cascade_obj._merged_vsheet_ms_ < cascade_obj._mixin_ms_
-    || cascade_obj._merged_vsheet_ms_ < topSmap._global_mixin_ms_
+  if ( cascade_obj._merged_selector_ms_ < cascade_obj._vsheet_ms_
+    || cascade_obj._merged_selector_ms_ < cascade_obj._mixin_ms_
+    || cascade_obj._merged_selector_ms_ < topSmap._global_mixin_ms_
   ) {
-    result_map = mergeCascadeList( vsheet_list );
-    cascade_obj._merged_vsheet_list_ = result_map._merged_vsheet_list_
+    result_map = mergeCascade( vsheet_id_list );
+    cascade_obj._merged_selector_list_ = result_map._merged_selector_list_
     cascade_obj._merged_mixin_map_   = result_map._merged_mixin_map_
-    cascade_obj._merged_vsheet_ms_   = NOW
+    cascade_obj._merged_selector_ms_   = NOW
   }
   if ( regen_type === '_merge_' ) { return regen_type; }
-  if ( cascade_obj._css_ms_ < cascade_obj._merged_vsheet_ms_ ) {
+  if ( cascade_obj._css_ms_ < cascade_obj._merged_selector_ms_ ) {
     cascade_obj._css_str_ = makeCssStr(
-      cascade_obj._merged_vsheet_list_,
+      cascade_obj._merged_selector_list_,
       cascade_obj._merged_mixin_map_
     );
   }
