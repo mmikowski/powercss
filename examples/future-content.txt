@@ -97,3 +97,108 @@ or confusion.  The familiarity and power of the CSS cascade is retained,
 because when we define a PowerCSS Stylesheet Object, we provide it a list
 of Virtual Stylesheets in order, just as if we were including static
 style sheet files to a static HTML document.
+
+      console.log( 'cascade object BEFORE enable',
+        pcss._getAssetJson_({
+          _asset_type_ : '_cascade_',
+          _asset_id_   : '_ex01_'
+        })
+      );
+      // End Add ex01 cascade
+
+We use `_getAssetJson_` to get a look at the **cascade** object created by
+PowerCSS.  The full list of attributes is:
+
+    { "_cascade_id_"           : "_ex01_",
+      "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
+      "_vsheet_ms_"            : 1456032421378,
+      "_mixin_ms_"             : 1456032421378,
+      "_merged_selector_list_" : [...],
+      "_merged_mixin_map_"     : {}, 
+      "_merged_selector_ms_"   : 1456032421378,
+      "_css_str_"              : "", 
+      "_css_ms_"               : 0 
+    }
+- `_cascade_id_` as provided.
+- `_cascade_list_` is as provided.
+- `_css_str_` is the CSS string generated for this **cascade**.
+  *In this example, the value is blank because we haven't
+  used this cascade yet.*
+- `_merged_vsheet_list_` is a meta-**vsheet** prepared by merging all
+  the **vsheets** in the `_cascade_list_` in the order provided.
+  It is an intermediary format.  **mixins** are not yet subsituted.
+  *In this example it is calculated and saved*.
+- `_merged_mixin_map_` is a meta-**mixin** prepared by merging the mixin
+  maps in the order of global, cascade, and vsheets.
+  *In this example it is an empty map.*
+- `_style_el_` is the `style` DOM element used by the **cascade**.
+  *In this example, the value is null because we haven't
+  used this cascade yet.*
+- `_time_map_` includes various timestamps that are used to minimize
+  processing to update the CSS generation.
+  *In this example, all times are set to 'now', except
+  for `_css_ms_` as the CSS has not yet been generated.*
+
+We can verify these values by viewing the output in the JavaScript
+console.
+
+### 6. Use the cascade
+Let's now use the **cascade** and close our example function.
+
+      pcss._useCascade_({ _cascade_id_ : '_example001_' });
+      console.log(
+        'cascade object AFTER use',
+        pcss._getAssetJson_({
+          _asset_id_   : '_example001_',
+          _asset_type_ : '_cascade_'
+        })
+      );
+      // End Create a cascade and use it
+    };
+    // END pcss._example001_
+
+
+When we use the **cascade**, PowerCSS calculates the CSS and
+writes it to the first of two disabled `style` elements
+created on initialization. Once this process is complete, the
+element (`pcss-0`) is enabled and the CSS is applied by the browser
+rendering engine.
+
+We can verify these changes by viewing the output in the JavaScript
+console. There are three changes after using the **cascade**:
+
+1. `_css_str_`  is the the generated CSS string
+2. `_style_el_` points to an actual style element
+3. `_time_map_._css_ms_` is a recent timestamp
+
+Of course, what is more imporant is what we see in the browser window.
+Let's take a look at that next.
+
+The `pcss._initModule_()` creates two disabled `style` DOM elements.
+The default IDs of these elements are `pcss-0` and `pcss-1`.  We can
+change this by providing an alternate prefix, like so:
+
+    pcss.initModule({ _style_el_prefix_ : 'foo' });
+
+The above example results in the style elements of `foo-0` and `foo-1`.
+
+{ "_cascade_id_"           : "_ex01_",
+  "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
+  "_vsheet_ms_"            : 1456032421378,
+  "_mixin_ms_"             : 1456032421378,
+  "_merged_selector_list_" : [...],
+  "_merged_mixin_map_"     : {},
+  "_merged_selector_ms_"   : 1456032421378,
+  "_css_str_"              : "",
+  "_css_ms_"               : 0
+}
+{ "_cascade_id_"           : "_ex01_",
+  "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
+  "_vsheet_ms_"            : 1456032421378,
+  "_mixin_ms_"             : 1456032421378,
+  "_merged_selector_list_" : [...],
+  "_merged_mixin_map_"     : {},
+  "_merged_selector_ms_"   : 1456032421378,
+  "_css_str_"              : "body{display:block...",
+  "_css_ms_"               : 1456032421384
+}

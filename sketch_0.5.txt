@@ -1,5 +1,4 @@
-topCmap._regen_type_list_ = [ '_none_', '_merge_', '_prepare_', '_all_',
-'_use_' ];
+topCmap._regen_type_list_ = [ '_none_', '_merge_', '_prepare_', '_all_', '_use_' ];
 topSmap = {
   _global_mixin_map_  : {},
   _global_mixin_ms_   : __0,

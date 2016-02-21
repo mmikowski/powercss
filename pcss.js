@@ -747,7 +747,7 @@ var pcss = (function () {
       opt_map    = arg_opt_map || {},
 
       mixin_map  = opt_map._mixin_map_  || {},
-      regen_type = opt_map._regen_type_ || '_merge_',
+      regen_type = opt_map._regen_type_ || '_all_',
 
       cascade_map_map = topSmap._cascade_map_map_,
 
@@ -848,7 +848,7 @@ var pcss = (function () {
       mode_str        = opt_map._mode_str_,
       selector_list   = opt_map._selector_list_,
       mixin_map       = opt_map._mixin_map_,
-      regen_type      = opt_map._regen_type_ || '_merge_',
+      regen_type      = opt_map._regen_type_,
 
       now_ms          = __timeStamp(),
 
@@ -861,6 +861,10 @@ var pcss = (function () {
     if ( regen_type === '_use_' ) {
       logIt( '_regen_type_use_not_supported_for_this_method_' );
       return;
+    }
+
+    if ( ! regen_type ) {
+      regen_type = mode_str === '_change_' ? '_all_' : '_merge_';
     }
     // end 4.x.1
 
@@ -937,12 +941,12 @@ var pcss = (function () {
 
   // 4.x Public method /setCascade/
   //  _setCascade_({
-  //      _cascade_id_      : '_example001_',
-  //      _mode_str_        : '_add_',
-  //      _vsheet_id_list_  : [ '_base_', '_box_' ],
-  //      _mixin_map_       : {...},
+  //    _cascade_id_      : '_example001_',
+  //    _mode_str_        : '_add_',
+  //    _vsheet_id_list_  : [ '_base_', '_box_' ],
+  //    _mixin_map_       : {...},
   //    _regen_type_      : '_merge_' // '_use_|_all_|_prepare_|_merge_|_none_'
-  //});
+  //  });
   function setCascade ( arg_opt_map ) {
     // 4.x.1 Init and arguments
     var
@@ -951,7 +955,7 @@ var pcss = (function () {
       mode_str        = opt_map._mode_str_,
       vsheet_id_list  = opt_map._vsheet_id_list_,
       mixin_map       = opt_map._mixin_map_,
-      regen_type      = opt_map._regen_type_ || '_merge_',
+      regen_type      = opt_map._regen_type_,
 
       cascade_map_map = topSmap._cascade_map_map_,
       now_ms          = __timeStamp(),
@@ -959,6 +963,10 @@ var pcss = (function () {
       cascade_map, unknown_id_list,
       style_el,    style_el_idx
       ;
+
+    if ( ! regen_type ) {
+      regen_type = mode_str === '_change_' ? '_all_' : '_merge_';
+    }
     // end 4.x.1
 
     //  4.x.2 Get existing cascade_map and stop forbidden action

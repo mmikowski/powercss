@@ -35,7 +35,7 @@ pcss._example001_ = function () {
 
   pcss._initModule_();
 
-  // Begin Add _base_vsheet_
+  // Begin Add base vsheet
   base_selector_list = [
     { _selector_str_  : 'body',
       _rule_map_     : {
@@ -75,9 +75,9 @@ pcss._example001_ = function () {
     _mode_str_      : '_add_',
     _selector_list_ : base_selector_list
   });
-  // End Add _base_vsheet_
+  // End Add base vsheet
 
-  // Begin Add _box_vsheet_
+  // Begin Add box vsheet
   box_selector_list = [
     { _selector_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
@@ -115,35 +115,15 @@ pcss._example001_ = function () {
     _mode_str_      : '_add_',
     _selector_list_ : box_selector_list
   });
-  // End Add _box_vsheet_
+  // End Add box vsheet
 
+  // Begin Add ex01 cascade
   pcss._setCascade_({
-    _cascade_id_     : '_example001_',
+    _cascade_id_     : '_ex01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
-    _regen_type_     : '_merge_'
+    _regen_type_     : '_use_'
   });
-
-  console.log( 'cascade object BEFORE enable',
-    pcss._getAssetJson_({
-      _asset_type_ : '_cascade_',
-      _asset_id_   : '_example001_'
-    })
-  );
-
-  pcss._setCascade_({
-    _cascade_id_ : '_example001_',
-    _mode_str_   : '_change_',
-    _regen_type_ : '_use_'
-  });
-
-  console.log( 
-    'cascade_object AFTER enable',
-    pcss._getAssetJson_({
-      _asset_type_ : '_cascade_',
-      _asset_id_   : '_example001_'
-    })
-  );
-  // End Create a cascade and enable it
+  // End Add ex01 cascade
 };
 // END pcss._example001_
