@@ -29,15 +29,15 @@
 // BEGIN pcss._example001_
 pcss._example001_ = function () {
   var
-    base_vsheet_list,
-    box_vsheet_list
+    base_selector_list,
+    box_selector_list
     ;
 
   pcss._initModule_();
 
   // Begin Add _base_vsheet_
-  base_vsheet_list = [
-    { _select_str_  : 'body',
+  base_selector_list = [
+    { _selector_str_  : 'body',
       _rule_map_     : {
         _display_    : '_block_',
         _box_sizing_ : '_border_box_',
@@ -48,7 +48,7 @@ pcss._example001_ = function () {
         _color_      : '_x888_'
       }
     },
-    { _select_str_ : 'input',
+    { _selector_str_ : 'input',
       _rule_map_ : {
         _margin_        : '_d5rem_',
         _width_         : [ '10rem' ],
@@ -61,7 +61,7 @@ pcss._example001_ = function () {
         _color_         : '_xddd_'
       }
     },
-    { _select_str_ : 'input:focus',
+    { _selector_str_ : 'input:focus',
       _rule_map_   : {
         _border_color_ : '_xfff_',
         _background_   : '_x444_',
@@ -71,14 +71,15 @@ pcss._example001_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_   : '_base_vsheet_',
-    _vsheet_list_ : base_vsheet_list
+    _vsheet_id_     : '_base_vsheet_',
+    _mode_str_      : '_add_',
+    _selector_list_ : base_selector_list
   });
   // End Add _base_vsheet_
 
   // Begin Add _box_vsheet_
-  box_vsheet_list = [
-    { _select_str_ : '.pcss-_box_',
+  box_selector_list = [
+    { _selector_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
       _rule_map_ : {
         _display_        : '_inline_block_',
@@ -110,25 +111,32 @@ pcss._example001_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_   : '_box_vsheet_',
-    _vsheet_list_ : box_vsheet_list
+    _vsheet_id_     : '_box_vsheet_',
+    _mode_str_      : '_add_',
+    _selector_list_ : box_selector_list
   });
   // End Add _box_vsheet_
 
-  // Begin Create a cascade and enable it
   pcss._setCascade_({
-    _cascade_id_   : '_example001_',
-    _cascade_list_ : [ '_base_vsheet_', '_box_vsheet_' ]
+    _cascade_id_     : '_example001_',
+    _mode_str_       : '_add_',
+    _vsheet_id_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
+    _regen_type_     : '_use_'
   });
-  console.log( 
-    'cascade object BEFORE enable',
+
+  console.log( 'cascade object BEFORE enable',
     pcss._getAssetJson_({
       _asset_type_ : '_cascade_',
       _asset_id_   : '_example001_'
     })
   );
 
-  pcss._useCascade_({ _cascade_id_ : '_example001_' });
+  pcss._setCascade_({
+    _cascade_id_ : '_example001_',
+    _mode_str_   : '_change_',
+    _regen_type_ : '_use_'
+  });
+
   console.log( 
     'cascade_object AFTER enable',
     pcss._getAssetJson_({

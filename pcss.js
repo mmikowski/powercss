@@ -10,9 +10,7 @@
   white : true,    todo : true,  unparam : true
 */
 /*global pcss:true */
-
-var pcss;
-pcss = (function () {
+var pcss = (function () {
   // 1. MODULE SCOPE VARIABLES ============================
   var
     __String = String,
@@ -561,7 +559,7 @@ pcss = (function () {
   // TODO: Profile on major browser
   // This function only updates the css_str in the style element
   // only if it appears changed.  The idea is should be much faster
-  // than blindly writting the css_str. However, this may be redundant
+  // than blindly writing the css_str. However, this may be redundant
   // with browsers optimizations.
   //
   function writeToStyleEl ( style_el, css_str ) {
@@ -777,8 +775,8 @@ pcss = (function () {
 
     if ( vsheet_list_map[ vsheet_id ] ) {
       logIt( '_updating_vsheet_', vsheet_id );
-      // TODO: search cascade objs and set the vsheet timestamp
-      // to now for each objs that contains this vsheet.
+      // TODO: search cascade maps and set the vsheet timestamp
+      // to now for each map that contains this vsheet.
     }
     vsheet_list_map[ vsheet_id ] = vsheet_list;
   }
