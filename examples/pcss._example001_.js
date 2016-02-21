@@ -121,7 +121,7 @@ pcss._example001_ = function () {
     _cascade_id_     : '_example001_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
-    _regen_type_     : '_use_'
+    _regen_type_     : '_merge_'
   });
 
   console.log( 'cascade object BEFORE enable',

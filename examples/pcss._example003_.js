@@ -29,10 +29,10 @@
 // BEGIN pcss._example003_
 pcss._example003_ = function () {
   var
-    global_mixin_map,   base_mixin_map,
-    base_vsheet_list,   box_vsheet_list,
-    switch_vsheet_list, box_rule_map,
-    switch_el,          link_list,
+    global_mixin_map,     base_mixin_map,
+    base_selector_list,   box_selector_list,
+    switch_selector_list, box_rule_map,
+    switch_el,            link_list,
     onclick_fn
     ;
 
@@ -67,8 +67,7 @@ pcss._example003_ = function () {
     }
   };
 
-  pcss._setMixinMap_({
-    _asset_type_ : '_global_',
+  pcss._setGlobalMixinMap_({
     _mixin_map_  : global_mixin_map
   });
 
@@ -79,8 +78,8 @@ pcss._example003_ = function () {
     _base_input_width_     : '10rem',
     _base_input_border_    : '.125rem solid #ddd'
   };
-  base_vsheet_list = [
-    { _select_str_  : 'body',
+  base_selector_list = [
+    { _selector_str_  : 'body',
       _rule_map_     : {
         _display_    : '_block_',
         _box_sizing_ : '_border_box_',
@@ -92,7 +91,7 @@ pcss._example003_ = function () {
         _color_      : '_base_body_font_color_'
       }
     },
-    { _select_str_ : 'input',
+    { _selector_str_ : 'input',
       _rule_map_ : {
         _margin_        : '_d5rem_',
         _width_         : '_base_input_width_',
@@ -105,7 +104,7 @@ pcss._example003_ = function () {
         _color_         : '_xddd_'
       }
     },
-    { _select_str_ : 'input:focus',
+    { _selector_str_ : 'input:focus',
       _rule_map_   : {
         _border_color_ : '_xfff_',
         _background_   : '_x444_',
@@ -115,15 +114,16 @@ pcss._example003_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_   : '_base_vsheet_',
-    _vsheet_list_ : base_vsheet_list,
-    _mixin_map_   : base_mixin_map
+    _vsheet_id_     : '_base_vsheet_',
+    _mode_str_      : '_add_',
+    _selector_list_ : base_selector_list,
+    _mixin_map_     : base_mixin_map
   });
   // End add _base_vsheet_
 
   // Begin add _box01_vsheet_
-  box_vsheet_list = [
-    { _select_str_ : '.pcss-_box_',
+  box_selector_list = [
+    { _selector_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
       _rule_map_ : {
         _display_        : '_inline_block_',
@@ -148,13 +148,14 @@ pcss._example003_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_   : '_box01_vsheet_',
-    _vsheet_list_ : box_vsheet_list
+    _vsheet_id_     : '_box01_vsheet_',
+    _mode_str_      : '_add_',
+    _selector_list_ : box_selector_list
   });
   // End add _box01_vsheet_
 
-  // Begin add _box02_vsheet by *revising* box_vsheet_list
-  box_rule_map = box_vsheet_list[ 0 ]._rule_map_;
+  // Begin add _box02_vsheet by *revising* box_selector_list
+  box_rule_map = box_selector_list[ 0 ]._rule_map_;
   box_rule_map._display_    = '_block_';
   box_rule_map._width_      = undefined;
   box_rule_map._max_width_  = [ '32rem' ];
@@ -163,14 +164,15 @@ pcss._example003_ = function () {
   box_rule_map._background_ = '_global_green_grad_map_';
 
   pcss._setVsheet_({
-    _vsheet_id_   : '_box02_vsheet_',
-    _vsheet_list_ : box_vsheet_list,
-    _mixin_map_   : { _base_body_font_color_ : '#080' }
+    _vsheet_id_     : '_box02_vsheet_',
+    _mode_str_      : '_add_',
+    _selector_list_ : box_selector_list,
+    _mixin_map_     : { _base_body_font_color_ : '#080' }
   });
-  // End add _box02_vsheet by *revising* box_vsheet_list
+  // End add _box02_vsheet by *revising* box_selector_list
 
-  // Begin add _box02_vsheet by *revising* box_vsheet_list
-  box_rule_map = box_vsheet_list[ 0 ]._rule_map_;
+  // Begin add _box03_vsheet by *revising* box_selector_list
+  box_rule_map = box_selector_list[ 0 ]._rule_map_;
   box_rule_map._display_       = '_inline_block_';
   box_rule_map._width_         = [ '18rem' ];
   box_rule_map._max_width_     = undefined;
@@ -183,14 +185,16 @@ pcss._example003_ = function () {
   box_rule_map._background_    = '_global_blue_grad_map_';
 
   pcss._setVsheet_({
-    _vsheet_id_   : '_box03_vsheet_',
-    _vsheet_list_ : box_vsheet_list,
-    _mixin_map_   : { _base_body_font_color_ : '#008' }
+    _vsheet_id_     : '_box03_vsheet_',
+    _mode_str_      : '_add_',
+    _selector_list_ : box_selector_list,
+    _mixin_map_     : { _base_body_font_color_ : '#008' }
   });
+  // End add _box03_vsheet by *revising* box_selector_list
 
   // Begin add _switch_vsheet_
-  switch_vsheet_list = [
-    { _select_str_ : '#pcss-_switch_',
+  switch_selector_list = [
+    { _selector_str_ : '#pcss-_switch_',
       _rule_map_   : {
         _position_      : '_fixed_',
         _z_index_       : '_1_',
@@ -207,7 +211,7 @@ pcss._example003_ = function () {
         _line_height_   : '_1d5rem_'
       }
     },
-    { _select_str_ : '#pcss-_switch_ div',
+    { _selector_str_ : '#pcss-_switch_ div',
       _rule_map_ : {
         _margin_        : '_d25rem_',
         _padding_       : '_d25rem_',
@@ -215,7 +219,7 @@ pcss._example003_ = function () {
         _cursor_        : '_pointer_'
       }
     },
-    { _select_str_ : '#pcss-_switch_ div.pcss-_x_select_',
+    { _selector_str_ : '#pcss-_switch_ div.pcss-_x_select_',
       _rule_map_ : {
         _background_ : '_x888_',
         _color_      : '_xfff_'
@@ -224,31 +228,30 @@ pcss._example003_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_   : '_switch_vsheet_',
-    _vsheet_list_ : switch_vsheet_list
+    _vsheet_id_     : '_switch_vsheet_',
+    _mode_str_      : '_add_',
+    _selector_list_ : switch_selector_list,
+    _mixin_map_     : { _base_body_font_color_ : '#008' }
   });
   // End add _switch_vsheet_
 
   // Begin create cascade objects to toggle
   pcss._setCascade_({
-    _cascade_id_ : '_example001_',
-    _cascade_list_ : [
-      '_base_vsheet_', '_switch_vsheet_', '_box01_vsheet_'
-    ]
+    _cascade_id_     : '_example001_',
+    _mode_str_       : '_add_',
+    _vsheet_id_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box01_vsheet_' ]
   });
 
   pcss._setCascade_({
     _cascade_id_ : '_example002_',
-    _cascade_list_ : [
-      '_base_vsheet_', '_switch_vsheet_', '_box02_vsheet_'
-    ]
+    _mode_str_       : '_add_',
+    _vsheet_id_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box02_vsheet_' ]
   });
 
   pcss._setCascade_({
     _cascade_id_ : '_example003_',
-    _cascade_list_ : [
-      '_base_vsheet_', '_switch_vsheet_', '_box03_vsheet_'
-    ]
+    _mode_str_       : '_add_',
+    _vsheet_id_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box03_vsheet_' ]
   });
   // End create cascade objects to toggle
 
@@ -279,7 +282,11 @@ pcss._example003_ = function () {
       link_list[ 2 ].className = 'pcss-_x_select_';
     }
     if ( cascade_id ) {
-      pcss._useCascade_({ _cascade_id_ : cascade_id });
+      pcss._setCascade_({
+        _cascade_id_ : cascade_id,
+        _mode_str_   : '_change_',
+        _regen_type_ : '_use_'
+      });
     }
   };
   // End click handler
@@ -287,7 +294,11 @@ pcss._example003_ = function () {
   // Begin initialization
   switch_el = document.getElementById( 'pcss-_switch_' );
   link_list = switch_el.getElementsByTagName( 'div' );
-  pcss._useCascade_({ _cascade_id_ : '_example001_' });
+  pcss._setCascade_({
+    _cascade_id_ : '_example001_',
+    _mode_str_   : '_change_',
+    _regen_type_ : '_use_'
+  });
   switch_el.addEventListener( 'click', onclick_fn );
   // End initialization
 };
