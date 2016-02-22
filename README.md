@@ -411,12 +411,12 @@ We are exploring how to improve the initialization of the `cssKeyMap`
 and `cssValMap` data. Suggestions are welcome :)
 
 ### Rule value substitutions
-There are four types of CSS values supported by PowerCSS. They are:
+There are four types of CSS value subsitution supported by PowerCSS:
 
-1. Mixin values : `_key_`
-2. Literals     : `[ 'value' ]`
-3. Alternates   : `{ _alt_list_ : [ ... ] }`
-4. Concatenated : `[ [ 'key or value', ... ] ]` (pending implementation)
+1. Mixin values : `'_key_'`
+2. Literals     : `[ 'literal' ]`
+3. Alternates   : `{ _alt_list_ : [ '_key_', [ 'literal' ], ... ] }`
+4. Concatenated : `[[ '_key_', [ 'literal' ], ... ]]`
 
 In addition, we can `lock` a value in a cascade.
 
