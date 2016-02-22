@@ -39,8 +39,12 @@ pcss._example003_ = function () {
   pcss._initModule_();
 
   global_mixin_map = {
-    _global_d25_box_shadow_ : 'rgba( 0, 0, 0, .5) 0 0 .25rem 0',
-    _global_d5_box_shadow_  : 'rgba( 64, 32, 32, .5) 0 0 .5rem 0',
+    _global_d25_box_shadow_ : [[ 
+      ['rgba( 0, 0, 0, .5)'], '_0_', '_0_', '_d25rem_', '_0_'
+    ]],
+    _global_d5_box_shadow_  : [[ 
+      ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
+    ]],
     _global_red_grad_map_ : {
       _alt_list_ : [
         [ '#f85032' ],
@@ -152,16 +156,18 @@ pcss._example003_ = function () {
     _mode_str_      : '_add_',
     _selector_list_ : box_selector_list
   });
-  // End add _box01 vsheet
+  // End add _box01_ vsheet
 
   // Begin add _box02_ vsheet by *revising* box_selector_list
   box_rule_map = box_selector_list[ 0 ]._rule_map_;
-  box_rule_map._display_    = '_block_';
-  box_rule_map._width_      = undefined;
-  box_rule_map._max_width_  = [ '32rem' ];
-  box_rule_map._font_size_  = '_2rem_';
-  box_rule_map._box_shadow_ = '_global_d5_box_shadow_';
-  box_rule_map._background_ = '_global_green_grad_map_';
+  pcss._extendRuleMap_( box_rule_map, {
+    _display_    : '_block_',
+    _width_      : null,
+    _max_width_  : [ '32rem' ],
+    _font_size_  : '_2rem_',
+    _box_shadow_ : '_global_d5_box_shadow_',
+    _background_ : '_global_green_grad_map_'
+  });
 
   pcss._setVsheet_({
     _vsheet_id_     : '_box02_',
@@ -172,17 +178,18 @@ pcss._example003_ = function () {
   // End add _box02_ vsheet by *revising* box_selector_list
 
   // Begin add _box03_ vsheet by *revising* box_selector_list
-  box_rule_map = box_selector_list[ 0 ]._rule_map_;
-  box_rule_map._display_       = '_inline_block_';
-  box_rule_map._width_         = [ '18rem' ];
-  box_rule_map._max_width_     = undefined;
-  box_rule_map._box_shadow_    = '_global_d25_box_shadow_';
-  box_rule_map._border_width_  = '_1rem_';
-  box_rule_map._border_radius_ = '_0_';
-  box_rule_map._padding_top_   = '_d5rem_';
-  box_rule_map._font_family_   = '_font_fixed_';
-  box_rule_map._font_size_     = '_1d75rem_';
-  box_rule_map._background_    = '_global_blue_grad_map_';
+  pcss._extendRuleMap_( box_rule_map, {
+    _display_       : '_inline_block_',
+    _width_         : [ '18rem' ],
+    _max_width_     : null,
+    _box_shadow_    : '_global_d25_box_shadow_',
+    _border_width_  : '_1rem_',
+    _border_radius_ : '_0_',
+    _padding_top_   : '_d5rem_',
+    _font_family_   : '_font_fixed_',
+    _font_size_     : '_1d75rem_',
+    _background_    : '_global_blue_grad_map_'
+  });
 
   pcss._setVsheet_({
     _vsheet_id_     : '_box03_',

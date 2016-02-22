@@ -17,19 +17,20 @@ var pcss = (function () {
     __String = String,
     __ObjKeys = Object.keys,
 
-    __j2str = JSON.stringify,
-    __str2j = JSON.parse,
-    __blank = '',
-    __docRef = document,
-    __false = false,
-    __isArray = Array.isArray,
-    __true = true,
+    __j2str     = JSON.stringify,
+    __str2j     = JSON.parse,
+    __blank     = '',
+    __docRef    = document,
+    __false     = false,
+    __isArray   = Array.isArray,
+    __null      = null,
+    __true      = true,
     __timeStamp = Date.now,
 
-    __0 = 0,
-    __1 = 1,
-    __2 = 2,
-    __n1 = -1,
+    __0     = 0,
+    __1     = 1,
+    __2     = 2,
+    __n1    = -1,
     __undef = window.undefined,
 
     vMap = {
@@ -277,7 +278,7 @@ var pcss = (function () {
     //
     topSmap = {
       _is_enabled_         : __true,
-      _style_cascade_list_ : [],
+      _el_cascade_list_ : [],
 
       _global_mixin_map_   : {},
       _global_mixin_ms_    : __0,
@@ -311,7 +312,7 @@ var pcss = (function () {
   }
   // end 2.x
 
-  // 2.x private method /writeToStyleEl/
+  // 2.x Private method /writeToStyleEl/
   // TODO: Profile on major browsers
   // This function updates the css_str in the style element
   // ONLY if it appears changed.  This SHOULD be much faster
@@ -347,7 +348,7 @@ var pcss = (function () {
       }
     }
   }
-  // end 2.x private method /writeToStyleEl/
+  // end 2.x Private method /writeToStyleEl/
 
   // 2.x Private method /initStyleEls/
   function initStyleEls () {
@@ -378,27 +379,7 @@ var pcss = (function () {
   }
   // end 2.x Private method /initStyleEls/
 
-  // 2.x Private method /extendMixinMap/
-  function extendMixinMap ( base_map, arg_extend_map ) {
-    var
-      extend_map, key_list, key_count,
-      i, key, val_data
-      ;
-
-    if ( getVarType( arg_extend_map ) !== 'object' ){ return; }
-    extend_map = cloneData( arg_extend_map );
-    key_list   = __ObjKeys( extend_map );
-    key_count  = key_list[ vMap._length_ ];
-
-    for ( i = __0; i < key_count; i++ ) {
-      key      = key_list[ i ];
-      val_data = extend_map[ key ];
-      base_map[ key ] = val_data;
-    }
-  }
-  // end 2.x Private method /extendMixinMap/
-
-  // 2.x private method /checkVsheetIds/
+  // 2.x Private method /checkVsheetIds/
   function checkVsheetIds( vsheet_id_list ) {
     var
       vsheet_map_map  = topSmap._vsheet_map_map_,
@@ -419,7 +400,36 @@ var pcss = (function () {
   }
   // end 2.x
 
-  // 2.x private method /mergeCascade/
+  // 2.x Private and Public method /extendRuleMap/
+  function extendRuleMap ( base_map, arg_extend_map ) {
+    var
+      extend_map,
+      key_list,  key_count,
+      rule_key,  rule_data, i
+      ;
+
+    if ( ! ( getVarType( base_map       ) === vMap._object_
+          && getVarType( arg_extend_map ) === vMap._object_
+    )) { return; }
+
+    extend_map = cloneData( arg_extend_map );
+    key_list   = __ObjKeys( extend_map );
+    key_count  = key_list[ vMap._length_ ];
+
+    _KEYS_: for ( i = __0; i < key_count; i++ ) {
+      rule_key = key_list[ i ];
+      rule_data = extend_map[ rule_key ];
+      // delete keys will the value of __null
+      if ( rule_data === __null ) {
+        delete base_map[ rule_key ];
+        continue _KEYS_;
+      }
+      base_map[ rule_key ] = extend_map[ rule_key ];
+    }
+  }
+  // end 2.x Private and Public method /extendRuleMap/
+
+  // 2.x Private method /mergeCascade/
   function mergeCascade ( arg_vsheet_id_list, arg_mixin_map ) {
     var
       vsheet_map_map = topSmap._vsheet_map_map_,
@@ -431,9 +441,10 @@ var pcss = (function () {
       merged_mixin_map,
       global_mixin_map,
 
-      i, vsheet_id,        vsheet_map,
-      selector_list,
-      vsheet_mixin_map,    selector_count,
+      i, vsheet_id,    vsheet_map, 
+      selector_list,   vsheet_mixin_map,
+      selector_count,
+
       j, selector_map,     selector_str,
       rule_lock_list,      rule_map,
       clone_selector_map,  merged_rpt_map,
@@ -446,9 +457,9 @@ var pcss = (function () {
     // TODO: cache this stuff per cascade
     global_mixin_map  = topSmap._global_mixin_map_ || {};
     merged_mixin_map  = cloneData( global_mixin_map );
-    extendMixinMap( merged_mixin_map, arg_mixin_map );
+    extendRuleMap( merged_mixin_map, arg_mixin_map );
 
-    // Begin consider each vsheet in the cascade list
+    // Begin consider each vsheet selector_list in the cascade list
     _VSHEET_: for ( i = __0; i < vsheet_count; i++ ) {
       vsheet_id        = arg_vsheet_id_list[ i ];
       vsheet_map       = vsheet_map_map[ vsheet_id ];
@@ -459,7 +470,7 @@ var pcss = (function () {
       selector_list    = vsheet_map._selector_list_ || [];
       selector_count   = selector_list[ vMap._length_ ];
       vsheet_mixin_map = vsheet_map._mixin_map_;
-      extendMixinMap( merged_mixin_map, vsheet_mixin_map );
+      extendRuleMap( merged_mixin_map, vsheet_mixin_map );
 
       // Begin consider each selector_map in the selector_list
       for ( j = __0; j < selector_count; j++ ) {
@@ -478,7 +489,7 @@ var pcss = (function () {
             merged_lock_list = merged_rpt_map._rule_lock_list_;
             merged_lock_list[ vMap._push_ ][ vMap._apply_
               ]( merged_lock_list, rule_lock_list );
-            merged_rpt_map[ 'lock_on_' + __String( i ) ]
+            merged_rpt_map[ '_lock_on_ ' + __String( i ) ]
               = __j2str( rule_lock_list );
           }
           // End merge in latest locks
@@ -532,9 +543,9 @@ var pcss = (function () {
       _merged_mixin_map_     : merged_mixin_map
     };
   }
-  // end 2.x private method /mergeCascade/
+  // end 2.x Private method /mergeCascade/
 
-  // 2.x private method /makeCssStr/
+  // 2.x Private method /makeCssStr/
   function makeCssStr ( merged_selector_list, merged_mixin_map ) {
     var
       i, j, k,        selector_count,
@@ -615,7 +626,7 @@ var pcss = (function () {
               outer_inner_list = outer_data[ __0 ];
               if ( getVarType( outer_inner_list ) === vMap._array_
                 && outer_inner_list[ vMap._length_ ] > __1
-              ) { 
+              ) {
                 inner_data_list = outer_inner_list;
                 inner_concat_list = [];
               }
@@ -632,7 +643,7 @@ var pcss = (function () {
         }
         inner_data_count = inner_data_list[ vMap._length_ ];
 
-        // Calc solve val
+        // Calc solve_val_str
         _INNER_RULE_ : for ( k = __0; k < inner_data_count; k++ ) {
           rule_data       = inner_data_list[ k ];
           solve_data_type = __isArray( rule_data )
@@ -685,9 +696,9 @@ var pcss = (function () {
     }
     return solve_selector_list[ vMap._join_]( '\n' );
   }
-  // end 2.x private method /makeCssStr/
+  // end 2.x Private method /makeCssStr/
 
-  // 2.x private method /regenCascade/
+  // 2.x Private method /regenCascade/
   function regenCascade( cascade_map, regen_type ) {
     var
       now_ms = __timeStamp(),
@@ -731,7 +742,7 @@ var pcss = (function () {
 
     // 2.x.5 _all_ and _use_ level regen
     if ( regen_type === '_use_'
-        || ( topSmap._style_cascade_list_[ topSmap._style_el_idx_ ]
+        || ( topSmap._el_cascade_list_[ topSmap._style_el_idx_ ]
       === cascade_map._cascade_id_ )
     ) {
       style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
@@ -749,12 +760,12 @@ var pcss = (function () {
       write_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
 
       topSmap._style_el_idx_ = write_idx;
-      topSmap._style_cascade_list_[ write_idx ] = cascade_map._cascade_id_;
+      topSmap._el_cascade_list_[ write_idx ] = cascade_map._cascade_id_;
     }
     // end 2.x.5
     return regen_type;
   }
-  // end 2.x private method /regenCascade/
+  // end 2.x Private method /regenCascade/
 
   function initCheck () {
     var target_fn = this;
@@ -828,7 +839,8 @@ var pcss = (function () {
 
     style_el[ vMap._sheet_ ][ vMap._disabled_ ] = ! do_enable;
     topSmap._is_enabled_ = !! do_enable;
-    
+
+    return do_enable;
   }
   // end 4.x Public method /togglePcss/
 
@@ -854,8 +866,8 @@ var pcss = (function () {
         break;
       case '_global_mixin_' :
         return __j2str( topSmap._global_mixin_map_ );
-      case '_style_cascade_list_' :
-        return __j2str( topSmap._style_cascade_list_ );
+      case '_el_cascade_list_' :
+        return __j2str( topSmap._el_cascade_list_ );
       default :
         logIt( '_asset_type_not_found_', asset_type );
         asset_map = {};
@@ -881,7 +893,6 @@ var pcss = (function () {
   //      _selector_list_ : [...],
   //      _mixin_map_     : {...},
   //      _regen_type_    : '_merge_'
-  //         ('_all_|_prepare_|_merge_|_none_')
   //    });
   function setVsheet ( arg_opt_map ) {
     // 4.x.1 Init and arguments
@@ -1087,6 +1098,7 @@ var pcss = (function () {
   return {
     // General
     _initModule_          : initModule,
+    _extendRuleMap_       : extendRuleMap,
     _setGlobalMixinMap_   : initCheck[ vMap._bind_ ]( setGlobalMixinMap   ),
     _togglePcss_          : initCheck[ vMap._bind_ ]( togglePcss          ),
     _getAssetJson_        : initCheck[ vMap._bind_ ]( getAssetJson        ),

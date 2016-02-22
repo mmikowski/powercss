@@ -91,7 +91,9 @@ pcss._example002_ = function () {
         _position_       : '_relative_',
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
-        _box_shadow_     : [ 'rgba( 0, 0, 0, .5) 0 0 .25rem 0' ],
+        _box_shadow_     : [[
+          [ 'rgba( 0, 0, 0, .5)' ], '_0_', '_0_', '_d25rem_', '_0_'
+        ]],
         _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
         _border_radius_  : '_1rem_',
         _width_          : [ '16rem' ],
@@ -118,30 +120,34 @@ pcss._example002_ = function () {
     _mode_str_      : '_add_',
     _selector_list_ : box_selector_list
   });
-  // End add _box01 vsheet
+  // End add _box01_ vsheet
 
   // Begin add _box02_ vsheet by *revising* box_selector_list
   box_rule_map = box_selector_list[ 0 ]._rule_map_;
-  box_rule_map._display_    = '_block_';
-  box_rule_map._width_      = undefined;
-  box_rule_map._max_width_  = [ '32rem' ];
-  box_rule_map._font_size_  = '_2rem_';
-  box_rule_map._box_shadow_ = [ 'rgba( 64, 32, 32, .5) 0 0 .5rem 0' ];
-  box_rule_map._background_ = {
-    _alt_list_ : [
-      [ '#4f9831' ],
-      [ '-moz-linear-gradient(left, #4f9831 0%, #eee 100%)' ],
-      [ '-webkit-linear-gradient(left, #4f9831 0%, #eee 100%)' ],
-      [ 'linear-gradient(to bottom, #4f9831 0%, #eee 100%)' ]
-    ]
-  };
+  pcss._extendRuleMap_( box_rule_map, {
+    _display_    : '_block_',
+    _width_      : null, // null means delete this key
+    _max_width_  : [ '32rem' ],
+    _font_size_  : '_2rem_',
+    _box_shadow_ : [[
+      ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
+    ]],
+    _background_ : {
+      _alt_list_ : [
+        [ '#4f9831' ],
+        [ '-moz-linear-gradient(left, #4f9831 0%, #eee 100%)' ],
+        [ '-webkit-linear-gradient(left, #4f9831 0%, #eee 100%)' ],
+        [ 'linear-gradient(to bottom, #4f9831 0%, #eee 100%)' ]
+      ]
+    }
+  });
 
   pcss._setVsheet_({
     _vsheet_id_     : '_box02_',
     _mode_str_      : '_add_',
     _selector_list_ : box_selector_list
   });
-  // End add _box03_vsheet by *revising* box_selector_list
+  // End add _box02_ vsheet by *revising* box_selector_list
 
   // Begin add _switch_ vsheet
   switch_selector_list = [
@@ -153,9 +159,9 @@ pcss._example002_ = function () {
         _right_         : '_0_',
         _box_shadow_    : box_rule_map._box_shadow_,
         _border_color_  : '_xaaa_',
-        _border_radius_ : [ '0 0 0 1rem' ],
+        _border_radius_ : [[ '_0_','_0_','_0_','_1rem_' ]],
         _border_style_  : '_solid_',
-        _border_width_  : [ '0 0 0.125rem 0.125rem' ],
+        _border_width_  : [[ '_0_', '_0_', '_d125rem_', '_d125rem_' ]],
         _padding_       : '_1rem_',
         _padding_top_   : '_d5rem_',
         _background_    : '_xeee_',

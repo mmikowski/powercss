@@ -89,7 +89,9 @@ pcss._example001_ = function () {
         _position_       : '_relative_',
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
-        _box_shadow_     : [ 'rgba( 0, 0, 0, .5) 0 0 .25rem 0' ],
+        _box_shadow_     : [[ 
+          [ 'rgba( 0, 0, 0, .5)' ], '_0_', '_0_', '_d25rem_', '_0_'
+        ]],
         _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
         _border_radius_  : '_1rem_',
         _width_          : [ '16rem' ],
@@ -116,16 +118,15 @@ pcss._example001_ = function () {
     _mode_str_      : '_add_',
     _selector_list_ : box_selector_list
   });
-  // End add _box01 vsheet
   // End add _box01_ vsheet
 
-  // Begin add _ex01_ cascade
+  // Begin add and use _ex01_ cascade
   pcss._setCascade_({
     _cascade_id_     : '_ex01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_box01_' ],
     _regen_type_     : '_use_'
   });
-  // End add _ex01_ cascade
+  // End add and use _ex01_ cascade
 };
 // END pcss._example001_
