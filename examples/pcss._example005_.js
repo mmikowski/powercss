@@ -1,6 +1,6 @@
-/* pss._example003_.js
- * Example 003 of run-time generated and managed CSS
- * using PowerCSS - mixins
+/* pss._example005_.js
+ * Example 005 of run-time generated and managed CSS
+ * PowerCSS auto update of changes
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
 /*jslint        browser : true, continue : true,
@@ -26,8 +26,8 @@
  *    10. transition or animation definitions
 */
 
-// BEGIN pcss._example003_
-pcss._example003_ = function () {
+// BEGIN pcss._example005_
+pcss._example005_ = function () {
   var
     global_mixin_map,     base_mixin_map,
     base_selector_list,   box_selector_list,
@@ -68,7 +68,7 @@ pcss._example003_ = function () {
   };
 
   pcss._setGlobalMixinMap_({
-    _mixin_map_  : global_mixin_map
+    _mixin_map_ : global_mixin_map
   });
 
   // Begin add _base_vsheet_
@@ -76,7 +76,7 @@ pcss._example003_ = function () {
     _base_body_font_size_  : '16px',
     _base_body_font_color_ : '#a44',
     _base_input_width_     : '10rem',
-    _base_input_border_    : '.125rem solid #ddd'
+    _base_input_border_    : [[ '_d125rem_','_solid_','_xddd_' ]]
   };
   base_selector_list = [
     { _selector_str_  : 'body',
@@ -84,7 +84,7 @@ pcss._example003_ = function () {
         _display_    : '_block_',
         _box_sizing_ : '_border_box_',
         _margin_     : '_0_',
-        _padding_    : '_2rem_',
+        _padding_    : '_1rem_',
         _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
         _font_size_  : '_base_body_font_size_',
@@ -133,7 +133,7 @@ pcss._example003_ = function () {
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
         _box_shadow_     : '_global_d25_box_shadow_',
-        _border_         : [ '0.25rem solid #eee' ],
+        _border_         : [[ '_d125rem_','_solid_','_xeee_' ]],
         _border_radius_  : '_1rem_',
         _width_          : [ '16rem' ],
         _height_         : [ '8rem' ],
@@ -198,13 +198,15 @@ pcss._example003_ = function () {
       _rule_map_   : {
         _position_      : '_fixed_',
         _z_index_       : '_1_',
-        _top_           : '_0_',
-        _right_         : '_0_',
+        _bottom_        : '_0_',
+        _left_          : '_0_',
+        _height_        : [ '16rem' ],
+        _overflow_y_    : '_scroll_',
         _box_shadow_    : box_rule_map._box_shadow_,
         _border_color_  : '_xaaa_',
-        _border_radius_ : [ '0 0 0 1rem' ],
+        _border_radius_ : [[ '_0_','_1rem_','_0_','_0_' ]],
         _border_style_  : '_solid_',
-        _border_width_  : [ '0 0 0.125rem 0.125rem' ],
+        _border_width_  : [[ '_d125rem_', '_d125rem_', '_0_', '_0_' ]],
         _padding_       : '_1rem_',
         _padding_top_   : '_d5rem_',
         _background_    : '_xeee_',
@@ -302,4 +304,95 @@ pcss._example003_ = function () {
   switch_el.addEventListener( 'click', onclick_fn );
   // End initialization
 };
-// END pcss._example003_
+// END pcss._example005_
+
+
+
+/*
+ * Call Us: 832-387-4693
+ * DuoParadigms Public Relations & Design, Inc.
+ * http://www.duoparadigms.com/2013/10/11/10-color-palettes-perfect-autumnfall-season/
+ * 10 Color Palettes (and HEX Codes) Perfect for the Autumn/Fall Season
+ * Posted by Aaress Lawless | Tags: Graphic Design
+   
+AutumnPalette  
+#6d7696
+#59484f
+#455c4f
+#cc5543
+#edb579
+#dbe6af
+
+tomato_tones  
+#d6cfc9
+#c2c290
+#4a572c
+#803018
+#e34819
+#e87f60
+
+canyon color  
+#6e352c
+#cf5230
+#f59a44
+#e3c598
+#8a6e64
+#6e612f
+
+autumn tones  
+#d1cec5
+#997c67
+#755330
+#b0703c
+#dba72e
+#e3cca1
+
+ColorBasket  
+#e6e2df
+#b2e3e8
+#ccb8d1
+#966c5d
+#452b29
+#8f8172
+
+color_fresh  
+#d9d9d9
+#f5b3b4
+#d15656
+#94353c
+#47322d
+#996b42
+
+MineralTones_2  
+#694364
+#b58bab
+#e3d1e2
+#e8e4e1
+#c4c4c0
+#cca772
+
+AutumnSpice  
+#ebe3d9
+#e0cdaf
+#c2bc74
+#6e615a
+#807e82
+#b8b8b8
+
+chili color  
+#283811
+#66492f
+#b8997f
+#a68887
+#d94330
+#5c0811
+
+SpicedPalette_3  
+#f7efd4
+#faddaf
+#eb712f
+#91371b
+#472c25
+#d4c2b2
+
+*/

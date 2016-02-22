@@ -23,7 +23,7 @@
  *    8. background, text-align, white-space,
  *    9. content defs - font-size, line-height, font, color everything else
  *    -- break --
- *    10. css transition or animation definitions
+ *    10. transition or animation definitions
 */
 
 // BEGIN pcss._example001_

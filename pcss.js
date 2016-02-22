@@ -299,7 +299,7 @@ var pcss = (function () {
 
   // 2.x Private method /getVarType/
   function getVarType ( arg ) {
-    return typeof arg;
+    return __isArray( arg ) ? vMap._array_ : ( typeof arg );
   }
   // end 2.x
 
@@ -450,7 +450,7 @@ var pcss = (function () {
     _VSHEET_: for ( i = __0; i < vsheet_count; i++ ) {
       vsheet_id        = arg_vsheet_id_list[ i ];
       vsheet_map       = vsheet_map_map[ vsheet_id ];
-      if ( ! vsheet_map ) { 
+      if ( ! vsheet_map ) {
         logIt( '_cannot_find_vsheet_map_for_id_', vsheet_map );
         continue _VSHEET_;
       }
@@ -541,8 +541,9 @@ var pcss = (function () {
       rule_key_list,  rule_key_count,
       rule_key,       rule_data,
 
-      outer_data, outer_data_type,
-      inner_data_list, inner_data_count,
+      outer_data,       outer_data_type,
+      outer_inner_list, inner_data_list,
+      inner_data_count, inner_concat_list,
 
       solve_selector_list, solve_data_type,
       solve_rule_list,     solve_key,
@@ -568,45 +569,70 @@ var pcss = (function () {
 
       // Calc solve_key
       solve_rule_list = [];
-      for ( j = __0; j < rule_key_count; j++ ) {
-        rule_key = rule_key_list[ j ];
+      _OUTER_RULE_ : for ( j = __0; j < rule_key_count; j++ ) {
+        rule_key  = rule_key_list[ j ];
+        inner_concat_list = __undef;
 
         if ( cssKeyMap[ vMap._hasOwnProp_ ]( rule_key ) ) {
           solve_key = cssKeyMap[ rule_key ];
         }
         else {
           logIt( rule_key, '_css_rule_key_not_found_' );
-          continue;
+          continue _OUTER_RULE_;
         }
 
         // val:   'string'   => lookup key
         // val: [ 'string' ] => literal
-        // val: { _alt_list_ : [ 'string, [ 'string' ] ] }
+        // val: { _alt_list_ : [ 'lookup_key', [ 'literal' ], ... ] }
         //   => CSS alternates list.  The first value is a lookup,
         //      the second is a literal.
-        // TODO:
-        // val: [[ 'string', [ 'string' ], 'string' ]]
+        // val: [[ 'lookup_key, [ 'literal' ], ... ]]
         //   => CSS Concatenated value, space delimited.  Example:
         //   _border_ : [[ '_0d25rem_', '_solid_', [ '#8f93c0' ] ]]
-        //   => border : .25rem solid #8f93c0;
+        //     => border : .25rem solid #8f93c0;
         //
-        // first some tap-dancing to handle mixin complex values
         outer_data = rule_map[ rule_key ];
-        if ( vMap._string_ === getVarType( outer_data )
+        outer_data_type = getVarType( outer_data );
+
+        // Support mixin complex data structures
+        if ( outer_data_type === vMap._string_
           && merged_mixin_map[ vMap._hasOwnProp_ ]( outer_data )
-          && vMap._string_ !== getVarType( merged_mixin_map[ outer_data ] )
+          && getVarType( merged_mixin_map[ outer_data ] ) !== vMap._string_
         ) {
           outer_data = merged_mixin_map[ outer_data ];
         }
 
-        outer_data_type = __isArray( outer_data )
-          ? vMap._array_ : getVarType( outer_data );
-        inner_data_list = outer_data_type === vMap._object_
-          ? outer_data._alt_list_ || [] : [ outer_data ];
+        outer_data_type = getVarType( outer_data );
+        inner_data_list = __undef;
+        switch ( outer_data_type ) {
+          //  Support a single string data type
+          case vMap._string_ : inner_data_list = [ outer_data ]; break;
+
+          // Support double array
+          case vMap._array_ :
+            if ( outer_data[ vMap._length_ ] === __1 ) {
+              outer_inner_list = outer_data[ __0 ];
+              if ( getVarType( outer_inner_list ) === vMap._array_
+                && outer_inner_list[ vMap._length_ ] > __1
+              ) { 
+                inner_data_list = outer_inner_list;
+                inner_concat_list = [];
+              }
+            }
+            // Standard single literal value
+            if ( ! inner_data_list ) {
+              inner_data_list = [ outer_data ];
+            }
+            break;
+          case vMap._object_ :
+            inner_data_list = outer_data._alt_list_ || [];
+            break;
+          default : inner_data_list = [ outer_data ]; break;
+        }
         inner_data_count = inner_data_list[ vMap._length_ ];
 
         // Calc solve val
-        INNER_RULE: for ( k = __0; k < inner_data_count; k++ ) {
+        _INNER_RULE_ : for ( k = __0; k < inner_data_count; k++ ) {
           rule_data       = inner_data_list[ k ];
           solve_data_type = __isArray( rule_data )
             ? vMap._array_ : getVarType( rule_data );
@@ -620,30 +646,39 @@ var pcss = (function () {
                 solve_val_str = cssValMap[ rule_data ];
               }
               else {
-                logIt( '_css_rule_data_not_found_', rule_data );
-                continue INNER_RULE;
+                logIt( '_css_rule_key_not_defined_', rule_data );
+                continue _INNER_RULE_;
               }
               break;
             case vMap._array_ :
-              if ( rule_data[ vMap._length_ ] > __0 ) {
-                solve_val_str = rule_data[ __0 ];
-              }
-              else {
-                logIt( rule_data, '_empty_array_' );
+              solve_val_str = rule_data[ __0 ];
+              if ( solve_val_str === __undef ) {
+                logIt( '_css_rule_data_not_defined_', solve_key  );
+                continue _INNER_RULE_;
               }
               break;
             default :
               logIt( '_css_values_must_be_str_or_ary_' );
-              break;
+              continue _INNER_RULE_;
           }
           // Store rule string
-          solve_rule_list[ vMap._push_ ]( solve_key + ':' + solve_val_str );
+          if ( inner_concat_list ) {
+            inner_concat_list[ vMap._push_ ]( solve_val_str );
+            if ( k === inner_data_count + __n1 ) {
+              solve_rule_list[ vMap._push_ ]( solve_key + ':'
+                + inner_concat_list[ vMap._join_ ](' ')
+              );
+            }
+          }
+          else {
+            solve_rule_list[ vMap._push_ ]( solve_key + ':' + solve_val_str );
+          }
         }
       }
 
       solve_selector_str = selector_str + '{';
       solve_selector_str += solve_rule_list[ vMap._length_ ] > __0
-        ? solve_rule_list[ vMap._join_ ]( ';' ) : __blank;
+        ? solve_rule_list[ vMap._join_ ]( ';' ) +  ';' : __blank;
       solve_selector_str += '}' + close_str;
       solve_selector_list[ vMap._push_ ]( solve_selector_str );
     }
@@ -653,7 +688,7 @@ var pcss = (function () {
 
   // 2.x private method /regenCascade/
   function regenCascade( cascade_map, regen_type ) {
-    var 
+    var
       now_ms = __timeStamp(),
       result_map, style_el, write_idx, write_el;
 
@@ -699,7 +734,11 @@ var pcss = (function () {
       === cascade_map._cascade_id_ )
     ) {
       style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
-      write_idx = topSmap._style_el_idx_ === __1 ? __0 : __1;
+      switch( topSmap._style_el_idx_ ) {
+        case     __0 : write_idx = __1; break;
+        case     __1 : write_idx = __0; break;
+        default      : write_idx = __0; break;
+      }
       write_el  = topSmap._style_el_list_[ write_idx ];
       writeToStyleEl ( write_el, cascade_map._css_str_ );
 
@@ -708,8 +747,9 @@ var pcss = (function () {
       }
       write_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
 
-      topSmap._style_el_idx = write_idx;
+      topSmap._style_el_idx_ = write_idx;
       topSmap._style_cascade_list_[ write_idx ] = cascade_map._cascade_id_;
+      logIt( topSmap._style_el_idx_, topSmap._style_cascade_list_ );
     }
     // end 2.x.5
     return regen_type;
@@ -780,7 +820,7 @@ var pcss = (function () {
   // 4.x Public method /togglePcss/
   function togglePcss( do_enable ) {
     var
-      style_el = topSmap._style_el_list_[ topSmap._style_el_idx ];
+      style_el = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
 
     style_el[ vMap._sheet_ ][ vMap._disabled_ ] = !! do_enable;
   }
@@ -790,7 +830,7 @@ var pcss = (function () {
   function getAssetJson ( arg_opt_map ) {
     // 4.x.1 Init and arguments
     var
-      opt_map    = arg_opt_map || {},
+      opt_map       = arg_opt_map || {},
       asset_type    = opt_map._asset_type_,
       asset_subtype = opt_map._asset_subtype_,
       asset_id      = opt_map._asset_id_,

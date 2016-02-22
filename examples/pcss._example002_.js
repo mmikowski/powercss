@@ -23,7 +23,7 @@
  *    8. background, text-align, white-space,
  *    9. content defs - font-size, line-height, font, color everything else
  *    -- break --
- *    10. css transition or animation definitions
+ *    10. transition or animation definitions
 */
 
 // BEGIN pcss._example002_
@@ -187,13 +187,13 @@ pcss._example002_ = function () {
 
   // Begin create cascades to toggle
   pcss._setCascade_({
-    _cascade_id_     : '_example001_',
+    _cascade_id_     : '_ex01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_' ]
   });
 
   pcss._setCascade_({
-    _cascade_id_     : '_example002_',
+    _cascade_id_     : '_ex02_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_alt_vsheet_' ]
   });
@@ -208,12 +208,12 @@ pcss._example002_ = function () {
 
     if ( target_el === switch_el ) { return; }
     if ( target_el === link_list[ 0 ] ) {
-      cascade_id = '_example001_';
+      cascade_id = '_ex01_';
       link_list[ 0 ].className = 'pcss-_x_select_';
       link_list[ 1 ].className = '';
     }
     else if ( target_el === link_list[ 1 ] ) {
-      cascade_id = '_example002_';
+      cascade_id = '_ex02_';
       link_list[ 0 ].className = '';
       link_list[ 1 ].className = 'pcss-_x_select_';
     }
@@ -233,7 +233,7 @@ pcss._example002_ = function () {
 
   switch_el.addEventListener( 'click', onclick_fn );
   pcss._setCascade_({
-    _cascade_id_ : '_example001_',
+    _cascade_id_ : '_ex01_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
