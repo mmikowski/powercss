@@ -35,14 +35,15 @@ pcss._example001_ = function () {
 
   pcss._initModule_();
 
-  // Begin Add base vsheet
+  // Begin add _base_ vsheet
   base_selector_list = [
     { _selector_str_  : 'body',
       _rule_map_     : {
         _display_    : '_block_',
         _box_sizing_ : '_border_box_',
-        _padding_    : '_2rem_',
         _margin_     : '_0_',
+        _padding_    : '_2rem_',
+        _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
         _font_size_  : [ '16px' ],
         _color_      : '_x888_'
@@ -52,7 +53,7 @@ pcss._example001_ = function () {
       _rule_map_ : {
         _margin_        : '_d5rem_',
         _width_         : [ '10rem' ],
-        _border_        : [ '.125rem solid #ddd' ],
+        _border_        : [[ '_d125rem_', '_solid_', '_xddd_' ]],
         _border_radius_ : '_d5rem_',
         _outline_       : '_none_',
         _padding_       : '_d5rem_',
@@ -71,13 +72,13 @@ pcss._example001_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_     : '_base_vsheet_',
+    _vsheet_id_     : '_base_',
     _mode_str_      : '_add_',
     _selector_list_ : base_selector_list
   });
-  // End Add base vsheet
+  // End add _base_ vsheet
 
-  // Begin Add box vsheet
+  // Begin add _box01_ vsheet
   box_selector_list = [
     { _selector_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
@@ -89,7 +90,7 @@ pcss._example001_ = function () {
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
         _box_shadow_     : [ 'rgba( 0, 0, 0, .5) 0 0 .25rem 0' ],
-        _border_         : [ '0.25rem solid #eee' ],
+        _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
         _border_radius_  : '_1rem_',
         _width_          : [ '16rem' ],
         _height_         : [ '8rem' ],
@@ -111,19 +112,20 @@ pcss._example001_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_     : '_box_vsheet_',
+    _vsheet_id_     : '_box01_',
     _mode_str_      : '_add_',
     _selector_list_ : box_selector_list
   });
-  // End Add box vsheet
+  // End add _box01 vsheet
+  // End add _box01_ vsheet
 
-  // Begin Add ex01 cascade
+  // Begin add _ex01_ cascade
   pcss._setCascade_({
     _cascade_id_     : '_ex01_',
     _mode_str_       : '_add_',
-    _vsheet_id_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
+    _vsheet_id_list_ : [ '_base_', '_box01_' ],
     _regen_type_     : '_use_'
   });
-  // End Add ex01 cascade
+  // End add _ex01_ cascade
 };
 // END pcss._example001_

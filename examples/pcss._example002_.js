@@ -37,7 +37,7 @@ pcss._example002_ = function () {
 
   pcss._initModule_();
 
-  // Begin add _base_vsheet_
+  // Begin add _base_ vsheet
   base_selector_list = [
     { _selector_str_  : 'body',
       _rule_map_     : {
@@ -55,7 +55,7 @@ pcss._example002_ = function () {
       _rule_map_ : {
         _margin_        : '_d5rem_',
         _width_         : [ '10rem' ],
-        _border_        : [ '.125rem solid #ddd' ],
+        _border_        : [[ '_d125rem_', '_solid_', '_xddd_' ]],
         _border_radius_ : '_d5rem_',
         _outline_       : '_none_',
         _padding_       : '_d5rem_',
@@ -74,13 +74,13 @@ pcss._example002_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_     : '_base_vsheet_',
+    _vsheet_id_     : '_base_',
     _mode_str_      : '_add_',
     _selector_list_ : base_selector_list
   });
-  // End add _base_vsheet_
+  // End add _base_ vsheet
 
-  // Begin add _box_vsheet_
+  // Begin add _box01_ vsheet
   box_selector_list = [
     { _selector_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
@@ -92,7 +92,7 @@ pcss._example002_ = function () {
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
         _box_shadow_     : [ 'rgba( 0, 0, 0, .5) 0 0 .25rem 0' ],
-        _border_         : [ '0.25rem solid #eee' ],
+        _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
         _border_radius_  : '_1rem_',
         _width_          : [ '16rem' ],
         _height_         : [ '8rem' ],
@@ -114,13 +114,13 @@ pcss._example002_ = function () {
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_     : '_box_vsheet_',
+    _vsheet_id_     : '_box01_',
     _mode_str_      : '_add_',
     _selector_list_ : box_selector_list
   });
-  // End add _box_vsheet_
+  // End add _box01 vsheet
 
-  // Begin add _box_alt_vsheet
+  // Begin add _box02_ vsheet by *revising* box_selector_list
   box_rule_map = box_selector_list[ 0 ]._rule_map_;
   box_rule_map._display_    = '_block_';
   box_rule_map._width_      = undefined;
@@ -137,13 +137,13 @@ pcss._example002_ = function () {
   };
 
   pcss._setVsheet_({
-    _vsheet_id_     : '_box_alt_vsheet_',
+    _vsheet_id_     : '_box02_',
     _mode_str_      : '_add_',
     _selector_list_ : box_selector_list
   });
-  // End add _box_alt_vsheet_
+  // End add _box03_vsheet by *revising* box_selector_list
 
-  // Begin add _switch_vsheet_
+  // Begin add _switch_ vsheet
   switch_selector_list = [
     { _selector_str_ : '#pcss-_switch_',
       _rule_map_   : {
@@ -164,38 +164,38 @@ pcss._example002_ = function () {
     },
     { _selector_str_ : '#pcss-_switch_ div',
       _rule_map_ : {
-        _margin_ : '_d25rem_',
-        _padding_: '_d25rem_',
+        _margin_        : '_d25rem_',
+        _padding_       : '_d25rem_',
         _border_radius_ : '_d25rem_',
-        _cursor_ : '_pointer_'
+        _cursor_        : '_pointer_'
       }
     },
     { _selector_str_ : '#pcss-_switch_ div.pcss-_x_select_',
       _rule_map_ : {
-        _color_  : '_xfff_',
-        _background_ : '_x888_'
+        _background_ : '_x888_',
+        _color_      : '_xfff_'
       }
     }
   ];
 
   pcss._setVsheet_({
-    _vsheet_id_     : '_switch_vsheet_',
+    _vsheet_id_     : '_switch_',
     _mode_str_      : '_add_',
     _selector_list_ : switch_selector_list
   });
-  // End add _switch_vsheet_
+  // End add _switch_ vsheet
 
   // Begin create cascades to toggle
   pcss._setCascade_({
     _cascade_id_     : '_ex01_',
     _mode_str_       : '_add_',
-    _vsheet_id_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_vsheet_' ]
+    _vsheet_id_list_ : [ '_base_', '_switch_', '_box01_' ]
   });
 
   pcss._setCascade_({
     _cascade_id_     : '_ex02_',
     _mode_str_       : '_add_',
-    _vsheet_id_list_ : [ '_base_vsheet_', '_switch_vsheet_', '_box_alt_vsheet_' ]
+    _vsheet_id_list_ : [ '_base_', '_switch_', '_box02_' ]
   });
   // End create cascades to toggle
 
@@ -230,13 +230,13 @@ pcss._example002_ = function () {
   // Begin init
   switch_el = document.getElementById( 'pcss-_switch_' );
   link_list = switch_el.getElementsByTagName( 'div' );
-
-  switch_el.addEventListener( 'click', onclick_fn );
   pcss._setCascade_({
     _cascade_id_ : '_ex01_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
+
+  switch_el.addEventListener( 'click', onclick_fn );
   // End init
 };
 // END pcss._example002_

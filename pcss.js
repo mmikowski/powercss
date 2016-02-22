@@ -274,7 +274,9 @@ var pcss = (function () {
     //      |- _merged_selector_ms_   : `timestamp`
     //      |- _css_str_              : `cascade_css`
     //      +- _css_ms_               : `timestamp`
+    //
     topSmap = {
+      _is_enabled_         : __true,
       _style_cascade_list_ : [],
 
       _global_mixin_map_   : {},
@@ -577,7 +579,6 @@ var pcss = (function () {
           solve_key = cssKeyMap[ rule_key ];
         }
         else {
-          logIt( rule_key, '_css_rule_key_not_found_' );
           continue _OUTER_RULE_;
         }
 
@@ -749,7 +750,6 @@ var pcss = (function () {
 
       topSmap._style_el_idx_ = write_idx;
       topSmap._style_cascade_list_[ write_idx ] = cascade_map._cascade_id_;
-      logIt( topSmap._style_el_idx_, topSmap._style_cascade_list_ );
     }
     // end 2.x.5
     return regen_type;
@@ -822,7 +822,13 @@ var pcss = (function () {
     var
       style_el = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
 
-    style_el[ vMap._sheet_ ][ vMap._disabled_ ] = !! do_enable;
+    if ( do_enable === __undef ) {
+      do_enable = ! topSmap._is_enabled_;
+    }
+
+    style_el[ vMap._sheet_ ][ vMap._disabled_ ] = ! do_enable;
+    topSmap._is_enabled_ = !! do_enable;
+    
   }
   // end 4.x Public method /togglePcss/
 
@@ -984,8 +990,8 @@ var pcss = (function () {
   //    _cascade_id_      : '_example001_',
   //    _mode_str_        : '_add_',
   //    _vsheet_id_list_  : [ '_base_', '_box_' ],
-  //    _mixin_map_       : {...},
-  //    _regen_type_      : '_merge_' // '_use_|_all_|_prepare_|_merge_|_none_'
+  //    _mixin_map_       : {},
+  //    _regen_type_      : '_none_'
   //  });
   function setCascade ( arg_opt_map ) {
     // 4.x.1 Init and arguments

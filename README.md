@@ -5,8 +5,8 @@ the official 1.x production release. Documentation, regression testing,
 promotion, and examples are being updated in coordination with the library.
 
 ## Use libraries, not frameworks
-This library strives to be best-in-class.  If you are considering using
-an SPA framework instead of libraries, please read [Do you
+This library strives to be best-in-class. If you are considering using
+an SPA framework instead of libraries, please read [do you
 really want an SPA framework?][0] first.
 
 ## Overview
@@ -50,11 +50,11 @@ examples, and then we discuss how PowerCSS works.
 
 ## Example 001: The basics
 This example is illustrated by `pcss._example001_.html` which
-can be be found in the `examples` directory of the GitHub repository.
+can be be found in the `./examples` directory of the GitHub repository.
 Clone the repository and open the file with your browser to see the
 results.
 
-Let's review the work-flow of PowerCSS before we jump into the first
+Let's look at the work-flow of PowerCSS before we jump into the first
 example.
 
 1. Create an HTML file that includes the PowerCSS library and
@@ -118,10 +118,10 @@ be found in the `examples` directory of the GitHub repository.
      * Michael S. Mikowski - mike.mikowski@gmail.com
     */
     /*jslint        browser : true, continue : true,
-      devel  : true, indent : 2,      maxerr : 50,
+      devel : true,  indent : 2,      maxerr : 50,
       newcap : true,  nomen : true, plusplus : true,
       regexp : true, sloppy : true,     vars : false,
-      white  : true,   todo : true,  unparam : true
+      white : true,    todo : true,  unparam : true
     */
     /*global pcss */
 
@@ -160,14 +160,15 @@ traditional CSS file. An experienced CSS author should be able to adopt
 the format with little trouble. Below we add a **vsheet** definition to
 `pcss._example001_.js` by providing a list of selector definitions:
 
-      // Begin Add _base_vsheet_
+      // Begin add _base_ vsheet
       base_selector_list = [
         { _selector_str_  : 'body',
           _rule_map_     : {
             _display_    : '_block_',
             _box_sizing_ : '_border_box_',
-            _padding_    : '_2rem_',
             _margin_     : '_0_',
+            _padding_    : '_2rem_',
+            _overflow_y_ : '_scroll_',
             _font_family_: '_font_sans_',
             _font_size_  : [ '16px' ],
             _color_      : '_x888_'
@@ -177,7 +178,7 @@ the format with little trouble. Below we add a **vsheet** definition to
           _rule_map_ : {
             _margin_        : '_d5rem_',
             _width_         : [ '10rem' ],
-            _border_        : [ '.125rem solid #ddd' ],
+            _border_        : [[ '_d125rem_', '_solid_', '_xddd_' ]],
             _border_radius_ : '_d5rem_',
             _outline_       : '_none_',
             _padding_       : '_d5rem_',
@@ -196,11 +197,11 @@ the format with little trouble. Below we add a **vsheet** definition to
       ];
 
       pcss._setVsheet_({
-        _vsheet_id_     : '_base_vsheet_',
+        _vsheet_id_     : '_base_',
         _mode_str_      : '_add_',
         _selector_list_ : base_selector_list
       });
-      // End Add _base_vsheet_
+      // End add _base_ vsheet
 
 We provide our selectors in a list because their order is important
 in CSS. PowerCSS records the **vsheet** definition, but it doesn't
@@ -209,7 +210,7 @@ compile it to CSS yet - that comes later.
 ### 3b. Add a 'box' **vsheet**
 Let's add another **vsheet** to style the boxes on our page:
 
-      // Begin Add _box_vsheet_
+      // Begin add _box01_ vsheet
       box_selector_list = [
         { _selector_str_ : '.pcss-_box_',
           _rule_lock_list_ : [ '_font_size_' ],
@@ -221,7 +222,7 @@ Let's add another **vsheet** to style the boxes on our page:
             _vertical_align_ : '_top_',
             _margin_         : '_1rem_',
             _box_shadow_     : [ 'rgba( 0, 0, 0, .5) 0 0 .25rem 0' ],
-            _border_         : [ '0.25rem solid #eee' ],
+            _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
             _border_radius_  : '_1rem_',
             _width_          : [ '16rem' ],
             _height_         : [ '8rem' ],
@@ -243,35 +244,35 @@ Let's add another **vsheet** to style the boxes on our page:
       ];
 
       pcss._setVsheet_({
-        _vsheet_id_     : '_box_vsheet_',
+        _vsheet_id_     : '_box01_',
         _mode_str_      : '_add_',
         _selector_list_ : box_selector_list
       });
-      // End Add _box_vsheet_
+      // End add _box01_ vsheet
 
 Here we use a few advanced features, but don't get lost in the details.
-We will return to them soon enough.  Now that we have two **vsheet**s, we
+We will return to them soon enough. Now that we have two **vsheet**s, we
 can use them in a **cascade**.
 
 ### 4. Add an 'ex01' **cascade**
-A **cascade** is used by PowerCSS to create and CSS.  As it's name
+A **cascade** is used by PowerCSS to create and CSS. As it's name
 implies, a **cascade** merges multiple virtual stylesheets (**vsheets**) into
 one. This is similar to how a browser merges multiple CSS files when rendering
 a static page. However, with PowerCSS we can have many **cascades** and
 dynamically update them. Let's add one now:
 
-      // Begin Add ex01 cascade
+      // Begin add and use _ex01_ cascade
       pcss._setCascade_({
         _cascade_id_     : '_ex01_',
         _mode_str_       : '_add_',
-        _vsheet_id_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
+        _vsheet_id_list_ : [ '_base_', '_box01_' ],
         _regen_type_     : '_use_'
       });
-      // End Add ex01 cascade
+      // End add and use _ex01_ cascade
     };
     // END pcss._example001_
 
-We can now save the `pcss._example001_.js` file.  Next, we'll look at the
+We can now save the `pcss._example001_.js` file. Next, we'll look at the
 results.
 
 ## A tour of the results
@@ -362,7 +363,7 @@ Don't worry, this isn't as drastic as it sounds. PowerCSS
 plays very nicely with others and is designed to avoid conflict
 with third-party web components.
 
-## Example 003: Mixin maps
+## Example 003: **Mixin maps**
 This example is illustrated by `pcss._example003_.html` which
 can be be found in the `examples` directory of the GitHub repository.
 Clone the repository and open the file with your browser to see the
@@ -385,7 +386,7 @@ the literal values. For example, to declare background-color, we use:
 
 At first glance, that might seem silly. However, using symbols for rule
 **keys** and **values** help us greatly when compressing our files.
-In the example above, our rule can be compressed to JavaScript like so:
+In the example above, our JavaScript rule can be compressed like so:
 
     nx:'qr'
 
@@ -420,13 +421,13 @@ There are four types of CSS value subsitution supported by PowerCSS:
 
 In addition, we can `lock` a value in a cascade.
 
-### Setting a **mixin map**
-**mixin map**s are settable at the **vsheet**, **cascade**, or global level
+### Setting a `_mixin_map_`
+`_mixin_map_`s are settable at the **vsheet**, **cascade**, or global level
 as illustrated below:
 
       // Vsheet option - add
       pcss._setVsheet_({
-        _vsheet_id_     : '_base_vsheet_',
+        _vsheet_id_     : '_base_',
         _mode_str_      : '_add_',
         _selector_list_ : base_selector_list,
         _mixin_map_     : base_mixin_map
@@ -434,7 +435,7 @@ as illustrated below:
 
       // Vsheet option - change
       pcss._setVsheet_({
-        _vsheet_id_     : '_base_vsheet_',
+        _vsheet_id_     : '_base_',
         _mode_str_      : '_change_',
         _mixin_map_     : base_mixin_map
       });
@@ -443,7 +444,7 @@ as illustrated below:
       pcss._setCascade_({
         _cascade_id_     : '_ex01_',
         _mode_str_       : '_add_',
-        _vsheet_id_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
+        _vsheet_id_list_ : [ '_base_', '_box_' ],
         _mixin_map_      : ex01_mixin_map
       });
 
@@ -471,23 +472,23 @@ A `_mixin_map_` is simple key-value pair object as illustrated below:
         _input_border_    : '.125rem solid #ddd'
       };
 
-We can get a copy of a **mixin map** using `_getAssetJson_`.
+We can get a copy of a `_mixin_map_` using `_getAssetJson_`.
 
-### The four type of **mixin map**s
-PowerCSS uses values from four **mixin map** types:
+### The four type of `_mixin_map_`s
+PowerCSS uses values from four `_mixin_map_` types:
 
 1. The **builtin** value map, `cssValMap`. This is a set of common
    CSS values that are available by default. For example, the symbol
    `_fixed_` resolves to 'fixed' in the resulting CSS. This map is
    found in the the PowerCSS library file, `pcss.js`.
-2. The **global** **mixin map** is used across all **cascades** and, as
+2. The **global** `_mixin_map_` is used across all **cascades** and, as
    a consequence, by all **vsheets** they use.
-3. **Cascade** **mixin map**s are exclusive to one **cascade** and
+3. **Cascade** `_mixin_map_`s are exclusive to one **cascade** and
    are used by all **vsheets** in their cascade list.
-4. **Vsheet** **mixin map**s are exclusive to one **vsheet**.
+4. **Vsheet** `_mixin_map_`s are exclusive to one **vsheet**.
 
-### **Mixin map** precedence
-The precedence of these **mixin map**s (also known as a 'scope chain')
+### `_mixin_map_` precedence
+The precedence of these `_mixin_map_`s (also known as a 'scope chain')
 is as follows:
 
     vsheet > cascade > global > builtin
@@ -499,7 +500,8 @@ wins." Consider the following PowerCSS rule definition:
 
     rule_map : { background : '_bcolor_', ... }
 
-Now let's set **mixin map** value at three levels, in pseudo code:
+Now let's define `_mixin_map_` values at three levels.
+In pseudo code, it looks something like this:
 
     builtin._bcolor_   = undefined;
     global._bcolor_    = 'red';
@@ -509,6 +511,10 @@ Now let's set **mixin map** value at three levels, in pseudo code:
 Here the **vsheet** level value, 'blue', "wins" and the CSS processor
 will use that instead of any **cascade**, **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:blue`.
+
+What if we have multiple **vhseet**s that set `_bcolor_`?  Easy: the last
+vsheet in the cascade to set `_bcolor_` wins unless the value has been
+earlier in the **cascade** - see the **Locked values** section below.
 
 What if we used a **vsheet** that didn't have a mixin map?  Then
 the mixin value would be defined at just two levels:
@@ -581,7 +587,7 @@ as a mixin, like so:
         }
       };
 
-... and replace the above declaration in the **vsheet** definition.  If we
+... and replace the above declaration in the **vsheet** definition. If we
 use gradient many times, we save lots of space, especially after compression.
 Because now everywhere we want to use it, the line declaration becomes:
 
@@ -613,7 +619,7 @@ is feasible to prevent overwriting critical properties by **vsheet**s later
 in the cascade. One just needs to specify rules to be locked for
 the provided rule map in the **vsheet** definition:
 
-    box_vsheet_list = [
+    box_selector_list = [
       { _select_str_ : '.pcss-_box_',
         _locked_rule_list_ : [ '_font_size_' ],
         _rule_map_ : {
@@ -621,7 +627,7 @@ the provided rule map in the **vsheet** definition:
           // ...
         }
       }
-    ]
+    ];
 
 This prevents any later **vsheet** from overriding the value for
 `_font_size_` for the `.pcss-_box_` selector in the cascade.
@@ -659,19 +665,19 @@ to render. The browser rendering engine doesn't need to work loading
 and merging sometimes dozens of external style sheets. It also
 removes the expensive associated HTTP requests for external stylesheets.
 
-PowerCSS uses incremental processing to minimize stutter.  By default, when
-we add a **vsheet** PowerCSS has almost no overhead.  When we add a
+PowerCSS uses incremental processing to minimize stutter. By default, when
+we add a **vsheet** PowerCSS has almost no overhead. When we add a
 **cascade** some processing time is spent creating the merged selector
-list and the merged **mixin map**.  Only when we use a **cascade**
+list and the merged **mixin map**. Only when we use a **cascade**
 does the final CSS get written and presented to the browser for processing.
 
 This default behavior is changeable too:  The `_setVsheet_`,
 `_setCascade_`, and `_setGlobalMixinMap_` methods all accept
-a `_regen_type_` parameter which may be used to set custom 
-processing behavior which applies to all affected **cascades**.
-The `_setVsheet_` and `_setGlobalMixinMap_` methods can affect
-multiple **cascades**, and the `_regen_type_` level will be used
-for all of these.
+a `_regen_type_` parameter which defines how far to proceed
+with processing on **all cascades** affected by the method call.
+For this reason, we tread carefully when using `_setVsheet_` and 
+`_setGlobalMixinMap_` methods as it may trigger processing across
+many **cascades**.
 
     _regen_type_ value means for the affect cascades:
       '_none_'      : no processing now
@@ -681,35 +687,35 @@ for all of these.
                       active, double-buffer switch to the new CSS.
       '_use_'       : Double-buffer switch to new CSS of this cascade[3]
 
-      [1] _merge_ Is the default when adding vsheets and cascades.
-      [2] _all_   Is the default when changing vsheets and cascades.
-                  It is also the default for _setGlobalMixinMap_()
-      [3] _use_   This is only an option for _setCascade_()
+      [1] _merge_ This is the default when adding vsheets and cascades.
+      [2] _all_   This is the default when changing vsheets and cascades.
+                  It is also the default for `_setGlobalMixinMap_`.
+      [3] _use_   This is only available for `_setCascade_`
 
 The processing required to use a **cascade** is not enormous, and it
-**must** be accomplished before we use it.  If we delay all processing 
+**must** be accomplished before we use it. If we delay all processing 
 until then, all the processing steps will be undertaken before showing
 the newly generated CSS. Depending on your CSS and application needs, this
 may be a perfectly suitable strategy.
 
 We recommend sticking with the defaults until and if we see performance issues.
 Depending on the application, setting `_regen_type_` to `_all_` for all
-**vsheets** and **cascades** may make the most sense.  For others, setting
+**vsheets** and **cascades** may make the most sense. For others, setting
 `regen_type` to `none` and then directing all processing steps will provide
-the best solution.  Here is an example:
+the best solution. Here is an example:
 
       // Initial definition of cascade
       pcss._setCascade_({
         _cascade_id_     : '_ex01_',
         _mode_str_       : '_add_',
-        _vsheet_id_list_ : [ '_base_vsheet_', '_box_vsheet_' ],
+        _vsheet_id_list_ : [ '_base_', '_box_' ],
         _mixin_map_      : ex01_mixin_map,
         _regen_type_    : '_none_'
       });
 
       // Vsheet _selector_list_ change
       pcss._setVsheet_({
-        _vsheet_id_     : '_base_vsheet_',
+        _vsheet_id_     : '_base_',
         _mode_str_      : '_change_',
         _selector_list_ : base_selector_list,
         _regen_type_    : '_none_'
@@ -718,7 +724,7 @@ the best solution.  Here is an example:
       // Vsheet _mixin_map_ change
       base_mixin_map._red01_ = '#822';
       pcss._setVsheet_({
-        _vsheet_id_     : '_base_vsheet_',
+        _vsheet_id_     : '_base_',
         _mode_str_      : '_change_',
         _mixin_map_     : base_mixin_map,
         _regen_type_    : '_none_'
@@ -761,7 +767,7 @@ and may change the defaults accordingly.
 No matter how clean an API, sometimes its easier to think in terms
 of "what do I want to accomplish."  This is perhaps the very reason
 programming language "Cookbooks" have been so successful over the
-years.  So before we consider the **API reference**, let's look at 
+years. So before we consider the **API reference**, let's look at 
 some recipes.
 
 ### Virtual stylesheet (**vsheet**) recipies
@@ -790,7 +796,7 @@ some recipes.
       _mixin_map_     : {...}
     });
 
-#### I want to delete only vsheet selector list
+#### I want to delete only the vsheet selector list
 Deleting a selector list independently is not supported.
 However, one may change the `_selector_list_` to an empty array
 for a similar effect. Setting the value to `undefined` will
@@ -804,14 +810,14 @@ not work.
 
 #### I want to delete only vsheet mixin map
 Deleting a vsheet mixin map independently is not supported.
-However, one may change the `_mixin_map_` to an empty object
+However, one may change `_mixin_map_` to an empty object
 for a similar effect. Setting the value to `undefined` will
 not work.
 
     pcss._setVsheet_({
-      _vsheet_id_     : '_base_',
-      _mode_str_      : '_change_',
-      _selector_list_ : []
+      _vsheet_id_ : '_base_',
+      _mode_str_  : '_change_',
+      _mixin_map_ : {}
     });
 
 #### I want to delete a **vsheet**
@@ -824,12 +830,12 @@ If an active cascade is currently in use, it will double-buffer
 switched to the updated CSS as soon as it is ready.
 
     pcss._setVsheet_({
-      _vsheet_id_  : '_base_',
+      _vsheet_id_  : '_base_vsheet',
       _mode_str_   : '_delete_',
       _regen_str_  : '_none_'
     });
 
-#### I want a copy of the `_base_` **vsheet**
+#### I want a copy of all **vsheet** data
 
     pcss._getAssetJson_({
       _asset_type_ : '_vsheet_'
@@ -899,7 +905,7 @@ not work.
 
 #### I want to delete a **cascade**
 Deleting a cascade will only affect that cascade, so setting
-`_regen_type_` has no affect.  If a cascade is in-use,
+`_regen_type_` has no affect. If a cascade is in-use,
 the styling will be removed.
 
     pcss._setCascade_({
@@ -967,19 +973,15 @@ the styling will be removed.
 
 ### `_setGlobalMixinMap_`
      Example   : pcss._setGlobalMixinMap_({
-                   _mixin_id_        : 'global_base',
                    _mode_type_       : 'add',
-                   _precedence_idx_  : 0,
                    _mixin_map_       : mixin_map,
                    _regen_type_      : '_merge_'
                  });
      Purpose   : Add, change, delete, or update process status for
                  a global mixin map id.
      Arguments :
-       - _mixin_id_  (required)
-       - _mode_type_ (required)
-       - _precedence_idx_ (default: 1)
-       - _mixin_map_ (optional)
+       - _mode_type_  (required)
+       - _mixin_map_  (optional)
        - _regen_type_ (optional)
      Settings  : none
      Throws    : none
@@ -1063,11 +1065,11 @@ MIT
    `_enableCascadeObj_` => `_useCascade_`
    `_setCascadeObj_`    => `_setCascade_`
 - Added **API reference** section
-- Added `_changeMixinMap_()`
-- Added `_changeVsheet_()`
-- Added `_changeCascade_()`
-- Added `_disableCascade_()`
-- Added `_prepareCascade_()`
+- Added `_changeMixinMap_`
+- Added `_changeVsheet_`
+- Added `_changeCascade_`
+- Added `_disableCascade_`
+- Added `_prepareCascade_`
 
 ### Version 0.5.x
 - Refactored and greatly simplify API
@@ -1076,21 +1078,18 @@ MIT
 - Added **Use cases** section
 - WIP Update **API reference** section
 - WIP Add example for performance (005)
-- TODO Add inline API docs to code
+- WIP Add inline API docs to code
 
 ### Version 0.6.x
-- nodejs support, especially with nodeunit-b
-- Compatibility test to earlier versions of Chrome and firefox
+- TODO: nodejs support, especially with nodeunit-b
+- TODO: Compatibility test to earlier versions of Chrome and firefox
 
-### Version 0.6.x
-TODO:
-- regression tests
-- error handling improvements as needed
-- force full rerender on request (for debug purposes)
+### Version 0.7.x
+- TODO: regression tests
+- TODO: error handling improvements as needed
 
 ### Version 1.x
-TODO:
-- Production-ready code
+- TODO: Production-ready code
 
 ## Similar Projects
 [absurdjs][3], [responsive.j$][4]
