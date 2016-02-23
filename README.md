@@ -764,12 +764,11 @@ the best solution. Here is an example:
 The current `_regen_type_` default may change prior to the 1.x release
 if test results warrant it.
 
-## PowerCSS Recipes
+## The PowerCSS cookbook
 No matter how clean an API, sometimes its easier to think in terms
-of "what do we want to accomplish."  This is perhaps the very reason
-programming language "Cookbooks" have been so successful over the
-years. So before we consider the **API reference**, let's look at
-some recipes.
+of "what do we want to accomplish."  This is perhaps the reason
+programming language "cookbooks" have been so successful over the
+years. Let's look at some popular recipes from our own JavaScript kitchen.
 
 ### Virtual stylesheet (**vsheet**) recipies
 #### Add a **vsheet**
@@ -781,7 +780,7 @@ some recipes.
       _mixin_map_     : {...}
     });
 
-#### Change a **vsheet** list of selectors
+#### Change a **vsheet** selector list
 
     pcss._setVsheet_({
       _vsheet_id_     : '_base_',
@@ -789,7 +788,7 @@ some recipes.
       _selector_list_ : [...]
     });
 
-#### I want to change a **vsheet** mixin map
+#### Change a **vsheet** mixin map
 
     pcss._setVsheet_({
       _vsheet_id_     : '_base_',
@@ -809,7 +808,7 @@ not work.
       _selector_list_ : []
     });
 
-#### Delete only vsheet mixin map
+#### Delete only the vsheet mixin map
 Deleting a vsheet mixin map independently is not supported.
 However, one may change `_mixin_map_` to an empty object
 for a similar effect. Setting the value to `undefined` will
@@ -844,12 +843,42 @@ switched to the updated CSS as soon as it is ready.
     });
 
 
-#### Copy the `_selector_list_` of a **vsheet**
+#### Copy the selector list of a **vsheet**
 
     pcss._getAssetJson_({
       _asset_type_    : '_vsheet_'
       _asset_subtype_ : '_selector_list_'
       _asset_id_      : '_base_'
+    });
+
+#### Use the same selector list to define multiple **vsheets**
+Because PowerCSS never changes our data, we can create a
+selector list definition, use it to create a **vsheet**, modify it,
+and then use it to create another, **vsheet**.  This process can be repeated
+indefinitely.  Here is an example:
+
+    // Define _box01_ vsheet
+    box_selector_list = [
+      { _selector_str_   : '.pcss-_box_',
+        _rule_lock_list_ : [ '_font_size_' ],
+        _rule_map_ : {
+          _display_        : '_inline_block_',
+          _opacity_        : '_1_'
+        }
+      }
+    ];
+    pcss._setVsheet_({
+      _vsheet_id_     : '_box01_',
+      _mode_str_      : '_add_',
+      _selector_list_ : box_selector_list
+    });
+
+    // Modify and create _box01_ vsheet
+    pcss._extendRuleMap( box_selector_list, { _color_ : '_x444_' } );
+    pcss._setVsheet_({
+      _vsheet_id_     : '_box02_',
+      _mode_str_      : '_add_',
+      _selector_list_ : box_selector_list
     });
 
 ### **Cascade** recipes
@@ -863,7 +892,7 @@ switched to the updated CSS as soon as it is ready.
       _mixin_map_       : {...}
     });
 
-#### I want to change a cascade `_vsheet_id_list_`
+#### Change a **cascade** vsheet id list
 
     pcss._setCascade_({
       _cascade_id_     : '_ex01_',
@@ -871,7 +900,7 @@ switched to the updated CSS as soon as it is ready.
       _vsheet_id_list_ : [...]
     });
 
-#### I want to change a cascade `_mixin_map_`
+#### Change a cascade mixin map
 
     pcss._setCascade_({
       _cascade_id_     : '_ex01_',
@@ -879,7 +908,7 @@ switched to the updated CSS as soon as it is ready.
       _mixin_map_      : {...}
     });
 
-#### Delete only a `_vsheet_id_list_` from a **cascade**
+#### Delete only a vsheet id list from a **cascade**
 Deleting a vsheet ID list independently is not supported.
 However, one may change the `_vsheet_id_list_` to an empty array
 for a similar effect. Setting the value to `undefined` will
@@ -892,7 +921,7 @@ not work.
     });
 
 
-#### Delete only a `_mixin_map_` from a **cascade**
+#### Delete only a mixin map from a **cascade**
 Deleting a mixin map independently is not supported.
 However, one may change the `_mixin_map_` to an empty array
 for a similar effect. Setting the value to `undefined` will
@@ -937,7 +966,7 @@ the styling will be removed.
       _asset_id_      : '_ex01_'
     });
 
-#### Copy just the `_vsheet_id_list_` of a **cascade**
+#### Copy just the vsheet id list of a **cascade**
 
     pcss._getAssetJson_({
       _asset_type_    : '_cascade_'
@@ -960,41 +989,13 @@ the styling will be removed.
     pcss._togglePcss();
 
 #### Change the global mixin map
+
     pcss._setGlobalMixinMap_({ _mixin_map_ : { ... } });
-
-#### Use the same `_selector_list_` to define multiple **vsheets**
-Because PowerCSS never changes our data, it is feasilbe to create a
-selector list definition, use it to create a **vsheet**, then modify
-it and create another, unique **vsheet**.  This process can be repeated
-indefinitely.  Here is an example:
-
-    // Define _box01_ vsheet
-    box_selector_list = [
-      { _selector_str_   : '.pcss-_box_',
-        _rule_lock_list_ : [ '_font_size_' ],
-        _rule_map_ : {
-          _display_        : '_inline_block_',
-          _opacity_        : '_1_'
-        }
-      }
-    ];
-    pcss._setVsheet_({
-      _vsheet_id_     : '_box01_',
-      _mode_str_      : '_add_',
-      _selector_list_ : box_selector_list
-    });
-
-    // Modify and create _box01_ vsheet
-    pcss._extendRuleMap( box_selector_list, { _color_ : '_x444_' } );
-    pcss._setVsheet_({
-      _vsheet_id_     : '_box02_',
-      _mode_str_      : '_add_',
-      _selector_list_ : box_selector_list
-    });
 
 
 ## API reference 0.5.x
 ### `_initModule_`
+
      Example   : pcss._initModule_({ _style_el_prefix_ : 'tri' });
      Purpose   : Initializes style elements using the provided prefix.
      Arguments : _style_el_prefix_ :
@@ -1005,6 +1006,7 @@ indefinitely.  Here is an example:
      Returns   : --
 
 ### `_extendRuleMap_`
+
      Example   : pcss._extendRuleMap_( rule_map, { _color_ : '_x444_' } );
      Purpose   : A utility to extend a rule_map with new or revised
                  values.  Providing a value of 'null' deletes a key.
@@ -1019,6 +1021,7 @@ indefinitely.  Here is an example:
        - extend_map is not.
 
 ### `_setGlobalMixinMap_`
+
      Example   : pcss._setGlobalMixinMap_({
                    _mode_type_       : 'add',
                    _mixin_map_       : mixin_map,
@@ -1035,6 +1038,7 @@ indefinitely.  Here is an example:
      Returns   : The number of vsheets affected by the change
 
 ### `_togglePcss_`
+
      Example   : pcss._togglePcss_( true );
      Purpose   : Enable or disable PowerCSS
      Arguments :
@@ -1047,6 +1051,7 @@ indefinitely.  Here is an example:
      Returns   : true (enabled) or false (disabled)
 
 ### `_getAssetJson_`
+
      Example   : pcss._getAssetJson_({
                    _asset_id_      : '_example001_',
                    _asset_type_    : '_cascade_'
@@ -1074,8 +1079,9 @@ indefinitely.  Here is an example:
                  If there is no corresponding asset, the JSON string
                  returned is 'undefined'.
 ### `_setVsheet_`
-See the **PowerCSS Recipes** section to see how `_setVsheet_`
+See **The PowerCSS cookbook** section to see how `_setVsheet_`
 may be used to accomplish common tasks.
+
      Example   : pcss._setVsheet_({
                  _setVsheet_({
                    _vsheet_id_     : '_base_',
@@ -1097,7 +1103,7 @@ may be used to accomplish common tasks.
      Returns   : vsheet_id, or undef on failure
 
 ### `_setCascade_`
-See the **PowerCSS Recipes** section to see how `_setCascade_`
+See **The PowerCSS cookbook** section to see how `_setCascade_`
 may be used to accomplish common tasks.
 
      Example   : pcss._setCascade_({
