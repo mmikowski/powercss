@@ -4,10 +4,10 @@ All primary features are implemented and API should change little through
 the official 1.x production release. Documentation, regression testing,
 promotion, and examples are being updated in coordination with the library.
 
-## Use libraries, not frameworks
-This library strives to be best-in-class. If you are considering using
-an SPA framework instead of libraries, please read [do you
-really want an SPA framework?][0] first.
+## Libraries provide freedom and power
+This is a library that strives to be best-in-class. If you are considering
+an SPA framework instead, please do read [do you really want an SPA framework?
+][0] first.
 
 ## Overview
 Unleash PowerCSS to create custom styling for every user that visits your
@@ -20,7 +20,8 @@ some of the PowerCSS concepts in practice.
 This library is written in the code style presented in the book
 book **Single Page Web Applications - JavaScript end-to-end**
 which is available from [Amazon][1] and directly from [Manning][2].
-It passes JSLint. All object keys have an underscore prefix and suffix
+It uses a **git** hook to block any code that fails to pass JSLint and
+regression tests. All object keys have an underscore prefix and suffix
 like `_this_` which makes them easy targets for compression.
 
 ## The Goal
@@ -58,25 +59,23 @@ The first thing to remember about the PowerCSS API is that it
 **never changes our data.** This means if we provide an array or
 object or array as an argument to a PowerCSS call, it is **copied**
 and we can use it again without fear of it being modified by PowerCSS
-at some later time.  For the inverse reason, PowerCSS **does not return
+at some later time. For the inverse reason, PowerCSS **does not return
 pointers to its data**. Instead there is a `_getAssetJson_` method to
-get JSON snapshots of data.  This method is very handy for debugging,
+get JSON copies of data. This method is very handy for debugging,
 but it should be used sparingly in production as it can get expensive.
 
 We were careful to change as little of the existing CSS work-flow as
 possible. If we are comfortable with using static CSS, this should look
 pretty familiar:
 
-1. Create an HTML file that includes the PowerCSS library and
-   a JavaScript file which uses it.
-2. Create the JavaScript file referenced by the HTML file.
-3. Add one or more virtual stylesheet lists (**vsheet**s) using PowerCSS.
-   These look very much like traditional stylesheets in JSON syntax.
-4. Add a **cascade** which uses the **vsheets** to style the page.
+1. Create an HTML document that includes the PowerCSS library and
+   JavaScript example code which uses it.
+2. Add one or more virtual stylesheet lists (**vsheet**s).
+   These look very much like traditional stylesheets modified
+   a bit to work "fit" into JSON.
+3. Define a **cascade** which includes an ordered list of **vsheets**.
    This is very much like traditional CSS development where we link to
    static stylesheet files in an HTML document.
-
-Now let's get started.
 
 ### 1. Create `pcss._example001_.html` file
 Let's create an HTML file named `pcss._example001_.html` to illustrate
@@ -419,10 +418,10 @@ There are four types of CSS value subsitution supported by PowerCSS:
 3. Alternates   : `{ _alt_list_ : [ '_key_', [ 'literal' ], ... ] }`
 4. Concatenated : `[[ '_key_', [ 'literal' ], ... ]]`
 
-In addition, we can `lock` a value in a cascade.
+In addition, we can `lock` a rule value in a cascade.
 
-### Setting a `_mixin_map_`
-`_mixin_map_`s are settable at the **vsheet**, **cascade**, or global level
+### Setting a **mixin map**
+**mixin map**s are settable at the **vsheet**, **cascade**, or global level
 as illustrated below:
 
       // Vsheet option - add
@@ -462,7 +461,7 @@ as illustrated below:
         _mixin_map_  : global_mixin_map,
       });
 
-A `_mixin_map_` is simple key-value pair object as illustrated below:
+A **mixin map** is simple key-value pair object as illustrated below:
 
       // Example mixin map
       mixin_map = {
@@ -472,23 +471,23 @@ A `_mixin_map_` is simple key-value pair object as illustrated below:
         _input_border_    : '.125rem solid #ddd'
       };
 
-We can get a copy of a `_mixin_map_` using `_getAssetJson_`.
+We can get a copy of a **mixin map** using `_getAssetJson_`.
 
-### The four type of `_mixin_map_`s
-PowerCSS uses values from four `_mixin_map_` types:
+### The four type of **mixin map**s
+PowerCSS uses values from four **mixin map** types:
 
 1. The **builtin** value map, `cssValMap`. This is a set of common
    CSS values that are available by default. For example, the symbol
    `_fixed_` resolves to 'fixed' in the resulting CSS. This map is
    found in the the PowerCSS library file, `pcss.js`.
-2. The **global** `_mixin_map_` is used across all **cascades** and, as
+2. The **global mixin map** is used across all **cascades** and, as
    a consequence, by all **vsheets** they use.
-3. **Cascade** `_mixin_map_`s are exclusive to one **cascade** and
+3. **Cascade mixin map**s are exclusive to one **cascade** and
    are used by all **vsheets** in their cascade list.
-4. **Vsheet** `_mixin_map_`s are exclusive to one **vsheet**.
+4. **Vsheet mixin map**s are exclusive to one **vsheet**.
 
-### `_mixin_map_` precedence
-The precedence of these `_mixin_map_`s (also known as a 'scope chain')
+### **mixin map** precedence
+The precedence of these **mixin map**s (also known as a 'scope chain')
 is as follows:
 
     vsheet > cascade > global > builtin
@@ -500,7 +499,7 @@ wins." Consider the following PowerCSS rule definition:
 
     rule_map : { background : '_bcolor_', ... }
 
-Now let's define `_mixin_map_` values at three levels.
+Now let's define **mixin map** values at three levels.
 In pseudo code, it looks something like this:
 
     builtin._bcolor_   = undefined;
@@ -509,14 +508,15 @@ In pseudo code, it looks something like this:
     vsheet._bcolor_    = 'blue';
 
 Here the **vsheet** level value, 'blue', "wins" and the CSS processor
-will use that instead of any **cascade**, **global**, or **builtin** value.
+will use *that* instead of any **cascade**, **global**, or **builtin** value.
 In other words, the resulting CSS will read `background:blue`.
 
-What if we have multiple **vhseet**s that set `_bcolor_`?  Easy: the last
+What if we have multiple **vhseet**s that set `_bcolor_`? Easy: the last
 vsheet in the cascade to set `_bcolor_` wins unless the value has been
-earlier in the **cascade** - see the **Locked values** section below.
+**locked** earlier in the **cascade** - see the **Locked values**
+section below.
 
-What if we used a **vsheet** that didn't have a mixin map?  Then
+What if we used a **vsheet** that didn't have a mixin map? Then
 the mixin value would be defined at just two levels:
 
     builtin._bcolor_   = undefined;
@@ -854,8 +854,8 @@ switched to the updated CSS as soon as it is ready.
 #### Use the same selector list to define multiple **vsheets**
 Because PowerCSS never changes our data, we can create a
 selector list definition, use it to create a **vsheet**, modify it,
-and then use it to create another, **vsheet**.  This process can be repeated
-indefinitely.  Here is an example:
+and then use it to create another, **vsheet**. This process can be repeated
+indefinitely. Here is an example:
 
     // Define _box01_ vsheet
     box_selector_list = [
@@ -1009,7 +1009,7 @@ the styling will be removed.
 
      Example   : pcss._extendRuleMap_( rule_map, { _color_ : '_x444_' } );
      Purpose   : A utility to extend a rule_map with new or revised
-                 values.  Providing a value of 'null' deletes a key.
+                 values. Providing a value of 'null' deletes a key.
                  pcss._extendRuleMap_( rule_map, { _color_ : null } );
      Arguments : (positional)
                  0 : base_map   - the map to be extended
@@ -1050,6 +1050,15 @@ the styling will be removed.
      Throws    : none
      Returns   : true (enabled) or false (disabled)
 
+### `_getAssetIdList_` (TODO)
+     Example   : vsheet_id_list = pcss._getAssetIdList_({
+                   _asset_type_ : '_vsheet_'
+                 });
+     Example   : cascade_id_list = pcss._getAssetIdList_({
+                   _asset_id_ : '_cascade_'
+                 });
+     Purpose   : Return the list of all vsheets or cascades.
+
 ### `_getAssetJson_`
 
      Example   : pcss._getAssetJson_({
@@ -1057,11 +1066,11 @@ the styling will be removed.
                    _asset_type_    : '_cascade_'
                    _asset_subtype_ : '_vsheet_id_list_'
                  })
-     Purpose   : Returns a JSON snapshot of a vsheet or cascade definition.
+     Purpose   : Return a JSON snapshot of a vsheet or cascade.
      Arguments : _asset_id_ (req) The existing ID of either a cascade
                   or a vsheet.
                  _asset_type_ (req) '_vsheet_', '_cascade_',
-                   '_global_mixin_', or '_el_cascade_list_'
+                   '_global_mixin_', '_el_cascade_list_',
                  _asset_subtype_ (opt)
                    '_vsheet_' supports:
                       _vsheet_id_,    _selector_list_,
@@ -1143,39 +1152,25 @@ MIT
 ### Version 0.1.x
 - 0.1.x development phase complete.
 - First "public release" versions of PowerCSS with a working example.
+- See prior revisions of this document for more detail.
 
 ### Version 0.2.x
 - 0.2.x development phase complete.
 - Added double-buffering support and example
+- See prior revisions of this document for more detail.
 
 ### Version 0.3.x
 - 0.3.x development phase complete.
-- Results-focused documentation updates
+- API changes
 - Added mixin support at 4 levels
 - Reverted to true double-buffering ( only 2 style elements )
-- API change
-- **metasheet** changed to **cascade**
-- `_setVsheetList_` added `_mixin_map_` option
-- `_delVsheetList_` added basic
-- `_setMixinMap_` added and documented
-- `_delMixinMap_` add basic
-- `_setCascadeObj_` added `_mixin_map_` option
-- `_delCascadeObj_` added basic
-- `_enableCascadeObj_` alternated pcss sheets
+- See prior revisions of this document for more detail.
 
 ### Version 0.4.x
+- 0.3.x development phase complete.
 - API changes
-   `_delVsheetList_`    => `_delVsheet_`
-   `_setVsheetList_`    => `_setVsheet_`
-   `_delCascadeObj_`    => `_delCascade_`
-   `_enableCascadeObj_` => `_useCascade_`
-   `_setCascadeObj_`    => `_setCascade_`
 - Added **API reference** section
-- Added `_changeMixinMap_`
-- Added `_changeVsheet_`
-- Added `_changeCascade_`
-- Added `_disableCascade_`
-- Added `_prepareCascade_`
+- See prior revisions of this document for more detail.
 
 ### Version 0.5.x
 - Refactored and greatly simplify API
@@ -1183,6 +1178,7 @@ MIT
 - Added `_regen_type_` option to manage CSS generation processing
 - Added **Recipes** section
 - Added **API reference** section
+- WIP `_getAssetIdList_`
 - WIP Add Performance example (005)
 - WIP Add inline API docs to code
 
