@@ -57,28 +57,28 @@ pcss._example005_ = function () {
       _color_bkgd_    : '#e3cca1'
     },
     { _palette_name_  : 'Tomato',
-      _color_shadow_  : '#d6cfc9',
-      _color_font_    : '#c2c290',
-      _color_mid_     : '#4a572c',
-      _color_gradtop_ : '#803018',
+      _color_shadow_  : '#4a572c',
+      _color_font_    : '#803018',
+      _color_mid_     : '#c2c290',
+      _color_gradtop_ : '#e87f60',
       _color_gradbtm_ : '#e34819',
-      _color_bkgd_    : '#e87f60'
+      _color_bkgd_    : '#d6cfc9'
     },
     { _palette_name_  : 'Canyon',
-      _color_shadow_  : '#6e352c',
-      _color_font_    : '#cf5230',
+      _color_shadow_  : '#8a6e64',
+      _color_font_    : '#6e352c',
       _color_mid_     : '#f59a44',
-      _color_gradtop_ : '#e3c598',
-      _color_gradbtm_ : '#8a6e64',
-      _color_bkgd_    : '#6e612f'
+      _color_gradtop_ : '#cf5230',
+      _color_gradbtm_ : '#6e612f',
+      _color_bkgd_    : '#e3c598'
     },
     { _palette_name_  : 'Basket',
       _color_shadow_  : '#e6e2df',
       _color_font_    : '#b2e3e8',
-      _color_mid_     : '#ccb8d1',
+      _color_mid_     : '#8f8172',
       _color_gradtop_ : '#966c5d',
-      _color_gradbtm_ : '#452b29',
-      _color_bkgd_    : '#8f8172'
+      _color_gradbtm_ : '#ccb8d1',
+      _color_bkgd_    : '#452b29'
     },
     { _palette_name_  : 'Fresh',
       _color_shadow_  : '#d9d9d9',
@@ -122,7 +122,7 @@ pcss._example005_ = function () {
     }
   ];
 
-  palette_idx = 0;
+  palette_idx = 4;
 
   global_mixin_map = {
     _global_d25_box_shadow_ : [[
@@ -278,7 +278,7 @@ pcss._example005_ = function () {
         _border_width_  : [[ '_0_', '_0_', '_d125rem_', '_d125rem_' ]],
         _padding_       : '_1rem_',
         _padding_top_   : '_d5rem_',
-        _background_    : '_xeee_',
+        _background_    : '_color_mid_',
         _line_height_   : '_1d5rem_'
       }
     },
@@ -363,7 +363,6 @@ pcss._example005_ = function () {
 
   // Begin init
   function fn_set_palette () {
-    palette_idx++;
     if ( palette_idx > palette_list.length ) {
       palette_idx = 0;
     }
@@ -374,18 +373,20 @@ pcss._example005_ = function () {
       _mixin_map_  : base_mixin_map,
       _regen_type_ : '_all_'
     });
-    console.warn( 'wtf?' );
+    palette_idx++;
   }
+
+  fn_set_palette();
   switch_el = document.getElementById( 'pcss-_switch_' );
   link_list = switch_el.getElementsByTagName( 'div' );
   switch_el.addEventListener( 'click', onclick_fn );
 
-  fn_set_palette();
   pcss._setCascade_({
     _cascade_id_ : '_ex01_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
+
   setInterval( fn_set_palette, 5000 );
   // End init
 };
