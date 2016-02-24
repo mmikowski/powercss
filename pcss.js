@@ -263,7 +263,7 @@ var pcss = (function () {
     //       |- _mixin_map_     : `mixin_map`
     //       +- _mixin_ms_      : `timestamp`
     //
-    // _cascade_map_
+    // _cascade_map_map_
     //   |- `cascade_id1`
     //      |- _cascade_id_           : `cascade_id1`
     //      |- _vsheet_id_list_       : `vsheet_id_list`
@@ -898,7 +898,7 @@ var pcss = (function () {
     // 4.x.1 Init and arguments
     var
       vsheet_map_map  = topSmap._vsheet_map_map_,
-      cascade_map_map = topSmap._vsheet_map_map_,
+      cascade_map_map = topSmap._cascade_map_map_,
 
       opt_map         = arg_opt_map || {},
       vsheet_id       = opt_map._vsheet_id_,

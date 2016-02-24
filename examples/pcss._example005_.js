@@ -29,6 +29,7 @@
 // BEGIN pcss._example005_
 pcss._example005_ = function () {
   var
+    palette_list,
     global_mixin_map,     base_mixin_map,
     base_selector_list,   box_selector_list,
     switch_selector_list, box_rule_map,
@@ -38,37 +39,102 @@ pcss._example005_ = function () {
 
   pcss._initModule_();
 
+  palette_list = [
+    { _palette_name_   : 'Autumn I',
+      _color_shadow_   : '#6d7696',
+      _color_font_     : '#59484f',
+      _color_mid_      : '#455c4f',
+      _color_gradtop_  : '#cc5543',
+      _color_gradbtm_  : '#edb579',
+      _color_bkgd_     : '#dbe6af'
+    },
+    { _palette_name_  : 'Autumn II',
+      _color_shadow_  : '#d1cec5',
+      _color_font_    : '#997c67',
+      _color_mid_     : '#755330',
+      _color_gradtop_ : '#b0703c',
+      _color_gradbtm_ : '#dba72e',
+      _color_bkgd_    : '#e3cca1'
+    },
+    { _palette_name_  : 'Tomato',
+      _color_shadow_  : '#d6cfc9',
+      _color_font_    : '#c2c290',
+      _color_mid_     : '#4a572c',
+      _color_gradtop_ : '#803018',
+      _color_gradbtm_ : '#e34819',
+      _color_bkgd_    : '#e87f60'
+    },
+    { _palette_name_  : 'Canyon',
+      _color_shadow_  : '#6e352c',
+      _color_font_    : '#cf5230',
+      _color_mid_     : '#f59a44',
+      _color_gradtop_ : '#e3c598',
+      _color_gradbtm_ : '#8a6e64',
+      _color_bkgd_    : '#6e612f'
+    },
+    { _palette_name_  : 'Basket',
+      _color_shadow_  : '#e6e2df',
+      _color_font_    : '#b2e3e8',
+      _color_mid_     : '#ccb8d1',
+      _color_gradtop_ : '#966c5d',
+      _color_gradbtm_ : '#452b29',
+      _color_bkgd_    : '#8f8172'
+    },
+    { _palette_name_  : 'Fresh',
+      _color_shadow_  : '#d9d9d9',
+      _color_font_    : '#f5b3b4',
+      _color_mid_     : '#d15656',
+      _color_gradtop_ : '#94353c',
+      _color_gradbtm_ : '#47322d',
+      _color_bkgd_    : '#996b42'
+    },
+    { _palette_name_  : 'Mineral',
+      _color_shadow_  : '#694364',
+      _color_font_    : '#b58bab',
+      _color_mid_     : '#e3d1e2',
+      _color_gradtop_ : '#e8e4e1',
+      _color_gradbtm_ : '#c4c4c0',
+      _color_bkgd_    : '#cca772'
+    },
+    { _palette_name_  : 'Spice I',
+      _color_shadow_  : '#ebe3d9',
+      _color_font_    : '#e0cdaf',
+      _color_mid_     : '#c2bc74',
+      _color_gradtop_ : '#6e615a',
+      _color_gradbtm_ : '#807e82',
+      _color_bkgd_    : '#b8b8b8'
+    },
+    { _palette_name_  : 'Spice III',
+      _color_shadow_  : '#f7efd4',
+      _color_font_    : '#faddaf',
+      _color_mid_     : '#eb712f',
+      _color_gradtop_ : '#91371b',
+      _color_gradbtm_ : '#472c25',
+      _color_bkgd_    : '#d4c2b2'
+    },
+    { _palette_name_  : 'Chili',
+      _color_shadow_  : '#283811',
+      _color_font_    : '#66492f',
+      _color_mid_     : '#b8997f',
+      _color_gradtop_ : '#a68887',
+      _color_gradbtm_ : '#d94330',
+      _color_bkgd_    : '#5c0811'
+    }
+  ];
+
+  palette_idx = 0;
+
   global_mixin_map = {
-    _global_d25_box_shadow_ : [[ 
+    _global_d25_box_shadow_ : [[
       ['rgba( 0, 0, 0, .5)'], '_0_', '_0_', '_d25rem_', '_0_'
     ]],
-    _global_d5_box_shadow_  : [[ 
+    _global_d5_box_shadow_  : [[
       ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
     ]],
-    _global_red_grad_map_ : {
-      _alt_list_ : [
-        [ '#f85032' ],
-        [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-        [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-        [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
-      ]
-    },
-    _global_green_grad_map_ : {
-      _alt_list_ : [
-        [ '#4f9831' ],
-        [ '-moz-linear-gradient(left, #4f9831 0%, #eee 100%)' ],
-        [ '-webkit-linear-gradient(left, #4f9831 0%, #eee 100%)' ],
-        [ 'linear-gradient(to bottom, #4f9831 0%, #eee 100%)' ]
-      ]
-    },
-    _global_blue_grad_map_ : {
-      _alt_list_ : [
-        [ '#314f98' ],
-        [ '-moz-linear-gradient(left, #314f98 0%, #eee 100%)' ],
-        [ '-webkit-linear-gradient(left, #314f98 0%, #eee 100%)' ],
-        [ 'linear-gradient(to bottom, #314f98 0%, #eee 100%)' ]
-      ]
-    }
+    _global_linear_grad_ : [[
+      [ 'linear-gradient(to bottom,' ],
+      '_color_gradtop_', [ '0%,'], '_color_gradbtm_', '_100p_', [')']
+    ]]
   };
 
   pcss._setGlobalMixinMap_({
@@ -78,7 +144,6 @@ pcss._example005_ = function () {
   // Begin add _base_ vsheet
   base_mixin_map = {
     _base_body_font_size_  : '16px',
-    _base_body_font_color_ : '#a44',
     _base_input_width_     : '10rem',
     _base_input_border_    : [[ '_d125rem_','_solid_','_xddd_' ]]
   };
@@ -89,10 +154,11 @@ pcss._example005_ = function () {
         _box_sizing_ : '_border_box_',
         _margin_     : '_0_',
         _padding_    : '_2rem_',
+        _background_ : '_color_bkgd_',
         _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
         _font_size_  : '_base_body_font_size_',
-        _color_      : '_base_body_font_color_'
+        _color_      : '_color_font_'
       }
     },
     { _selector_str_ : 'input',
@@ -142,7 +208,7 @@ pcss._example005_ = function () {
         _width_          : [ '16rem' ],
         _height_         : [ '8rem' ],
         _padding_top_    : '_1rem_',
-        _background_     : '_global_red_grad_map_',
+        _background_     : '_global_linear_grad_',
         _font_size_      : '_1d5rem_',
         _font_weight_    : '_800_',
         _color_          : '_xfff_',
@@ -166,14 +232,13 @@ pcss._example005_ = function () {
     _max_width_  : [ '32rem' ],
     _font_size_  : '_2rem_',
     _box_shadow_ : '_global_d5_box_shadow_',
-    _background_ : '_global_green_grad_map_'
+    _background_ : '_global_linear_grad_'
   });
 
   pcss._setVsheet_({
     _vsheet_id_     : '_box02_',
     _mode_str_      : '_add_',
-    _selector_list_ : box_selector_list,
-    _mixin_map_     : { _base_body_font_color_ : '#080' }
+    _selector_list_ : box_selector_list
   });
   // End add _box02_ vsheet by *revising* box_selector_list
 
@@ -188,14 +253,13 @@ pcss._example005_ = function () {
     _padding_top_   : '_d5rem_',
     _font_family_   : '_font_fixed_',
     _font_size_     : '_1d75rem_',
-    _background_    : '_global_blue_grad_map_'
+    _background_    : '_global_linear_grad_'
   });
 
   pcss._setVsheet_({
     _vsheet_id_     : '_box03_',
     _mode_str_      : '_add_',
-    _selector_list_ : box_selector_list,
-    _mixin_map_     : { _base_body_font_color_ : '#008' }
+    _selector_list_ : box_selector_list
   });
   // End add _box03_ vsheet by *revising* box_selector_list
 
@@ -205,15 +269,13 @@ pcss._example005_ = function () {
       _rule_map_   : {
         _position_      : '_fixed_',
         _z_index_       : '_1_',
-        _bottom_        : '_0_',
-        _left_          : '_0_',
-        _height_        : [ '16rem' ],
-        _overflow_y_    : '_scroll_',
+        _top_           : '_0_',
+        _right_         : '_0_',
         _box_shadow_    : box_rule_map._box_shadow_,
         _border_color_  : '_xaaa_',
-        _border_radius_ : [[ '_0_','_1rem_','_0_','_0_' ]],
+        _border_radius_ : [[ '_0_','_0_','_0_','_1rem_' ]],
         _border_style_  : '_solid_',
-        _border_width_  : [[ '_d125rem_', '_d125rem_', '_0_', '_0_' ]],
+        _border_width_  : [[ '_0_', '_0_', '_d125rem_', '_d125rem_' ]],
         _padding_       : '_1rem_',
         _padding_top_   : '_d5rem_',
         _background_    : '_xeee_',
@@ -239,8 +301,7 @@ pcss._example005_ = function () {
   pcss._setVsheet_({
     _vsheet_id_     : '_switch_',
     _mode_str_      : '_add_',
-    _selector_list_ : switch_selector_list,
-    _mixin_map_     : { _base_body_font_color_ : '#008' }
+    _selector_list_ : switch_selector_list
   });
   // End add _switch_ vsheet
 
@@ -301,106 +362,40 @@ pcss._example005_ = function () {
   // End onclick handler
 
   // Begin init
+  function fn_set_palette () {
+    palette_idx++;
+    if ( palette_idx > palette_list.length ) {
+      palette_idx = 0;
+    }
+    pcss._extendRuleMap_( base_mixin_map, palette_list[ palette_idx ] );
+    pcss._setVsheet_({
+      _vsheet_id_  : '_base_',
+      _mode_str_   : '_change_',
+      _mixin_map_  : base_mixin_map,
+      _regen_type_ : '_all_'
+    });
+    console.warn( 'wtf?' );
+  }
   switch_el = document.getElementById( 'pcss-_switch_' );
   link_list = switch_el.getElementsByTagName( 'div' );
+  switch_el.addEventListener( 'click', onclick_fn );
+
+  fn_set_palette();
   pcss._setCascade_({
     _cascade_id_ : '_ex01_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
-
-  switch_el.addEventListener( 'click', onclick_fn );
+  setInterval( fn_set_palette, 5000 );
   // End init
 };
 // END pcss._example005_
 
-
-
-/*
- * Call Us: 832-387-4693
+/** Color palettes thanks to:
  * DuoParadigms Public Relations & Design, Inc.
  * http://www.duoparadigms.com/2013/10/11/10-color-palettes-perfect-autumnfall-season/
  * 10 Color Palettes (and HEX Codes) Perfect for the Autumn/Fall Season
  * Posted by Aaress Lawless | Tags: Graphic Design
-   
-AutumnPalette  
-#6d7696
-#59484f
-#455c4f
-#cc5543
-#edb579
-#dbe6af
-
-tomato_tones  
-#d6cfc9
-#c2c290
-#4a572c
-#803018
-#e34819
-#e87f60
-
-canyon color  
-#6e352c
-#cf5230
-#f59a44
-#e3c598
-#8a6e64
-#6e612f
-
-autumn tones  
-#d1cec5
-#997c67
-#755330
-#b0703c
-#dba72e
-#e3cca1
-
-ColorBasket  
-#e6e2df
-#b2e3e8
-#ccb8d1
-#966c5d
-#452b29
-#8f8172
-
-color_fresh  
-#d9d9d9
-#f5b3b4
-#d15656
-#94353c
-#47322d
-#996b42
-
-MineralTones_2  
-#694364
-#b58bab
-#e3d1e2
-#e8e4e1
-#c4c4c0
-#cca772
-
-AutumnSpice  
-#ebe3d9
-#e0cdaf
-#c2bc74
-#6e615a
-#807e82
-#b8b8b8
-
-chili color  
-#283811
-#66492f
-#b8997f
-#a68887
-#d94330
-#5c0811
-
-SpicedPalette_3  
-#f7efd4
-#faddaf
-#eb712f
-#91371b
-#472c25
-#d4c2b2
-
+ * Call Us: 832-387-4693
 */
+
