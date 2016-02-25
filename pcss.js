@@ -21,17 +21,12 @@ var pcss = (function () {
     __str2j     = JSON.parse,
     __blank     = '',
     __docRef    = document,
+    __winRef    = window,
     __false     = false,
     __isArray   = Array.isArray,
     __null      = null,
     __true      = true,
     __timeStamp = Date.now,
-
-    __0     = 0,
-    __1     = 1,
-    __2     = 2,
-    __n1    = -1,
-    __undef = window.undefined,
 
     vMap = {
       _appendChild_    : 'appendChild',
@@ -52,6 +47,7 @@ var pcss = (function () {
       _innerText_      : 'innerText',
       _join_           : 'join',
       _length_         : 'length',
+      _log_            : 'log',
       _nodeValue_      : 'nodeValue',
       _object_         : 'object',
       _push_           : 'push',
@@ -65,8 +61,17 @@ var pcss = (function () {
       _textContent_    : 'textContent',
       _text_           : 'text',
       _text_css_       : 'text/css',
-      _type_           : 'type'
+      _type_           : 'type',
+      _undefined_      : 'undefined'
     },
+
+    __0     = 0,
+    __1     = 1,
+    __2     = 2,
+    __n1    = -1,
+    __undef = __winRef[ vMap._undefined_ ],
+    __console = console,
+
 
     // CSS rule keys
     cssKeyMap = {
@@ -714,9 +719,9 @@ var pcss = (function () {
     if ( regen_type === '_none_' ) { return regen_type; }
 
     // 2.x.3 _merge_ level regen_type
-    if ( cascade_map._merged_selector_ms_ < cascade_map._vsheet_ms_
-      || cascade_map._merged_selector_ms_ < cascade_map._mixin_ms_
-      || cascade_map._merged_selector_ms_ < topSmap._global_mixin_ms_
+    if ( cascade_map._merged_selector_ms_ <= cascade_map._vsheet_ms_
+      || cascade_map._merged_selector_ms_ <= cascade_map._mixin_ms_
+      || cascade_map._merged_selector_ms_ <= topSmap._global_mixin_ms_
     ) {
       result_map = mergeCascade(
         cascade_map._vsheet_id_list_, cascade_map._mixin_map_

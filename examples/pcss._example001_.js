@@ -43,6 +43,7 @@ pcss._example001_ = function () {
         _box_sizing_ : '_border_box_',
         _margin_     : '_0_',
         _padding_    : '_2rem_',
+        _background_ : '_xddd_',
         _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
         _font_size_  : [ '16px' ],
@@ -67,6 +68,16 @@ pcss._example001_ = function () {
         _border_color_ : '_xfff_',
         _background_   : '_x444_',
         _color_        : '_xfff_'
+      }
+    },
+    { _selector_str_ : '.pcss-_logo_',
+      _rule_map_     : {
+        _background_image_ : [
+          'url(http://mmikowski.github.io/images/2016-02-22-pcss.png)'
+        ],
+        _background_size_ : '_cover_',
+        _width_  : [ '20.75rem' ],
+        _height_ : [ '10.125rem' ]
       }
     }
   ];

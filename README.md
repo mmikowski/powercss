@@ -94,7 +94,7 @@ be found in the `examples` directory of the GitHub repository.
       </script>
     </head>
     <body>
-      <h1>PowerCSS</h1>
+      <div class="pcss-_logo_" title="PowerCSS"></div>
       <h2>Example 001: The basics</h2>
       <div class="pcss-_box_">PowerCSS 01<br/>
         <input title="name" type="text" placeholder="your name here"/>
@@ -148,6 +148,7 @@ be found in the `examples` directory of the GitHub repository.
 
       pcss._initModule_();
 
+
 We start our module with identification, JSLint settings, and a reminder
 of preferred CSS attribute order. Then we declare our function variables,
 and finally we initialize the PowerCSS module. And, yes, Virginia, our
@@ -167,6 +168,7 @@ the format with little trouble. Below we add a **vsheet** definition to
             _box_sizing_ : '_border_box_',
             _margin_     : '_0_',
             _padding_    : '_2rem_',
+            _background_ : '_xddd_',
             _overflow_y_ : '_scroll_',
             _font_family_: '_font_sans_',
             _font_size_  : [ '16px' ],
@@ -192,6 +194,16 @@ the format with little trouble. Below we add a **vsheet** definition to
             _background_   : '_x444_',
             _color_        : '_xfff_'
           }
+        },
+        { _selector_str_ : '.pcss-_logo_',
+          _rule_map_     : {
+            _background_image_ : [
+              'url(http://mmikowski.github.io/images/2016-02-22-pcss.png)'
+            ],
+            _background_size_ : '_cover_',
+            _width_  : [ '20.75rem' ],
+            _height_ : [ '10.125rem' ]
+          }
         }
       ];
 
@@ -202,6 +214,7 @@ the format with little trouble. Below we add a **vsheet** definition to
       });
       // End add _base_ vsheet
 
+
 We provide our selectors in a list because their order is important
 in CSS. PowerCSS records the **vsheet** definition, but it doesn't
 compile it to CSS yet - that comes later.
@@ -209,45 +222,48 @@ compile it to CSS yet - that comes later.
 ### 3b. Add a 'box' **vsheet**
 Let's add another **vsheet** to style the boxes on our page:
 
-      // Begin add _box01_ vsheet
-      box_selector_list = [
-        { _selector_str_ : '.pcss-_box_',
-          _rule_lock_list_ : [ '_font_size_' ],
-          _rule_map_ : {
-            _display_        : '_inline_block_',
-            _opacity_        : '_1_',
-            _box_sizing_     : '_border_box_',
-            _position_       : '_relative_',
-            _vertical_align_ : '_top_',
-            _margin_         : '_1rem_',
-            _box_shadow_     : [ 'rgba( 0, 0, 0, .5) 0 0 .25rem 0' ],
-            _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
-            _border_radius_  : '_1rem_',
-            _width_          : [ '16rem' ],
-            _height_         : [ '8rem' ],
-            _padding_top_    : '_1rem_',
-            _background_     : {
-              _alt_list_ : [
-                [ '#f85032' ],
-                [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-                [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-                [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
-              ]
-            },
-            _font_size_      : '_1d5rem_',
-            _font_weight_    : '_800_',
-            _color_          : '_xfff_',
-            _text_align_     : '_center_'
-          }
+    // Begin add _box01_ vsheet
+    box_selector_list = [
+      { _selector_str_ : '.pcss-_box_',
+        _rule_lock_list_ : [ '_font_size_' ],
+        _rule_map_ : {
+          _display_        : '_inline_block_',
+          _opacity_        : '_1_',
+          _box_sizing_     : '_border_box_',
+          _position_       : '_relative_',
+          _vertical_align_ : '_top_',
+          _margin_         : '_1rem_',
+          _box_shadow_     : [[ 
+            [ 'rgba( 0, 0, 0, .5)' ], '_0_', '_0_', '_d25rem_', '_0_'
+          ]],
+          _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
+          _border_radius_  : '_1rem_',
+          _width_          : [ '16rem' ],
+          _height_         : [ '8rem' ],
+          _padding_top_    : '_1rem_',
+          _background_     : {
+            _alt_list_ : [
+              [ '#f85032' ],
+              [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+              [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+              [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
+            ]
+          },
+          _font_size_      : '_1d5rem_',
+          _font_weight_    : '_800_',
+          _color_          : '_xfff_',
+          _text_align_     : '_center_'
         }
-      ];
+      }
+    ];
 
-      pcss._setVsheet_({
-        _vsheet_id_     : '_box01_',
-        _mode_str_      : '_add_',
-        _selector_list_ : box_selector_list
-      });
-      // End add _box01_ vsheet
+    pcss._setVsheet_({
+      _vsheet_id_     : '_box01_',
+      _mode_str_      : '_add_',
+      _selector_list_ : box_selector_list
+    });
+    // End add _box01_ vsheet
+
 
 Here we use a few advanced features, but don't get lost in the details.
 We clarify the PowerCSS selector later the **Mixin maps** section.
@@ -260,6 +276,7 @@ one. This is similar to how a browser merges multiple CSS files when rendering
 a static page. However, with PowerCSS we can have many **cascades** and
 dynamically update them. Let's add one now:
 
+
       // Begin add and use _ex01_ cascade
       pcss._setCascade_({
         _cascade_id_     : '_ex01_',
@@ -270,6 +287,7 @@ dynamically update them. Let's add one now:
       // End add and use _ex01_ cascade
     };
     // END pcss._example001_
+
 
 We can now save the `pcss._example001_.js` file. Next, we'll look at the
 results.
