@@ -122,7 +122,7 @@ pcss._example005_ = function () {
     }
   ];
 
-  palette_idx = 9;
+  palette_idx = 0;
 
   global_mixin_map = {
     _10rem_ : '10rem',
@@ -373,7 +373,7 @@ pcss._example005_ = function () {
 
   // Begin init
   function fn_set_palette () {
-    if ( palette_idx > palette_list.length ) {
+    if ( palette_idx >= palette_list.length ) {
       palette_idx = 0;
     }
     console.log( palette_list[ palette_idx ]._palette_name_ );

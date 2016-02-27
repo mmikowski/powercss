@@ -28,7 +28,7 @@ like `_this_` which makes them easy targets for compression.
 A significant problem with traditional CSS files - whether written by an
 expert or someone using {less} or Sass - is that they are **not** written
 at run-time. With static CSS, application controlled styling that is
-responsive to the user's environment is at best limited and at worst
+responsive to the user's environment is either limited or 
 simply not possible.
 
 PowerCSS provides our application the tools to write and apply infinitely

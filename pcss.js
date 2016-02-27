@@ -280,19 +280,19 @@ var pcss = (function () {
     //      |- _merged_selector_ms_   : `timestamp`
     //      |- _css_str_              : `cascade_css`
     //      +- _css_ms_               : `timestamp`
-    //
+
     topSmap = {
-      _is_enabled_         : __true,
-      _el_cascade_list_ : [],
+      _is_enabled_       : __true,
+      _el_cascade_list_  : [],
 
-      _global_mixin_map_   : {},
-      _global_mixin_ms_    : __0,
+      _global_mixin_map_ : {},
+      _global_mixin_ms_  : __0,
 
-      _vsheet_map_map_     : {},
-      _cascade_map_map_    : {},
-      _style_el_list_      : __undef,
-      _style_el_prefix_    : __undef,
-      _style_el_idx_       : __n1
+      _vsheet_map_map_   : {},
+      _cascade_map_map_  : {},
+      _style_el_list_    : __undef,
+      _style_el_prefix_  : __undef,
+      _style_el_idx_     : __n1
     }
     ;
   // end 1. MODULE SCOPE VARIABLES ========================
@@ -1101,7 +1101,6 @@ var pcss = (function () {
 
   // end 4. PUBLIC METHODS ====================================
   return {
-    // General
     _initModule_          : initModule,
     _extendRuleMap_       : extendRuleMap,
     _setGlobalMixinMap_   : initCheck[ vMap._bind_ ]( setGlobalMixinMap   ),
