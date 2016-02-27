@@ -149,16 +149,16 @@ pcss._home_ = function () {
   };
   base_selector_list = [
     { _selector_str_  : 'body',
-      _rule_map_     : {
-        _display_    : '_block_',
-        _box_sizing_ : '_border_box_',
-        _margin_     : '_0_',
-        _padding_    : '_2rem_',
-        _background_ : '_color_bkgd_',
-        _overflow_y_ : '_scroll_',
-        _font_family_: '_font_sans_',
-        _font_size_  : '_base_body_font_size_',
-        _color_      : '_color_font_'
+      _rule_map_ : {
+        _box_sizing_  : '_border_box_',
+        _margin_      : '_0_',
+        _padding_     : '_2rem_',
+        _background_  : '_color_bkgd_',
+        _max_width_   : [ '50rem' ],
+        _font_family_ : '_font_sans_',
+        _font_size_   : '_base_body_font_size_',
+        _line_height_ : '_1d25rem_',
+        _color_       : '_color_font_',
       }
     },
     { _selector_str_ : 'input',
@@ -175,19 +175,25 @@ pcss._home_ = function () {
       }
     },
     { _selector_str_ : 'input:focus',
-      _rule_map_   : {
+      _rule_map_ : {
         _border_color_ : '_xfff_',
         _background_   : '_x444_',
         _color_        : '_xfff_'
       },
     },
     { _selector_str_ : '.pcss-_logo_',
-      _rule_map_     : {
+      _rule_map_ : {
         _background_image_ : ['url(http://mmikowski.github.io/images/2016-02-22-pcss.png)'],
         _background_size_ : '_cover_',
         _width_  : [ '20.75rem' ],
         _height_ : [ '10.125rem' ]
       }
+    },
+    { _selector_str_ : 'li',
+      _rule_map_ : { _margin_btm_ : '_d25rem_' }
+    },
+    { _selector_str_  : 'p',
+      _rule_map_ : { _margin_left_ : '_2rem_' }
     }
   ];
 
@@ -395,7 +401,7 @@ pcss._home_ = function () {
     _regen_type_ : '_use_'
   });
 
-  setInterval( fn_set_palette, 50000000 );
+  // setInterval( fn_set_palette, 50000 );
   // End init
 };
 // END pcss._home_

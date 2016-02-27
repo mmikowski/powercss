@@ -12,39 +12,42 @@
 <body>
   <div class="pcss-_logo_"></div>
   <h2>Overview</h2>
-    <p><b>PowerCSS</b> is a JavaScript library that helps JavaScript
-    developers create responsive, double-buffered CSS that is optimized
-    for performance.  <a href="https://www.youtube.com/watch?v=rnkMjzhxw4s"
-    >I advocated CSS double-buffering </a> years ago, but PowerCSS is all-new
-    code with many additional capabilities
+    <p><b>PowerCSS</b> is a JavaScript library that helps developers create
+    responsive, double-buffered CSS that is optimized for performance. 
+    Watch <a href="https://www.youtube.com/watch?v=rnkMjzhxw4s">this
+    presentation</a> for an an overview of CSS double-buffering.  
+    PowerCSS is all-new code with many additional capabilities
     and optimizations.<p>
 
-    The project is hosted on <a href="https://github.com/mmikowski/powercss"
-    >GitHub</a> and can be installed using
-    <a href="https://www.npmjs.com/package/powercss">npm install powercss</a>.
+    <p>The project is hosted on <a href="https://github.com/mmikowski/powercss"
+    >GitHub</a> and is available as an 
+    <a href="https://www.npmjs.com/package/powercss">npm package</a>.
+    It can be installed using <code>npm install powercss</code>.</p>
+
+    <p>This page is styled using PowerCSS.</p>
 
   <h2>Why PowerCSS?</h2>
-  <p>A significant problem with traditional CSS files - whether written
-  by an expert or someone using {less} or Sass - is that they are
-  <b>not</b> written at run-time. Application-controlled styling that is
-  responsive to the user's environment is either limited or simply not
-  possible.</p>
+    <p>A significant problem with traditional CSS, whether written
+    by an expert or someone using <code>{less}</code> or <code>Sass</code>,
+    is that it is <b>not</b> written as the application needs it. 
+    Styling that is responsive to the user's environment is either limited
+    or simply not possible.</p>
 
-  <p>PowerCSS provides our application the tools to write and apply infinitely
-  adjustable CSS based on almost any real-time data available to us.
-  For example, our application could use PowerCSS to adjust styling based on
-  device orientation, ambient temperature, ambient light, GPS location,
-  heart rate, or time of day. Traditional static CSS files can't compete with 
-  this flexibility.</p>
+    <p>PowerCSS provides tools to write and apply infinitely adjustable
+    CSS based on almost any real-time data available to an application.
+    For example, an application could use PowerCSS to adjust styling based on
+    device orientation, ambient temperature, ambient light, GPS location,
+    heart rate, or time of day. Traditional static CSS can't compete with 
+    this flexibility.</p>
 
-  <p>We feel that PowerCSS has not only achieved its primary goal, but that 
-  it is often better than static CSS in many other respects as well.
-  It provides a simple and familiar API where experienced CSS authors
-  can use their existing skills to be up and running in minutes.
-  When properly implemented, a PowerCSS solution usually downloads
-  faster, renders faster after loading, and can speed up some CSS
-  operations by 10x or more. What's not to like?</p>
-
+    <p>We feel that PowerCSS has not only achieved its primary goal, but that 
+    it is often better than static CSS in many other respects as well.
+    It provides a simple and familiar API where experienced CSS authors
+    can use their existing skills to be up and running in minutes.
+    When compressed, a PowerCSS solution can download and render faster,
+    and it can speed up some CSS operations by 10x or more.
+    What's not to like?</p>
+ 
   <h2>Examples</h2>
     <ul>
       <li><a href="examples/pcss._example001_.html">Example 001</a>
@@ -86,7 +89,7 @@
         are removed during its preparation. As a result the browser
         rendering engine can work much more efficiently.</li>
       <li><strong>Highly compressible</strong> - PowerCSS can be
-        compressed to a fraction of the size of compressed static CSS.</li>
+        compressed to a fraction of the size of minimized static CSS.</li>
       <li><strong>Quality code</strong> - Expertly written and documented.
         Passes JSLint as a commit hook. We expect to include regression tests
         as a commit hook prior to 1.x release.</li>
@@ -97,20 +100,22 @@
     </ul>
 
   <h2>News</h2>
-  <h3>2016-02-24: Beta v0.5.x</h3>
-  <p>If you’ve been sitting on the fence waiting for a stable API, your wait is over.
-  PowerCss is nearly feature complete, and we consider it officially
-  Beta. We have been updating examples and squashing niggling bugs as we find
-  them.</p>
+    <h3>2016-02-24: Beta v0.5.x</h3>
+    <p>PowerCss is nearly feature complete, and we consider it officially
+    <b>Beta</b>. We have been updating examples and squashing niggling bugs
+    as we find them.</p>
 
-  <p>This version saw our last big API overhaul we expect before the 1.x
-  release.  We cut the number of methods in half while adding many 
-  capabilities. The documentation and examples have expanded and updated.
-  We are especially proud of <strong>The PowerCSS Cookbook</strong> section.</p>
+    <p>This version saw our last big API overhaul we expect before the 1.x
+    release.  We cut the number of methods in half while adding many 
+    capabilities. The documentation and examples have expanded and updated.
+    We have added the PowerCSS Cookbook section to the 
+    <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
+    >GitHub Documentation</a> which we hope you find useful.
+    
+    <p>The work remaining includes documentation updates, example implementations,
+    and regression tests. We hope to complete those tasks and see a 1.x release
+    before the end of March 2016.</p>
 
-  <p>The work remaining includes documentation updates, example implementations,
-  and regression tests. We hope to complete those tasks and see a 1.x release
-  before the end of March 2016.</p>
-
+  <h2>End</h2>
 </body>
 </html>
