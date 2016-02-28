@@ -1,0 +1,14 @@
+{
+  "name": "powercss",
+  "main": "dist/pcss.js",
+  "license": "MIT",
+  "ignore": [
+    "package.json"
+  ],
+  "keywords": [
+    "powercss",
+    "javascript",
+    "browser",
+    "library"
+  ]
+}

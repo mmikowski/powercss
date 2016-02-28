@@ -1,6 +1,6 @@
-/* pss._home_.js
- * PowerCSS - run-time generated and managed CSS
- * Homepage CSS
+/* pss._example005_.js
+ * Example 005 of run-time generated and managed CSS
+ * PowerCSS auto update of changes
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
 /*jslint        browser : true, continue : true,
@@ -26,10 +26,10 @@
  *    10. transition or animation definitions
 */
 
-// BEGIN pcss._home_
-pcss._home_ = function () {
+// BEGIN pcss._example005_
+pcss._example005_ = function () {
   var
-    palette_list,
+    palette_list,         palette_idx,
     global_mixin_map,     base_mixin_map,
     base_selector_list,   box_selector_list,
     switch_selector_list, box_rule_map,
@@ -41,9 +41,9 @@ pcss._home_ = function () {
 
   palette_list = [
     { _palette_name_   : 'Autumn I',
-      _color_shadow_   : '#6d7696',
+      _color_shadow_   : '#455c4f',
       _color_font_     : '#59484f',
-      _color_mid_      : '#455c4f',
+      _color_mid_      : '#6d7696',
       _color_gradtop_  : '#cc5543',
       _color_gradbtm_  : '#edb579',
       _color_bkgd_     : '#dbe6af'
@@ -75,10 +75,10 @@ pcss._home_ = function () {
     { _palette_name_  : 'Basket',
       _color_shadow_  : '#e6e2df',
       _color_font_    : '#b2e3e8',
-      _color_mid_     : '#8f8172',
+      _color_mid_     : '#452b29',
       _color_gradtop_ : '#966c5d',
       _color_gradbtm_ : '#ccb8d1',
-      _color_bkgd_    : '#452b29'
+      _color_bkgd_    : '#8f8172'
     },
     { _palette_name_  : 'Fresh',
       _color_shadow_  : '#d9d9d9',
@@ -89,42 +89,43 @@ pcss._home_ = function () {
       _color_bkgd_    : '#996b42'
     },
     { _palette_name_  : 'Mineral',
-      _color_shadow_  : '#694364',
-      _color_font_    : '#b58bab',
+      _color_shadow_  : '#b58bab',
+      _color_font_    : '#694364',
       _color_mid_     : '#e3d1e2',
-      _color_gradtop_ : '#e8e4e1',
+      _color_gradtop_ : '#cca772',
       _color_gradbtm_ : '#c4c4c0',
-      _color_bkgd_    : '#cca772'
+      _color_bkgd_    : '#e8e4e1'
     },
     { _palette_name_  : 'Spice I',
-      _color_shadow_  : '#ebe3d9',
-      _color_font_    : '#e0cdaf',
-      _color_mid_     : '#c2bc74',
-      _color_gradtop_ : '#6e615a',
+      _color_shadow_  : '#c2bc74',
+      _color_font_    : '#6e615a', 
+      _color_mid_     : '#b8b8b8',
+      _color_gradtop_ : '#e0cdaf',
       _color_gradbtm_ : '#807e82',
-      _color_bkgd_    : '#b8b8b8'
+      _color_bkgd_    : '#ebe3d9'
     },
     { _palette_name_  : 'Spice III',
       _color_shadow_  : '#f7efd4',
-      _color_font_    : '#faddaf',
-      _color_mid_     : '#eb712f',
+      _color_font_    : '#eb712f',
+      _color_mid_     : '#faddaf',
       _color_gradtop_ : '#91371b',
       _color_gradbtm_ : '#472c25',
       _color_bkgd_    : '#d4c2b2'
     },
     { _palette_name_  : 'Chili',
       _color_shadow_  : '#283811',
-      _color_font_    : '#66492f',
-      _color_mid_     : '#b8997f',
+      _color_font_    : '#5c0811',
+      _color_mid_     : '#d94330', 
       _color_gradtop_ : '#a68887',
-      _color_gradbtm_ : '#d94330',
-      _color_bkgd_    : '#5c0811'
+      _color_gradbtm_ : '#66492f',
+      _color_bkgd_    : '#b8997f'
     }
   ];
 
   palette_idx = 0;
 
   global_mixin_map = {
+    _10rem_ : '10rem',
     _global_d25_box_shadow_ : [[
       ['rgba( 0, 0, 0, .5)'], '_0_', '_0_', '_d25rem_', '_0_'
     ]],
@@ -145,20 +146,20 @@ pcss._home_ = function () {
   base_mixin_map = {
     _base_body_font_size_  : '16px',
     _base_input_width_     : '10rem',
-    _base_input_border_    : [[ '_d125rem_','_solid_','_xddd_' ]]
+    _base_input_border_    : [[ '_d125rem_','_solid_','_color_bkgd_' ]]
   };
   base_selector_list = [
     { _selector_str_  : 'body',
-      _rule_map_ : {
-        _box_sizing_  : '_border_box_',
-        _margin_      : '_0_',
-        _padding_     : '_2rem_',
-        _background_  : '_color_bkgd_',
-        _max_width_   : [ '50rem' ],
-        _font_family_ : '_font_sans_',
-        _font_size_   : '_base_body_font_size_',
-        _line_height_ : '_1d25rem_',
-        _color_       : '_color_font_',
+      _rule_map_     : {
+        _display_    : '_block_',
+        _box_sizing_ : '_border_box_',
+        _margin_     : '_0_',
+        _padding_    : '_2rem_',
+        _background_ : '_color_bkgd_',
+        _overflow_y_ : '_scroll_',
+        _font_family_: '_font_sans_',
+        _font_size_  : '_base_body_font_size_',
+        _color_      : '_color_font_'
       }
     },
     { _selector_str_ : 'input',
@@ -169,31 +170,25 @@ pcss._home_ = function () {
         _border_radius_ : '_d5rem_',
         _outline_       : '_none_',
         _padding_       : '_d5rem_',
-        _background_    : '_x888_',
+        _background_    : '_color_mid_',
         _font_size_     : '_1rem_',
-        _color_         : '_xddd_'
+        _color_         : '_color_font_'
       }
     },
     { _selector_str_ : 'input:focus',
-      _rule_map_ : {
+      _rule_map_   : {
         _border_color_ : '_xfff_',
-        _background_   : '_x444_',
+        _background_   : '_color_bkgd_',
         _color_        : '_xfff_'
       },
     },
     { _selector_str_ : '.pcss-_logo_',
-      _rule_map_ : {
+      _rule_map_     : {
         _background_image_ : ['url(http://mmikowski.github.io/images/2016-02-22-pcss.png)'],
         _background_size_ : '_cover_',
         _width_  : [ '20.75rem' ],
         _height_ : [ '10.125rem' ]
       }
-    },
-    { _selector_str_ : 'li',
-      _rule_map_ : { _margin_btm_ : '_d25rem_' }
-    },
-    { _selector_str_  : 'p',
-      _rule_map_ : { _margin_left_ : '_2rem_' }
     }
   ];
 
@@ -217,7 +212,7 @@ pcss._home_ = function () {
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
         _box_shadow_     : '_global_d25_box_shadow_',
-        _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
+        _border_         : [[ '_d25rem_', '_solid_', '_color_mid_' ]],
         _border_radius_  : '_1rem_',
         _width_          : [ '16rem' ],
         _height_         : [ '8rem' ],
@@ -265,6 +260,7 @@ pcss._home_ = function () {
     _border_width_  : '_1rem_',
     _border_radius_ : '_0_',
     _padding_top_   : '_d5rem_',
+    _height_        : '_10rem_',
     _font_family_   : '_font_fixed_',
     _font_size_     : '_1d75rem_',
     _background_    : '_global_linear_grad_'
@@ -286,7 +282,7 @@ pcss._home_ = function () {
         _top_           : '_0_',
         _right_         : '_0_',
         _box_shadow_    : box_rule_map._box_shadow_,
-        _border_color_  : '_xaaa_',
+        _border_color_  : '_color_bkgd_',
         _border_radius_ : [[ '_0_','_0_','_0_','_1rem_' ]],
         _border_style_  : '_solid_',
         _border_width_  : [[ '_0_', '_0_', '_d125rem_', '_d125rem_' ]],
@@ -306,7 +302,7 @@ pcss._home_ = function () {
     },
     { _selector_str_ : '#pcss-_switch_ div.pcss-_x_select_',
       _rule_map_ : {
-        _background_ : '_x888_',
+        _background_ : '_color_bkgd_',
         _color_      : '_xfff_'
       }
     }
@@ -377,7 +373,7 @@ pcss._home_ = function () {
 
   // Begin init
   function fn_set_palette () {
-    if ( palette_idx > palette_list.length ) {
+    if ( palette_idx >= palette_list.length ) {
       palette_idx = 0;
     }
     pcss._extendRuleMap_( base_mixin_map, palette_list[ palette_idx ] );
@@ -391,9 +387,9 @@ pcss._home_ = function () {
   }
 
   fn_set_palette();
-  // switch_el = document.getElementById( 'pcss-_switch_' );
-  // link_list = switch_el.getElementsByTagName( 'div' );
-  // switch_el.addEventListener( 'click', onclick_fn );
+  switch_el = document.getElementById( 'pcss-_switch_' );
+  link_list = switch_el.getElementsByTagName( 'div' );
+  switch_el.addEventListener( 'click', onclick_fn );
 
   pcss._setCascade_({
     _cascade_id_ : '_ex01_',
@@ -401,10 +397,10 @@ pcss._home_ = function () {
     _regen_type_ : '_use_'
   });
 
-  // setInterval( fn_set_palette, 50000 );
+  setInterval( fn_set_palette, 5000 );
   // End init
 };
-// END pcss._home_
+// END pcss._example005_
 
 /** Color palettes thanks to:
  * DuoParadigms Public Relations & Design, Inc.
