@@ -2,5 +2,3 @@
 .git
 *.swp
 npm-debug.log
-bin/
-cfg/

@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# See http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
+# unset var check
+set -u;
+# exit on error check set -e;
+
+# Adjust for links
+LINK_PATH=$(readlink -f -- "${0}");
+
+# Now find the directory of this executable
+EXE_PATH=$( cd ${LINK_PATH%/*} && echo $PWD ); # absolute path to this bin
+
+## 2016-02-29 mmikowski
+## DISABLED as this is not consistent with current structure
+# Auto generate index.html for README.md files
+# MAKE_DOC="${EXE_PATH}/make_doc";
+# if [ -f "${MAKE_DOC}" ]; then
+#   "${MAKE_DOC}";
+# else
+#   echo "FAIL: Cannot autobuild index.html files."
+#   echo "  <make_doc> not found at ${MAKE_DOC}"
+#   exit 1;
+# fi
+
+# JSLint test
+TMP_FILE="/tmp/git-pre-commit.tmp";
+echo;
+echo "JSLint test of updated or new *.js files ...";
+echo "  We ignore vendor libraries in .../vendor/...";
+git status \
+  | grep '.js$' \
+  | grep -v '/vendor/' \
+  | grep '^\s\+\(modified\|new file\)' \
+  | cut -d ":" -f 2- \
+  | while read LINE; do
+      echo -en "  Check ${LINE}: ... "
+      CHECK_STR=$(jslint ${LINE});
+      CHECK_CODE=$?;
+      echo "${CHECK_CODE}"
+      if [ "${CHECK_CODE}" -gt 0 ]; then
+        echo "${LINE} JSLint check FAILED";
+        echo "${CHECK_STR}";
+      else
+        echo "pass";
+      fi;
+    done \
+  | tee "${TMP_FILE}";
+
+echo "JSLint test complete";
+if grep -s 'FAIL' "${TMP_FILE}"; then
+  echo "FAIL: JSLint checks did not pass.";
+  echo "  Please use jslint to test the problem files and ";
+  echo "  commit again once they pass the check.";
+  rm "${TMP_FILE}";
+  exit 1;
+fi
+
+rm "${TMP_FILE}";
+echo;
+exit 0;
