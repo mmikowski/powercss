@@ -925,7 +925,7 @@ switched to the updated CSS as soon as it is ready.
     _mode_str_   : '_delete_',
     _regen_str_  : '_none_'
   });
-```js
+```
 
 #### Copy an entire **vsheet**
 
@@ -934,7 +934,7 @@ switched to the updated CSS as soon as it is ready.
     _asset_type_ : '_vsheet_'
     _asset_id_   : '_base_'
   });
-```js
+```
 
 #### Copy the selector list of a **vsheet**
 
