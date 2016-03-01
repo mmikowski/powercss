@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>PowerCSS</title>
+  <!-- see http://www.html5rocks.com/en/mobile/touch.html
+   prevents native zooming -->
+  <meta name="viewport" content="width=device-width user-scalable=no
+  initial-scale=.8,maximum-scale=.8"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- ie9+ rendering support for latest standards -->
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
   ></script>
@@ -33,7 +41,8 @@
     It can be installed using <code>npm install powercss</code>.</p>
 
     <p>This page is styled using PowerCSS. Click at the top right to
-      change the palette or cascade at any time.</p>
+      change the palette or cascade at any time.  It looks good on a phone
+      as well as a desktop.</p>
 
   <h2>Why PowerCSS?</h2>
     <p>A significant problem with traditional CSS, whether written
@@ -58,6 +67,8 @@
     What's not to like?</p>
 
   <h2>Examples</h2>
+    <p>This page is styled using PowerCSS. Click at the top right to
+      change the palette or cascade at any time.</p>
     <ul>
       <li><a href="examples/pcss._example001_.html">Example 001</a>
         - The basics</li>

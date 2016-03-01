@@ -170,9 +170,6 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : 'li',
           _rule_map_ : { _margin_btm_ : '_d25rem_' }
         },
-        { _selector_str_  : 'p',
-          _rule_map_ : { _margin_left_ : '_2rem_' }
-        },
         { _selector_str_ : '.pcss-_x_clear_',
           _rule_map_ : { _clear_ : '_both_' }
         }
@@ -189,7 +186,7 @@ pcss._home_ = (function ( $ ) {
             _opacity_        : '_1_',
             _position_       : '_relative_',
             _vertical_align_ : '_top_',
-            _margin_         : [[ '_1rem_', '_0_', '_d5rem_', '_0_' ]],
+            _margin_         : [[ '_2rem_', '_0_', '_d5rem_', '_0_' ]],
             _box_shadow_     : '_global_d25_box_shadow_',
             _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
             _border_radius_  : '_1rem_',
@@ -334,7 +331,6 @@ pcss._home_ = (function ( $ ) {
       _box_shadow_    : '_global_d25_box_shadow_',
       _border_width_  : '_1rem_',
       _border_radius_ : '_0_',
-      _padding_top_   : '_d5rem_',
       _font_family_   : '_font_fixed_',
       _font_size_     : '_1d75rem_',
       _background_    : '_global_linear_grad_'
