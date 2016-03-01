@@ -314,7 +314,7 @@ var pcss = (function () {
 
   // 2.x Private method /logIt/
   function logIt () {
-    console.log[ vMap._apply_ ]( console, arguments );
+    __console.log[ vMap._apply_ ]( __console, arguments );
   }
   // end 2.x
 
@@ -437,6 +437,7 @@ var pcss = (function () {
 
   // 2.x Private method /mergeCascade/
   function mergeCascade ( arg_vsheet_id_list, arg_mixin_map ) {
+    // 2.x.1 init and args
     var
       vsheet_map_map = topSmap._vsheet_map_map_,
 
@@ -447,7 +448,7 @@ var pcss = (function () {
       merged_mixin_map,
       global_mixin_map,
 
-      i, vsheet_id,    vsheet_map, 
+      i, vsheet_id,    vsheet_map,
       selector_list,   vsheet_mixin_map,
       selector_count,
 
@@ -459,13 +460,15 @@ var pcss = (function () {
       rule_key_count,
       l, rule_key
       ;
+    // end 2.x.1 init and args
 
-    // TODO: cache this stuff per cascade
+    // 2.x.2 merge global and cascade mixin map
     global_mixin_map  = topSmap._global_mixin_map_ || {};
     merged_mixin_map  = cloneData( global_mixin_map );
     extendRuleMap( merged_mixin_map, arg_mixin_map );
 
-    // Begin consider each vsheet selector_list in the cascade list
+
+    // 2.x.3 Consider each vsheet selector_list in the cascade list
     _VSHEET_: for ( i = __0; i < vsheet_count; i++ ) {
       vsheet_id        = arg_vsheet_id_list[ i ];
       vsheet_map       = vsheet_map_map[ vsheet_id ];
@@ -473,24 +476,29 @@ var pcss = (function () {
         logIt( '_cannot_find_vsheet_map_for_id_', vsheet_map );
         continue _VSHEET_;
       }
-      selector_list    = vsheet_map._selector_list_ || [];
-      selector_count   = selector_list[ vMap._length_ ];
+
+      // 2.x.3.1 merge vsheet mixin map
       vsheet_mixin_map = vsheet_map._mixin_map_;
       extendRuleMap( merged_mixin_map, vsheet_mixin_map );
 
-      // Begin consider each selector_map in the selector_list
+      // 2.x.3.2 Consider each selector_map in the selector_list
+      selector_list    = vsheet_map._selector_list_ || [];
+      selector_count   = selector_list[ vMap._length_ ];
       for ( j = __0; j < selector_count; j++ ) {
-        selector_map     = selector_list[ j ];
-        selector_str     = selector_map._selector_str_;
-        rule_lock_list   = selector_map._rule_lock_list_;
-        rule_map         = selector_map._rule_map_;
-
+        // 2.x.3.2.1 Init selector_map vars
+        selector_map   = selector_list[ j ];
+        selector_str   = selector_map._selector_str_;
+        rule_lock_list = selector_map._rule_lock_list_;
+        rule_map       = selector_map._rule_map_;
         merged_rpt_map = seen_selector_map[ selector_str ];
+        // end 2.x.3.2.1
+
+        // 2.x.3.2.2 Use previously seen selector data
         if ( merged_rpt_map ) {
           merged_selector_map = merged_rpt_map._selector_map_;
-          merged_rule_map   = merged_selector_map._rule_map_;
+          merged_rule_map     = merged_selector_map._rule_map_;
 
-          // Begin merge in latest locks
+          // 2.x.3.2.2.1 Merge in latest locks
           if ( rule_lock_list ) {
             merged_lock_list = merged_rpt_map._rule_lock_list_;
             merged_lock_list[ vMap._push_ ][ vMap._apply_
@@ -498,10 +506,9 @@ var pcss = (function () {
             merged_rpt_map[ '_lock_on_ ' + __String( i ) ]
               = __j2str( rule_lock_list );
           }
-          // End merge in latest locks
+          // end 2.x.3.2.2.1
 
-          // Begin merge rules unless they are locked
-          //  unless that key is locked
+          // 2.x.3.2.2.2 Merge rules unless they are locked
           rule_key_list  = __ObjKeys( rule_map );
           rule_key_count = rule_key_list[ vMap._length_ ];
           _RULE_: for ( l = __0; l < rule_key_count; l++ ) {
@@ -516,19 +523,22 @@ var pcss = (function () {
             }
             merged_rule_map[ rule_key ] = rule_map[ rule_key ];
           }
-          // End merge rules unless they are locked
+          // end 2.x.3.2.2.2
         }
+        // end 2.x.3.2.2
+
+        // 2.x.3.2.3 Init new selector data
         else {
-          // Begin clone data and place the **same map**
+          // 2.x.3.2.3.1 Clone data and place the **same map**
           // both into the merged_selector_list and the merged_rpt_map
           // as we want fast O(1) access to it.
           //
           clone_selector_map = cloneData( selector_map );
           merged_selector_list[ vMap._push_]( clone_selector_map );
           merged_rpt_map = { _selector_map_ : clone_selector_map };
-          // End clone data and place the **same map**
+          // end 2.x.3.2.3.1
 
-          // Begin init lock list
+          // 2.x.3.2.3.2 Init lock list data
           if ( rule_lock_list ) {
             merged_rpt_map._rule_lock_list_ = cloneData( rule_lock_list );
             merged_rpt_map[ 'lock_on_' + __String( i ) ]
@@ -537,13 +547,16 @@ var pcss = (function () {
           else {
             merged_rpt_map._rule_lock_list_ = [];
           }
-          // End init lock list
+          // end 2.x.3.2.3.2
           seen_selector_map[ selector_str ] = merged_rpt_map;
         }
+        // end 2.x.3.2.3
       }
-      // End consider each selector_map in the selector_list
+      // end 2.x.3.2 Consider each selector_map in the selector_list
     }
-    // End consider each vsheet in the cascade list
+    // end 2.x.3 Consider each vsheet in the cascade list
+
+    // 2.x.4 return map of results
     return {
       _merged_selector_list_ : merged_selector_list,
       _merged_mixin_map_     : merged_mixin_map
@@ -553,6 +566,7 @@ var pcss = (function () {
 
   // 2.x Private method /makeCssStr/
   function makeCssStr ( merged_selector_list, merged_mixin_map ) {
+    // 2.x.1 init and args
     var
       i, j, k,        selector_count,
       selector_map,   selector_str,
@@ -568,25 +582,28 @@ var pcss = (function () {
       solve_rule_list,     solve_key,
       solve_val_str,       solve_selector_str
       ;
-
     selector_count = merged_selector_list[ vMap._length_ ];
     solve_selector_list = [];
+    // end 2.x.1
 
+    // 2.x.2 Consider each selector map in list
     for ( i = __0; i < selector_count; i++ ) {
+      // 2.x.2.1 Init selector_map vars
       selector_map = merged_selector_list[ i ];
       selector_str = selector_map._selector_str_;
-      rule_map = selector_map._rule_map_;
-      close_str = selector_map._close_str_ || __blank;
+      rule_map     = selector_map._rule_map_;
+      close_str    = selector_map._close_str_ || __blank;
+      // end 2.x.2.1
 
+      // 2.x.2.2 Special case: no rule_map
       if ( ! rule_map ) {
         solve_selector_list[ vMap._push_ ]( selector_str + close_str );
         continue;
       }
 
+      // 2.x.2.3 Consider each rule in rule_map: _OUTER_RULE_
       rule_key_list = __ObjKeys( rule_map );
       rule_key_count = rule_key_list[ vMap._length_ ];
-
-      // Calc solve_key
       solve_rule_list = [];
       _OUTER_RULE_ : for ( j = __0; j < rule_key_count; j++ ) {
         rule_key  = rule_key_list[ j ];
@@ -599,16 +616,6 @@ var pcss = (function () {
           continue _OUTER_RULE_;
         }
 
-        // val:   'string'   => lookup key
-        // val: [ 'string' ] => literal
-        // val: { _alt_list_ : [ 'lookup_key', [ 'literal' ], ... ] }
-        //   => CSS alternates list.  The first value is a lookup,
-        //      the second is a literal.
-        // val: [[ 'lookup_key, [ 'literal' ], ... ]]
-        //   => CSS Concatenated value, space delimited.  Example:
-        //   _border_ : [[ '_0d25rem_', '_solid_', [ '#8f93c0' ] ]]
-        //     => border : .25rem solid #8f93c0;
-        //
         outer_data = rule_map[ rule_key ];
         outer_data_type = getVarType( outer_data );
 
@@ -693,6 +700,7 @@ var pcss = (function () {
           }
         }
       }
+      // end 2.x.2.3 Consider each rule in rule_map: _OUTER_RULE_
 
       solve_selector_str = selector_str + '{';
       solve_selector_str += solve_rule_list[ vMap._length_ ] > __0
@@ -700,6 +708,9 @@ var pcss = (function () {
       solve_selector_str += '}' + close_str;
       solve_selector_list[ vMap._push_ ]( solve_selector_str );
     }
+    // end 2.x.2 Consider each selector map in list
+
+    // 2.x.3 return CSS string
     return solve_selector_list[ vMap._join_]( '\n' );
   }
   // end 2.x Private method /makeCssStr/
@@ -788,11 +799,11 @@ var pcss = (function () {
     // 4.x.1 init and args
     var opt_map = arg_opt_map || {};
 
-    // 4.x.2 initialize element prefix
+    // 4.x.2 Init element prefix
     topSmap._style_el_prefix_ = ( !! opt_map._style_el_prefix_ )
       ? opt_map._style_el_prefix_ + '-' : 'pcss-';
 
-    // 4.x.3 create two style elements '<prefix>-0' and '<prefix>-1'
+    // 4.x.3 Create two style elements '<prefix>-0' and '<prefix>-1'
     initStyleEls();
   }
   // end 4.x Public method /initModule/
@@ -849,6 +860,45 @@ var pcss = (function () {
     return do_enable;
   }
   // end 4.x Public method /togglePcss/
+
+
+  // 4.x Public method /getAssetIdList/
+  // Example   : vsheet_id_list = pcss._getAssetIdList_({
+  //               _asset_type_ : '_vsheet_'
+  //             });
+  // Example   : cascade_id_list = pcss._getAssetIdList_({
+  //               _asset_id_ : '_cascade_'
+  //             });
+  // Purpose   : Return the list of all vsheets or cascades IDs
+  //
+  function getAssetIdList ( arg_opt_map ) {
+    // 4.x.1 Init and arguments
+    var
+      opt_map    = arg_opt_map || {},
+      asset_type = opt_map._asset_type_,
+      asset_map_map
+      ;
+    // end 4.x.1 Init and arguments
+
+    // 4.x.2 Set asset_map
+    switch ( asset_type ) {
+      case '_cascade_' :
+        asset_map_map = topSmap._cascade_map_map_;
+        break;
+      case '_vsheet_' :
+        asset_map_map = topSmap._vsheet_map_map_;
+        break;
+      default :
+        logIt( '_asset_type_not_found_', asset_type );
+        asset_map_map = {};
+        break;
+    }
+    // end 4.x.2
+
+    // 4.x.3 return list of keys
+    return __ObjKeys( asset_map_map );
+  }
+  // end 4.x Public method /getAssetIdList/
 
   // 4.x Public method /getAssetJson/
   function getAssetJson ( arg_opt_map ) {
@@ -1106,6 +1156,7 @@ var pcss = (function () {
     _extendRuleMap_       : extendRuleMap,
     _setGlobalMixinMap_   : initCheck[ vMap._bind_ ]( setGlobalMixinMap   ),
     _togglePcss_          : initCheck[ vMap._bind_ ]( togglePcss          ),
+    _getAssetIdList_      : initCheck[ vMap._bind_ ]( getAssetIdList      ),
     _getAssetJson_        : initCheck[ vMap._bind_ ]( getAssetJson        ),
     _setVsheet_           : initCheck[ vMap._bind_ ]( setVsheet           ),
     _setCascade_          : initCheck[ vMap._bind_ ]( setCascade          )

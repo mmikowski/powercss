@@ -3,38 +3,32 @@
 <head>
   <meta charset="utf-8">
   <title>PowerCSS</title>
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
+  ></script>
   <script src="dist/pcss.js"></script>
   <script src="examples/js/pcss._home_.js"></script>
   <script>
-  window.onload = pcss._home_;
+  $(pcss._home_._initModule_);
   </script>
 </head>
 <body>
-  <div class="pcss-_head_">
-    <div class="pcss-_head_float_">
-      <div>Cascade</div>
-      <div data-id="1">One</div>
-      <div data-id="2">Two</div>
-      <div data-id="3">Three</div>
-    </div>
-    <div class="pcss-_head_float_">
-      <div>Color Theme</div>
-
-
-    </div>
+  <div id="pcss-_head_">
+    <div class="pcss-_head_float_"></div>
+    <div class="pcss-_head_float_"></div>
     <div class="pcss-_x_clear_"></div>
   </div>
   <div class="pcss-_logo_"></div>
   <h2>Overview</h2>
     <p><b>PowerCSS</b> is a JavaScript library that helps developers create
-    responsive, double-buffered CSS that is optimized for performance. 
+    responsive, double-buffered CSS that is optimized for performance.
     Watch <a href="https://www.youtube.com/watch?v=rnkMjzhxw4s">this
-    presentation</a> for an an overview of CSS double-buffering.  
+    presentation</a> for an an overview of CSS double-buffering.
     PowerCSS is all-new code with many additional capabilities
     and optimizations.<p>
 
     <p>The project is hosted on <a href="https://github.com/mmikowski/powercss"
-    >GitHub</a> and is available as an 
+    >GitHub</a> and is available as an
     <a href="https://www.npmjs.com/package/powercss">npm package</a>.
     It can be installed using <code>npm install powercss</code>.</p>
 
@@ -43,7 +37,7 @@
   <h2>Why PowerCSS?</h2>
     <p>A significant problem with traditional CSS, whether written
     by an expert or someone using <code>{less}</code> or <code>Sass</code>,
-    is that it is <b>not</b> written as the application needs it. 
+    is that it is <b>not</b> written as the application needs it.
     Styling that is responsive to the user's environment is either limited
     or simply not possible.</p>
 
@@ -51,17 +45,17 @@
     CSS based on almost any real-time data available to an application.
     For example, an application could use PowerCSS to adjust styling based on
     device orientation, ambient temperature, ambient light, GPS location,
-    heart rate, or time of day. Traditional static CSS can't compete with 
+    heart rate, or time of day. Traditional static CSS can't compete with
     this flexibility.</p>
 
-    <p>We feel that PowerCSS has not only achieved its primary goal, but that 
+    <p>We feel that PowerCSS has not only achieved its primary goal, but that
     it is often better than static CSS in many other respects as well.
     It provides a simple and familiar API where experienced CSS authors
     can use their existing skills to be up and running in minutes.
     When compressed, a PowerCSS solution can download and render faster,
     and it can speed up some CSS operations by 10x or more.
     What's not to like?</p>
- 
+
   <h2>Examples</h2>
     <ul>
       <li><a href="examples/pcss._example001_.html">Example 001</a>
@@ -81,7 +75,7 @@
       <li><strong>Pure JS</strong>
         - Remove the need for <strong>any</strong> static CSS files.</li>
       <li><strong>Real-time styling</strong>
-        - Application control of CSS enables custom 
+        - Application control of CSS enables custom
           styling for every user of your application. For example, adjust
           application styling based on device (capabilities, orientation,
           and size), GPS coordinates, and ambient conditions (light,
@@ -94,10 +88,10 @@
       </li>
       <li><strong>Mixins</strong> at multiple levels - virtual stylesheet,
         virtual cascade, and global.</li>
-      <li><strong>Familiar workflow</strong> - Virtual stylesheets and 
-        virtual cascades are used to minimize the transition for CSS 
+      <li><strong>Familiar workflow</strong> - Virtual stylesheets and
+        virtual cascades are used to minimize the transition for CSS
         veterans.</li>
-      <li><strong>Highly optimized CSS</strong> - PowerCSS presents only 
+      <li><strong>Highly optimized CSS</strong> - PowerCSS presents only
         <strong>one stylesheet</strong>
         for the browser rendering engine to use, and numerous redundancies
         are removed during its preparation. As a result the browser
@@ -120,12 +114,12 @@
     as we find them.</p>
 
     <p>This version saw our last big API overhaul we expect before the 1.x
-    release.  We cut the number of methods in half while adding many 
+    release.  We cut the number of methods in half while adding many
     capabilities. The documentation and examples have expanded and updated.
-    We have added the PowerCSS Cookbook section to the 
+    We have added the PowerCSS Cookbook section to the
     <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
     >GitHub Documentation</a> which we hope you find useful.
-    
+
     <p>The work remaining includes documentation updates, example implementations,
     and regression tests. We hope to complete those tasks and see a 1.x release
     before the end of March 2016.</p>

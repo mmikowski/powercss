@@ -1183,7 +1183,7 @@ the styling will be removed.
      Returns   : true (enabled) or false (disabled)
 ```
 
-### `_getAssetIdList_` (TODO)
+### `_getAssetIdList_`
 
 ```js
      Example   : vsheet_id_list = pcss._getAssetIdList_({
