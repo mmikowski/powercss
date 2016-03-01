@@ -196,6 +196,7 @@ var pcss = (function () {
       _1d5rem_        : '1.5rem',
       _1d75rem_       : '1.75rem',
       _2rem_          : '2rem',
+      _2d5rem_        : '2.5rem',
       _3rem_          : '3rem',
       _200_           : '200',
       _400_           : '400',

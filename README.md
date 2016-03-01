@@ -1321,8 +1321,10 @@ MIT
 - Added `_regen_type_` option to manage CSS generation processing
 - Added **Recipes** section
 - Added **API reference** section
-- WIP `_getAssetIdList_`
-- WIP Add Performance example (005)
+- Added `_getAssetIdList_`
+- Restructured project and launched powercss.org
+- Added Performance example (005)
+- Added bower.json
 - WIP Add inline API docs to code
 
 ### Version 0.6.x

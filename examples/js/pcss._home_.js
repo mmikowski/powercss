@@ -130,7 +130,7 @@ pcss._home_ = (function ( $ ) {
           _rule_map_ : {
             _box_sizing_  : '_border_box_',
             _margin_      : '_0_',
-            _padding_     : '_2rem_',
+            _padding_     : [[ '_2d5rem_', '_2rem_' ]],
             _background_  : '_color_bkgd_',
             _max_width_   : [ '50rem' ],
             _font_family_ : '_font_sans_',
@@ -183,21 +183,19 @@ pcss._home_ = (function ( $ ) {
         _base_input_border_    : [[ '_d125rem_','_solid_','_xddd_' ]]
       },
       _box_selector_list_ : [
-        { _selector_str_ : '.pcss-_box_',
+        { _selector_str_ : 'h2',
           _rule_lock_list_ : [ '_font_size_' ],
           _rule_map_ : {
-            _display_        : '_inline_block_',
             _opacity_        : '_1_',
-            _box_sizing_     : '_border_box_',
             _position_       : '_relative_',
             _vertical_align_ : '_top_',
-            _margin_         : '_1rem_',
+            _margin_         : [[ '_1rem_', '_0_', '_d5rem_', '_0_' ]],
             _box_shadow_     : '_global_d25_box_shadow_',
             _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
             _border_radius_  : '_1rem_',
             _width_          : [ '16rem' ],
-            _height_         : [ '8rem' ],
-            _padding_top_    : '_1rem_',
+            _height_         : '_3rem_',
+            _line_height_    : '_3rem_',
             _background_     : '_global_linear_grad_',
             _font_size_      : '_1d5rem_',
             _font_weight_    : '_800_',
@@ -213,12 +211,10 @@ pcss._home_ = (function ( $ ) {
             _position_      : '_fixed_',
             _z_index_       : '_1_',
             _top_           : '_0_',
+            _left_          : '_0_',
             _right_         : '_0_',
             _height_        : '_2rem_',
             _box_shadow_    : '_global_d5_box_shadow_',
-            _border_color_  : '_color_shadow_',
-            _border_style_  : '_solid_',
-            _border_width_  : [[ '_0_', '_0_', '_d125rem_', '_d125rem_' ]],
             _padding_       : '_0_',
             _background_    : '_color_gradbtm_'
           }
@@ -226,37 +222,46 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : '.pcss-_head_float_',
           _rule_map_ : {
             _position_      : '_relative_',
-            _float_         : '_left_',
-            _margin_        : [[ '_0_', '_0_', '_0_', '_d625rem_' ]],
+            _float_         : '_right_',
+            _margin_        : [[ '_0_', '_d25rem_' ]],
             _padding_       : [[ '_0_', '_d75rem_', '_d75rem_' ]],
             _height_        : '_1d25rem_',
             _line_height_   : '_2rem_',
             _overflow_      : '_hidden_',
             _cursor_        : '_pointer_',
-            _transition_    : [ 'all 1s ease' ]
+            _transition_    : [ 'all .5s ease' ]
           }
         },
-        { _selector_str_ : '.pcss-_x_active_',
+        { _selector_str_ : '.pcss-_head_float_:first-child',
+          _rule_map_     : {_margin_right_ : '_d5rem_'}
+        },
+        { _selector_str_ : '.pcss-_head_float_.pcss-_x_active_',
           _rule_map_ : {
             _height_        : '_auto_',
-            _max_height_    : '_none_',
+            _box_shadow_    : '_global_d5_box_shadow_',
             _border_radius_ : [[ '_0_', '_0_', '_d5rem_', '_d5rem_' ]],
             _background_    : '_xfff_'
           }
         },
-        { _selector_str_ : '.pcss-_head_float_:first-child',
-          _rule_map_ : { _margin_ : '_0_' }
+        { _selector_str_ : '.pcss-_head_float_ > div',
+          _rule_map_     : { _padding_ : [['_0_','_d5rem_']] }
         },
-        { _selector_str_ : '.pcss-_head_float_ .pcss-_x_select_',
+        { _selector_str_ : '.pcss-_head_float_ > div:first-child',
+          _rule_map_     : { _font_weight_ : '_800_' }
+        },
+        { _selector_str_ : '.pcss-_head_float_ > div.pcss-_x_select_',
           _rule_map_ : {
-            _background_ : '_x888_',
+            _background_ : '_color_bkgd_',
             _color_      : '_xfff_'
           }
         }
       ]
     },
 
-    topSmap = { _palette_idx_ : 0 },
+    topSmap = {
+      _cascade_idx_ : 0,
+      _palette_idx_ : 0
+    },
     jqueryMap = {}
     ;
 
@@ -351,24 +356,27 @@ pcss._home_ = (function ( $ ) {
 
     // Begin Create cascades to toggle
     pcss._setCascade_({
-      _cascade_id_     : '_ex01_',
+      _cascade_id_     : '_ex00_',
       _mode_str_       : '_add_',
       _vsheet_id_list_ : [ '_base_', '_head_', '_box01_' ]
     });
 
     pcss._setCascade_({
-      _cascade_id_     : '_ex02_',
+      _cascade_id_     : '_ex01_',
       _mode_str_       : '_add_',
       _vsheet_id_list_ : [ '_base_', '_head_', '_box02_' ]
     });
 
     pcss._setCascade_({
-      _cascade_id_     : '_ex03_',
+      _cascade_id_     : '_ex02_',
       _mode_str_       : '_add_',
       _vsheet_id_list_ : [ '_base_', '_head_', '_box03_' ]
     });
     // End Create cascades to toggle
 
+    topSmap._cascade_id_list_ = pcss._getAssetIdList_( {
+      '_asset_type_' : '_cascade_'
+    });
   }
   // End setStyle
 
@@ -416,14 +424,18 @@ pcss._home_ = (function ( $ ) {
   // End drawPaletteSelect
 
   // Begin setPaletteIdx
-  function setPaletteIdx ( idx ) {
+  function setPaletteIdx () {
     var
       base_mixin_map = topCmap._base_mixin_map_,
       palette_list   = topCmap._palette_list_,
-      palette_map    = palette_list[ idx ]
+      palette_idx    = topSmap._palette_idx_,
+      palette_map    = palette_list[ palette_idx],
+      $child_list    = jqueryMap._$head_palette_.children()
       ;
 
     if ( ! palette_map ) { return; }
+    $child_list.removeClass( 'pcss-_x_select_' );
+    $child_list.eq( palette_idx + 1 ).addClass( 'pcss-_x_select_');
 
     pcss._extendRuleMap_( base_mixin_map, palette_map );
 
@@ -436,17 +448,59 @@ pcss._home_ = (function ( $ ) {
   }
   // End setPaletteIdx
 
+  // Begin setCascade
+  function setCascade () {
+    var
+      cascade_idx     = topSmap._cascade_idx_,
+      cascade_id_list = topSmap._cascade_id_list_,
+      cascade_id      = cascade_id_list[ cascade_idx],
+      $child_list     = jqueryMap._$head_cascade_.children()
+      ;
+    if ( ! cascade_id ) { return; }
+    $child_list.removeClass( 'pcss-_x_select_' );
+    $child_list.eq( cascade_idx + 1 ).addClass( 'pcss-_x_select_');
+
+    pcss._setCascade_({
+      _cascade_id_ : cascade_id,
+      _mode_str_   : '_change_',
+      _regen_type_ : '_use_'
+    });
+  }
+  // End setCascade
+
   // Begin onClickHead
   function onClickHead ( event_obj ) {
     var
       target_el  = event_obj.target,
       $target    = $( target_el ),
-      $float_div = $target.closest( '.pcss-_head_float_' )
+      target_idx = $target.index(),
+      $float_div = $target.closest( '.pcss-_head_float_' ),
+      float_idx  = $float_div.index()
       ;
 
     if ( $float_div.length === 0 ) { return; }
 
-    $float_div.toggleClass( 'pcss-_x_active_' );
+    if ( ! $float_div.hasClass( 'pcss-_x_active_') ) {
+      $float_div.addClass( 'pcss-_x_active_' );
+      return;
+    }
+
+    if ( $target.hasClass( 'pcss-_head_float_') ) {
+      return;
+    }
+    if ( target_idx > 0 ) {
+      if ( float_idx === 1 ) {
+        topSmap._palette_idx_ = target_idx - 1;
+        setPaletteIdx();
+      }
+      else {
+        topSmap._cascade_idx_ = target_idx - 1;
+        setCascade();
+      }
+    }
+    setTimeout( function () {
+      $float_div.removeClass( 'pcss-_x_active_' );
+    }, 250 );
   }
   // End onClickHead
 
@@ -455,19 +509,12 @@ pcss._home_ = (function ( $ ) {
     pcss._initModule_();
 
     setJqueryMap();
+    setStyle();
     drawCascadeSelect();
     drawPaletteSelect();
 
-    setStyle();
-
-    setPaletteIdx( topSmap._palette_idx_ );
-
-    pcss._setCascade_({
-      _cascade_id_ : '_ex01_',
-      _mode_str_   : '_change_',
-      _regen_type_ : '_use_'
-    });
-
+    setPaletteIdx();
+    setCascade();
 
     jqueryMap._$head_.on( 'click', onClickHead );
   }
