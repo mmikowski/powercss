@@ -10,16 +10,16 @@ an SPA framework instead, please do read [do you really want an SPA framework?
 ][0] first.
 
 ## Overview
-Unleash PowerCSS to create custom styling for every user that visits your
-site. PowerCSS uses merging, caching, compression, and double-buffering
-to exceed the flexibility and often the speed of static CSS files.
-Here is a [presentation](https://www.youtube.com/watch?v=rnkMjzhxw4s) of
-some of the PowerCSS concepts in practice.
+Unleash JavaScript to create custom styling for every person that uses
+your web application. PowerCSS employs merging, caching, compression, and
+double-buffering to exceed the flexibility - and often the speed - of
+static CSS files. Here is a [presentation][1] of some of the PowerCSS
+concepts in practice. The dedicated website is at [powercss.org][2].
 
 ## Code Style
 This library is written in the code style presented in the book
 book **Single Page Web Applications - JavaScript end-to-end**
-which is available from [Amazon][1] and directly from [Manning][2].
+which is available from [Amazon][3] and directly from [Manning][4].
 It uses a **git** hook to block any code that fails to pass JSLint and
 regression tests. All object keys have an underscore prefix and suffix
 like `_this_` which makes them easy targets for compression.
@@ -710,10 +710,10 @@ results.
 CSS uses long keywords and values, and is often quite repetitive.
 A PowerCSS solution can often be compressed to a fraction of the size
 of minimized CSS. Consider the example above where we created the
-`_global_red_grad_map__` symbol.  The initial definition required 276
+`_global_red_grad_map__` symbol. The initial definition required 276
 characters, or 113% of minimized CSS. However, if we use this symbol
 more than once, we come out far ahead, as the compressed PowerCSS
-representation is only 2.9% the size of the minimized CSS.  If we use
+representation is only 2.9% the size of the minimized CSS. If we use
 the gradient 3 times, the PowerCSS representation is 39.5% the size of
 minimized CSS. If we use it 5 times, the PowerCSS representation is
 less than 25% the size.
@@ -1339,7 +1339,7 @@ MIT
 - TODO: Production-ready code
 
 ## Similar Projects
-[absurdjs][3], [responsive.j$][4]
+[absurdjs][5], [responsive.j$][6]
 
 ## Contribute!
 If you want to help out, like all jQuery plugins this is hosted at
@@ -1348,8 +1348,10 @@ You can reach me at mike[dot]mikowski[at]gmail[dotcom].
 
 ## End
 [0]:http://mmikowski.github.io/no-frameworks
-[1]:http://www.amazon.com/dp/1617290750
-[2]:http://manning.com/mikowski
-[3]:http://absurdjs.com/
-[4]:http://www.responsivejs.com/
+[1]:https://www.youtube.com/watch?v=rnkMjzhxw4s
+[2]:http://powercss.org
+[3]:http://www.amazon.com/dp/1617290750
+[4]:http://manning.com/mikowski
+[5]:http://absurdjs.com/
+[6]:http://www.responsivejs.com/
 
