@@ -50,19 +50,19 @@ Sound exciting? If so, read on! First we implement a few PowerCSS
 examples, and then we discuss how PowerCSS works.
 
 ## Example 001: The basics
-This example is illustrated by `pcss._example001_.html` which
+This example is illustrated by `pcss._ex001_.html` which
 can be be found in the `./examples` directory of the GitHub repository.
 Clone the repository and open the file with your browser to see the
 results.
 
-The first thing to remember about the PowerCSS API is that it
+The first thing to remember about the PowerCSS is that it
 **never changes our data.** This means if we provide an array or
-object or array as an argument to a PowerCSS call, it is **copied**
+object or array as an argument to a PowerCSS, it is **copied**
 and we can use it again without fear of it being modified by PowerCSS
 at some later time. For the inverse reason, PowerCSS **does not return
-pointers to its data**. Instead there is a `_getAssetJson_` method to
-get JSON copies of data. This method is very handy for debugging,
-but it should be used sparingly in production as it can get expensive.
+pointers to its data**. Instead is the `_getAssetJson_` method which 
+is very handy for debugging, but it should be used sparingly as it
+can be expensive.  The `_getAssetIdList_` method is also data-safe.
 
 We were careful to change as little of the existing CSS work-flow as
 possible. If we are comfortable with using static CSS, this should look
@@ -77,44 +77,51 @@ pretty familiar:
    This is very much like traditional CSS development where we link to
    static stylesheet files in an HTML document.
 
-### 1. Create `pcss._example001_.html` file
-Let's create an HTML file named `pcss._example001_.html` to illustrate
+### 1. Create `pcss._ex001_.html` file
+Let's create an HTML file named `pcss._ex001_.html` to illustrate
 the basic capabilities of PowerCSS. A complete copy of this file can
 be found in the `examples` directory of the GitHub repository.
 
 ```html
-    <!doctype html>
-    <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <title>PowerCSS Example 001</title>
-      <script src="../pcss.js"></script>
-      <script src="pcss._example001_.js"></script>
-      <script>
-      window.onload = pcss._example001_;
-      </script>
-    </head>
-    <body>
-      <div class="pcss-_logo_" title="PowerCSS"></div>
-      <h2>Example 001: The basics</h2>
-      <div class="pcss-_box_">PowerCSS 01<br/>
-        <input title="name" type="text" placeholder="your name here"/>
-      </div>
-      <div class="pcss-_box_">PowerCSS 02</div>
-      <div class="pcss-_box_">PowerCSS 03</div>
-      <!-- add boxes 04-19 here -->
-      <div class="pcss-_box_">PowerCSS 20</div>
-    </body>
-    </html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Mobile settings
+    see http://www.html5rocks.com/en/mobile/touch.html -->
+  <meta name="viewport" content="width=device-width user-scalable=no
+  initial-scale=.8,maximum-scale=.8"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- ie9+ rendering support for latest standards -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>PowerCSS Example 001</title>
+  <script src="../dist/pcss.js"></script>
+  <script src="js/pcss._ex001_.js"></script>
+  <script>
+  window.onload = pcss._ex001_;
+  </script>
+</head>
+<body>
+  <div class="pcss-_logo_" title="PowerCSS"></div>
+  <h2>Example 001: The basics</h2>
+  <div class="pcss-_box_">PowerCSS 01<br/>
+    <input title="name" type="text" placeholder="your name here"/>
+  </div>
+  <div class="pcss-_box_">PowerCSS 02</div>
+  <!-- add boxes 03-19 here -->
+  <div class="pcss-_box_">PowerCSS 20</div>
+</body>
+</html>
 ```
 
-### 2. Start the `pcss._example001_.js` file
-Now let's start a JavaScript file named to `pcss._example001_.js` to
+### 2. Start the `pcss._ex001_.js` file
+Now let's start a JavaScript file named to `pcss._ex001_.js` to
 provide PowerCSS directives. A complete copy can of this file can
 be found in the `examples` directory of the GitHub repository.
 
 ```js
-/* pss._example001_.js
+/* pss._ex001_.js
  * Example 001 of run-time generated and managed CSS
  * using PowerCSS - the basics
  * Michael S. Mikowski - mike.mikowski@gmail.com
@@ -142,8 +149,8 @@ be found in the `examples` directory of the GitHub repository.
  *    10. transition or animation definitions
 */
 
-// BEGIN pcss._example001_
-pcss._example001_ = function () {
+// BEGIN pcss._ex001_
+pcss._ex001_ = function () {
   var
     base_selector_list,
     box_selector_list
@@ -162,7 +169,7 @@ code really *does* pass JSLint.
 A virtual stylesheet (**vsheet**) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to adopt
 the format with little trouble. Below we add a **vsheet** definition to
-`pcss._example001_.js` by providing a list of selector definitions:
+`pcss._ex001_.js` by providing a list of selector definitions:
 
 ```js
   // Begin add _base_ vsheet
@@ -217,7 +224,7 @@ the format with little trouble. Below we add a **vsheet** definition to
     _mode_str_      : '_add_',
     _selector_list_ : base_selector_list
   });
-// End add _base_ vsheet
+  // End add _base_ vsheet
 ```
 
 
@@ -240,7 +247,7 @@ Let's add another **vsheet** to style the boxes on our page:
         _position_       : '_relative_',
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
-        _box_shadow_     : [[
+        _box_shadow_     : [[ 
           [ 'rgba( 0, 0, 0, .5)' ], '_0_', '_0_', '_d25rem_', '_0_'
         ]],
         _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
@@ -277,7 +284,7 @@ Here we use a few advanced features, but don't get lost in the details.
 We clarify the PowerCSS selector later the **Mixin maps** section.
 Now that we have two **vsheet**s, we can use them in a **cascade**.
 
-### 4. Add an 'ex01' **cascade**
+### 4. Add an `_c01_` **cascade**
 A **cascade** is used by PowerCSS to create and CSS. As it's name
 implies, a **cascade** merges multiple virtual stylesheets (**vsheets**) into
 one. This is similar to how a browser merges multiple CSS files when rendering
@@ -285,23 +292,23 @@ a static page. However, with PowerCSS we can have many **cascades** and
 dynamically update them. Let's add one now:
 
 ```js
-  // Begin add and use _ex01_ cascade
+  // Begin add and use _c01_ cascade
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_c01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_box01_' ],
     _regen_type_     : '_use_'
   });
-  // End add and use _ex01_ cascade
+  // End add and use _c01_ cascade
 };
-// END pcss._example001_
+// END pcss._ex001_
 ```
 
-We can now save the `pcss._example001_.js` file. Next, we'll look at the
+We can now save the `pcss._ex001_.js` file. Next, we'll look at the
 results.
 
 ## A tour of the results
-When we open `pcss._example001_.html` in a modern browser, we should
+When we open `pcss._ex001_.html` in a modern browser, we should
 multiple boxes that have been styled according to the **cascade**.
 We can view the generated CSS in the browser using the development
 tools and modify it as if we had written it ourselves:
@@ -370,7 +377,7 @@ device or any other environmental factor, that's where PowerCSS really
 starts to shine.
 
 ## Example 002: Double-buffering
-This example is illustrated by `pcss._example002_.html` which
+This example is illustrated by `pcss._ex002_.html` which
 can be be found in the `examples` directory of the GitHub repository.
 Clone the repository and open the file with your browser to see the
 results.
@@ -391,7 +398,7 @@ plays very nicely with others and is designed to avoid conflict
 with third-party web components.
 
 ## Example 003: **Mixin maps**
-This example is illustrated by `pcss._example003_.html` which
+This example is illustrated by `pcss._ex003_.html` which
 can be be found in the `examples` directory of the GitHub repository.
 Clone the repository and open the file with your browser to see the
 results.
@@ -476,17 +483,17 @@ as illustrated below:
 
   // Cascade option - add
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_c01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_box_' ],
-    _mixin_map_      : ex01_mixin_map
+    _mixin_map_      : c01_mixin_map
   });
 
   // Cascade option - change
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_c01_',
     _mode_str_       : '_change_',
-    _mixin_map_      : ex01_mixin_map
+    _mixin_map_      : c01_mixin_map
   });
 
   // Global option
@@ -702,7 +709,7 @@ An astute reader will again notice that a **vsheet** can be used across
 many **cascades**. Please keep this in mind when locking rule values.
 
 ## Example 004: Compression
-This example is illustrated by `pcss._example004_.html` which
+This example is illustrated by `pcss._ex004_.html` which
 can be be found in the `examples` directory of the GitHub repository.
 Clone the repository and open the file with your browser to see the
 results.
@@ -730,7 +737,7 @@ In Example 004, the PowerCSS library and the CSS directives were reduced to
 described above.
 
 ## Example 005: Performance
-This example is illustrated by `pcss._example005_.html` which
+This example is illustrated by `pcss._ex005_.html` which
 can be be found in the `examples` directory of the GitHub repository.
 Clone the repository and open the file with your browser to see the
 results.
@@ -786,11 +793,11 @@ the best solution. Here is an example:
 ```js
   // Initial definition of cascade
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_c01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_box_' ],
-    _mixin_map_      : ex01_mixin_map,
-    _regen_type_    : '_none_'
+    _mixin_map_      : c01_mixin_map,
+    _regen_type_     : '_none_'
   });
 
   // Vsheet _selector_list_ change
@@ -811,31 +818,31 @@ the best solution. Here is an example:
   });
 
   // Cascade _mixin_map_ change
-  ex01_mixin_map._box_position_ = 'fixed';
+  c01_mixin_map._box_position_ = 'fixed';
   pcss._setCascade_({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_c01_',
     _mode_str_   : '_change_'
-    _mixin_map_  : ex01_mixin_map
+    _mixin_map_  : c01_mixin_map
     _regen_type_ : '_none_'
   });
 
   // Process step 1: perform merge
   pcss._setCascade_({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_c01_',
     _mode_str_   : '_change_'
     _regen_type_ : '_merge_'
   });
 
   // Process step 2: create CSS
   pcss._setCascade_({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_c01_',
     _mode_str_   : '_change_'
     _regen_type_ : '_prepare_'
   });
 
   // Process step 3: write CSS to style el and enable
   pcss._setCascade_({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_c01_',
     _mode_str_   : '_change_'
     _regen_type_ : '_use_'
   });
@@ -984,7 +991,7 @@ indefinitely. Here is an example:
 
 ```js
   pcss._setCascade_({
-    _cascade_id_      : '_ex01_',
+    _cascade_id_      : '_std_',
     _mode_str_        : '_add_',
     _vsheet_id_list_  : [ '_base_', '_box_' ]
     _mixin_map_       : {...}
@@ -995,7 +1002,7 @@ indefinitely. Here is an example:
 
 ```js
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_std_',
     _mode_str_       : '_change_',
     _vsheet_id_list_ : [...]
   });
@@ -1005,7 +1012,7 @@ indefinitely. Here is an example:
 
 ```js
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_std_',
     _mode_str_       : '_change_',
     _mixin_map_      : {...}
   });
@@ -1019,7 +1026,7 @@ not work.
 
 ```js
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_std_',
     _mode_str_       : '_change_',
     _vsheet_id_list_ : []
   });
@@ -1034,7 +1041,7 @@ not work.
 
 ```js
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_std_',
     _mode_str_       : '_change_',
     _mixin_map_      : {}
   });
@@ -1047,7 +1054,7 @@ the styling will be removed.
 
 ```js
   pcss._setCascade_({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_std_',
     _mode_str_   : '_delete_'
   });
 ```
@@ -1056,7 +1063,7 @@ the styling will be removed.
 
 ```js
   pcss._setCascade({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_std_',
     _mode_str_   : '_change_',
     _regen_type_ : '_prepare_'
   }
@@ -1066,7 +1073,7 @@ the styling will be removed.
 
 ```js
   pcss._setCascade({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_std_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   }
@@ -1076,8 +1083,8 @@ the styling will be removed.
 
 ```js
   pcss._getAssetJson_({
-    _asset_type_    : '_cascade_'
-    _asset_id_      : '_ex01_'
+    _asset_type_    : '_std_'
+    _asset_id_      : '_normal_'
   });
 ```
 
@@ -1087,7 +1094,7 @@ the styling will be removed.
   pcss._getAssetJson_({
     _asset_type_    : '_cascade_'
     _asset_subtype_ : '_vsheet_id_list_'
-    _asset_id_      : '_ex01_'
+    _asset_id_      : '_std_'
   });
 ```
 
@@ -1199,7 +1206,7 @@ the styling will be removed.
 
 ```js
      Example   : pcss._getAssetJson_({
-                   _asset_id_      : '_example001_',
+                   _asset_id_      : '_c01_',
                    _asset_type_    : '_cascade_'
                    _asset_subtype_ : '_vsheet_id_list_'
                  })

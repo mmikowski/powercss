@@ -1,4 +1,4 @@
-/* pss._example002_.js
+/* pss._ex002_.js
  * Example 002 of run-time generated and managed CSS
  * using PowerCSS - double buffering
  * Michael S. Mikowski - mike.mikowski@gmail.com
@@ -26,8 +26,8 @@
  *    10. transition or animation definitions
 */
 
-// BEGIN pcss._example002_
-pcss._example002_ = function () {
+// BEGIN pcss._ex002_
+pcss._ex002_ = function () {
   var
     base_selector_list,   box_selector_list,
     switch_selector_list, box_rule_map,
@@ -201,13 +201,13 @@ pcss._example002_ = function () {
 
   // Begin create cascades to toggle
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_c01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_switch_', '_box01_' ]
   });
 
   pcss._setCascade_({
-    _cascade_id_     : '_ex02_',
+    _cascade_id_     : '_c02_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_switch_', '_box02_' ]
   });
@@ -222,12 +222,12 @@ pcss._example002_ = function () {
 
     if ( target_el === switch_el ) { return; }
     if ( target_el === link_list[ 0 ] ) {
-      cascade_id = '_ex01_';
+      cascade_id = '_c01_';
       link_list[ 0 ].className = 'pcss-_x_select_';
       link_list[ 1 ].className = '';
     }
     else if ( target_el === link_list[ 1 ] ) {
-      cascade_id = '_ex02_';
+      cascade_id = '_c02_';
       link_list[ 0 ].className = '';
       link_list[ 1 ].className = 'pcss-_x_select_';
     }
@@ -245,7 +245,7 @@ pcss._example002_ = function () {
   switch_el = document.getElementById( 'pcss-_switch_' );
   link_list = switch_el.getElementsByTagName( 'div' );
   pcss._setCascade_({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_c01_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
@@ -253,4 +253,4 @@ pcss._example002_ = function () {
   switch_el.addEventListener( 'click', onclick_fn );
   // End init
 };
-// END pcss._example002_
+// END pcss._ex002_

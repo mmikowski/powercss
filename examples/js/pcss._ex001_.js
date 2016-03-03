@@ -1,4 +1,4 @@
-/* pss._example001_.js
+/* pss._ex001_.js
  * Example 001 of run-time generated and managed CSS
  * using PowerCSS - the basics
  * Michael S. Mikowski - mike.mikowski@gmail.com
@@ -26,8 +26,8 @@
  *    10. transition or animation definitions
 */
 
-// BEGIN pcss._example001_
-pcss._example001_ = function () {
+// BEGIN pcss._ex001_
+pcss._ex001_ = function () {
   var
     base_selector_list,
     box_selector_list
@@ -131,13 +131,13 @@ pcss._example001_ = function () {
   });
   // End add _box01_ vsheet
 
-  // Begin add and use _ex01_ cascade
+  // Begin add and use _c01_ cascade
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_c01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_box01_' ],
     _regen_type_     : '_use_'
   });
-  // End add and use _ex01_ cascade
+  // End add and use _c01_ cascade
 };
-// END pcss._example001_
+// END pcss._ex001_

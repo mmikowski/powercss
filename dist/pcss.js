@@ -303,6 +303,7 @@ var pcss = (function () {
   // 2.x Private method /cloneData/
   function cloneData ( data ) {
     if ( ! data ) { return data; }
+    //noinspection NestedFunctionCallJS
     return __str2j( __j2str( data ) );
   }
   // end 2.x Private method /cloneData/
@@ -423,13 +424,13 @@ var pcss = (function () {
     key_list   = __ObjKeys( extend_map );
     key_count  = key_list[ vMap._length_ ];
 
-    _KEYS_: for ( i = __0; i < key_count; i++ ) {
+    _KEY_: for ( i = __0; i < key_count; i++ ) {
       rule_key = key_list[ i ];
       rule_data = extend_map[ rule_key ];
       // delete keys will the value of __null
       if ( rule_data === __null ) {
         delete base_map[ rule_key ];
-        continue _KEYS_;
+        continue _KEY_;
       }
       base_map[ rule_key ] = extend_map[ rule_key ];
     }
@@ -798,11 +799,14 @@ var pcss = (function () {
   // 4.x Public method /initModule/
   function initModule ( arg_opt_map ) {
     // 4.x.1 init and args
-    var opt_map = arg_opt_map || {};
+    var
+      opt_map         = arg_opt_map               || {},
+      style_el_prefix = opt_map._style_el_prefix_ || 'pcss'
+      ;
 
     // 4.x.2 Init element prefix
-    topSmap._style_el_prefix_ = ( !! opt_map._style_el_prefix_ )
-      ? opt_map._style_el_prefix_ + '-' : 'pcss-';
+    style_el_prefix += '-';
+    topSmap._style_el_prefix_ = style_el_prefix;
 
     // 4.x.3 Create two style elements '<prefix>-0' and '<prefix>-1'
     initStyleEls();
@@ -847,18 +851,18 @@ var pcss = (function () {
   // end 4.x Public method /setGlobalMixinMap/
 
   // 4.x Public method /togglePcss/
-  function togglePcss( do_enable ) {
+  function togglePcss( arg_do_enable ) {
     var
-      style_el = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
+      style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_],
+      do_disable;
 
-    if ( do_enable === __undef ) {
-      do_enable = ! topSmap._is_enabled_;
-    }
+    do_disable = ( arg_do_enable === __undef )
+      ? topSmap._is_enabled_ : ! arg_do_enable;
 
-    style_el[ vMap._sheet_ ][ vMap._disabled_ ] = ! do_enable;
-    topSmap._is_enabled_ = !! do_enable;
+    style_el[ vMap._sheet_ ][ vMap._disabled_ ] = do_disable;
+    topSmap._is_enabled_ = ! do_disable;
 
-    return do_enable;
+    return topSmap._is_enabled_;
   }
   // end 4.x Public method /togglePcss/
 
@@ -1055,7 +1059,7 @@ var pcss = (function () {
 
   // 4.x Public method /setCascade/
   //  _setCascade_({
-  //    _cascade_id_      : '_example001_',
+  //    _cascade_id_      : '_c01_',
   //    _mode_str_        : '_add_',
   //    _vsheet_id_list_  : [ '_base_', '_box_' ],
   //    _mixin_map_       : {},

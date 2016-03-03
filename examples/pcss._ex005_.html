@@ -2,20 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>PowerCSS Example 003</title>
+  <!-- Mobile settings
+    see http://www.html5rocks.com/en/mobile/touch.html -->
+  <meta name="viewport" content="width=device-width user-scalable=no
+  initial-scale=.8,maximum-scale=.8"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- ie9+ rendering support for latest standards -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>PowerCSS Example 005</title>
   <script src="../dist/pcss.js"></script>
-  <script src="js/pcss._example003_.js"></script>
+  <script src="js/pcss._ex005_.js"></script>
   <script>
-  window.onload = pcss._example003_;
+  window.onload = pcss._ex005_;
   </script>
 </head>
 <body>
   <div class="pcss-_logo_" title="PowerCSS"></div>
-  <h2>Example 003: Mixin Maps</h2>
-  <p>This shows basic use of mixin maps.</p>
-  <p>Click on the top right corner to toggle between 3 <b>cascades</b>
-    that have been created using PowerCSS and mixin maps.
-  </p>
+  <h2>Example 005: Minimal time-based processing</h2>
+  <p>This shows minimal time-base processing of three cascades
+    and ten mixin-maps color themes. The theme is changed every five
+    seconds. Click on the top right corner to switch cascades.
+    All changes are dispatched with just one PowerCSS call
+    and all changes are transparently double-buffered.</p>
   <div id="pcss-_switch_">
     <div class="pcss-_x_select_">Cascade A</div>
     <div>Cascade B</div>
@@ -46,4 +55,3 @@
   <div class="pcss-_box_">PowerCSS 20</div>
 </body>
 </html>
-

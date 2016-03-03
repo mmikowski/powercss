@@ -98,18 +98,16 @@ because when we define a PowerCSS Stylesheet Object, we provide it a list
 of Virtual Stylesheets in order, just as if we were including static
 style sheet files to a static HTML document.
 
-      console.log( 'cascade object BEFORE enable',
         pcss._getAssetJson_({
           _asset_type_ : '_cascade_',
-          _asset_id_   : '_ex01_'
+          _asset_id_   : '_c01_'
         })
       );
-      // End Add ex01 cascade
 
 We use `_getAssetJson_` to get a look at the **cascade** object created by
 PowerCSS.  The full list of attributes is:
 
-    { "_cascade_id_"           : "_ex01_",
+    { "_cascade_id_"           : "_c01_",
       "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
       "_vsheet_ms_"            : 1456032421378,
       "_mixin_ms_"             : 1456032421378,
@@ -145,17 +143,17 @@ console.
 ### 6. Use the cascade
 Let's now use the **cascade** and close our example function.
 
-      pcss._useCascade_({ _cascade_id_ : '_example001_' });
+      pcss._useCascade_({ _cascade_id_ : '_c01_' });
       console.log(
         'cascade object AFTER use',
         pcss._getAssetJson_({
-          _asset_id_   : '_example001_',
+          _asset_id_   : '_c01_',
           _asset_type_ : '_cascade_'
         })
       );
       // End Create a cascade and use it
     };
-    // END pcss._example001_
+    // END pcss._ex001_
 
 
 When we use the **cascade**, PowerCSS calculates the CSS and
@@ -182,7 +180,7 @@ change this by providing an alternate prefix, like so:
 
 The above example results in the style elements of `foo-0` and `foo-1`.
 
-{ "_cascade_id_"           : "_ex01_",
+{ "_cascade_id_"           : "_c01_",
   "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
   "_vsheet_ms_"            : 1456032421378,
   "_mixin_ms_"             : 1456032421378,
@@ -192,7 +190,7 @@ The above example results in the style elements of `foo-0` and `foo-1`.
   "_css_str_"              : "",
   "_css_ms_"               : 0
 }
-{ "_cascade_id_"           : "_ex01_",
+{ "_cascade_id_"           : "_c01_",
   "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
   "_vsheet_ms_"            : 1456032421378,
   "_mixin_ms_"             : 1456032421378,

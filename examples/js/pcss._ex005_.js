@@ -1,4 +1,4 @@
-/* pss._example005_.js
+/* pss._ex005_.js
  * Example 005 of run-time generated and managed CSS
  * PowerCSS auto update of changes
  * Michael S. Mikowski - mike.mikowski@gmail.com
@@ -26,8 +26,8 @@
  *    10. transition or animation definitions
 */
 
-// BEGIN pcss._example005_
-pcss._example005_ = function () {
+// BEGIN pcss._ex005_
+pcss._ex005_ = function () {
   var
     palette_list,         palette_idx,
     global_mixin_map,     base_mixin_map,
@@ -317,19 +317,19 @@ pcss._example005_ = function () {
 
   // Begin create cascades to toggle
   pcss._setCascade_({
-    _cascade_id_     : '_ex01_',
+    _cascade_id_     : '_c01_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_switch_', '_box01_' ]
   });
 
   pcss._setCascade_({
-    _cascade_id_     : '_ex02_',
+    _cascade_id_     : '_c02_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_switch_', '_box02_' ]
   });
 
   pcss._setCascade_({
-    _cascade_id_     : '_ex03_',
+    _cascade_id_     : '_c03_',
     _mode_str_       : '_add_',
     _vsheet_id_list_ : [ '_base_', '_switch_', '_box03_' ]
   });
@@ -344,19 +344,19 @@ pcss._example005_ = function () {
 
     if ( target_el === switch_el ) { return; }
     if ( target_el === link_list[ 0 ] ) {
-      cascade_id = '_ex01_';
+      cascade_id = '_c01_';
       link_list[ 0 ].className = 'pcss-_x_select_';
       link_list[ 1 ].className = '';
       link_list[ 2 ].className = '';
     }
     else if ( target_el === link_list[ 1 ] ) {
-      cascade_id = '_ex02_';
+      cascade_id = '_c02_';
       link_list[ 0 ].className = '';
       link_list[ 1 ].className = 'pcss-_x_select_';
       link_list[ 2 ].className = '';
     }
     else if ( target_el === link_list[ 2 ] ) {
-      cascade_id = '_ex03_';
+      cascade_id = '_c03_';
       link_list[ 0 ].className = '';
       link_list[ 1 ].className = '';
       link_list[ 2 ].className = 'pcss-_x_select_';
@@ -392,7 +392,7 @@ pcss._example005_ = function () {
   switch_el.addEventListener( 'click', onclick_fn );
 
   pcss._setCascade_({
-    _cascade_id_ : '_ex01_',
+    _cascade_id_ : '_c01_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
@@ -400,7 +400,7 @@ pcss._example005_ = function () {
   setInterval( fn_set_palette, 5000 );
   // End init
 };
-// END pcss._example005_
+// END pcss._ex005_
 
 /** Color palettes thanks to:
  * DuoParadigms Public Relations & Design, Inc.
