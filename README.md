@@ -181,7 +181,6 @@ the format with little trouble. Below we add a **vsheet** definition to
         _margin_     : '_0_',
         _padding_    : '_2rem_',
         _background_ : '_xddd_',
-        _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
         _font_size_  : [ '16px' ],
         _color_      : '_x888_'
@@ -318,13 +317,14 @@ tools and modify it as if we had written it ourselves:
 body {
   display     : block;
   box-sizing  : border-box;
-  padding     : 2rem;
   margin      : 0;
+  padding     : 2rem;
+  background  : #ddd;
   font-family : arial, helvetica, sans-serif;
   font-size   : 16px;
   color       : #888;
 }
-input{
+input {
   margin        : .5rem;
   width         : 10rem;
   border        : .125rem solid #ddd;
@@ -335,35 +335,41 @@ input{
   font-size     : 1rem;
   color         : #ddd;
 }
-input:focus{
+input:focus {
   border-color : #fff;
   background   : #444;
   color        : #fff;
 }
+.pcss-_logo_{
+  background-image : url(http://mmikowski.github.io/images/2016-02-22-pcss.png);
+  background-size  : cover;
+  width            : 20.75rem;
+  height           : 10.125rem;
+}
 /* End _base_ style */
 
 /* Begin _box_ style */
-.pcss-_box_ {
-  display         : inline-block;
-  opacity         : 1;
-  box-sizing      : border-box;
-  position        : relative;
-  vertical-align  : top;
-  margin          : 1rem;
-  box-shadow      : rgba( 0, 0, 0, .5) 0 0 .25rem 0;
-  border          : 0.25rem solid #eee;
-  border-radius   : 1rem;
-  width           : 16rem;
-  height          : 8rem;
-  padding-top     : 1rem;
-  background      : #f85032;
-  background      : -moz-linear-gradient(left, #f85032 0%, #6d362d 100%);
-  background      : -webkit-linear-gradient(left, #f85032 0%, #6d362d 100%);
-  background      : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
-  font-size       : 1.5rem;
-  font-weight     : 800;
-  color           : #fff;
-  text-align      : center;
+.pcss-_box_{
+  display        : inline-block;
+  opacity        : 1;
+  box-sizing     : border-box;
+  position       : relative;
+  vertical-align : top;
+  margin         : 1rem;
+  box-shadow     : rgba( 0, 0, 0, .5) 0 0 .25rem 0;
+  border         : .25rem solid #eee;
+  border-radius  : 1rem;
+  width          : 16rem;
+  height         : 8rem;
+  padding-top    : 1rem;
+  background     : #f85032;
+  background     : -moz-linear-gradient(left, #f85032 0%, #6d362d 100%);
+  background     : -webkit-linear-gradient(left, #f85032 0%, #6d362d 100%);
+  background     : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
+  font-size      : 1.5rem;
+  font-weight    : 800;
+  color          : #fff;
+  text-align     : center;
 }
 /* End _box_ style */
 ```

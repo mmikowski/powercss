@@ -44,7 +44,6 @@ pcss._ex001_ = function () {
         _margin_     : '_0_',
         _padding_    : '_2rem_',
         _background_ : '_xddd_',
-        _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
         _font_size_  : [ '16px' ],
         _color_      : '_x888_'
