@@ -310,7 +310,7 @@ pcss._home_ = (function ( $ ) {
     pcss._extendRuleMap_( box_rule_map, {
       _display_    : '_block_',
       _width_      : null,
-      _max_width_  : [ '32rem' ],
+      _max_width_  : null,
       _font_size_  : '_2rem_',
       _box_shadow_ : '_global_d5_box_shadow_',
       _background_ : '_global_linear_grad_'
