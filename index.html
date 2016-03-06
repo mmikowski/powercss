@@ -41,7 +41,7 @@
     It can be installed using <code>npm install powercss</code>.</p>
 
     <p>This page is styled using PowerCSS. Click at the top right to
-      change the palette or cascade at any time.  It looks good on a phone
+      change the palette or cascade at any time. It looks good on a phone
       as well as a desktop.</p>
 
   <h2>Why PowerCSS?</h2>
@@ -66,6 +66,40 @@
     and it can speed up some CSS operations by 10x or more.
     What's not to like?</p>
 
+  <h2>Key benefits</h2>
+  <ul>
+    <li><strong>Real-time styling</strong> - Application control of CSS
+    enables custom styling for every user of your application. For example,
+    adjust application styling based on device (capabilities, orientation 
+    and size), GPS coordinates, and ambient conditions (light, temperature,
+    time of day, heart rate).</li>
+    <li><strong>Pure JS</strong> - Remove the need for <strong>any</strong>
+    static CSS files.</li>
+    <li><strong>Namespaced</strong> - PowerCSS plays well with jQuery, 
+    other libraries, and third-party JavaScript.</li>
+    <li><strong>Double-buffering</strong> is automatic and minimizes page
+    re-flows. It can speed up some styling changes by more than 10x.</li>
+    <li><strong>Merging and caching</strong> - Intelligent time-based minimal
+    processing only changes the virtual cascades that need it.</li>
+    <li><strong>Mixins</strong> at multiple levels - virtual stylesheet, 
+    virtual cascade, and global. Change a mixin and watch the style change
+    immediately!</li>
+    <li><strong>Familiar workflow</strong> - Virtual stylesheets and virtual
+    cascades are used to minimize the transition for CSS veterans.</li>
+    <li><strong>Machine optimized CSS</strong> - PowerCSS provides only 
+    <strong>one stylesheet</strong> for the browser to use at any given time,
+    and <strong>numerous redundancies</strong> are removed during its
+    preparation. This allows the browser to render more efficiently.</li>
+    <li><strong>Highly compressible</strong> - PowerCSS can be compressed 
+    to a fraction of static CSS. Both rule keys and values are 
+    compressible.</li>
+    <li><strong>Quality code</strong> - Expertly written and documented.
+    Passes JSLint as a commit hook. We plan to include regression tests as
+    a commit hook prior to 1.x release.</li>
+    <li><strong>MIT license</strong></li>
+    <li><strong>No dependencies</strong></li>
+  </ul>
+
   <h2>Examples</h2>
     <p>This page is styled using PowerCSS. Click at the top right to
       change the palette or cascade at any time.</p>
@@ -82,10 +116,10 @@
         - Dynamic themes</li>
     </ul>
 
-  <h2>Advantages</h2>
+  <h2>Key benefits</h2>
     <ul>
-      <li><strong>Pure JS</strong>
-        - Remove the need for <strong>any</strong> static CSS files.</li>
+      <li><strong>Pure JS</strong> - Remove the need for 
+      <strong>any</strong> static CSS files.</li>
       <li><strong>Real-time styling</strong>
         - Application control of CSS enables custom
           styling for every user of your application. For example, adjust
@@ -120,10 +154,13 @@
     </ul>
 
   <h2>News</h2>
+    <h3>2016-03-04: Beta v0.5.20</h3>
+    Preparations for regression tests. Added key benefits section.
+
     <h3>2016-02-24: Beta v0.5.16</h3>
     <p>This page now showcases double-buffer and theming capabilities.
     We have also completed the planned 1.x API with the addition of the
-    <code>_getAssetIdList_</code> methods.  At this point, all that remains
+    <code>_getAssetIdList_</code> methods. At this point, all that remains
     is integration work and regression tests.
     </p>
     
@@ -133,7 +170,7 @@
     as we find them.</p>
 
     <p>This version saw our last big API overhaul we expect before the 1.x
-    release.  We cut the number of methods in half while adding many
+    release. We cut the number of methods in half while adding many
     capabilities. The documentation and examples have expanded and updated.
     We have added the PowerCSS Cookbook section to the
     <a href="https://github.com/mmikowski/powercss/blob/master/README.md"

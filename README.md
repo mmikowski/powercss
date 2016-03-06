@@ -49,6 +49,41 @@ operations by 10x or more. What's not to like?
 Sound exciting? If so, read on! First we implement a few PowerCSS
 examples, and then we discuss how PowerCSS works.
 
+## Key benefits
+PowerCSS provides a fresh approach to create dynamic CSS on demand. 
+[I advocated CSS double-buffering][1] years ago, but PowerCSS is 
+all-new code with many additional capabilities and optimizations:
+
+- **Real-time styling** - Application control of CSS
+    enables custom styling for every user of your application. For example,
+    adjust application styling based on device (capabilities, orientation 
+    and size), GPS coordinates, and ambient conditions (light, temperature,
+    time of day, heart rate).
+- **Pure JS** - Remove the need for **any**
+    static CSS files.
+- **Namespaced** - PowerCSS plays well with jQuery, 
+    other libraries, and third-party JavaScript.
+- **Double-buffering** is automatic and minimizes page
+    re-flows. It can speed up some styling changes by more than 10x.
+- **Merging and caching** - Intelligent time-based minimal
+    processing only changes the virtual cascades that need it.
+- **Mixins** at multiple levels - virtual stylesheet, 
+    virtual cascade, and global. Change a mixin and watch the style change
+    immediately!
+- **Familiar workflow** - Virtual stylesheets and virtual
+    cascades are used to minimize the transition for CSS veterans.
+- **Highly optimized CSS** - PowerCSS provides only **one stylesheet**
+    for the browser to use at any given time, and **numerous redundancies**
+    are removed during its preparation. This allows the browser to render
+    more efficiently.
+- **Highly compressible** - PowerCSS can be compressed to a fraction of 
+    static CSS.  Both rule keys and values are compressible.
+- **Quality code** - Expertly written and documented.  Passes JSLint as a
+    commit hook. We plan to include regression tests as
+    a commit hook prior to 1.x release.
+- **MIT license**
+- **No dependencies**
+
 ## Example 001: The basics
 This example is illustrated by `pcss._ex001_.html` which
 can be be found in the `./examples` directory of the GitHub repository.
