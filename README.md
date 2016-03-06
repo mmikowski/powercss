@@ -63,7 +63,7 @@ all-new code with many additional capabilities and optimizations:
     static CSS files.
 - **Namespaced** - PowerCSS plays well with jQuery, 
     other libraries, and third-party JavaScript.
-- **Double-buffering** is automatic and minimizes page
+- **Double-buffering** - This technique automatic and minimizes page
     re-flows. It can speed up some styling changes by more than 10x.
 - **Merging and caching** - Intelligent time-based minimal
     processing only changes the virtual cascades that need it.
