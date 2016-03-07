@@ -41,8 +41,6 @@ pcss._ex002_ = function () {
   base_selector_list = [
     { _selector_str_  : 'body',
       _rule_map_     : {
-        _display_    : '_block_',
-        _box_sizing_ : '_border_box_',
         _margin_     : '_0_',
         _padding_    : '_2rem_',
         _overflow_y_ : '_scroll_',

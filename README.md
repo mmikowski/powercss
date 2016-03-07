@@ -1,8 +1,9 @@
 # PowerCSS by Michael S. Mikowski
-PowerCSS 0.5.x is **Beta** software.
-All primary features are implemented and API should change little through
-the official 1.x production release. Documentation, regression testing,
-promotion, and examples are being updated in coordination with the library.
+The 0.6.x versions are release-candidate level software.
+PowerCSS is undergoing final testing prior to 1.x.x release.
+All expected features are implemented and the API is stable and
+fully documented. Regression tests and production deployments are
+underway.
 
 ## Libraries provide freedom and power
 This is a library that strives to be best-in-class. If you are considering
@@ -74,8 +75,8 @@ examples, and then we discuss how PowerCSS works.
     are removed during its preparation. This allows the browser to render
     more efficiently.
 - **Highly compressible** - PowerCSS can be compressed to a fraction of
-    static CSS.  Both rule keys and values are compressible.
-- **Quality code** - Expertly written and documented.  Passes JSLint as a
+    static CSS. Both rule keys and values are compressible.
+- **Quality code** - Expertly written and documented. Passes JSLint as a
     commit hook. We plan to include regression tests as
     a commit hook prior to 1.x release.
 - **MIT license**
@@ -94,7 +95,7 @@ and we can use it again without fear of it being modified by PowerCSS
 at some later time. For the inverse reason, PowerCSS **does not return
 pointers to its data**. Instead is the `_getAssetJson_` method which
 is very handy for debugging, but it should be used sparingly as it
-can be expensive.  The `_getAssetIdList_` method is also data-safe.
+can be expensive. The `_getAssetIdList_` method is also data-safe.
 
 We were careful to change as little of the existing CSS work-flow as
 possible. If we are comfortable with using static CSS, this should look
@@ -146,6 +147,7 @@ be found in the `examples` directory of the GitHub repository.
 </body>
 </html>
 ```
+
 
 ### 2. Start the `pcss._ex001_.js` file
 Now let's start a JavaScript file named to `pcss._ex001_.js` to
@@ -208,8 +210,6 @@ the format with little trouble. Below we add a **vsheet** definition to
   base_selector_list = [
     { _selector_str_  : 'body',
       _rule_map_     : {
-        _display_    : '_block_',
-        _box_sizing_ : '_border_box_',
         _margin_     : '_0_',
         _padding_    : '_2rem_',
         _background_ : '_xddd_',
@@ -335,6 +335,7 @@ dynamically update them. Let's add one now:
 // END pcss._ex001_
 ```
 
+
 We can now save the `pcss._ex001_.js` file. Next, we'll look at the
 results.
 
@@ -347,8 +348,6 @@ tools and modify it as if we had written it ourselves:
 ```css
 /* Begin _base_ style */
 body {
-  display     : block;
-  box-sizing  : border-box;
   margin      : 0;
   padding     : 2rem;
   background  : #ddd;
@@ -448,6 +447,7 @@ A CSS rule declaration looks like the following:
 background-color : #fff;
 ```
 
+
 The expression to the left of the color we refer to as the rule **key**.
 The text after the colon but before the semicolon we refer to as the rule
 **value**. Here the key is `color` and the `value` is `#fff`.
@@ -460,6 +460,7 @@ the literal values. For example, to declare background-color, we use:
 _background_color_ : '_xfff_'
 ```
 
+
 At first glance, that might seem silly. However, using symbols for rule
 **keys** and **values** help us greatly when compressing our files.
 In the example above, our JavaScript rule can be compressed like so:
@@ -467,6 +468,7 @@ In the example above, our JavaScript rule can be compressed like so:
 ```js
 nx:'qr'
 ```
+
 
 This is 24% of the size of the native CSS (7 vs 29 characters).
 And some CSS keys and values can be especially verbose. One downside to
@@ -542,6 +544,7 @@ as illustrated below:
   });
 ```
 
+
 A **mixin map** is simple key-value pair object as illustrated below:
 
 ```js
@@ -553,6 +556,7 @@ A **mixin map** is simple key-value pair object as illustrated below:
     _input_border_    : '.125rem solid #ddd'
   };
 ```
+
 
 We can get a copy of a **mixin map** using `_getAssetJson_`.
 
@@ -577,6 +581,7 @@ is as follows:
   vsheet > cascade > global > builtin
 ```
 
+
 This means that **vsheets** mixin values have priority over **cascade**
 mixin values which have priority over **global** mixin values which have
 priority over **builtin** values. Think of this as "the last match
@@ -585,6 +590,7 @@ wins." Consider the following PowerCSS rule definition:
 ```js
   rule_map : { background : '_bcolor_', ... }
 ```
+
 
 Now let's define **mixin map** values at three levels.
 In pseudo code, it looks something like this:
@@ -595,6 +601,7 @@ In pseudo code, it looks something like this:
   cascade._bcolor_ = 'green';
   vsheet._bcolor_  = 'blue';
 ```
+
 
 Here the **vsheet** level value, 'blue', "wins" and the CSS processor
 will use *that* instead of any **cascade**, **global**, or **builtin** value.
@@ -615,6 +622,7 @@ the mixin value would be defined at just two levels:
   vsheet._bcolor_  = undefined;
 ```
 
+
 Here the **cascade** level value will "win" and the CSS generator
 will use 'green' instead of any **global** or **builtin** value.
 And so on. If the value is still undefined at the end of the scope chain,
@@ -631,6 +639,7 @@ string in an array to have it read as a literal, as illustrated below:
 ```js
   rule_map : { background : [ 'blue' ], ... }
 ```
+
 
 We use an array wrapper as a literal array wrapper so that PowerCSS does not
 rely on symbol names to determine how to parse values. This makes it makes it
@@ -668,6 +677,7 @@ background : -webkit-linear-gradient(left, #f85032 0%, #6d362d 100%);
 background : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
 ```
 
+
 We are not limited literal values as the us of the builtin mixin key
 like `_xfff_` shows. We could even define the entire alternatives map
 as a mixin, like so:
@@ -686,6 +696,7 @@ as a mixin, like so:
   };
 ```
 
+
 ... and replace the above declaration in the **vsheet** definition. If we
 use gradient many times, we save lots of space, especially after compression.
 Because now everywhere we want to use it, the line declaration becomes:
@@ -694,12 +705,14 @@ Because now everywhere we want to use it, the line declaration becomes:
       _background_ : '_global_red_grad_map_'
 ```
 
+
 This compresses to something like the following, which is 2.9% the size
 of the minimized CSS equivalent:
 
 ```js
 ck:'_r'
 ```
+
 
 Remember the order of alternatives in CSS is important: the last supported
 declaration will always be used.
@@ -716,6 +729,7 @@ usually separated by a space. For this we use a "double list" technique:
     }
   }
 ```
+
 
 This is very similar to alternate values. The resulting CSS should
 look like this.
@@ -816,6 +830,7 @@ _regen_type_ value means for the affect cascades:
   [3] _use_   This is only available for _setCascade_
 ```
 
+
 The processing required to use a **cascade** is not enormous, and it
 **must** be accomplished before we use it. If we delay all processing
 until then, all the processing steps will be undertaken before showing
@@ -886,6 +901,7 @@ the best solution. Here is an example:
   });
 ```
 
+
 The current `_regen_type_` default may change prior to the 1.x release
 if test results warrant it.
 
@@ -907,6 +923,7 @@ years. Let's look at some popular recipes from our own JavaScript kitchen.
   });
 ```
 
+
 #### Change a **vsheet** selector list
 
 ```js
@@ -917,6 +934,7 @@ years. Let's look at some popular recipes from our own JavaScript kitchen.
   });
 ```
 
+
 #### Change a **vsheet** mixin map
 
 ```js
@@ -926,6 +944,7 @@ years. Let's look at some popular recipes from our own JavaScript kitchen.
     _mixin_map_     : {...}
   });
 ```
+
 
 #### Delete only the vsheet selector list
 Deleting a selector list independently is not supported.
@@ -941,6 +960,7 @@ not work.
   });
 ```
 
+
 #### Delete only the vsheet mixin map
 Deleting a vsheet mixin map independently is not supported.
 However, one may change `_mixin_map_` to an empty object
@@ -954,6 +974,7 @@ not work.
     _mixin_map_ : {}
   });
 ```
+
 
 #### Delete an entire **vsheet**
 Recall that deleting a single **vsheet** will redfine all
@@ -972,6 +993,7 @@ switched to the updated CSS as soon as it is ready.
   });
 ```
 
+
 #### Copy an entire **vsheet**
 
 ```js
@@ -980,6 +1002,7 @@ switched to the updated CSS as soon as it is ready.
     _asset_id_   : '_base_'
   });
 ```
+
 
 #### Copy the selector list of a **vsheet**
 
@@ -990,6 +1013,7 @@ switched to the updated CSS as soon as it is ready.
     _asset_id_      : '_base_'
   });
 ```
+
 
 #### Use the same selector list to define multiple **vsheets**
 Because PowerCSS never changes our data, we can create a
@@ -1023,6 +1047,7 @@ indefinitely. Here is an example:
   });
 ```
 
+
 ### **Cascade** recipes
 
 #### Add a new **cascade**
@@ -1036,6 +1061,7 @@ indefinitely. Here is an example:
   });
 ```
 
+
 #### Change a **cascade** vsheet id list
 
 ```js
@@ -1046,6 +1072,7 @@ indefinitely. Here is an example:
   });
 ```
 
+
 #### Change a cascade mixin map
 
 ```js
@@ -1055,6 +1082,7 @@ indefinitely. Here is an example:
     _mixin_map_      : {...}
   });
 ```
+
 
 #### Delete only a vsheet id list from a **cascade**
 Deleting a vsheet ID list independently is not supported.
@@ -1085,6 +1113,7 @@ not work.
   });
 ```
 
+
 #### Delete an entire **cascade**
 Deleting a cascade will only affect that cascade, so setting
 `_regen_type_` has no affect. If a cascade is in-use,
@@ -1097,6 +1126,7 @@ the styling will be removed.
   });
 ```
 
+
 #### Prepare a **cascade** so the CSS is ready to use
 
 ```js
@@ -1106,6 +1136,7 @@ the styling will be removed.
     _regen_type_ : '_prepare_'
   }
 ```
+
 
 #### Use a **cascade**
 
@@ -1117,6 +1148,7 @@ the styling will be removed.
   }
 ```
 
+
 #### Copy an entire **cascade**
 
 ```js
@@ -1125,6 +1157,7 @@ the styling will be removed.
     _asset_id_      : '_normal_'
   });
 ```
+
 
 #### Copy just the vsheet id list of a **cascade**
 
@@ -1136,6 +1169,7 @@ the styling will be removed.
   });
 ```
 
+
 ### General recipes
 
 #### Disable PowerCSS
@@ -1144,17 +1178,20 @@ the styling will be removed.
   pcss._togglePcss_( false );
 ```
 
+
 #### Enable PowerCSS
 
 ```js
   pcss._togglePcss_( true );
 ```
 
+
 #### Toggle PowerCSS
 
 ```js
   pcss._togglePcss();
 ```
+
 
 #### Change the global mixin map
 
@@ -1177,6 +1214,7 @@ the styling will be removed.
      Returns   : --
 ```
 
+
 ### `_extendRuleMap_`
 
 ```js
@@ -1193,6 +1231,7 @@ the styling will be removed.
        - base_map is modified.
        - extend_map is not.
 ```
+
 
 ### `_setGlobalMixinMap_`
 
@@ -1214,6 +1253,7 @@ the styling will be removed.
      Returns   : The number of vsheets affected by the change
 ```
 
+
 ### `_togglePcss_`
 
 ```js
@@ -1229,6 +1269,7 @@ the styling will be removed.
      Returns   : true (enabled) or false (disabled)
 ```
 
+
 ### `_getAssetIdList_`
 
 ```js
@@ -1242,10 +1283,11 @@ the styling will be removed.
      Arguments : _asset_type_ (req), either '_vsheet_' or '_cascade_'
      Settings  : none
      Throws    : none
-     Returns   : A list of the asset IDs requested.  PowerCSS will
+     Returns   : A list of the asset IDs requested. PowerCSS will
                  NEVER use this list pointer, so you may mutate as
                  you please.
 ```
+
 
 ### `_getAssetJson_`
 
@@ -1278,6 +1320,7 @@ the styling will be removed.
                  returned is 'undefined'.
 ```
 
+
 ### `_setVsheet_`
 See **The PowerCSS cookbook** section to see how `_setVsheet_`
 may be used to accomplish common tasks.
@@ -1305,6 +1348,7 @@ may be used to accomplish common tasks.
      Returns   : vsheet_id, or undef on failure
 ```
 
+
 ### `_setCascade_`
 See **The PowerCSS cookbook** section to see how `_setCascade_`
 may be used to accomplish common tasks.
@@ -1331,6 +1375,7 @@ may be used to accomplish common tasks.
      Throws    : none
      Returns   : cascade_id, or undef on failure
 ```
+
 
 ## Regression tests
 TODO

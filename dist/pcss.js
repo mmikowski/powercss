@@ -22,7 +22,6 @@ var pcss = (function () {
     __blank     = '',
     __docRef    = document,
     __winRef    = window,
-    __false     = false,
     __isArray   = Array.isArray,
     __null      = null,
     __true      = true,
@@ -71,7 +70,6 @@ var pcss = (function () {
     __n1    = -1,
     __undef = __winRef[ vMap._undefined_ ],
     __console = console,
-
 
     // CSS rule keys
     cssKeyMap = {
@@ -428,9 +426,9 @@ var pcss = (function () {
       rule_key,  rule_data, i
       ;
 
-    if ( ! ( getVarType( base_map       ) === vMap._object_
-          && getVarType( arg_extend_map ) === vMap._object_
-    )) { return; }
+    if ( getVarType( base_map       ) !== vMap._object_
+      || getVarType( arg_extend_map ) !== vMap._object_
+    ) { return 'wtf?'; }
 
     extend_map = cloneData( arg_extend_map );
     key_list   = __ObjKeys( extend_map );
@@ -446,6 +444,7 @@ var pcss = (function () {
       }
       base_map[ rule_key ] = extend_map[ rule_key ];
     }
+    return base_map;
   }
   // end 2.6 Private and Public method /extendRuleMap/
 
@@ -480,7 +479,6 @@ var pcss = (function () {
     global_mixin_map  = topSmap._global_mixin_map_ || {};
     merged_mixin_map  = cloneData( global_mixin_map );
     extendRuleMap( merged_mixin_map, arg_mixin_map );
-
 
     // 2.7.3 Consider each vsheet selector_list in the cascade list
     _VSHEET_: for ( i = __0; i < vsheet_count; i++ ) {
@@ -788,7 +786,7 @@ var pcss = (function () {
       if ( style_el ) {
         style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
       }
-      write_el[ vMap._sheet_ ][ vMap._disabled_ ] = __false;
+      write_el[ vMap._sheet_ ][ vMap._disabled_ ] = ! topSmap._is_enabled_;
 
       topSmap._style_el_idx_ = write_idx;
       topSmap._el_cascade_list_[ write_idx ] = cascade_map._cascade_id_;
@@ -823,7 +821,7 @@ var pcss = (function () {
   //             If not provided, the prefix 'pcss' will be used.
   // Settings  : none
   // Throws    : A string error object if style elements already exist
-  // Returns   : undef
+  // Returns   : The current prefix string e.g. 'pcss-'
   //
   function initModule ( arg_opt_map ) {
     // 4.1.1 init and args
@@ -833,15 +831,50 @@ var pcss = (function () {
       ;
 
     // 4.1.2 Init element prefix
-    style_el_prefix += '-';
-    topSmap._style_el_prefix_ = style_el_prefix;
-
-    // 4.1.3 Create two style elements '<prefix>-0' and '<prefix>-1'
-    initStyleEls();
+    if ( ! topSmap._style_el_prefix_ ) {
+      style_el_prefix += '-';
+      topSmap._style_el_prefix_ = style_el_prefix;
+      // Create two style elements '<prefix>-0' and '<prefix>-1'
+      initStyleEls();
+    }
+    
+    // 4.1.3 return prefix
+    return topSmap._style_el_prefix_;
   }
   // end 4.1 Public method /initModule/
 
-  // 4.2 Public method /setGlobalMixinMap/
+  // 4.2 Public method /togglePcss/
+  // Example   : pcss._togglePcss_( true );
+  // Purpose   : Enable or disable PowerCSS stylesheet
+  // Arguments :
+  //   - boolean (optional)
+  //     If not provided, will toggle PowerCSS on or off.
+  //     If provided, true will turn PowerCSS on, and false
+  //       will turn PowerCSS off.
+  // Notes     : All PowerCSS methods remain available.  This simply
+  //             blocks the use of either stylesheet PowerCSS controls.
+  // Settings  : none
+  // Throws    : none
+  // Returns   : true (enabled) or false (disabled)
+  //
+  function togglePcss( arg_do_enable ) {
+    var
+      style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ],
+      do_disable;
+
+    do_disable = ( arg_do_enable === __undef )
+      ? topSmap._is_enabled_ : ! arg_do_enable;
+
+    if ( style_el ) {
+      style_el[ vMap._sheet_ ][ vMap._disabled_ ] = do_disable;
+    }
+
+    topSmap._is_enabled_ = ! do_disable;
+    return topSmap._is_enabled_;
+  }
+  // end 4.2 Public method /togglePcss/
+
+  // 4.3 Public method /setGlobalMixinMap/
   // Example   : pcss._setGlobalMixinMap_({
   //               _mode_type_ : 'add',
   //               _mixin_map_ : mixin_map
@@ -858,7 +891,7 @@ var pcss = (function () {
   // Returns   : The number of vsheets affected by the change
   //
   function setGlobalMixinMap ( arg_opt_map ) {
-    // 4.2.1 Init and arguments
+    // 4.3.1 Init and arguments
     var
       opt_map    = arg_opt_map || {},
 
@@ -875,13 +908,13 @@ var pcss = (function () {
       logIt( '_regen_type_use_not_supported_for_this_method_' );
       return;
     }
-    // end 4.2.1
+    // end 4.3.1
 
-    // 4.2.2 Set mixin map
+    // 4.3.2 Set mixin map
     topSmap._global_mixin_map_ = cloneData( mixin_map );
     topSmap._global_mixin_ms_  = __timeStamp();
 
-    // 4.2.3 Regenerate cascade maps to regen_type level
+    // 4.3.3 Regenerate cascade maps to regen_type level
     cascade_id_list  = __ObjKeys( cascade_map_map );
     cascade_id_count = cascade_id_list[ vMap._length_ ];
     for ( i = __0; i < cascade_id_count; i++ ) {
@@ -891,38 +924,7 @@ var pcss = (function () {
     }
     return cascade_id_count;
   }
-  // end 4.2 Public method /setGlobalMixinMap/
-
-  // 4.3 Public method /togglePcss/
-  // Example   : pcss._togglePcss_( true );
-  // Purpose   : Enable or disable PowerCSS
-  // Arguments :
-  //   - boolean (optional)
-  //     If not provided, will toggle PowerCSS on or off.
-  //     If provided, true will turn PowerCSS on, and false
-  //       will turn PowerCSS off.
-  // Settings  : none
-  // Throws    : none
-  // Returns   : true (enabled) or false (disabled)
-  //
-  function togglePcss( arg_do_enable ) {
-    var
-      style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ],
-      do_disable;
-
-
-    do_disable = ( arg_do_enable === __undef )
-      ? topSmap._is_enabled_ : ! arg_do_enable;
-
-    if ( style_el ) {
-      style_el[ vMap._sheet_ ][ vMap._disabled_ ] = do_disable;
-    }
-
-    topSmap._is_enabled_ = ! do_disable;
-    return topSmap._is_enabled_;
-  }
-  // end 4.3 Public method /togglePcss/
-
+  // end 4.3 Public method /setGlobalMixinMap/
 
   // 4.4 Public method /getAssetIdList/
   // Example   : vsheet_id_list = pcss._getAssetIdList_({
@@ -1275,8 +1277,8 @@ var pcss = (function () {
   return {
     _initModule_          : initModule,
     _extendRuleMap_       : extendRuleMap,
-    _setGlobalMixinMap_   : initCheck[ vMap._bind_ ]( setGlobalMixinMap   ),
     _togglePcss_          : initCheck[ vMap._bind_ ]( togglePcss          ),
+    _setGlobalMixinMap_   : initCheck[ vMap._bind_ ]( setGlobalMixinMap   ),
     _getAssetIdList_      : initCheck[ vMap._bind_ ]( getAssetIdList      ),
     _getAssetJson_        : initCheck[ vMap._bind_ ]( getAssetJson        ),
     _setVsheet_           : initCheck[ vMap._bind_ ]( setVsheet           ),
