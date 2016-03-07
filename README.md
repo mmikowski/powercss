@@ -50,9 +50,6 @@ Sound exciting? If so, read on! First we implement a few PowerCSS
 examples, and then we discuss how PowerCSS works.
 
 ## Key benefits
-PowerCSS provides a fresh approach to create dynamic CSS on demand. 
-[I advocated CSS double-buffering][1] years ago, but PowerCSS is 
-all-new code with many additional capabilities and optimizations:
 
 - **Real-time styling** - Application control of CSS
     enables custom styling for every user of your application. For example,

@@ -1,202 +1,27 @@
-# How PowerCSS Works
-PowerCSS uses a number of techniques to provide powerful and fast
-programatic CSS control while leveraging the skills of existing CSS
-authors. Below we discuss the key concepts employed to meet this
-goal.
-
-## PowerCSS uses only one Stylesheet Object at a time
-Only one PowerCSS stylesheet is used at any time to style
-the DOM. PowerCSS is intended to replace **all** other stylesheets for
-a application, and external stylesheets are no longer needed.
-While we can and may use external sheets during development,
-we don't need them for production release. Don't worry,
-this isn't as drastic as it sounds. Third-party web components
-work fine with PowerCSS because it plays well with others.
-
-Why use only one Stylesheet Object at a time? In a word, **speed**.
-
-First, the browser rendering engine doesn't need to work loading
-and merging sometimes dozens of external style sheets. Instead, it
-creates a single stylesheet for the browser to use. This prevents
-"document reflows" when a rendering engine must reorder and rerender
-a layout because of styling changes. For example, if we have 12 external
-stylesheets and load them at different times, that may require 12
-document reflows instead of the one required with PowerCSS. Think about how
-when you visit a site how the layout often stutters and jumps while
-loading. That's often due to document reflows.
-
-Second, our single active Stylesheet Object is calculated and optimized
-by PowerCSS before it is ever applied, which means a large amount of
-redundany is removed from the sheet compared to a typical cascade.
-Third, we can cache these sheets and switch between them at will.
-This "double-buffering" capability allow us to change almost
-all styling with just one document reflow, which can be many, many
-times faster than changing styles individually.
-
-## PowerCSS is highly compressible
-A PowerCSS app in its compressed state usually presents a styled DOM
-on inital load *faster* than standard CSS and HTML. While there is
-some initial overhead for PowerCSS, this is offset by the benefits
-of much-smaller download size and HTTP requests and other optimizations.
-
-You will notice many property names and values - along with error
-messages and class names - in PowerCSS are consistently
-named like so: '_color_'. These symbols can be easily found and
-replaced by a compressor. As a result, the code to produce the
-CSS for our Stylesheet Objects can be one quarter the size of the
-native CSS after compression.
-
-If you use the same naming convention on classes and ID's, the same
-compression can take place. So a class name like
-`.pcss-_xtable-inner-cell-selected_` can be compressed to something
-like `pcss-qx`. This has numerous performance benefits as well.
-
-We recommend using UglifyJS and then a tokenizer like the author's
-SuperPack. The latter is not yet publicly released yet, but I've
-used and improved it for 6 years now, and it further reduce compressed
-JS files by around 30% and it works great with CSS symbols.
-
-## PowerCSS can maintain multiple Stylesheet Objects
-PowerCSS can maintain multiple Stylesheet Objects even though only one
-is active at any time. These have, by default, the IDs of `pcss-0,
-pcss-1, ... pcss-N.` If there is a conflict with other DOM IDs, we
-can change the prefix using `pcss._setSheetIdPrefix_( 'myprefix-' );`.
-This must be called *before* any other methods, or it will throw a nasty
-exception.
-
-Maintaining multiple defined stylesheets provides us with capability to
-"double-buffer" styling, and limit document reflows to once for a batch
-of styling changes. Consider, for example, if we have a night theme and
-a day theme for a layout, and these layouts not only differed in colors, but
-also in the size and shapes of DOM elements.  Both themes also adjusted
-according to the device capabilities, the ambient temperature, and GPS
-position, so static CSS isn't an option.
-
-If we were to use JavaScript to make these changes one-by-one to the
-currently active stylesheet, this would be ask the browser rendering
-engine to consider every DOM element for each change. If we have 1,000
-style changes and 1,000 elements, the rendering engine will need to
-consider adjustising element properties one million times. Of course,
-the engine will *try* to batch changes, but sometimes that
-doesn't work well at all, especially if our adjustments take more than
-a tiny fraction of a second. And so we will see our page stutter and jump
-as multiple document reflows occur.
-
-With PowerCSS, the active Stylesheet Object is rarely changed. Instead,
-when we have a large change like described above, we write a new stylesheet
-object and then switch to it only when its complete.  Now the browser engine
-only needs to reflow the page once. Using this method, the rendering engine
-only has to consider adjusting each of our 1,000 element only once.  That's
-1,000 *times* fewer considerations than the above example.
-
-## Virtual Stylesheets
-A Virtual Stylesheet (**vsheet**) contains the same information as a
-traditional CSS file.  An experienced CSS author should be able to
-convert an existing static stylesheet to a **vsheet** with little pain
-or confusion.  The familiarity and power of the CSS cascade is retained,
-because when we define a PowerCSS Stylesheet Object, we provide it a list
-of Virtual Stylesheets in order, just as if we were including static
-style sheet files to a static HTML document.
-
-        pcss._getAssetJson_({
-          _asset_type_ : '_cascade_',
-          _asset_id_   : '_c01_'
-        })
-      );
-
-We use `_getAssetJson_` to get a look at the **cascade** object created by
-PowerCSS.  The full list of attributes is:
-
-    { "_cascade_id_"           : "_c01_",
-      "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
-      "_vsheet_ms_"            : 1456032421378,
-      "_mixin_ms_"             : 1456032421378,
-      "_merged_selector_list_" : [...],
-      "_merged_mixin_map_"     : {}, 
-      "_merged_selector_ms_"   : 1456032421378,
-      "_css_str_"              : "", 
-      "_css_ms_"               : 0 
-    }
-- `_cascade_id_` as provided.
-- `_cascade_list_` is as provided.
-- `_css_str_` is the CSS string generated for this **cascade**.
-  *In this example, the value is blank because we haven't
-  used this cascade yet.*
-- `_merged_vsheet_list_` is a meta-**vsheet** prepared by merging all
-  the **vsheets** in the `_cascade_list_` in the order provided.
-  It is an intermediary format.  **mixins** are not yet subsituted.
-  *In this example it is calculated and saved*.
-- `_merged_mixin_map_` is a meta-**mixin** prepared by merging the mixin
-  maps in the order of global, cascade, and vsheets.
-  *In this example it is an empty map.*
-- `_style_el_` is the `style` DOM element used by the **cascade**.
-  *In this example, the value is null because we haven't
-  used this cascade yet.*
-- `_time_map_` includes various timestamps that are used to minimize
-  processing to update the CSS generation.
-  *In this example, all times are set to 'now', except
-  for `_css_ms_` as the CSS has not yet been generated.*
-
-We can verify these values by viewing the output in the JavaScript
-console.
-
-### 6. Use the cascade
-Let's now use the **cascade** and close our example function.
-
-      pcss._useCascade_({ _cascade_id_ : '_c01_' });
-      console.log(
-        'cascade object AFTER use',
-        pcss._getAssetJson_({
-          _asset_id_   : '_c01_',
-          _asset_type_ : '_cascade_'
-        })
-      );
-      // End Create a cascade and use it
-    };
-    // END pcss._ex001_
-
-
-When we use the **cascade**, PowerCSS calculates the CSS and
-writes it to the first of two disabled `style` elements
-created on initialization. Once this process is complete, the
-element (`pcss-0`) is enabled and the CSS is applied by the browser
-rendering engine.
-
-We can verify these changes by viewing the output in the JavaScript
-console. There are three changes after using the **cascade**:
-
-1. `_css_str_`  is the the generated CSS string
-2. `_style_el_` points to an actual style element
-3. `_time_map_._css_ms_` is a recent timestamp
-
-Of course, what is more imporant is what we see in the browser window.
-Let's take a look at that next.
-
-The `pcss._initModule_()` creates two disabled `style` DOM elements.
-The default IDs of these elements are `pcss-0` and `pcss-1`.  We can
-change this by providing an alternate prefix, like so:
-
-    pcss.initModule({ _style_el_prefix_ : 'foo' });
-
-The above example results in the style elements of `foo-0` and `foo-1`.
-
-{ "_cascade_id_"           : "_c01_",
-  "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
-  "_vsheet_ms_"            : 1456032421378,
-  "_mixin_ms_"             : 1456032421378,
-  "_merged_selector_list_" : [...],
-  "_merged_mixin_map_"     : {},
-  "_merged_selector_ms_"   : 1456032421378,
-  "_css_str_"              : "",
-  "_css_ms_"               : 0
-}
-{ "_cascade_id_"           : "_c01_",
-  "_vsheet_id_list_"       : ["_base_vsheet_","_box_vsheet_"],
-  "_vsheet_ms_"            : 1456032421378,
-  "_mixin_ms_"             : 1456032421378,
-  "_merged_selector_list_" : [...],
-  "_merged_mixin_map_"     : {},
-  "_merged_selector_ms_"   : 1456032421378,
-  "_css_str_"              : "body{display:block...",
-  "_css_ms_"               : 1456032421384
-}
+Consider jQuery devDependencies:
+  "devDependencies": {
+    "commitplease": "2.0.0",
+    "core-js": "0.9.17",
+    "grunt": "0.4.5",
+    "grunt-babel": "5.0.1",
+    "grunt-cli": "0.1.13",
+    "grunt-compare-size": "0.4.0",
+    "grunt-contrib-jshint": "0.11.2",
+    "grunt-contrib-uglify": "0.9.2",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-git-authors": "2.0.1",
+    "grunt-jscs": "2.1.0",
+    "grunt-jsonlint": "1.0.4",
+    "grunt-npmcopy": "0.1.0",
+    "gzip-js": "0.3.2",
+    "jsdom": "5.6.1",
+    "load-grunt-tasks": "1.0.0",
+    "qunit-assert-step": "1.0.3",
+    "qunitjs": "1.17.1",
+    "requirejs": "2.1.17",
+    "sinon": "1.10.3",
+    "sizzle": "2.2.1",
+    "strip-json-comments": "1.0.3",
+    "testswarm": "1.1.0",
+    "win-spawn": "2.0.0"
+  },
