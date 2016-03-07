@@ -74,7 +74,9 @@
       test_obj.ok( pcss_obj === pcss, expect_str );
 
       expect_str = '_init_module_ should return undef';
-      ret_val    = pcss_obj._initModule_();
+      try { ret_val = pcss_obj._initModule_(); }
+      catch ( error ) { console.warn( error ); }
+
       test_obj.ok( ret_val === undefined, expect_str );
 
       expect_str = 'Initial toggle should return false';
@@ -82,8 +84,6 @@
       catch ( error ) { console.warn( error ); }
       test_obj.ok( ret_val === false, expect_str );
 
-      console.warn( 'ping4' );
       test_obj.done();
-      console.warn( 'ping5' );
     }
   });
