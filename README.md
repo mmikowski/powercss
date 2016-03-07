@@ -53,18 +53,18 @@ examples, and then we discuss how PowerCSS works.
 
 - **Real-time styling** - Application control of CSS
     enables custom styling for every user of your application. For example,
-    adjust application styling based on device (capabilities, orientation 
+    adjust application styling based on device (capabilities, orientation
     and size), GPS coordinates, and ambient conditions (light, temperature,
     time of day, heart rate).
 - **Pure JS** - Remove the need for **any**
     static CSS files.
-- **Namespaced** - PowerCSS plays well with jQuery, 
+- **Namespaced** - PowerCSS plays well with jQuery,
     other libraries, and third-party JavaScript.
 - **Double-buffering** - This technique automatic and minimizes page
     re-flows. It can speed up some styling changes by more than 10x.
 - **Merging and caching** - Intelligent time-based minimal
     processing only changes the virtual cascades that need it.
-- **Mixins** at multiple levels - virtual stylesheet, 
+- **Mixins** at multiple levels - virtual stylesheet,
     virtual cascade, and global. Change a mixin and watch the style change
     immediately!
 - **Familiar workflow** - Virtual stylesheets and virtual
@@ -73,7 +73,7 @@ examples, and then we discuss how PowerCSS works.
     for the browser to use at any given time, and **numerous redundancies**
     are removed during its preparation. This allows the browser to render
     more efficiently.
-- **Highly compressible** - PowerCSS can be compressed to a fraction of 
+- **Highly compressible** - PowerCSS can be compressed to a fraction of
     static CSS.  Both rule keys and values are compressible.
 - **Quality code** - Expertly written and documented.  Passes JSLint as a
     commit hook. We plan to include regression tests as
@@ -92,7 +92,7 @@ The first thing to remember about the PowerCSS is that it
 object or array as an argument to a PowerCSS, it is **copied**
 and we can use it again without fear of it being modified by PowerCSS
 at some later time. For the inverse reason, PowerCSS **does not return
-pointers to its data**. Instead is the `_getAssetJson_` method which 
+pointers to its data**. Instead is the `_getAssetJson_` method which
 is very handy for debugging, but it should be used sparingly as it
 can be expensive.  The `_getAssetIdList_` method is also data-safe.
 
@@ -278,7 +278,7 @@ Let's add another **vsheet** to style the boxes on our page:
         _position_       : '_relative_',
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
-        _box_shadow_     : [[ 
+        _box_shadow_     : [[
           [ 'rgba( 0, 0, 0, .5)' ], '_0_', '_0_', '_d25rem_', '_0_'
         ]],
         _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
@@ -1197,10 +1197,10 @@ the styling will be removed.
 ### `_setGlobalMixinMap_`
 
 ```js
+     4.x Public method /setGlobalMixinMap/
      Example   : pcss._setGlobalMixinMap_({
-                   _mode_type_       : 'add',
-                   _mixin_map_       : mixin_map,
-                   _regen_type_      : '_merge_'
+                   _mode_type_ : 'add',
+                   _mixin_map_ : mixin_map
                  });
      Purpose   : Add, change, delete, or update process status for
                  a global mixin map id.
@@ -1208,6 +1208,7 @@ the styling will be removed.
        - _mode_type_  (req) '_add_', '_change_', or '_delete_'
        - _mixin_map_  (opt)
        - _regen_type_ (opt) '_none_', '_merge_', '_prepare_', or '_all_'
+     Notes     : _regen_type_ defaults to '_all_' if not provided.
      Settings  : none
      Throws    : none
      Returns   : The number of vsheets affected by the change
@@ -1234,10 +1235,16 @@ the styling will be removed.
      Example   : vsheet_id_list = pcss._getAssetIdList_({
                    _asset_type_ : '_vsheet_'
                  });
-     Example   : cascade_id_list = pcss._getAssetIdList_({
+                 cascade_id_list = pcss._getAssetIdList_({
                    _asset_id_ : '_cascade_'
                  });
      Purpose   : Return the list of all vsheets or cascades.
+     Arguments : _asset_type_ (req), either '_vsheet_' or '_cascade_'
+     Settings  : none
+     Throws    : none
+     Returns   : A list of the asset IDs requested.  PowerCSS will
+                 NEVER use this list pointer, so you may mutate as
+                 you please.
 ```
 
 ### `_getAssetJson_`
@@ -1277,11 +1284,10 @@ may be used to accomplish common tasks.
 
 ```js
      Example   : pcss._setVsheet_({
-                 _setVsheet_({
                    _vsheet_id_     : '_base_',
                    _mode_str_      : '_add_',
-                   _selector_list_ : [...],
-                   _mixin_map_     : {...},
+                   _selector_list_ : base_selector_list,
+                   _mixin_map_     : {},
                    _regen_type_    : '_merge_'
                  });
      Purpose   : Adds, changes, or deletes a vsheet
@@ -1292,6 +1298,8 @@ may be used to accomplish common tasks.
                  _mixin_map_    (opt) The mixin_map for this vsheet.
                  _regen_type_   (opt) '_none_', '_merge_', '_prepare_',
                                       or '_all_'
+     Notes     : _regen_type_ defaults to '_merge_' on Add, '_all_'
+                 on other operations.
      Settings  : none
      Throws    : none
      Returns   : vsheet_id, or undef on failure
@@ -1303,11 +1311,11 @@ may be used to accomplish common tasks.
 
 ```js
      Example   : pcss._setCascade_({
-                   _cascade_id_     : '_base_',
+                   _cascade_id_     : '_c01_',
                    _mode_str_       : '_add_',
-                   _vsheet_id_list_ : [...],
-                   _mixin_map_      : {...},
-                   _regen_type_     : '_merge_'
+                   _vsheet_id_list_ : [ '_base_', '_box_' ],
+                   _mixin_map_      : {},
+                   _regen_type_     : '_none_'
                  });
      Purpose   : Adds, changes, or deletes a cascade
      Arguments : _cascade_id_     (req) The ID for a cascade
@@ -1316,7 +1324,9 @@ may be used to accomplish common tasks.
                    application.
                  _mixin_map_      (opt) The mixin_map for this cascade.
                  _regen_type_     (opt) '_none_', '_merge_', '_prepare_',
-                                      or '_all_'
+                                      or '_all_' (default is _merge_)
+     Notes     : _regen_type_ defaults to '_merge_' on Add, '_all_'
+                 on other operations.
      Settings  : none
      Throws    : none
      Returns   : cascade_id, or undef on failure
@@ -1338,24 +1348,20 @@ Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 MIT
 
 ### Version 0.1.x
-- 0.1.x development phase complete.
 - First "public release" versions of PowerCSS with a working example.
 - See prior revisions of this document for more detail.
 
 ### Version 0.2.x
-- 0.2.x development phase complete.
 - Added double-buffering support and example
 - See prior revisions of this document for more detail.
 
 ### Version 0.3.x
-- 0.3.x development phase complete.
 - API changes
 - Added mixin support at 4 levels
 - Reverted to true double-buffering ( only 2 style elements )
 - See prior revisions of this document for more detail.
 
 ### Version 0.4.x
-- 0.3.x development phase complete.
 - API changes
 - Added **API reference** section
 - See prior revisions of this document for more detail.
@@ -1370,17 +1376,15 @@ MIT
 - Restructured project and launched powercss.org
 - Added Performance example (005)
 - Added bower.json
-- WIP Add inline API docs to code
+- Added Add inline API docs to code
 
-### Version 0.6.x
-- TODO: nodejs support, especially with nodeunit-b
-- TODO: Compatibility test to earlier versions of Chrome and firefox
-
-### Version 0.7.x
-- TODO: regression tests
+### Version 0.6.x (current)
+- WIP: regression tests
+- WIP: nodejs support, especially with nodeunit-b
+- TODO: Compatibility test to earlier versions of Chrome and Firefox
 - TODO: error handling improvements as needed
 
-### Version 1.x
+### Version 1.x (planned)
 - TODO: Production-ready code
 
 ## Similar Projects
