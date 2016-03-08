@@ -1,14 +1,13 @@
 # PowerCSS by Michael S. Mikowski
-The 0.6.x versions are release-candidate level software.
-PowerCSS is undergoing final testing prior to 1.x.x release.
+PowerCSS 0.6.x is release-candidate quality software.
+It is undergoing final tests and tweaks prior to 1.x release.
 All expected features are implemented and the API is stable and
-fully documented. Regression tests and production deployments are
-underway.
+fully documented.
 
 ## Libraries provide freedom and power
 This is a library that strives to be best-in-class. If you are considering
-an SPA framework instead, please do read [do you really want an SPA framework?
-][0] first.
+an SPA framework instead, please read
+[do you really want an SPA framework?][0] first.
 
 ## Overview
 Unleash JavaScript to create custom styling for every person that uses
@@ -1422,10 +1421,10 @@ MIT
 - Added Add inline API docs to code
 
 ### Version 0.6.x (current)
-- WIP: regression tests
+- WIP: Automatic regression tests
 - WIP: nodejs support, especially with nodeunit-b
+- WIP: error handling improvements as needed
 - TODO: Compatibility test to earlier versions of Chrome and Firefox
-- TODO: error handling improvements as needed
 
 ### Version 1.x (planned)
 - TODO: Production-ready code
