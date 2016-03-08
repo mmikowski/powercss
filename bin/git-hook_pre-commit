@@ -1,30 +1,38 @@
 #!/bin/bash
 
 # See http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
-# unset var check
+
+# exit when encountering undeclared variables
 set -u;
-# exit on error check set -e;
+
+# exit when encountering a non-zero exit status
+# (disabled here as we do are own checking)
+# set -e;
 
 # Adjust for links
 LINK_PATH=$(readlink -f -- "${0}");
-
-# Now find the directory of this executable
-EXE_PATH=$( cd ${LINK_PATH%/*} && echo $PWD ); # absolute path to this bin
-
-## 2016-02-29 mmikowski
-## DISABLED as this is not consistent with current structure
-# Auto generate index.html for README.md files
-# MAKE_DOC="${EXE_PATH}/make_doc";
-# if [ -f "${MAKE_DOC}" ]; then
-#   "${MAKE_DOC}";
-# else
-#   echo "FAIL: Cannot autobuild index.html files."
-#   echo "  <make_doc> not found at ${MAKE_DOC}"
-#   exit 1;
-# fi
-
-# JSLint test
+BIN_PATH=$( cd ${LINK_PATH%/*} && echo $PWD ); # absolute path to this bin
+ROOT_DIR=$(cd "$(git rev-parse --show-toplevel)" && pwd );
+NODE_EXEC=$(which node);
+JSLINT_EXEC="${ROOT_DIR}/node_modules/jslint/bin/jslint.js";
+NODEUNIT_EXEC="${ROOT_DIR}/node_modules/nodeunit/bin/nodeunit";
+NODEUNIT_FILE="${ROOT_DIR}/test/t.js";
 TMP_FILE="/tmp/git-pre-commit.tmp";
+
+if [ ! -x "${NODE_EXEC}" ]; then
+  echo "Node not found.  Please install nodejs and ensure it is "
+  echo " found in your PATH environment variable."
+  exit 1;
+fi
+
+echo "${JSLINT_EXEC} ${NODEUNIT_EXEC}";
+if [ ! -x "${JSLINT_EXEC}" ] || [ ! -x "${NODEUNIT_EXEC}" ]; then
+  echo "Development libraries not found."
+  echo "Please execute the following command: "
+  echo "  cd ${ROOT_DIR}; npm install ";
+  exit 1;
+fi
+
 echo;
 echo "JSLint test of updated or new *.js files ...";
 echo "  We ignore vendor libraries in .../vendor/...";
@@ -35,7 +43,7 @@ git status \
   | cut -d ":" -f 2- \
   | while read LINE; do
       echo -en "  Check ${LINE}: ... "
-      CHECK_STR=$(jslint ${LINE});
+      CHECK_STR=$(${JSLINT_EXEC} ${LINE});
       CHECK_CODE=$?;
       echo "${CHECK_CODE}"
       if [ "${CHECK_CODE}" -gt 0 ]; then
@@ -58,4 +66,9 @@ fi
 
 rm "${TMP_FILE}";
 echo;
-exit 0;
+
+echo "Running regression tests"
+
+"${NODEUNIT_EXEC}" "${NODEUNIT_FILE}"
+exit $?;
+

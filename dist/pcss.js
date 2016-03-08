@@ -509,10 +509,10 @@ var pcss = (function () {
         if ( merged_rpt_map ) {
           merged_selector_map = merged_rpt_map._selector_map_;
           merged_rule_map     = merged_selector_map._rule_map_;
+          merged_lock_list    = merged_rpt_map._rule_lock_list_;
 
           // 2.7.3.2.2.1 Merge in latest locks
           if ( rule_lock_list ) {
-            merged_lock_list = merged_rpt_map._rule_lock_list_;
             merged_lock_list[ vMap._push_ ][ vMap._apply_
               ]( merged_lock_list, rule_lock_list );
             merged_rpt_map[ '_lock_on_ ' + __String( i ) ]
@@ -525,8 +525,7 @@ var pcss = (function () {
           rule_key_count = rule_key_list[ vMap._length_ ];
           _RULE_: for ( l = __0; l < rule_key_count; l++ ) {
             rule_key = rule_key_list[ l ];
-            if ( rule_lock_list
-              && rule_lock_list[ vMap._indexOf_ ]( rule_key ) > __n1
+            if ( merged_lock_list[ vMap._indexOf_ ]( rule_key ) > __n1
             ) {
               logIt(
                 '_rule_key_locked_for_selector_', selector_str, rule_key
@@ -731,7 +730,7 @@ var pcss = (function () {
   function regenCascade( cascade_map, regen_type ) {
     var
       now_ms = __timeStamp(),
-      result_map, style_el, write_idx, write_el;
+      merged_ms, result_map, style_el, write_idx, write_el;
 
     // 2.9.1 Bail on unrecognized regen type
     if ( topCmap._regen_type_list_[ vMap._indexOf_ ]( regen_type ) === __n1 ) {
@@ -743,9 +742,10 @@ var pcss = (function () {
     if ( regen_type === '_none_' ) { return regen_type; }
 
     // 2.9.3 _merge_ level regen_type
-    if ( cascade_map._merged_selector_ms_ <= cascade_map._vsheet_ms_
-      || cascade_map._merged_selector_ms_ <= cascade_map._mixin_ms_
-      || cascade_map._merged_selector_ms_ <= topSmap._global_mixin_ms_
+    merged_ms = cascade_map._merged_selector_ms_;
+    if ( merged_ms <= cascade_map._vsheet_ms_
+      || merged_ms <= cascade_map._mixin_ms_
+      || merged_ms <= topSmap._global_mixin_ms_
     ) {
       result_map = mergeCascade(
         cascade_map._vsheet_id_list_, cascade_map._mixin_map_
@@ -772,7 +772,7 @@ var pcss = (function () {
     // 2.9.5 _all_ and _use_ level regen
     if ( regen_type === '_use_'
         || ( topSmap._el_cascade_list_[ topSmap._style_el_idx_ ]
-      === cascade_map._cascade_id_ )
+           === cascade_map._cascade_id_ )
     ) {
       style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
       switch( topSmap._style_el_idx_ ) {
@@ -814,7 +814,7 @@ var pcss = (function () {
 
   // 4. PUBLIC METHODS ========================================
   // 4.1 Public method /initModule/
-  // Example   : pcss._initModule_({ _style_el_prefix_ : 'tri' });
+  // Example   : pcss._initModule_({ _style_el_prefix_ : 'ns' });
   // Purpose   : Initializes style elements using the provided prefix.
   // Arguments : _style_el_prefix_ :
   //             Optional: A prefix to name-space the two style elements.
@@ -1125,11 +1125,11 @@ var pcss = (function () {
     else {
       if ( selector_list ) {
         vsheet_map._selector_list_ = cloneData( selector_list );
-        vsheet_map._selector_ms_ = now_ms;
+        vsheet_map._selector_ms_   = now_ms;
       }
       if ( mixin_map ) {
         vsheet_map._mixin_map_ = cloneData( mixin_map );
-        vsheet_map._mixin_ms_ = now_ms;
+        vsheet_map._mixin_ms_  = now_ms;
       }
     }
     // regen has no effect for _add_ mode

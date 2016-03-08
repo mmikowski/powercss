@@ -52,33 +52,31 @@ examples, and then we discuss how PowerCSS works.
 
 ## Key benefits
 
-- **Real-time styling** - Application control of CSS
-    enables custom styling for every user of your application. For example,
-    adjust application styling based on device (capabilities, orientation
-    and size), GPS coordinates, and ambient conditions (light, temperature,
-    time of day, heart rate).
-- **Pure JS** - Remove the need for **any**
-    static CSS files.
-- **Namespaced** - PowerCSS plays well with jQuery,
-    other libraries, and third-party JavaScript.
-- **Double-buffering** - This technique automatic and minimizes page
-    re-flows. It can speed up some styling changes by more than 10x.
-- **Merging and caching** - Intelligent time-based minimal
-    processing only changes the virtual cascades that need it.
-- **Mixins** at multiple levels - virtual stylesheet,
-    virtual cascade, and global. Change a mixin and watch the style change
-    immediately!
-- **Familiar workflow** - Virtual stylesheets and virtual
-    cascades are used to minimize the transition for CSS veterans.
-- **Highly optimized CSS** - PowerCSS provides only **one stylesheet**
-    for the browser to use at any given time, and **numerous redundancies**
-    are removed during its preparation. This allows the browser to render
-    more efficiently.
-- **Highly compressible** - PowerCSS can be compressed to a fraction of
-    static CSS. Both rule keys and values are compressible.
-- **Quality code** - Expertly written and documented. Passes JSLint as a
-    commit hook. We plan to include regression tests as
-    a commit hook prior to 1.x release.
+- **Real-time styling** - Create custom styling for every user of your
+  application. For example, adjust style based on device (capabilities,
+  orientation and size), GPS coordinates, and ambient conditions (light,
+  temperature, time of day, heart rate) at any time.
+- **Pure JS** - Remove the need for **any** static CSS files.
+- **Namespaced** - Play well with frameworks, jQuery, other libraries,
+  and third-party JavaScript.
+- **Double-buffering** - Minimizes page re-flows with this automatic
+  feature. It can speed up some styling changes by more than 10x.
+- **Merging and caching** - Control when your styling is updated
+  using time-based minimal processing.
+- **Mixins** - Create custom symbols at multiple levels: virtual 
+  stylesheet, virtual cascade, and global. Change a mixin map and watch 
+  the styles change immediately.
+- **Familiar workflow** - Leverage your experience with static CSS 
+  files using virtual stylesheets and cascades.
+- **Machine optimized CSS** - Have the browser work more efficiently.
+  PowerCSS provides only **one stylesheet** for the browser to use at
+  any given time, and **numerous redundancies** are removed during its
+  preparation.
+- **Highly compressible** - Compressed your code to a fraction of static
+  CSS. Both rule keys and values are compressible.
+- **Quality code** - Use well tested and maintain code. It is fully
+  documented, and commit hooks ensure no code is released that fails
+  to pass JSLint or regression tests.
 - **MIT license**
 - **No dependencies**
 
@@ -160,11 +158,11 @@ be found in the `examples` directory of the GitHub repository.
  * using PowerCSS - the basics
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
-/*jslint        browser : true, continue : true,
-  devel : true,  indent : 2,      maxerr : 50,
-  newcap : true,  nomen : true, plusplus : true,
-  regexp : true, sloppy : true,     vars : false,
-  white : true,    todo : true,  unparam : true
+/*jslint         browser : true, continue : true,
+  devel  : true,  indent : 2,      maxerr : 50,
+  newcap : true,   nomen : true, plusplus : true,
+  regexp : true,  sloppy : true,     vars : false,
+  white  : true,    todo : true,  unparam : true
 */
 /*global pcss */
 
@@ -492,7 +490,7 @@ We are exploring how to improve the initialization of the `cssKeyMap`
 and `cssValMap` data. Suggestions are welcome :)
 
 ### Rule value substitutions
-There are four types of CSS value subsitution supported by PowerCSS:
+There are four types of CSS value substitution supported by PowerCSS:
 
 1. Mixin values : `'_key_'`
 2. Literals     : `[ 'literal' ]`
@@ -563,7 +561,7 @@ We can get a copy of a **mixin map** using `_getAssetJson_`.
 ### The four type of **mixin map**s
 PowerCSS uses values from four **mixin map** types:
 
-1. The **builtin** value map, `cssValMap`. This is a set of common
+1. The **built-in** value map, `cssValMap`. This is a set of common
    CSS values that are available by default. For example, the symbol
    `_fixed_` resolves to 'fixed' in the resulting CSS. This map is
    found in the the PowerCSS library file, `pcss.js`.
@@ -578,13 +576,13 @@ The precedence of these **mixin map**s (also known as a 'scope chain')
 is as follows:
 
 ```bash
-  vsheet > cascade > global > builtin
+  vsheet > cascade > global > built-in
 ```
 
 
 This means that **vsheets** mixin values have priority over **cascade**
 mixin values which have priority over **global** mixin values which have
-priority over **builtin** values. Think of this as "the last match
+priority over **built-in** values. Think of this as "the last match
 wins." Consider the following PowerCSS rule definition:
 
 ```js
@@ -604,10 +602,10 @@ In pseudo code, it looks something like this:
 
 
 Here the **vsheet** level value, 'blue', "wins" and the CSS processor
-will use *that* instead of any **cascade**, **global**, or **builtin** value.
+will use *that* instead of any **cascade**, **global**, or **built-in** value.
 In other words, the resulting CSS will read `background:blue`.
 
-What if we have multiple **vhseet**s that set `_bcolor_`? Easy: the last
+What if we have multiple **vsheet**s that set `_bcolor_`? Easy: the last
 vsheet in the cascade to set `_bcolor_` wins unless the value has been
 **locked** earlier in the **cascade** - see the **Locked values**
 section below.
@@ -624,7 +622,7 @@ the mixin value would be defined at just two levels:
 
 
 Here the **cascade** level value will "win" and the CSS generator
-will use 'green' instead of any **global** or **builtin** value.
+will use 'green' instead of any **global** or **built-in** value.
 And so on. If the value is still undefined at the end of the scope chain,
 a warning is issued and the property (`background`, in this case) is skipped.
 
@@ -678,7 +676,7 @@ background : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
 ```
 
 
-We are not limited literal values as the us of the builtin mixin key
+We are not limited literal values as the us of the built-in mixin key
 like `_xfff_` shows. We could even define the entire alternatives map
 as a mixin, like so:
 
@@ -736,7 +734,7 @@ look like this.
 
     border : .125rem solid #f85032
 
-We can use builtin, mixin and literal values, as the example above shows.
+We can use built-in, mixin and literal values, as the example above shows.
 
 ### Locked values
 Typically in a cascade, the last property value in "wins". However, it
@@ -798,7 +796,7 @@ We have taken great care to ensure PowerCSS is as fast, or sometimes
 even faster than static CSS. We calculate the cascades in
 software and only provide to the browser a single optimized stylesheet
 to render. The browser rendering engine doesn't need to work loading
-and merging sometimes dozens of external style sheets. It also
+and merging sometimes dozens of external stylesheets. It also
 removes the expensive associated HTTP requests for external stylesheets.
 
 PowerCSS uses incremental processing to minimize stutter. By default, when
@@ -977,7 +975,7 @@ not work.
 
 
 #### Delete an entire **vsheet**
-Recall that deleting a single **vsheet** will redfine all
+Recall that deleting a single **vsheet** will redefine all
 **cascades** that use it. Setting `_regen_type_` to
 `_none_` will ensure no processing will take place as a result
 of this call, whereas setting it to `_all_` will result in
@@ -1204,7 +1202,7 @@ the styling will be removed.
 ### `_initModule_`
 
 ```js
-     Example   : pcss._initModule_({ _style_el_prefix_ : 'tri' });
+     Example   : pcss._initModule_({ _style_el_prefix_ : 'ns' });
      Purpose   : Initializes style elements using the provided prefix.
      Arguments : _style_el_prefix_ :
                  Optional: A prefix to name-space the two style elements.
