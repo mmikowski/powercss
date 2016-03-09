@@ -5,9 +5,9 @@ All expected features are implemented and the API is stable and
 fully documented.
 
 ## Libraries provide freedom and power
-This is a library that strives to be best-in-class. If you are considering
-an SPA framework instead, please read
-[do you really want an SPA framework?][0] first.
+This is a library that strives to be best-in-class. It plays well with other
+libraries and frameworks. Please do consider if
+[you really want an SPA framework][0].
 
 ## Overview
 Unleash JavaScript to create custom styling for every person that uses
@@ -52,39 +52,30 @@ examples, and then we discuss how PowerCSS works.
 ## Key benefits
 
 - **Real-time styling** - Create custom styling for every user of your
-  application. For example, adjust style based on device (capabilities,
-  orientation and size), GPS coordinates, and ambient conditions (light,
-  temperature, time of day, heart rate) at any time.
+  application at any time.
 - **Pure JS** - Remove the need for **any** static CSS files.
 - **Namespaced** - Play well with frameworks, jQuery, other libraries,
   and third-party JavaScript.
-- **Double-buffering** - Minimizes page re-flows with this automatic
+- **Double-buffering** - Minimize page re-flows with this automatic
   feature. It can speed up some styling changes by more than 10x.
 - **Merging and caching** - Control when your styling is updated
   using time-based minimal processing.
-- **Mixins** - Create custom symbols at multiple levels: virtual 
-  stylesheet, virtual cascade, and global. Change a mixin map and watch 
+- **Mixins** - Create custom symbols at multiple levels: virtual
+  stylesheet, virtual cascade, and global. Change a mixin map and watch
   the styles change immediately.
-- **Familiar workflow** - Leverage your experience with static CSS 
+- **Familiar workflow** - Leverage your experience with static CSS
   files using virtual stylesheets and cascades.
-- **Machine optimized CSS** - Have the browser work more efficiently.
-  PowerCSS provides only **one stylesheet** for the browser to use at
-  any given time, and **numerous redundancies** are removed during its
-  preparation.
-- **Highly compressible** - Compressed your code to a fraction of static
-  CSS. Both rule keys and values are compressible.
-- **Quality code** - Use well tested and maintain code. It is fully
-  documented, and commit hooks ensure no code is released that fails
-  to pass JSLint or regression tests.
+- **Machine optimized CSS** - Have the browser work more efficiently
+  as only **one stylesheet** is used for styling at any given time,
+  and **numerous redundancies** are removed during its preparation.
+- **Highly compressible** - Compress your styling to a fraction of static CSS.
+- **Quality code** - Use well tested and documented code. A commit hook is
+  used to ensure no changes occur unless they pass **JSLint**
+  *and* **regression tests**.
 - **MIT license**
 - **No dependencies**
 
 ## Example 001: The basics
-This example is illustrated by `pcss._ex001_.html` which
-can be be found in the `./examples` directory of the GitHub repository.
-Clone the repository and open the file with your browser to see the
-results.
-
 The first thing to remember about the PowerCSS is that it
 **never changes our data.** This means if we provide an array or
 object or array as an argument to a PowerCSS, it is **copied**
@@ -110,7 +101,7 @@ pretty familiar:
 ### 1. Create `pcss._ex001_.html` file
 Let's create an HTML file named `pcss._ex001_.html` to illustrate
 the basic capabilities of PowerCSS. A complete copy of this file can
-be found in the `examples` directory of the GitHub repository.
+be found in the `node_modules/powercss/examples` directory or [online][7].
 
 ```html
 <!doctype html>
@@ -149,7 +140,7 @@ be found in the `examples` directory of the GitHub repository.
 ### 2. Start the `pcss._ex001_.js` file
 Now let's start a JavaScript file named to `pcss._ex001_.js` to
 provide PowerCSS directives. A complete copy can of this file can
-be found in the `examples` directory of the GitHub repository.
+be found in the `node_modules/powercss/examples/js` directory or [online][8].
 
 ```js
 /* pss._ex001_.js
@@ -196,7 +187,7 @@ of preferred CSS attribute order. Then we declare our function variables,
 and finally we initialize the PowerCSS module. And, yes, Virginia, our
 code really *does* pass JSLint.
 
-### 3a. Add a 'base' **vsheet**
+### 3a. Add a `_base_` **vsheet**
 A virtual stylesheet (**vsheet**) contains the same information as a
 traditional CSS file. An experienced CSS author should be able to adopt
 the format with little trouble. Below we add a **vsheet** definition to
@@ -260,7 +251,7 @@ We provide our selectors in a list because their order is important
 in CSS. PowerCSS records the **vsheet** definition, but it doesn't
 compile it to CSS yet - that comes later.
 
-### 3b. Add a 'box' **vsheet**
+### 3b. Add a `_box_` **vsheet**
 Let's add another **vsheet** to style the boxes on our page:
 
 ```js
@@ -337,7 +328,7 @@ We can now save the `pcss._ex001_.js` file. Next, we'll look at the
 results.
 
 ## A tour of the results
-When we open `pcss._ex001_.html` in a modern browser, we should
+When we [open][7] `pcss._ex001_.html` in a modern browser, we should
 multiple boxes that have been styled according to the **cascade**.
 We can view the generated CSS in the browser using the development
 tools and modify it as if we had written it ourselves:
@@ -411,10 +402,9 @@ device or any other environmental factor, that's where PowerCSS really
 starts to shine.
 
 ## Example 002: Double-buffering
-This example is illustrated by `pcss._ex002_.html` which
-can be be found in the `examples` directory of the GitHub repository.
-Clone the repository and open the file with your browser to see the
-results.
+This example is illustrated by `pcss._ex002_.html` which can
+be found in the `node_modules/powercss/examples` directory or [online][9].
+Open the file with your browser to see the results.
 
 Double-buffering is an common technique to minimize processing and
 flicker across many areas of computer graphics. PowerCSS creates two
@@ -427,15 +417,13 @@ styles individually from multiple stylesheets.
 PowerCSS is intended to replace **all** stylesheets for an
 application. While we can use external sheets for our CSS during
 development, we shouldn't need them for production release.
-Don't worry, this isn't as drastic as it sounds. PowerCSS
-plays very nicely with others and is designed to avoid conflict
+PowerCSS plays very nicely with others and is designed to avoid conflict
 with third-party web components.
 
 ## Example 003: **Mixin maps**
-This example is illustrated by `pcss._ex003_.html` which
-can be be found in the `examples` directory of the GitHub repository.
-Clone the repository and open the file with your browser to see the
-results.
+This example is illustrated by `pcss._ex003_.html` which can
+be found in the `node_modules/powercss/examples` directory or [online][10].
+Open the file with your browser to see the results.
 
 ### Symbol substitution
 A CSS rule declaration looks like the following:
@@ -758,10 +746,9 @@ An astute reader will again notice that a **vsheet** can be used across
 many **cascades**. Please keep this in mind when locking rule values.
 
 ## Example 004: Compression
-This example is illustrated by `pcss._ex004_.html` which
-can be be found in the `examples` directory of the GitHub repository.
-Clone the repository and open the file with your browser to see the
-results.
+This example is illustrated by `pcss._ex004_.html` which can
+be found in the `node_modules/powercss/examples` directory or [online][11].
+Open the file with your browser to see the results.
 
 CSS uses long keywords and values, and is often quite repetitive.
 A PowerCSS solution can often be compressed to a fraction of the size
@@ -786,10 +773,9 @@ In Example 004, the PowerCSS library and the CSS directives were reduced to
 described above.
 
 ## Example 005: Performance
-This example is illustrated by `pcss._ex005_.html` which
-can be be found in the `examples` directory of the GitHub repository.
-Clone the repository and open the file with your browser to see the
-results.
+This example is illustrated by `pcss._ex005_.html` which can
+be found in the `node_modules/powercss/examples` directory or [online][11].
+Open the file with your browser to see the results.
 
 We have taken great care to ensure PowerCSS is as fast, or sometimes
 even faster than static CSS. We calculate the cascades in
@@ -812,7 +798,7 @@ For this reason, we tread carefully when using `_setVsheet_` and
 `_setGlobalMixinMap_` methods as it may trigger processing across
 many **cascades**.
 
-```bash
+```
 _regen_type_ value means for the affect cascades:
   '_none_'      : no processing now
   '_merge_'[1]  : Merge selector lists and mixin maps now
@@ -837,8 +823,8 @@ may be a perfectly suitable strategy.
 We recommend sticking with the defaults until and if we see performance issues.
 Depending on the application, setting `_regen_type_` to `_all_` for all
 **vsheets** and **cascades** may make the most sense. For others, setting
-`regen_type` to `none` and then directing all processing steps will provide
-the best solution. Here is an example:
+`regen_type` to `_none_` and then directing all processing steps at their
+convenience will provide the best solution. Here is an example:
 
 ```js
   // Initial definition of cascade
@@ -1169,152 +1155,184 @@ the styling will be removed.
 
 ### General recipes
 
+#### Set the style element prefixes
+
+```js
+pcss._initModule({_style_el_prefix_ : 'ns' });
+```
+
+The style element prefix may only be set once on the initial call.
+Subsequent calls will ignore any request to change this.
+
+#### Get the current style prefix
+
+```js
+style_el_prefix = pcss._initModule();
+```
+
+The `_initModule_` method returns the style prefix in use.
+
 #### Disable PowerCSS
 
 ```js
-  pcss._togglePcss_( false );
+pcss._togglePcss_( false );
 ```
 
 
 #### Enable PowerCSS
 
 ```js
-  pcss._togglePcss_( true );
+pcss._togglePcss_( true );
 ```
 
 
 #### Toggle PowerCSS
 
 ```js
-  pcss._togglePcss();
+pcss._togglePcss();
 ```
 
 
 #### Change the global mixin map
 
 ```js
-  pcss._setGlobalMixinMap_({ _mixin_map_ : { ... } });
+pcss._setGlobalMixinMap_({ _mixin_map_ : { ... } });
 ```
 
 
-## API reference 0.5.x
+## API reference
+
+### Events for cascade processing
+- `_pcss_merged_`
+- `_pcss_prepared_`
+- `_pcss_used_`
+
+```
+Example    : document.addEventListener( '_pcss_prepared_', onPrepared );
+Purpose    : Report process states for cascades
+Attributes : event_obj._data_ is set to the _cascade_id_
+Settings   : none
+Notes      : Every time a cascade merge, prepare, or use is enabled, an
+             event tied to the document object is fired. 
+```
+
+
 ### `_initModule_`
 
-```js
-     Example   : pcss._initModule_({ _style_el_prefix_ : 'ns' });
-     Purpose   : Initializes style elements using the provided prefix.
-     Arguments : _style_el_prefix_ :
-                 Optional: A prefix to name-space the two style elements.
-                 If not provided, the prefix 'pcss' will be used.
-     Settings  : none
-     Throws    : A string error object if style elements already exist
-     Returns   : --
+```
+Example   : pcss._initModule_({ _style_el_prefix_ : 'ns' });
+Purpose   : Initializes style elements using the provided prefix
+Arguments : _style_el_prefix_ :
+            Optional: A prefix to name-space the two style elements
+            If not provided, the prefix 'pcss' will be used.
+Settings  : none
+Throws    : A string error object if style elements already exist
+Returns   : The style prefix, e.g. 'ns-'
 ```
 
 
 ### `_extendRuleMap_`
 
-```js
-     Example   : pcss._extendRuleMap_( rule_map, { _color_ : '_x444_' } );
-     Purpose   : A utility to extend a rule_map with new or revised
-                 values. Providing a value of 'null' deletes a key.
-                 pcss._extendRuleMap_( rule_map, { _color_ : null } );
-     Arguments : (positional)
-                 0 : base_map   - the map to be extended
-                 1 : extend_map - the map containing new key-value pairs
-     Settings  : none
-     Throws    : none
-     Returns   : none
-       - base_map is modified.
-       - extend_map is not.
+```
+Example   : pcss._extendRuleMap_( rule_map, { _color_ : '_x444_' } );
+Purpose   : A utility to extend a rule_map with new or revised
+            values. Providing a value of 'null' deletes a key.
+            pcss._extendRuleMap_( rule_map, { _color_ : null } );
+Arguments : (positional)
+            0 : base_map   - the map to be extended
+            1 : extend_map - the map containing new key-value pairs
+Settings  : none
+Throws    : none
+Returns   : none
+  - base_map is modified.
+  - extend_map is not.
 ```
 
 
 ### `_setGlobalMixinMap_`
 
-```js
-     4.x Public method /setGlobalMixinMap/
-     Example   : pcss._setGlobalMixinMap_({
-                   _mode_type_ : 'add',
-                   _mixin_map_ : mixin_map
-                 });
-     Purpose   : Add, change, delete, or update process status for
-                 a global mixin map id.
-     Arguments :
-       - _mode_type_  (req) '_add_', '_change_', or '_delete_'
-       - _mixin_map_  (opt)
-       - _regen_type_ (opt) '_none_', '_merge_', '_prepare_', or '_all_'
-     Notes     : _regen_type_ defaults to '_all_' if not provided.
-     Settings  : none
-     Throws    : none
-     Returns   : The number of vsheets affected by the change
+```
+Example   : pcss._setGlobalMixinMap_({
+              _mode_type_ : 'add',
+              _mixin_map_ : mixin_map
+            });
+Purpose   : Add, change, delete, or update process status for
+            a global mixin map id.
+Arguments :
+  - _mode_type_  (req) '_add_', '_change_', or '_delete_'
+  - _mixin_map_  (opt)
+  - _regen_type_ (opt) '_none_', '_merge_', '_prepare_', or '_all_'
+Notes     : _regen_type_ defaults to '_all_' if not provided.
+Settings  : none
+Throws    : none
+Returns   : The number of vsheets affected by the change
 ```
 
 
 ### `_togglePcss_`
 
-```js
-     Example   : pcss._togglePcss_( true );
-     Purpose   : Enable or disable PowerCSS
-     Arguments :
-       - boolean (optional)
-         If not provided, will toggle PowerCSS on or off.
-         If provided, true will turn PowerCSS on, and false
-           will turn PowerCSS off.
-     Settings  : none
-     Throws    : none
-     Returns   : true (enabled) or false (disabled)
+```
+Example   : pcss._togglePcss_( true );
+Purpose   : Enable or disable PowerCSS
+Arguments :
+  - boolean (optional)
+    If not provided, will toggle PowerCSS on or off.
+    If provided, true will turn PowerCSS on, and false
+      will turn PowerCSS off.
+Settings  : none
+Throws    : none
+Returns   : true (enabled) or false (disabled)
 ```
 
 
 ### `_getAssetIdList_`
 
-```js
-     Example   : vsheet_id_list = pcss._getAssetIdList_({
-                   _asset_type_ : '_vsheet_'
-                 });
-                 cascade_id_list = pcss._getAssetIdList_({
-                   _asset_id_ : '_cascade_'
-                 });
-     Purpose   : Return the list of all vsheets or cascades.
-     Arguments : _asset_type_ (req), either '_vsheet_' or '_cascade_'
-     Settings  : none
-     Throws    : none
-     Returns   : A list of the asset IDs requested. PowerCSS will
-                 NEVER use this list pointer, so you may mutate as
-                 you please.
+```
+Example   : vsheet_id_list = pcss._getAssetIdList_({
+              _asset_type_ : '_vsheet_'
+            });
+            cascade_id_list = pcss._getAssetIdList_({
+              _asset_id_ : '_cascade_'
+            });
+Purpose   : Return the list of all vsheets or cascades.
+Arguments : _asset_type_ (req), either '_vsheet_' or '_cascade_'
+Settings  : none
+Throws    : none
+Returns   : A list of the asset IDs requested. PowerCSS will
+            NEVER use this list pointer, so you may mutate as
+            you please.
 ```
 
 
 ### `_getAssetJson_`
 
-```js
-     Example   : pcss._getAssetJson_({
-                   _asset_id_      : '_c01_',
-                   _asset_type_    : '_cascade_'
-                   _asset_subtype_ : '_vsheet_id_list_'
-                 })
-     Purpose   : Return a JSON snapshot of a vsheet or cascade.
-     Arguments : _asset_id_ (req) The existing ID of either a cascade
-                  or a vsheet.
-                 _asset_type_ (req) '_vsheet_', '_cascade_',
-                   '_global_mixin_', '_el_cascade_list_',
-                 _asset_subtype_ (opt)
-                   '_vsheet_' supports:
-                      _vsheet_id_,    _selector_list_,
-                      _selector_ms_,  _mixin_map_,
-                      _mixin_ms_
-                   '_cascade_' supports
-                      _cascade_id_,       _vsheet_id_list_
-                      _vsheet_ms_,        _mixin_map_
-                      _mixin_ms_,         _merged_selector_list_
-                      _merged_mixin_map_, _merged_selector_ms_
-                      _css_str_          _css_ms_
-     Settings  : none
-     Throws    : none
-     Returns   : A JSON string of the requested asset.
-                 If there is no corresponding asset, the JSON string
-                 returned is 'undefined'.
+```
+Example   : pcss._getAssetJson_({
+              _asset_id_      : '_c01_',
+              _asset_type_    : '_cascade_'
+              _asset_subtype_ : '_vsheet_id_list_'
+            })
+Purpose   : Return a JSON snapshot of a vsheet or cascade.
+Arguments : _asset_id_ (req) The existing ID of either a cascade
+             or a vsheet.
+            _asset_type_ (req) '_vsheet_', '_cascade_',
+              '_global_mixin_', '_el_cascade_list_',
+            _asset_subtype_ (opt)
+              '_vsheet_' supports:
+                 _vsheet_id_,    _selector_list_,
+                 _selector_ms_,  _mixin_map_,
+                 _mixin_ms_
+              '_cascade_' supports
+                 _cascade_id_,       _vsheet_id_list_
+                 _vsheet_ms_,        _mixin_map_
+                 _mixin_ms_,         _merged_selector_list_
+                 _merged_mixin_map_, _merged_selector_ms_
+                 _css_str_          _css_ms_
+Settings  : none
+Throws    : none
+Returns   : A JSON string of the requested asset.
+            If there is no corresponding asset, the JSON string
+            returned is 'undefined'.
 ```
 
 
@@ -1322,27 +1340,27 @@ the styling will be removed.
 See **The PowerCSS cookbook** section to see how `_setVsheet_`
 may be used to accomplish common tasks.
 
-```js
-     Example   : pcss._setVsheet_({
-                   _vsheet_id_     : '_base_',
-                   _mode_str_      : '_add_',
-                   _selector_list_ : base_selector_list,
-                   _mixin_map_     : {},
-                   _regen_type_    : '_merge_'
-                 });
-     Purpose   : Adds, changes, or deletes a vsheet
-     Arguments : _vsheet_id_    (req) The ID for a vsheet
-                 _mode_str_     (req) '_add_', '_change_', or '_delete_'
-                 _selector_list (opt) List of selectors this vsheet will
-                   represent in PowerCSS format.
-                 _mixin_map_    (opt) The mixin_map for this vsheet.
-                 _regen_type_   (opt) '_none_', '_merge_', '_prepare_',
-                                      or '_all_'
-     Notes     : _regen_type_ defaults to '_merge_' on Add, '_all_'
-                 on other operations.
-     Settings  : none
-     Throws    : none
-     Returns   : vsheet_id, or undef on failure
+```
+Example   : pcss._setVsheet_({
+              _vsheet_id_     : '_base_',
+              _mode_str_      : '_add_',
+              _selector_list_ : base_selector_list,
+              _mixin_map_     : {},
+              _regen_type_    : '_merge_'
+            });
+Purpose   : Adds, changes, or deletes a vsheet
+Arguments : _vsheet_id_    (req) The ID for a vsheet
+            _mode_str_     (req) '_add_', '_change_', or '_delete_'
+            _selector_list (opt) List of selectors this vsheet will
+              represent in PowerCSS format.
+            _mixin_map_    (opt) The mixin_map for this vsheet.
+            _regen_type_   (opt) '_none_', '_merge_', '_prepare_',
+                                 or '_all_'
+Notes     : _regen_type_ defaults to '_merge_' on Add, '_all_'
+            on other operations.
+Settings  : none
+Throws    : none
+Returns   : vsheet_id, or undef on failure
 ```
 
 
@@ -1350,32 +1368,43 @@ may be used to accomplish common tasks.
 See **The PowerCSS cookbook** section to see how `_setCascade_`
 may be used to accomplish common tasks.
 
-```js
-     Example   : pcss._setCascade_({
-                   _cascade_id_     : '_c01_',
-                   _mode_str_       : '_add_',
-                   _vsheet_id_list_ : [ '_base_', '_box_' ],
-                   _mixin_map_      : {},
-                   _regen_type_     : '_none_'
-                 });
-     Purpose   : Adds, changes, or deletes a cascade
-     Arguments : _cascade_id_     (req) The ID for a cascade
-                 _mode_str_       (req) '_add_', '_change_', or '_delete_'
-                 _vsheet_id_list_ (opt) List of vsheet ids in order of
-                   application.
-                 _mixin_map_      (opt) The mixin_map for this cascade.
-                 _regen_type_     (opt) '_none_', '_merge_', '_prepare_',
-                                      or '_all_' (default is _merge_)
-     Notes     : _regen_type_ defaults to '_merge_' on Add, '_all_'
-                 on other operations.
-     Settings  : none
-     Throws    : none
-     Returns   : cascade_id, or undef on failure
+```
+Example   : pcss._setCascade_({
+              _cascade_id_     : '_c01_',
+              _mode_str_       : '_add_',
+              _vsheet_id_list_ : [ '_base_', '_box_' ],
+              _mixin_map_      : {},
+              _regen_type_     : '_none_'
+            });
+Purpose   : Adds, changes, or deletes a cascade
+Arguments : _cascade_id_     (req) The ID for a cascade
+            _mode_str_       (req) '_add_', '_change_', or '_delete_'
+            _vsheet_id_list_ (opt) List of vsheet ids in order of
+              application.
+            _mixin_map_      (opt) The mixin_map for this cascade.
+            _regen_type_     (opt) '_none_', '_merge_', '_prepare_',
+                                 or '_all_' (default is _merge_)
+Notes     : _regen_type_ defaults to '_merge_' on Add, '_all_'
+            on other operations.
+Settings  : none
+Throws    : none
+Returns   : cascade_id, or undef on failure
 ```
 
 
 ## Regression tests
-TODO
+Regression tests are found under the `test` directory.
+You may run them using like so:
+
+```bash
+cd node_modules/powercss;
+npm install; # install development dependencies
+npm test;    # run regression tests
+```
+
+Code coverage metrics and production deployments are underway to help flush
+out any remaining refinements or bugs. Assistance with regression tests in
+the form of code or requested use cases is welcome!
 
 ## Compatibility
 Confirmed to work on Chrome 48, Safari 9, Firefox 44, IE 9+,
@@ -1383,6 +1412,9 @@ and Edge browsers. We expect it to work on much earlier versions of
 Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 
 ## Release Notes
+
+See prior revisions of this document for more detail for specific versions.
+
 ### Copyright (c)
 2016 Michael S. Mikowski (mike[dot]mikowski[at]gmail[dotcom])
 
@@ -1391,39 +1423,33 @@ MIT
 
 ### Version 0.1.x
 - First "public release" versions of PowerCSS with a working example.
-- See prior revisions of this document for more detail.
 
 ### Version 0.2.x
 - Added double-buffering support and example
-- See prior revisions of this document for more detail.
 
 ### Version 0.3.x
 - API changes
 - Added mixin support at 4 levels
 - Reverted to true double-buffering ( only 2 style elements )
-- See prior revisions of this document for more detail.
 
 ### Version 0.4.x
 - API changes
 - Added **API reference** section
-- See prior revisions of this document for more detail.
 
 ### Version 0.5.x
 - Refactored and greatly simplify API
 - Implemented time-based minimal processing
-- Added `_regen_type_` option to manage CSS generation processing
-- Added **Recipes** section
-- Added **API reference** section
-- Added `_getAssetIdList_`
+- Added `_regen_type_` option to manage CSS generation processing;
+  **Recipes** section; **API reference** section;
+  `_getAssetIdList_`; Performance example (005); `bower.json`;
+  In-code API docs
 - Restructured project and launched powercss.org
-- Added Performance example (005)
-- Added bower.json
-- Added Add inline API docs to code
 
 ### Version 0.6.x (current)
-- WIP: Automatic regression tests
+- ADDED events 
+- WIP: Added multiple regression tests
 - WIP: nodejs support, especially with nodeunit-b
-- WIP: error handling improvements as needed
+- WIP: error handling improvements
 - TODO: Compatibility test to earlier versions of Chrome and Firefox
 
 ### Version 1.x (planned)
@@ -1433,7 +1459,7 @@ MIT
 [absurdjs][5], [responsive.j$][6]
 
 ## Contribute!
-If you want to help out, like all jQuery plugins this is hosted at
+If you want to help out with PowerCSS, we are hosted at
 GitHub. Any improvements or suggestions are welcome!
 You can reach me at mike[dot]mikowski[at]gmail[dotcom].
 
@@ -1445,4 +1471,9 @@ You can reach me at mike[dot]mikowski[at]gmail[dotcom].
 [4]:http://manning.com/mikowski
 [5]:http://absurdjs.com/
 [6]:http://www.responsivejs.com/
-
+[7]:http://powercss.org/examples/pcss._ex001_.html
+[8]:http://powercss.org/examples/js/pcss._ex001_.js
+[9]:http://powercss.org/examples/pcss._ex002_.html
+[10]:http://powercss.org/examples/pcss._ex003_.html
+[11]:http://powercss.org/examples/pcss._ex004_.html
+[12]:http://powercss.org/examples/pcss._ex005_.html

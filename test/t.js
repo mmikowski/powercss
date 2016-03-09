@@ -97,7 +97,7 @@
     return false; // true - prevent default handler, false - allow
   }
 
-  //function cloneData ( data ) { 
+  //function cloneData ( data ) {
   //  return JSON.parse( JSON.stringify( data ) );
   //}
 
@@ -168,7 +168,7 @@
     },
 
     test020ExtendRuleMap : function ( test_obj, win_obj, pcss_obj ) {
-      var 
+      var
         base_map, extend_map, check_map, expect_str, ret_val;
 
       test_obj.expect( 14 );
@@ -187,7 +187,7 @@
       test_obj.deepEqual( base_map, check_map, expect_str );
       test_obj.ok( ret_val === base_map, expect_str );
 
-      expect_str = 'base_map should be empty as null keys delete'; 
+      expect_str = 'base_map should be empty as null keys delete';
       base_map   = {};
       extend_map = { foo : null };
       check_map  = {};
@@ -196,7 +196,7 @@
       test_obj.deepEqual( base_map, check_map, expect_str );
       test_obj.ok( ret_val === base_map, expect_str );
 
-      expect_str = 'base_map should be empty as null keys delete'; 
+      expect_str = 'base_map should be empty as null keys delete';
       base_map   = { foo : 'fred' };
       extend_map = { foo : null };
       check_map  = {};
@@ -205,7 +205,7 @@
       test_obj.deepEqual( base_map, check_map, expect_str );
       test_obj.ok( ret_val === base_map, expect_str );
 
-      expect_str = 'base_map should retain "red" key'; 
+      expect_str = 'base_map should retain "red" key';
       base_map   = { foo : 'fred', red : '#f00' };
       extend_map = { foo : null };
       check_map  = { red : '#f00' };
@@ -214,7 +214,7 @@
       test_obj.deepEqual( base_map, check_map, expect_str );
       test_obj.ok( ret_val === base_map, expect_str );
 
-      expect_str = 'base_map should be empty as null keys delete'; 
+      expect_str = 'base_map should be empty as null keys delete';
       base_map   = { foo : 'fred', red : '#f00' };
       extend_map = { foo : null,   red : null   };
       check_map  = {};
@@ -223,7 +223,7 @@
       test_obj.deepEqual( base_map, check_map, expect_str );
       test_obj.ok( ret_val === base_map, expect_str );
 
-      expect_str = 'base_map should match complex results'; 
+      expect_str = 'base_map should match complex results';
       base_map   = dataMap._020_base_map_;
       extend_map = dataMap._020_extend_map_;
       check_map  = dataMap._020_check_map_;
@@ -239,9 +239,9 @@
 
       test_obj.done();
     },
-  
+
     test030Vsheets : function ( test_obj, win_obj, pcss_obj ) {
-      var 
+      var
         s00_selector_list = [
           { _selector_str_   : 'body',
             _rule_lock_list_ : [ '_font_size_' ],
@@ -267,7 +267,7 @@
       try { ret_val = win_obj.document.styleSheets.length; }
       catch( error ) { ret_val = error; }
       test_obj.ok( ret_val === 0, expect_str );
-  
+
       expect_str = '_init_module_ should return "foo-"';
       try { ret_val = pcss_obj._initModule_({ _style_el_prefix_ : 'foo' }); }
       catch( error ) { ret_val = error; }
@@ -410,30 +410,43 @@
       }
       catch( error ) { ret_val = error; }
       test_obj.ok( ret_val === '"body{margin:2rem;font-size:1.5rem;}"', expect_str );
+      win_obj.document.addEventListener( '_pcss_prepared_',
+        function( event_obj ){
+          expect_str = 'Event object should provide cascade_id';
+          test_obj.ok( event_obj._data_ === '_c00_', expect_str );
 
-      expect_str = 'Remove _rule_lock_list_ from s00';
-      delete s00_selector_list[0]._rule_lock_list_;
-      try {
-        ret_val = pcss._setVsheet_({
-          _vsheet_id_     : '_s00_',
-          _mode_str_      : '_change_',
-          _selector_list_ : s00_selector_list
-        });
-      }
-      catch( error ) { ret_val = error; }
-      test_obj.ok( ret_val === '_s00_', expect_str );
+          expect_str = 'Lock on font_size removed: ';
+          try {
+            ret_val = pcss._getAssetJson_({
+              _asset_id_      : '_c00_',
+              _asset_type_    : '_cascade_',
+              _asset_subtype_ : '_css_str_'
+            });
+          }
+          catch( error ) { ret_val = error; }
 
-      expect_str = 'cascade css_str is regenerated; lock on font_size removed';
-      try {
-        ret_val = pcss._getAssetJson_({
-          _asset_id_      : '_c00_',
-          _asset_type_    : '_cascade_',
-          _asset_subtype_ : '_css_str_'
-        });
-      }
-      catch( error ) { ret_val = error; }
-      test_obj.ok( ret_val === '"body{margin:2rem;font-size:2rem;}"', expect_str );
+          test_obj.ok(
+            ret_val === '"body{margin:2rem;font-size:2rem;}"',
+            expect_str + ret_val
+          );
+          test_obj.done();
+        }
+      );
 
-      test_obj.done();
+      // setTimeout gives the event queue time to pause which fixes
+      // sporadic errors in the event handler above
+      setTimeout( function () {
+        expect_str = 'Remove _rule_lock_list_ from s00';
+        delete s00_selector_list[0]._rule_lock_list_;
+        try {
+          ret_val = pcss._setVsheet_({
+            _vsheet_id_     : '_s00_',
+            _mode_str_      : '_change_',
+            _selector_list_ : s00_selector_list
+          });
+        }
+        catch( error ) { ret_val = error; }
+        test_obj.ok( ret_val === '_s00_', expect_str );
+      }, 0 );
     }
   });

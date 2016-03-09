@@ -9,23 +9,24 @@
   regexp : true, sloppy : true,     vars : false,
   white : true,    todo : true,  unparam : true
 */
-/*global pcss:true */
+/*global Event, pcss:true */
 
 var pcss = (function () {
   // 1. MODULE SCOPE VARIABLES ============================
   var
-    __String = String,
     __ObjKeys = Object.keys,
+    __Str     = String,
 
     __j2str     = JSON.stringify,
     __str2j     = JSON.parse,
+
     __blank     = '',
     __docRef    = document,
-    __winRef    = window,
     __isArray   = Array.isArray,
     __null      = null,
     __true      = true,
     __timeStamp = Date.now,
+    __winRef    = window,
 
     vMap = {
       _appendChild_    : 'appendChild',
@@ -37,6 +38,7 @@ var pcss = (function () {
       _createTextNode_ : 'createTextNode',
       _cssText_        : 'cssText',
       _disabled_       : 'disabled',
+      _dispatchEvent_  : 'dispatchEvent',
       _getElById_      : 'getElementById',
       _hasOwnProp_     : 'hasOwnProperty',
       _head_           : 'head',
@@ -306,19 +308,41 @@ var pcss = (function () {
   }
   // end 2.1 Private method /cloneData/
 
-  // 2.1 Private method /getVarType/
+  // 2.2 Private method /getVarType/
   function getVarType ( arg ) {
     return __isArray( arg ) ? vMap._array_ : ( typeof arg );
   }
-  // end 2.1
+  // end 2.2
 
-  // 2.2 Private method /logIt/
+  // 2.3 Private method /logIt/
   function logIt () {
     __console.log[ vMap._apply_ ]( __console, arguments );
   }
-  // end 2.2
+  // end 2.3
 
-  // 2.3 Private method /writeToStyleEl/
+  // 2.4 Private method /publishEvent/
+  function publishEvent ( name, data ) {
+    var event_obj;
+
+    // Events not supported on IE
+    try {
+      event_obj = new Event(
+        name,
+        { bubbles    : true,
+          cancelable : false
+        }
+      );
+      event_obj._data_ = data;
+    }
+    catch( error ) { logIt( error ); return; }
+    try {
+      __docRef[ vMap._dispatchEvent_ ]( event_obj );
+    }
+    catch( error ) { logIt( error ); return; }
+  }
+  // end 2.4
+
+  // 2.5 Private method /writeToStyleEl/
   // TODO: Profile on major browsers
   // This function updates the css_str in the style element
   // ONLY if it appears changed.  This SHOULD be much faster
@@ -354,9 +378,9 @@ var pcss = (function () {
       }
     }
   }
-  // end 2.3 Private method /writeToStyleEl/
+  // end 2.5 Private method /writeToStyleEl/
 
-  // 2.4 Private method /initStyleEls/
+  // 2.6 Private method /initStyleEls/
   function initStyleEls () {
     var
       head_el         = __docRef[ vMap._head_ ],
@@ -367,7 +391,7 @@ var pcss = (function () {
       ;
 
     for ( i = __0; i < __2; i++ ) {
-      style_el_id = style_el_prefix +  __String( i );
+      style_el_id = style_el_prefix +  __Str( i );
       if ( !! __docRef[ vMap._getElById_ ]( style_el_id ) ) {
         throw '_sheet_id_is_already_in_use_ ' + style_el_id;
       }
@@ -383,9 +407,9 @@ var pcss = (function () {
     }
     topSmap._style_el_list_ = style_el_list;
   }
-  // end 2.4 Private method /initStyleEls/
+  // end 2.6 Private method /initStyleEls/
 
-  // 2.5 Private method /checkVsheetIds/
+  // 2.7 Private method /checkVsheetIds/
   function checkVsheetIds( vsheet_id_list ) {
     var
       vsheet_map_map  = topSmap._vsheet_map_map_,
@@ -404,9 +428,9 @@ var pcss = (function () {
     }
     return unknown_id_list;
   }
-  // end 2.5
+  // end 2.7
 
-  // 2.6 Private and Public method /extendRuleMap/
+  // 2.8 Private and Public method /extendRuleMap/
   // Example   : pcss._extendRuleMap_( rule_map, { _color_ : '_x444_' } );
   // Purpose   : A utility to extend a rule_map with new or revised
   //             values. Providing a value of 'null' deletes a key.
@@ -446,11 +470,11 @@ var pcss = (function () {
     }
     return base_map;
   }
-  // end 2.6 Private and Public method /extendRuleMap/
+  // end 2.8 Private and Public method /extendRuleMap/
 
-  // 2.7 Private method /mergeCascade/
+  // 2.9 Private method /mergeCascade/
   function mergeCascade ( arg_vsheet_id_list, arg_mixin_map ) {
-    // 2.7.1 init and args
+    // 2.9.1 init and args
     var
       vsheet_map_map = topSmap._vsheet_map_map_,
 
@@ -473,14 +497,14 @@ var pcss = (function () {
       rule_key_count,
       l, rule_key
       ;
-    // end 2.7.1 init and args
+    // end 2.9.1 init and args
 
-    // 2.7.2 merge global and cascade mixin map
+    // 2.9.2 merge global and cascade mixin map
     global_mixin_map  = topSmap._global_mixin_map_ || {};
     merged_mixin_map  = cloneData( global_mixin_map );
     extendRuleMap( merged_mixin_map, arg_mixin_map );
 
-    // 2.7.3 Consider each vsheet selector_list in the cascade list
+    // 2.9.3 Consider each vsheet selector_list in the cascade list
     _VSHEET_: for ( i = __0; i < vsheet_count; i++ ) {
       vsheet_id        = arg_vsheet_id_list[ i ];
       vsheet_map       = vsheet_map_map[ vsheet_id ];
@@ -489,38 +513,38 @@ var pcss = (function () {
         continue _VSHEET_;
       }
 
-      // 2.7.3.1 merge vsheet mixin map
+      // 2.9.3.1 merge vsheet mixin map
       vsheet_mixin_map = vsheet_map._mixin_map_;
       extendRuleMap( merged_mixin_map, vsheet_mixin_map );
 
-      // 2.7.3.2 Consider each selector_map in the selector_list
+      // 2.9.3.2 Consider each selector_map in the selector_list
       selector_list    = vsheet_map._selector_list_ || [];
       selector_count   = selector_list[ vMap._length_ ];
       for ( j = __0; j < selector_count; j++ ) {
-        // 2.7.3.2.1 Init selector_map vars
+        // 2.9.3.2.1 Init selector_map vars
         selector_map   = selector_list[ j ];
         selector_str   = selector_map._selector_str_;
         rule_lock_list = selector_map._rule_lock_list_;
         rule_map       = selector_map._rule_map_;
         merged_rpt_map = seen_selector_map[ selector_str ];
-        // end 2.7.3.2.1
+        // end 2.9.3.2.1
 
-        // 2.7.3.2.2 Use previously seen selector data
+        // 2.9.3.2.2 Use previously seen selector data
         if ( merged_rpt_map ) {
           merged_selector_map = merged_rpt_map._selector_map_;
           merged_rule_map     = merged_selector_map._rule_map_;
           merged_lock_list    = merged_rpt_map._rule_lock_list_;
 
-          // 2.7.3.2.2.1 Merge in latest locks
+          // 2.9.3.2.2.1 Merge in latest locks
           if ( rule_lock_list ) {
             merged_lock_list[ vMap._push_ ][ vMap._apply_
               ]( merged_lock_list, rule_lock_list );
-            merged_rpt_map[ '_lock_on_ ' + __String( i ) ]
+            merged_rpt_map[ '_lock_on_ ' + __Str( i ) ]
               = __j2str( rule_lock_list );
           }
-          // end 2.7.3.2.2.1
+          // end 2.9.3.2.2.1
 
-          // 2.7.3.2.2.2 Merge rules unless they are locked
+          // 2.9.3.2.2.2 Merge rules unless they are locked
           rule_key_list  = __ObjKeys( rule_map );
           rule_key_count = rule_key_list[ vMap._length_ ];
           _RULE_: for ( l = __0; l < rule_key_count; l++ ) {
@@ -534,50 +558,50 @@ var pcss = (function () {
             }
             merged_rule_map[ rule_key ] = rule_map[ rule_key ];
           }
-          // end 2.7.3.2.2.2
+          // end 2.9.3.2.2.2
         }
-        // end 2.7.3.2.2
+        // end 2.9.3.2.2
 
-        // 2.7.3.2.3 Init new selector data
+        // 2.9.3.2.3 Init new selector data
         else {
-          // 2.7.3.2.3.1 Clone data and place the **same map**
+          // 2.9.3.2.3.1 Clone data and place the **same map**
           // both into the merged_selector_list and the merged_rpt_map
           // as we want fast O(1) access to it.
           //
           clone_selector_map = cloneData( selector_map );
           merged_selector_list[ vMap._push_]( clone_selector_map );
           merged_rpt_map = { _selector_map_ : clone_selector_map };
-          // end 2.7.3.2.3.1
+          // end 2.9.3.2.3.1
 
-          // 2.7.3.2.3.2 Init lock list data
+          // 2.9.3.2.3.2 Init lock list data
           if ( rule_lock_list ) {
             merged_rpt_map._rule_lock_list_ = cloneData( rule_lock_list );
-            merged_rpt_map[ 'lock_on_' + __String( i ) ]
+            merged_rpt_map[ 'lock_on_' + __Str( i ) ]
               = __j2str( rule_lock_list );
           }
           else {
             merged_rpt_map._rule_lock_list_ = [];
           }
-          // end 2.7.3.2.3.2
+          // end 2.9.3.2.3.2
           seen_selector_map[ selector_str ] = merged_rpt_map;
         }
-        // end 2.7.3.2.3
+        // end 2.9.3.2.3
       }
-      // end 2.7.3.2 Consider each selector_map in the selector_list
+      // end 2.9.3.2 Consider each selector_map in the selector_list
     }
-    // end 2.7.3 Consider each vsheet in the cascade list
+    // end 2.9.3 Consider each vsheet in the cascade list
 
-    // 2.7.4 return map of results
+    // 2.9.4 return map of results
     return {
       _merged_selector_list_ : merged_selector_list,
       _merged_mixin_map_     : merged_mixin_map
     };
   }
-  // end 2.7 Private method /mergeCascade/
+  // end 2.9 Private method /mergeCascade/
 
-  // 2.8 Private method /makeCssStr/
+  // 2.10 Private method /makeCssStr/
   function makeCssStr ( merged_selector_list, merged_mixin_map ) {
-    // 2.8.1 init and args
+    // 2.10.1 init and args
     var
       i, j, k,        selector_count,
       selector_map,   selector_str,
@@ -595,24 +619,24 @@ var pcss = (function () {
       ;
     selector_count = merged_selector_list[ vMap._length_ ];
     solve_selector_list = [];
-    // end 2.8.1
+    // end 2.10.1
 
-    // 2.8.2 Consider each selector map in list
+    // 2.10.2 Consider each selector map in list
     for ( i = __0; i < selector_count; i++ ) {
-      // 2.8.2.1 Init selector_map vars
+      // 2.10.2.1 Init selector_map vars
       selector_map = merged_selector_list[ i ];
       selector_str = selector_map._selector_str_;
       rule_map     = selector_map._rule_map_;
       close_str    = selector_map._close_str_ || __blank;
-      // end 2.8.2.1
+      // end 2.10.2.1
 
-      // 2.8.2.2 Special case: no rule_map
+      // 2.10.2.2 Special case: no rule_map
       if ( ! rule_map ) {
         solve_selector_list[ vMap._push_ ]( selector_str + close_str );
         continue;
       }
 
-      // 2.8.2.3 Consider each rule in rule_map: _OUTER_RULE_
+      // 2.10.2.3 Consider each rule in rule_map: _OUTER_RULE_
       rule_key_list = __ObjKeys( rule_map );
       rule_key_count = rule_key_list[ vMap._length_ ];
       solve_rule_list = [];
@@ -711,7 +735,7 @@ var pcss = (function () {
           }
         }
       }
-      // end 2.8.2.3 Consider each rule in rule_map: _OUTER_RULE_
+      // end 2.10.2.3 Consider each rule in rule_map: _OUTER_RULE_
 
       solve_selector_str = selector_str + '{';
       solve_selector_str += solve_rule_list[ vMap._length_ ] > __0
@@ -719,29 +743,31 @@ var pcss = (function () {
       solve_selector_str += '}' + close_str;
       solve_selector_list[ vMap._push_ ]( solve_selector_str );
     }
-    // end 2.8.2 Consider each selector map in list
+    // end 2.10.2 Consider each selector map in list
 
-    // 2.8.3 return CSS string
+    // 2.10.3 return CSS string
     return solve_selector_list[ vMap._join_]( '\n' );
   }
-  // end 2.8 Private method /makeCssStr/
+  // end 2.10 Private method /makeCssStr/
 
-  // 2.9 Private method /regenCascade/
+  // 2.11 Private method /regenCascade/
   function regenCascade( cascade_map, regen_type ) {
     var
-      now_ms = __timeStamp(),
+      now_ms     = __timeStamp(),
+      cascade_id = cascade_map._cascade_id_,
+
       merged_ms, result_map, style_el, write_idx, write_el;
 
-    // 2.9.1 Bail on unrecognized regen type
+    // 2.11.1 Bail on unrecognized regen type
     if ( topCmap._regen_type_list_[ vMap._indexOf_ ]( regen_type ) === __n1 ) {
       logIt( '_regen_type_not_supported_', regen_type );
       return;
     }
 
-    // 2.9.2 _none_ level regen_type
+    // 2.11.2 _none_ level regen_type
     if ( regen_type === '_none_' ) { return regen_type; }
 
-    // 2.9.3 _merge_ level regen_type
+    // 2.11.3 _merge_ level regen_type
     merged_ms = cascade_map._merged_selector_ms_;
     if ( merged_ms <= cascade_map._vsheet_ms_
       || merged_ms <= cascade_map._mixin_ms_
@@ -754,26 +780,27 @@ var pcss = (function () {
       cascade_map._merged_mixin_map_     = result_map._merged_mixin_map_;
       cascade_map._merged_selector_ms_   = now_ms;
       cascade_map._mixin_ms_             = now_ms;
+      publishEvent( '_pcss_merged_', cascade_id );
     }
     if ( regen_type === '_merge_' ) { return regen_type; }
-    // end 2.9.3
+    // end 2.11.3
 
-    // 2.9.4 _prepare_ level regen_type
+    // 2.11.4 _prepare_ level regen_type
     if ( cascade_map._css_ms_ < cascade_map._merged_selector_ms_ ) {
       cascade_map._css_str_ = makeCssStr(
         cascade_map._merged_selector_list_,
         cascade_map._merged_mixin_map_
       );
       cascade_map._css_ms_ = now_ms;
+      publishEvent( '_pcss_prepared_', cascade_id );
     }
     if ( regen_type === '_prepare_' ) { return regen_type; }
-    // end 2.9.4
+    // end 2.11.4
 
-    // 2.9.5 _all_ and _use_ level regen
-    if ( regen_type === '_use_'
-        || ( topSmap._el_cascade_list_[ topSmap._style_el_idx_ ]
-           === cascade_map._cascade_id_ )
-    ) {
+    // 2.11.5 _all_ and _use_ level regen
+    if ( regen_type === '_use_' || ( 
+      topSmap._el_cascade_list_[ topSmap._style_el_idx_ ] === cascade_id
+    ) ) {
       style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
       switch( topSmap._style_el_idx_ ) {
         case     __0 : write_idx = __1; break;
@@ -789,14 +816,15 @@ var pcss = (function () {
       write_el[ vMap._sheet_ ][ vMap._disabled_ ] = ! topSmap._is_enabled_;
 
       topSmap._style_el_idx_ = write_idx;
-      topSmap._el_cascade_list_[ write_idx ] = cascade_map._cascade_id_;
+      topSmap._el_cascade_list_[ write_idx ] = cascade_id;
+      publishEvent( '_pcss_used_', cascade_id );
     }
-    // end 2.9.5
+    // end 2.11.5
     return regen_type;
   }
-  // end 2.9 Private method /regenCascade/
+  // end 2.11 Private method /regenCascade/
 
-  // 2.10 Private method /initCheck/
+  // 2.12 Private method /initCheck/
   // Wrapper function that checks init before proceeding
   //
   function initCheck () {
@@ -806,10 +834,11 @@ var pcss = (function () {
     }
     return target_fn[ vMap._apply_ ]( this, arguments );
   }
-  // end 2.10
+  // end 2.12
   // end 2. PRIVATE METHODS ===================================
 
   // 3. EVENT HANDLERS ========================================
+  //
   // end 3. EVENT HANDLERS ====================================
 
   // 4. PUBLIC METHODS ========================================
@@ -837,7 +866,6 @@ var pcss = (function () {
       // Create two style elements '<prefix>-0' and '<prefix>-1'
       initStyleEls();
     }
-    
     // 4.1.3 return prefix
     return topSmap._style_el_prefix_;
   }

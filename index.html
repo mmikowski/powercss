@@ -85,10 +85,7 @@
   <h2>Key benefits</h2>
     <ul>
       <li><strong>Real-time styling</strong> - Create 
-      custom styling for every user of your application. For example,
-      adjust style based on device (capabilities, orientation 
-      and size), GPS coordinates, and ambient conditions (light, temperature,
-      time of day, heart rate) at any time.</li>
+      custom styling for every user of your application at any time.</li>
       <li><strong>Pure JS</strong> - Remove the need for <strong>any</strong>
       static CSS files.</li>
       <li><strong>Namespaced</strong> - Play well with frameworks, jQuery, 
@@ -98,28 +95,38 @@
       than 10x.</li>
       <li><strong>Merging and caching</strong> - Control when 
       your styling is updated using time-based minimal processing.</li>
-      <li><strong>Mixins</strong> - Create custom symbols at multiple levels 
-      - virtual stylesheet, virtual cascade, and global.
+      <li><strong>Mixins</strong> - Create custom symbols at multiple levels:
+      virtual stylesheet, virtual cascade, and global.
       Change a mixin and watch the styles change immediately.</li>
       <li><strong>Familiar workflow</strong> - Leverage your experience with
       static CSS files using virtual stylesheets and cascades.</li>
       <li><strong>Machine optimized CSS</strong> - Have the browser
-      work more efficiently. PowerCSS provides only 
-      <strong>one stylesheet</strong> for the browser to use at any given time,
-      and <strong>numerous redundancies</strong> are removed during its
+      work more efficiently as only <strong>one stylesheet</strong> 
+      is used for styling at any given time, and
+      <strong>numerous redundancies</strong> are removed during its
       preparation.</li>
-      <li><strong>Highly compressible</strong> - Compressed your code
-      to a fraction of static CSS. Both rule keys and values are
-      compressible.</li>
-      <li><strong>Quality code</strong> - Use well tested and maintain code.
-      It is fully documented, and commit hooks ensure no code is released
-      that fails to pass JSLint or regression tests.</li>
+      <li><strong>Highly compressible</strong> - Compress your styling
+      to a fraction of static CSS.</li>
+      <li><strong>Quality code</strong> - Use well tested and documented code.
+      A commit hook is  used to ensure no changes occur unless they pass
+      <strong>JSLint</strong> <i>and</i> <strong>regression tests</strong>.
       <li><strong>MIT license</strong></li>
       <li><strong>No dependencies</strong></li>
     </ul>
 
   <h2>News</h2>
-    <h3>2016-03-07: Release candidate v0.6.x</h3>
+    <h3>2016-03-09: Release candidate v0.6.6</h3>
+    <p>Isn't regression testing grand?  Just implementing basic coverage has
+    turned up a few interesting bugs and needs.  One example: the process
+    update test was sporadically failing about 1/10th of the time because
+    sometimes the test JS proceeded before the CSS string processing
+    completed.  So now we have events which are trigged by these processing
+    steps (not yet supported in IE).  They are <code>_pcss_merged_</code>, 
+    <code>_pcss_prepared_</code>, and <code>_pcss_used_</code>.  The event
+    object provides the ID of the <strong>cascade</strong> affected.
+    </p>
+
+    <h3>2016-03-07: Release candidate v0.6.2</h3>
     <p>Automated regression tests are now implemented.  You may run
     them using <code>npm install</code> and <code>npm test</code>
     in the root installation directory 
