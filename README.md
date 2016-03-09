@@ -1209,131 +1209,130 @@ pcss._setGlobalMixinMap_({ _mixin_map_ : { ... } });
 - `_pcss_used_`
 
 ```
-Example    : document.addEventListener( '_pcss_prepared_', onPrepared );
-Purpose    : Report process states for cascades
-Attributes : event_obj._data_ is set to the _cascade_id_
-Settings   : none
-Notes      : Every time a cascade merge, prepare, or use is enabled, an
-             event tied to the document object is fired. 
+Example    | document.addEventListener( '_pcss_prepared_', onPrepared );
+Purpose    | Report process states for cascades
+Attributes | event_obj._data_ is set to the _cascade_id_
+Settings   | none
+Notes      | Every time a cascade merge, prepare, or use is enabled, an
+           | event tied to the document object is fired. 
 ```
 
 
 ### `_initModule_`
 
 ```
-Example   : pcss._initModule_({ _style_el_prefix_ : 'ns' });
-Purpose   : Initializes style elements using the provided prefix
-Arguments : _style_el_prefix_ :
-            Optional: A prefix to name-space the two style elements
-            If not provided, the prefix 'pcss' will be used.
-Settings  : none
-Throws    : A string error object if style elements already exist
-Returns   : The style prefix, e.g. 'ns-'
+Example   | pcss._initModule_({ _style_el_prefix_ : 'ns' });
+Purpose   | Initializes style elements using the provided prefix
+Arguments | _style_el_prefix_ :
+          | Optional: A prefix to name-space the two style elements
+          | If not provided, the prefix 'pcss' will be used.
+Settings  | none
+Throws    | A string error object if style elements already exist
+Returns   | The style prefix, e.g. 'ns-'
 ```
 
 
 ### `_extendRuleMap_`
 
 ```
-Example   : pcss._extendRuleMap_( rule_map, { _color_ : '_x444_' } );
-Purpose   : A utility to extend a rule_map with new or revised
-            values. Providing a value of 'null' deletes a key.
-            pcss._extendRuleMap_( rule_map, { _color_ : null } );
-Arguments : (positional)
-            0 : base_map   - the map to be extended
-            1 : extend_map - the map containing new key-value pairs
-Settings  : none
-Throws    : none
-Returns   : none
-  - base_map is modified.
-  - extend_map is not.
+Example   | pcss._extendRuleMap_( rule_map, { _color_ : '_x444_' } );
+Purpose   | A utility to extend a rule_map with new or revised
+          | values. Providing a value of 'null' deletes a key.
+          | pcss._extendRuleMap_( rule_map, { _color_ : null } );
+Arguments | (positional)
+          | 0 : base_map   - the map to be extended
+          | 1 : extend_map - the map containing new key-value pairs
+Settings  | none
+Throws    | none
+Returns   | none
+            - base_map is modified.
+            - extend_map is not.
 ```
 
 
 ### `_setGlobalMixinMap_`
 
 ```
-Example   : pcss._setGlobalMixinMap_({
-              _mode_type_ : 'add',
-              _mixin_map_ : mixin_map
-            });
-Purpose   : Add, change, delete, or update process status for
-            a global mixin map id.
-Arguments :
-  - _mode_type_  (req) '_add_', '_change_', or '_delete_'
-  - _mixin_map_  (opt)
-  - _regen_type_ (opt) '_none_', '_merge_', '_prepare_', or '_all_'
-Notes     : _regen_type_ defaults to '_all_' if not provided.
-Settings  : none
-Throws    : none
-Returns   : The number of vsheets affected by the change
+Example   | pcss._setGlobalMixinMap_({
+          |   _mode_type_ : 'add',
+          |   _mixin_map_ : mixin_map
+          | });
+Purpose   | Add, change, delete, or update process status for
+          | a global mixin map id.
+          |
+Arguments | _mode_type_  (req) '_add_', '_change_', or '_delete_'
+          | _mixin_map_  (opt)
+          | _regen_type_ (opt) '_none_', '_merge_', '_prepare_', or '_all_'
+Notes     | _regen_type_ defaults to '_all_' if not provided.
+Settings  | none
+Throws    | none
+Returns   | The number of vsheets affected by the change
 ```
 
 
 ### `_togglePcss_`
 
 ```
-Example   : pcss._togglePcss_( true );
-Purpose   : Enable or disable PowerCSS
-Arguments :
-  - boolean (optional)
-    If not provided, will toggle PowerCSS on or off.
-    If provided, true will turn PowerCSS on, and false
-      will turn PowerCSS off.
-Settings  : none
-Throws    : none
-Returns   : true (enabled) or false (disabled)
+Example   | pcss._togglePcss_( true );
+Purpose   | Enable or disable PowerCSS
+Arguments | boolean (optional)
+          | If not provided, will toggle PowerCSS on or off.
+          | If provided, true will turn PowerCSS on, and false
+          | will turn PowerCSS off.
+Settings  | none
+Throws    | none
+Returns   | true (enabled) or false (disabled)
 ```
 
 
 ### `_getAssetIdList_`
 
 ```
-Example   : vsheet_id_list = pcss._getAssetIdList_({
-              _asset_type_ : '_vsheet_'
-            });
-            cascade_id_list = pcss._getAssetIdList_({
-              _asset_id_ : '_cascade_'
-            });
-Purpose   : Return the list of all vsheets or cascades.
-Arguments : _asset_type_ (req), either '_vsheet_' or '_cascade_'
-Settings  : none
-Throws    : none
-Returns   : A list of the asset IDs requested. PowerCSS will
-            NEVER use this list pointer, so you may mutate as
-            you please.
+Example   | vsheet_id_list = pcss._getAssetIdList_({
+          |   _asset_type_ : '_vsheet_'
+          | });
+          | cascade_id_list = pcss._getAssetIdList_({
+          |   _asset_id_ : '_cascade_'
+          | });
+Purpose   | Return the list of all vsheets or cascades.
+Arguments | _asset_type_ (req), either '_vsheet_' or '_cascade_'
+Settings  | none
+Throws    | none
+Returns   | A list of the asset IDs requested. PowerCSS will
+          | NEVER use this list pointer, so you may mutate as
+          | you please.
 ```
 
 
 ### `_getAssetJson_`
 
 ```
-Example   : pcss._getAssetJson_({
-              _asset_id_      : '_c01_',
-              _asset_type_    : '_cascade_'
-              _asset_subtype_ : '_vsheet_id_list_'
-            })
-Purpose   : Return a JSON snapshot of a vsheet or cascade.
-Arguments : _asset_id_ (req) The existing ID of either a cascade
-             or a vsheet.
-            _asset_type_ (req) '_vsheet_', '_cascade_',
-              '_global_mixin_', '_el_cascade_list_',
-            _asset_subtype_ (opt)
-              '_vsheet_' supports:
-                 _vsheet_id_,    _selector_list_,
-                 _selector_ms_,  _mixin_map_,
-                 _mixin_ms_
-              '_cascade_' supports
-                 _cascade_id_,       _vsheet_id_list_
-                 _vsheet_ms_,        _mixin_map_
-                 _mixin_ms_,         _merged_selector_list_
-                 _merged_mixin_map_, _merged_selector_ms_
-                 _css_str_          _css_ms_
-Settings  : none
-Throws    : none
-Returns   : A JSON string of the requested asset.
-            If there is no corresponding asset, the JSON string
-            returned is 'undefined'.
+Example   | pcss._getAssetJson_({
+          |   _asset_id_      : '_c01_',
+          |   _asset_type_    : '_cascade_'
+          |   _asset_subtype_ : '_vsheet_id_list_'
+          | })
+Purpose   | Return a JSON snapshot of a vsheet or cascade.
+Arguments | _asset_id_ (req) The existing ID of either a cascade
+          |  or a vsheet.
+          | _asset_type_ (req) '_vsheet_', '_cascade_',
+          |   '_global_mixin_', '_el_cascade_list_',
+          | _asset_subtype_ (opt)
+          |   '_vsheet_' supports:
+          |      _vsheet_id_,    _selector_list_,
+          |      _selector_ms_,  _mixin_map_,
+          |      _mixin_ms_
+          |   '_cascade_' supports
+          |      _cascade_id_,       _vsheet_id_list_
+          |      _vsheet_ms_,        _mixin_map_
+          |      _mixin_ms_,         _merged_selector_list_
+          |      _merged_mixin_map_, _merged_selector_ms_
+          |      _css_str_          _css_ms_
+Settings  | none
+Throws    | none
+Returns   | A JSON string of the requested asset.
+          | If there is no corresponding asset, the JSON string
+          | returned is 'undefined'.
 ```
 
 
@@ -1342,26 +1341,26 @@ See **The PowerCSS cookbook** section to see how `_setVsheet_`
 may be used to accomplish common tasks.
 
 ```
-Example   : pcss._setVsheet_({
-              _vsheet_id_     : '_base_',
-              _mode_str_      : '_add_',
-              _selector_list_ : base_selector_list,
-              _mixin_map_     : {},
-              _regen_type_    : '_merge_'
-            });
-Purpose   : Adds, changes, or deletes a vsheet
-Arguments : _vsheet_id_    (req) The ID for a vsheet
-            _mode_str_     (req) '_add_', '_change_', or '_delete_'
-            _selector_list (opt) List of selectors this vsheet will
-              represent in PowerCSS format.
-            _mixin_map_    (opt) The mixin_map for this vsheet.
-            _regen_type_   (opt) '_none_', '_merge_', '_prepare_',
-                                 or '_all_'
-Notes     : _regen_type_ defaults to '_merge_' on Add, '_all_'
-            on other operations.
-Settings  : none
-Throws    : none
-Returns   : vsheet_id, or undef on failure
+Example   | pcss._setVsheet_({
+          |   _vsheet_id_     : '_base_',
+          |   _mode_str_      : '_add_',
+          |   _selector_list_ : base_selector_list,
+          |   _mixin_map_     : {},
+          |   _regen_type_    : '_merge_'
+          | });
+Purpose   | Adds, changes, or deletes a vsheet
+Arguments | _vsheet_id_    (req) The ID for a vsheet
+          | _mode_str_     (req) '_add_', '_change_', or '_delete_'
+          | _selector_list (opt) List of selectors this vsheet will
+          |   represent in PowerCSS format.
+          | _mixin_map_    (opt) The mixin_map for this vsheet.
+          | _regen_type_   (opt) '_none_', '_merge_', '_prepare_',
+          |                      or '_all_'
+Notes     | _regen_type_ defaults to '_merge_' on Add, '_all_'
+          | on other operations.
+Settings  | none
+Throws    | none
+Returns   | vsheet_id, or undef on failure
 ```
 
 
@@ -1370,26 +1369,26 @@ See **The PowerCSS cookbook** section to see how `_setCascade_`
 may be used to accomplish common tasks.
 
 ```
-Example   : pcss._setCascade_({
-              _cascade_id_     : '_c01_',
-              _mode_str_       : '_add_',
-              _vsheet_id_list_ : [ '_base_', '_box_' ],
-              _mixin_map_      : {},
-              _regen_type_     : '_none_'
-            });
-Purpose   : Adds, changes, or deletes a cascade
-Arguments : _cascade_id_     (req) The ID for a cascade
-            _mode_str_       (req) '_add_', '_change_', or '_delete_'
-            _vsheet_id_list_ (opt) List of vsheet ids in order of
-              application.
-            _mixin_map_      (opt) The mixin_map for this cascade.
-            _regen_type_     (opt) '_none_', '_merge_', '_prepare_',
-                                 or '_all_' (default is _merge_)
-Notes     : _regen_type_ defaults to '_merge_' on Add, '_all_'
-            on other operations.
-Settings  : none
-Throws    : none
-Returns   : cascade_id, or undef on failure
+Example   | pcss._setCascade_({
+          |   _cascade_id_     : '_c01_',
+          |   _mode_str_       : '_add_',
+          |   _vsheet_id_list_ : [ '_base_', '_box_' ],
+          |   _mixin_map_      : {},
+          |   _regen_type_     : '_none_'
+          | });
+Purpose   | Adds, changes, or deletes a cascade
+Arguments | _cascade_id_     (req) The ID for a cascade
+          | _mode_str_       (req) '_add_', '_change_', or '_delete_'
+          | _vsheet_id_list_ (opt) List of vsheet ids in order of
+          |   application.
+          | _mixin_map_      (opt) The mixin_map for this cascade.
+          | _regen_type_     (opt) '_none_', '_merge_', '_prepare_',
+          |                      or '_all_' (default is _merge_)
+Notes     | _regen_type_ defaults to '_merge_' on Add, '_all_'
+          | on other operations.
+Settings  | none
+Throws    | none
+Returns   | cascade_id, or undef on failure
 ```
 
 
