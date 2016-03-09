@@ -76,15 +76,6 @@ examples, and then we discuss how PowerCSS works.
 - **No dependencies**
 
 ## Example 001: The basics
-The first thing to remember about the PowerCSS is that it
-**never changes our data.** This means if we provide an array or
-object or array as an argument to a PowerCSS, it is **copied**
-and we can use it again without fear of it being modified by PowerCSS
-at some later time. For the inverse reason, PowerCSS **does not return
-pointers to its data**. Instead is the `_getAssetJson_` method which
-is very handy for debugging, but it should be used sparingly as it
-can be expensive. The `_getAssetIdList_` method is also data-safe.
-
 We were careful to change as little of the existing CSS work-flow as
 possible. If we are comfortable with using static CSS, this should look
 pretty familiar:
@@ -97,6 +88,16 @@ pretty familiar:
 3. Define a **cascade** which includes an ordered list of **vsheets**.
    This is very much like traditional CSS development where we link to
    static stylesheet files in an HTML document.
+
+PowerCSS puts high priority on data integrity.  This means that it 
+**never changes our data.** If we provide an array or object as an argument
+to a PowerCSS, it is **copied** instead of referenced, and we can use it
+again without fear of it being modified by PowerCSS at some later time.
+For the inverse reason, PowerCSS **does not return pointers to its data**.
+Instead we can get snapshots from PowerCSS data using `_getAssetJson_` and
+a few other methods.
+
+Let's now walk through a basic implementation of PowerCSS.
 
 ### 1. Create `pcss._ex001_.html` file
 Let's create an HTML file named `pcss._ex001_.html` to illustrate
