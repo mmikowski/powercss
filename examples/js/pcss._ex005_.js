@@ -27,7 +27,7 @@
 */
 
 // BEGIN pcss._ex005_
-pcss._ex005_ = function () {
+pcss._ex005_ = function ( display_html ) {
   var
     palette_list,         palette_idx,
     global_mixin_map,     base_mixin_map,
@@ -98,7 +98,7 @@ pcss._ex005_ = function () {
     },
     { _palette_name_  : 'Spice I',
       _color_shadow_  : '#c2bc74',
-      _color_font_    : '#6e615a', 
+      _color_font_    : '#6e615a',
       _color_mid_     : '#b8b8b8',
       _color_gradtop_ : '#e0cdaf',
       _color_gradbtm_ : '#807e82',
@@ -115,7 +115,7 @@ pcss._ex005_ = function () {
     { _palette_name_  : 'Chili',
       _color_shadow_  : '#283811',
       _color_font_    : '#5c0811',
-      _color_mid_     : '#d94330', 
+      _color_mid_     : '#d94330',
       _color_gradtop_ : '#a68887',
       _color_gradbtm_ : '#66492f',
       _color_bkgd_    : '#b8997f'
@@ -150,14 +150,14 @@ pcss._ex005_ = function () {
   };
   base_selector_list = [
     { _selector_str_  : 'body',
-      _rule_map_     : {
-        _margin_     : '_0_',
-        _padding_    : '_2rem_',
-        _background_ : '_color_bkgd_',
-        _overflow_y_ : '_scroll_',
-        _font_family_: '_font_sans_',
-        _font_size_  : '_base_body_font_size_',
-        _color_      : '_color_font_'
+      _rule_map_ : {
+        _margin_      : '_0_',
+        _padding_     : [[ '_2d5rem_', '_2rem_' ]],
+        _background_  : '_color_bkgd_',
+        _overflow_y_  : '_scroll_',
+        _font_family_ : '_font_sans_',
+        _font_size_   : '_base_body_font_size_',
+        _color_       : '_color_font_'
       }
     },
     { _selector_str_ : 'input',
@@ -174,7 +174,7 @@ pcss._ex005_ = function () {
       }
     },
     { _selector_str_ : 'input:focus',
-      _rule_map_   : {
+      _rule_map_     : {
         _border_color_ : '_xfff_',
         _background_   : '_color_bkgd_',
         _color_        : '_xfff_'
@@ -182,10 +182,24 @@ pcss._ex005_ = function () {
     },
     { _selector_str_ : '.pcss-_logo_',
       _rule_map_     : {
-        _background_image_ : ['url(http://mmikowski.github.io/images/2016-02-22-pcss.png)'],
-        _background_size_ : '_cover_',
-        _width_  : [ '20.75rem' ],
-        _height_ : [ '10.125rem' ]
+        _width_  : [ '20.75rem'  ],
+        _height_ : [ '10.125rem' ],
+        _background_image_ : [ 'url(http://mmikowski.github.io/'
+          + 'images/2016-02-22-pcss.png)' ],
+        _background_size_  : '_cover_',
+      }
+    },
+    { _selector_str_ : '#pcss-_head_',
+      _rule_map_     : {
+        _position_   : '_fixed_',
+        _z_index_    : '_1_',
+        _top_        : '_0_',
+        _left_       : '_0_',
+        _right_      : '_0_',
+        _height_     : '_2rem_',
+        _box_shadow_ : '_global_d5_box_shadow_',
+        _padding_    : '_0_',
+        _background_ : '_xeee_'
       }
     }
   ];
@@ -385,15 +399,54 @@ pcss._ex005_ = function () {
   }
 
   fn_set_palette();
-  switch_el = document.getElementById( 'pcss-_switch_' );
-  link_list = switch_el.getElementsByTagName( 'div' );
-  switch_el.addEventListener( 'click', onclick_fn );
-
   pcss._setCascade_({
     _cascade_id_ : '_c01_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
+
+  document.body.innerHTML
+    = '<div id="pcss-_head_"></div>'
+    + '<a href="../"><div class="pcss-_logo_" title="PowerCSS"></div></a>'
+    + '<h2>Example 005: Minimal time-based processing</h2>'
+    + '<p>This shows minimal time-base processing of three cascades'
+      + 'and ten mixin-maps color themes. The theme is changed every five'
+      + 'seconds. Click on the top right corner to switch cascades.'
+      + 'All changes are dispatched with just one PowerCSS call'
+      + 'and all changes are transparently double-buffered.</p>'
+    + '<div id="pcss-_switch_">'
+      + '<div class="pcss-_x_select_">Cascade A</div>'
+      + '<div>Cascade B</div>'
+      + '<div>Cascade C</div>'
+    + '</div>'
+    + '<div class="pcss-_box_">PowerCSS 01<br/>'
+      + '<input title="name" type="text" placeholder="your name here"/>'
+    + '</div>'
+    + '<div class="pcss-_box_">PowerCSS 02</div>'
+    + '<div class="pcss-_box_">PowerCSS 03</div>'
+    + '<div class="pcss-_box_">PowerCSS 04</div>'
+    + '<div class="pcss-_box_">PowerCSS 04</div>'
+    + '<div class="pcss-_box_">PowerCSS 05</div>'
+    + '<div class="pcss-_box_">PowerCSS 06</div>'
+    + '<div class="pcss-_box_">PowerCSS 07</div>'
+    + '<div class="pcss-_box_">PowerCSS 08</div>'
+    + '<div class="pcss-_box_">PowerCSS 09</div>'
+    + '<div class="pcss-_box_">PowerCSS 10</div>'
+    + '<div class="pcss-_box_">PowerCSS 11</div>'
+    + '<div class="pcss-_box_">PowerCSS 12</div>'
+    + '<div class="pcss-_box_">PowerCSS 13</div>'
+    + '<div class="pcss-_box_">PowerCSS 14</div>'
+    + '<div class="pcss-_box_">PowerCSS 15</div>'
+    + '<div class="pcss-_box_">PowerCSS 16</div>'
+    + '<div class="pcss-_box_">PowerCSS 17</div>'
+    + '<div class="pcss-_box_">PowerCSS 18</div>'
+    + '<div class="pcss-_box_">PowerCSS 19</div>'
+    + '<div class="pcss-_box_">PowerCSS 20</div>'
+    ;
+
+  switch_el = document.getElementById( 'pcss-_switch_' );
+  link_list = switch_el.getElementsByTagName( 'div' );
+  switch_el.addEventListener( 'click', onclick_fn );
 
   setInterval( fn_set_palette, 5000 );
   // End init

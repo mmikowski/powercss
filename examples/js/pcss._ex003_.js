@@ -27,7 +27,7 @@
 */
 
 // BEGIN pcss._ex003_
-pcss._ex003_ = function () {
+pcss._ex003_ = function ( display_html ) {
   var
     global_mixin_map,     base_mixin_map,
     base_selector_list,   box_selector_list,
@@ -48,9 +48,9 @@ pcss._ex003_ = function () {
     _global_red_grad_map_ : {
       _alt_list_ : [
         [ '#f85032' ],
-        [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+        [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)'    ],
         [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-        [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
+        [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)'    ]
       ]
     },
     _global_green_grad_map_ : {
@@ -86,7 +86,8 @@ pcss._ex003_ = function () {
     { _selector_str_  : 'body',
       _rule_map_     : {
         _margin_     : '_0_',
-        _padding_    : '_2rem_',
+        _padding_    : [[ '_2d5rem_', '_2rem_' ]],
+        _background_ : '_xddd_',
         _overflow_y_ : '_scroll_',
         _font_family_: '_font_sans_',
         _font_size_  : '_base_body_font_size_',
@@ -119,6 +120,21 @@ pcss._ex003_ = function () {
         _background_size_ : '_cover_',
         _width_  : [ '20.75rem' ],
         _height_ : [ '10.125rem' ]
+      }
+    },
+    { _selector_str_ : '#pcss-_head_',
+      _rule_map_   : {
+        _position_      : '_fixed_',
+        _z_index_       : '_1_',
+        _top_           : '_0_',
+        _left_          : '_0_',
+        _right_         : '_0_',
+        _height_        : '_2rem_',
+        _box_shadow_    : [[
+          ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
+        ]],
+        _padding_       : '_0_',
+        _background_    : '_xeee_'
       }
     }
   ];
@@ -305,13 +321,52 @@ pcss._ex003_ = function () {
   // End onclick handler
 
   // Begin init
-  switch_el = document.getElementById( 'pcss-_switch_' );
-  link_list = switch_el.getElementsByTagName( 'div' );
   pcss._setCascade_({
     _cascade_id_ : '_c01_',
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
+
+  document.body.innerHTML
+    = '<div id="pcss-_head_"></div>'
+    + '<a href="../"><div class="pcss-_logo_" title="PowerCSS"></div></a>'
+    + '<h2>Example 003: Mixin Maps</h2>'
+    + '<p>This shows basic use of mixin maps.</p>'
+    + '<p>Click on the top right corner to toggle between 3 <b>cascades</b>'
+      + 'that have been created using PowerCSS and mixin maps.'
+    + '</p>'
+    + '<div id="pcss-_switch_">'
+      + '<div class="pcss-_x_select_">Cascade A</div>'
+      + '<div>Cascade B</div>'
+      + '<div>Cascade C</div>'
+    + '</div>'
+    + '<div class="pcss-_box_">PowerCSS 01<br/>'
+      + '<input title="name" type="text" placeholder="your name here"/>'
+    + '</div>'
+    + '<div class="pcss-_box_">PowerCSS 02</div>'
+    + '<div class="pcss-_box_">PowerCSS 03</div>'
+    + '<div class="pcss-_box_">PowerCSS 04</div>'
+    + '<div class="pcss-_box_">PowerCSS 04</div>'
+    + '<div class="pcss-_box_">PowerCSS 05</div>'
+    + '<div class="pcss-_box_">PowerCSS 06</div>'
+    + '<div class="pcss-_box_">PowerCSS 07</div>'
+    + '<div class="pcss-_box_">PowerCSS 08</div>'
+    + '<div class="pcss-_box_">PowerCSS 09</div>'
+    + '<div class="pcss-_box_">PowerCSS 10</div>'
+    + '<div class="pcss-_box_">PowerCSS 11</div>'
+    + '<div class="pcss-_box_">PowerCSS 12</div>'
+    + '<div class="pcss-_box_">PowerCSS 13</div>'
+    + '<div class="pcss-_box_">PowerCSS 14</div>'
+    + '<div class="pcss-_box_">PowerCSS 15</div>'
+    + '<div class="pcss-_box_">PowerCSS 16</div>'
+    + '<div class="pcss-_box_">PowerCSS 17</div>'
+    + '<div class="pcss-_box_">PowerCSS 18</div>'
+    + '<div class="pcss-_box_">PowerCSS 19</div>'
+    + '<div class="pcss-_box_">PowerCSS 20</div>'
+    ;
+
+  switch_el = document.getElementById( 'pcss-_switch_' );
+  link_list = switch_el.getElementsByTagName( 'div' );
 
   switch_el.addEventListener( 'click', onclick_fn );
   // End init

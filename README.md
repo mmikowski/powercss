@@ -89,7 +89,7 @@ pretty familiar:
    This is very much like traditional CSS development where we link to
    static stylesheet files in an HTML document.
 
-PowerCSS puts high priority on data integrity.  This means that it 
+PowerCSS puts high priority on data integrity.  This means that it
 **never changes our data.** If we provide an array or object as an argument
 to a PowerCSS, it is **copied** instead of referenced, and we can use it
 again without fear of it being modified by PowerCSS at some later time.
@@ -121,22 +121,20 @@ be found in the `node_modules/powercss/examples` directory or [online][7].
   <script src="../dist/pcss.js"></script>
   <script src="js/pcss._ex001_.js"></script>
   <script>
-  window.onload = pcss._ex001_;
+    function onLoadWin() { 
+      pcss._ex001_();
+
+      // Analytics code here
+    }
+    window.onload = onLoadWin;
   </script>
 </head>
-<body>
-  <div class="pcss-_logo_" title="PowerCSS"></div>
-  <h2>Example 001: The basics</h2>
-  <div class="pcss-_box_">PowerCSS 01<br/>
-    <input title="name" type="text" placeholder="your name here"/>
-  </div>
-  <div class="pcss-_box_">PowerCSS 02</div>
-  <!-- add boxes 03-19 here -->
-  <div class="pcss-_box_">PowerCSS 20</div>
-</body>
-</html>
+<body></body></html>
 ```
 
+This document is structure so that JavaScript handles all rendering.
+Our strategy is to first render the CSS, then the HTML, 
+and *then* enable analytics.
 
 ### 2. Start the `pcss._ex001_.js` file
 Now let's start a JavaScript file named to `pcss._ex001_.js` to
@@ -149,11 +147,11 @@ be found in the `node_modules/powercss/examples/js` directory or [online][8].
  * using PowerCSS - the basics
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
-/*jslint         browser : true, continue : true,
-  devel  : true,  indent : 2,      maxerr : 50,
-  newcap : true,   nomen : true, plusplus : true,
-  regexp : true,  sloppy : true,     vars : false,
-  white  : true,    todo : true,  unparam : true
+/*jslint        browser : true, continue : true,
+  devel : true,  indent : 2,      maxerr : 50,
+  newcap : true,  nomen : true, plusplus : true,
+  regexp : true, sloppy : true,     vars : false,
+  white : true,    todo : true,  unparam : true
 */
 /*global pcss */
 
@@ -173,10 +171,10 @@ be found in the `node_modules/powercss/examples/js` directory or [online][8].
 */
 
 // BEGIN pcss._ex001_
-pcss._ex001_ = function () {
+pcss._ex001_ = function ( display_html ) {
   var
-    base_selector_list,
-    box_selector_list
+    baseSelectorList,
+    boxSelectorList
     ;
 
   pcss._initModule_();
@@ -196,11 +194,11 @@ the format with little trouble. Below we add a **vsheet** definition to
 
 ```js
   // Begin add _base_ vsheet
-  base_selector_list = [
+  baseSelectorList = [
     { _selector_str_  : 'body',
       _rule_map_     : {
         _margin_     : '_0_',
-        _padding_    : '_2rem_',
+        _padding_    : [[ '_2d5rem_', '_2rem_' ]],
         _background_ : '_xddd_',
         _font_family_: '_font_sans_',
         _font_size_  : [ '16px' ],
@@ -236,13 +234,28 @@ the format with little trouble. Below we add a **vsheet** definition to
         _width_  : [ '20.75rem' ],
         _height_ : [ '10.125rem' ]
       }
+    },
+    { _selector_str_ : '#pcss-_head_',
+      _rule_map_   : {
+        _position_      : '_fixed_',
+        _z_index_       : '_1_',
+        _top_           : '_0_',
+        _left_          : '_0_',
+        _right_         : '_0_',
+        _height_        : '_2rem_',
+        _box_shadow_    : [[
+          ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
+        ]],
+        _padding_       : '_0_',
+        _background_    : '_xeee_'
+      }
     }
   ];
 
   pcss._setVsheet_({
     _vsheet_id_     : '_base_',
     _mode_str_      : '_add_',
-    _selector_list_ : base_selector_list
+    _selector_list_ : baseSelectorList
   });
   // End add _base_ vsheet
 ```
@@ -257,7 +270,7 @@ Let's add another **vsheet** to style the boxes on our page:
 
 ```js
   // Begin add _box01_ vsheet
-  box_selector_list = [
+  boxSelectorList = [
     { _selector_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
       _rule_map_ : {
@@ -267,7 +280,7 @@ Let's add another **vsheet** to style the boxes on our page:
         _position_       : '_relative_',
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
-        _box_shadow_     : [[
+        _box_shadow_     : [[ 
           [ 'rgba( 0, 0, 0, .5)' ], '_0_', '_0_', '_d25rem_', '_0_'
         ]],
         _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
@@ -278,9 +291,9 @@ Let's add another **vsheet** to style the boxes on our page:
         _background_     : {
           _alt_list_ : [
             [ '#f85032' ],
-            [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+            [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)'    ],
             [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-            [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
+            [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)'    ]
           ]
         },
         _font_size_      : '_1d5rem_',
@@ -294,7 +307,7 @@ Let's add another **vsheet** to style the boxes on our page:
   pcss._setVsheet_({
     _vsheet_id_     : '_box01_',
     _mode_str_      : '_add_',
-    _selector_list_ : box_selector_list
+    _selector_list_ : boxSelectorList
   });
   // End add _box01_ vsheet
 ```
@@ -320,6 +333,38 @@ dynamically update them. Let's add one now:
     _regen_type_     : '_use_'
   });
   // End add and use _c01_ cascade
+
+  // Begin write html after cascade is rendered
+  document.body.innerHTML
+    = '<div id="pcss-_head_"></div>'
+    + '<a href="../"><div class="pcss-_logo_" title="PowerCSS"></div></a>'
+    + '<h2>Example 001: The basics</h2>'
+    + '<div class="pcss-_box_">PowerCSS 01<br/>'
+      + '<input title="name" type="text" placeholder="your name here"/>'
+    + '</div>'
+    + '<div class="pcss-_box_">PowerCSS 02</div>'
+    + '<div class="pcss-_box_">PowerCSS 03</div>'
+    + '<div class="pcss-_box_">PowerCSS 04</div>'
+    + '<div class="pcss-_box_">PowerCSS 04</div>'
+    + '<div class="pcss-_box_">PowerCSS 05</div>'
+    + '<div class="pcss-_box_">PowerCSS 06</div>'
+    + '<div class="pcss-_box_">PowerCSS 07</div>'
+    + '<div class="pcss-_box_">PowerCSS 08</div>'
+    + '<div class="pcss-_box_">PowerCSS 09</div>'
+    + '<div class="pcss-_box_">PowerCSS 10</div>'
+    + '<div class="pcss-_box_">PowerCSS 11</div>'
+    + '<div class="pcss-_box_">PowerCSS 12</div>'
+    + '<div class="pcss-_box_">PowerCSS 13</div>'
+    + '<div class="pcss-_box_">PowerCSS 14</div>'
+    + '<div class="pcss-_box_">PowerCSS 15</div>'
+    + '<div class="pcss-_box_">PowerCSS 16</div>'
+    + '<div class="pcss-_box_">PowerCSS 17</div>'
+    + '<div class="pcss-_box_">PowerCSS 18</div>'
+    + '<div class="pcss-_box_">PowerCSS 19</div>'
+    + '<div class="pcss-_box_">PowerCSS 20</div>'
+    ;
+  });
+  // End write html after cascade is rendered
 };
 // END pcss._ex001_
 ```
@@ -331,6 +376,7 @@ results.
 ## A tour of the results
 When we [open][7] `pcss._ex001_.html` in a modern browser, we should
 multiple boxes that have been styled according to the **cascade**.
+This technique ensures 
 We can view the generated CSS in the browser using the development
 tools and modify it as if we had written it ourselves:
 
@@ -1214,7 +1260,7 @@ Purpose    | Report process states for cascades
 Attributes | event_obj._data_ is set to the _cascade_id_
 Settings   | none
 Notes      | Every time a cascade merge, prepare, or use is enabled, an
-           | event tied to the document object is fired. 
+           | event tied to the document object is fired.
 ```
 
 
@@ -1446,7 +1492,7 @@ MIT
 - Restructured project and launched powercss.org
 
 ### Version 0.6.x (current)
-- ADDED events 
+- ADDED events
 - WIP: Added multiple regression tests
 - WIP: nodejs support, especially with nodeunit-b
 - WIP: error handling improvements

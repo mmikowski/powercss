@@ -14,40 +14,16 @@
   <script src="../dist/pcss.js"></script>
   <script src="js/pcss._ex002_.js"></script>
   <script>
-  window.onload = pcss._ex002_;
-  </script>
-</head>
-<body>
-  <div class="pcss-_logo_" title="PowerCSS"></div>
-  <h2>Example 002: Double buffering</h2>
-  <p>Click on a Cascade in the top right corner to activate.</p>
-  <div id="pcss-_switch_">
-    <div id="pcss-_switch_1_" class="pcss-_x_select_">Cascade A</div>
-    <div id="pcss-_switch_2_">Cascade B</div>
-  </div>
-  <div class="pcss-_box_">PowerCSS 01<br/>
-    <input title="name" type="text" placeholder="your name here"/>
-  </div>
-  <div class="pcss-_box_">PowerCSS 02</div>
-  <div class="pcss-_box_">PowerCSS 03</div>
-  <div class="pcss-_box_">PowerCSS 04</div>
-  <div class="pcss-_box_">PowerCSS 04</div>
-  <div class="pcss-_box_">PowerCSS 05</div>
-  <div class="pcss-_box_">PowerCSS 06</div>
-  <div class="pcss-_box_">PowerCSS 07</div>
-  <div class="pcss-_box_">PowerCSS 08</div>
-  <div class="pcss-_box_">PowerCSS 09</div>
-  <div class="pcss-_box_">PowerCSS 10</div>
-  <div class="pcss-_box_">PowerCSS 11</div>
-  <div class="pcss-_box_">PowerCSS 12</div>
-  <div class="pcss-_box_">PowerCSS 13</div>
-  <div class="pcss-_box_">PowerCSS 14</div>
-  <div class="pcss-_box_">PowerCSS 15</div>
-  <div class="pcss-_box_">PowerCSS 16</div>
-  <div class="pcss-_box_">PowerCSS 17</div>
-  <div class="pcss-_box_">PowerCSS 18</div>
-  <div class="pcss-_box_">PowerCSS 19</div>
-  <div class="pcss-_box_">PowerCSS 20</div>
-</body>
-</html>
+    function onLoadWin() {
+      pcss._ex002_();
 
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-66128066-2', 'auto');
+      ga('send', 'pageview');
+    }
+    window.onload = onLoadWin;
+  </script>
+</head><body></body></html>

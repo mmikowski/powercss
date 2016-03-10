@@ -27,20 +27,20 @@
 */
 
 // BEGIN pcss._ex001_
-pcss._ex001_ = function () {
+pcss._ex001_ = function ( display_html ) {
   var
-    base_selector_list,
-    box_selector_list
+    baseSelectorList,
+    boxSelectorList
     ;
 
   pcss._initModule_();
 
   // Begin add _base_ vsheet
-  base_selector_list = [
+  baseSelectorList = [
     { _selector_str_  : 'body',
       _rule_map_     : {
         _margin_     : '_0_',
-        _padding_    : '_2rem_',
+        _padding_    : [[ '_2d5rem_', '_2rem_' ]],
         _background_ : '_xddd_',
         _font_family_: '_font_sans_',
         _font_size_  : [ '16px' ],
@@ -76,18 +76,33 @@ pcss._ex001_ = function () {
         _width_  : [ '20.75rem' ],
         _height_ : [ '10.125rem' ]
       }
+    },
+    { _selector_str_ : '#pcss-_head_',
+      _rule_map_   : {
+        _position_      : '_fixed_',
+        _z_index_       : '_1_',
+        _top_           : '_0_',
+        _left_          : '_0_',
+        _right_         : '_0_',
+        _height_        : '_2rem_',
+        _box_shadow_    : [[
+          ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
+        ]],
+        _padding_       : '_0_',
+        _background_    : '_xeee_'
+      }
     }
   ];
 
   pcss._setVsheet_({
     _vsheet_id_     : '_base_',
     _mode_str_      : '_add_',
-    _selector_list_ : base_selector_list
+    _selector_list_ : baseSelectorList
   });
   // End add _base_ vsheet
 
   // Begin add _box01_ vsheet
-  box_selector_list = [
+  boxSelectorList = [
     { _selector_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
       _rule_map_ : {
@@ -108,9 +123,9 @@ pcss._ex001_ = function () {
         _background_     : {
           _alt_list_ : [
             [ '#f85032' ],
-            [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
+            [ '-moz-linear-gradient(left, #f85032 0%, #6d362d 100%)'    ],
             [ '-webkit-linear-gradient(left, #f85032 0%, #6d362d 100%)' ],
-            [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)' ]
+            [ 'linear-gradient(to bottom, #f85032 0%, #6d362d 100%)'    ]
           ]
         },
         _font_size_      : '_1d5rem_',
@@ -124,7 +139,7 @@ pcss._ex001_ = function () {
   pcss._setVsheet_({
     _vsheet_id_     : '_box01_',
     _mode_str_      : '_add_',
-    _selector_list_ : box_selector_list
+    _selector_list_ : boxSelectorList
   });
   // End add _box01_ vsheet
 
@@ -136,5 +151,36 @@ pcss._ex001_ = function () {
     _regen_type_     : '_use_'
   });
   // End add and use _c01_ cascade
+
+  // Begin write html after cascade is rendered
+  document.body.innerHTML
+    = '<div id="pcss-_head_"></div>'
+    + '<a href="../"><div class="pcss-_logo_" title="PowerCSS"></div></a>'
+    + '<h2>Example 001: The basics</h2>'
+    + '<div class="pcss-_box_">PowerCSS 01<br/>'
+      + '<input title="name" type="text" placeholder="your name here"/>'
+    + '</div>'
+    + '<div class="pcss-_box_">PowerCSS 02</div>'
+    + '<div class="pcss-_box_">PowerCSS 03</div>'
+    + '<div class="pcss-_box_">PowerCSS 04</div>'
+    + '<div class="pcss-_box_">PowerCSS 04</div>'
+    + '<div class="pcss-_box_">PowerCSS 05</div>'
+    + '<div class="pcss-_box_">PowerCSS 06</div>'
+    + '<div class="pcss-_box_">PowerCSS 07</div>'
+    + '<div class="pcss-_box_">PowerCSS 08</div>'
+    + '<div class="pcss-_box_">PowerCSS 09</div>'
+    + '<div class="pcss-_box_">PowerCSS 10</div>'
+    + '<div class="pcss-_box_">PowerCSS 11</div>'
+    + '<div class="pcss-_box_">PowerCSS 12</div>'
+    + '<div class="pcss-_box_">PowerCSS 13</div>'
+    + '<div class="pcss-_box_">PowerCSS 14</div>'
+    + '<div class="pcss-_box_">PowerCSS 15</div>'
+    + '<div class="pcss-_box_">PowerCSS 16</div>'
+    + '<div class="pcss-_box_">PowerCSS 17</div>'
+    + '<div class="pcss-_box_">PowerCSS 18</div>'
+    + '<div class="pcss-_box_">PowerCSS 19</div>'
+    + '<div class="pcss-_box_">PowerCSS 20</div>'
+    ;
+  // End write html after cascade is rendered
 };
 // END pcss._ex001_

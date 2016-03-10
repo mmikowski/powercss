@@ -39,6 +39,7 @@ echo "  We ignore vendor libraries in .../vendor/...";
 git status \
   | grep '.js$' \
   | grep -v '/vendor/' \
+  | grep -v 'pcss._ex004_.js' \
   | grep '^\s\+\(modified\|new file\)' \
   | cut -d ":" -f 2- \
   | while read LINE; do
