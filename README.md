@@ -376,7 +376,6 @@ results.
 ## A tour of the results
 When we [open][7] `pcss._ex001_.html` in a modern browser, we should
 multiple boxes that have been styled according to the **cascade**.
-This technique ensures 
 We can view the generated CSS in the browser using the development
 tools and modify it as if we had written it ourselves:
 
@@ -384,7 +383,7 @@ tools and modify it as if we had written it ourselves:
 /* Begin _base_ style */
 body {
   margin      : 0;
-  padding     : 2rem;
+  padding     : 2.5rem 2rem;
   background  : #ddd;
   font-family : arial, helvetica, sans-serif;
   font-size   : 16px;
@@ -401,21 +400,32 @@ input {
   font-size     : 1rem;
   color         : #ddd;
 }
-input:focus {
-  border-color : #fff;
-  background   : #444;
-  color        : #fff;
-}
-.pcss-_logo_{
+  input:focus {
+    border-color : #fff;
+    background   : #444;
+    color        : #fff;
+  }
+.pcss-_logo_ {
   background-image : url(http://mmikowski.github.io/images/2016-02-22-pcss.png);
   background-size  : cover;
   width            : 20.75rem;
   height           : 10.125rem;
 }
+#pcss-_head_ {
+  position   : fixed;
+  z-index    : 1;
+  top        : 0;
+  left       : 0;
+  right      : 0;
+  height     : 2rem;
+  box-shadow : rgba( 64, 32, 32, .5) 0 0 .5rem 0;
+  padding    : 0;
+  background : #eee;
+}
 /* End _base_ style */
 
 /* Begin _box_ style */
-.pcss-_box_{
+.pcss-_box_ {
   display        : inline-block;
   opacity        : 1;
   box-sizing     : border-box;
@@ -442,11 +452,11 @@ input:focus {
 
 
 Of course, if that was all that PowerCSS provided, why bother?
-When we need static styling it is certainly simpler to create
+When all we need static styling it is certainly simpler to create
 traditional CSS files using a nice, comfortable text editor or IDE.
 However, when we need our application to change styling based on user
 device or any other environmental factor, that's where PowerCSS really
-starts to shine.
+shines.
 
 ## Example 002: Double-buffering
 This example is illustrated by `pcss._ex002_.html` which can
