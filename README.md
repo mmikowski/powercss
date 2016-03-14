@@ -683,9 +683,8 @@ string in an array to have it read as a literal, as illustrated below:
 ```
 
 
-We use an array wrapper as a literal array wrapper so that PowerCSS does not
-rely on symbol names to determine how to parse values. This makes it makes it
-compressor friendly.
+We use an array wrapper to identify literals instead of symbol names.
+This makes our code very compressor friendly.
 
 ### Alternate values
 Sometimes we want to provide alternate rules for a style so that
