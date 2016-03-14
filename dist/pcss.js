@@ -81,6 +81,7 @@ var pcss = (function () {
       __webkit_user_select_        : '-webkit-user-select',
       __moz_user_select_           : '-moz-user-select',
       __o_user_select_             : '-o-user-select',
+      _user_select_                : 'user-select',
 
       _animation_              : 'animation',
       _background_             : 'background',
@@ -163,7 +164,6 @@ var pcss = (function () {
       _text_overflow_          : 'text-overflow',
       _top_                    : 'top',
       _transition_             : 'transition',
-      _user_select_            : 'user_select',
       _vertical_align_         : 'vertical-align',
       _visibility_             : 'visibility',
       _white_space_            : 'white-space',
@@ -193,6 +193,7 @@ var pcss = (function () {
       _d875rem_       : '.5rem',
       _1rem_          : '1rem',
       _1d25rem_       : '1.25rem',
+      _1d375rem_      : '1.375rem',
       _1d5rem_        : '1.5rem',
       _1d75rem_       : '1.75rem',
       _2rem_          : '2rem',
@@ -545,7 +546,7 @@ var pcss = (function () {
           // end 2.9.3.2.2.1
 
           // 2.9.3.2.2.2 Merge rules unless they are locked
-          rule_key_list  = __ObjKeys( rule_map );
+          rule_key_list  = ( rule_map && __ObjKeys( rule_map )) || [];
           rule_key_count = rule_key_list[ vMap._length_ ];
           _RULE_: for ( l = __0; l < rule_key_count; l++ ) {
             rule_key = rule_key_list[ l ];
