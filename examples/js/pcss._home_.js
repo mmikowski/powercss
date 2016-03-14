@@ -33,84 +33,84 @@ pcss._home_ = (function ( $ ) {
     topCmap = {
       _palette_list_ : [
         { _palette_name_  : 'Autumn I',
-          _color_shadow_  : '#6d7696',
-          _color_font_    : '#59484f',
-          _color_mid_     : '#455c4f',
-          _color_gradtop_ : '#cc5543',
-          _color_gradbtm_ : '#edb579',
-          _color_bkgd_    : '#dbe6af'
+         _hex_shadow_  : '#6d7696',
+         _hex_font_    : '#59484f',
+         _hex_mid_     : '#455c4f',
+         _hex_gradtop_ : '#cc5543',
+         _hex_gradbtm_ : '#edb579',
+         _hex_bkgd_    : '#dbe6af'
         },
         { _palette_name_  : 'Autumn II',
-          _color_shadow_  : '#d1cec5',
-          _color_font_    : '#997c67',
-          _color_mid_     : '#755330',
-          _color_gradtop_ : '#b0703c',
-          _color_gradbtm_ : '#dba72e',
-          _color_bkgd_    : '#e3cca1'
+         _hex_shadow_  : '#d1cec5',
+         _hex_font_    : '#997c67',
+         _hex_mid_     : '#755330',
+         _hex_gradtop_ : '#b0703c',
+         _hex_gradbtm_ : '#dba72e',
+         _hex_bkgd_    : '#e3cca1'
         },
         { _palette_name_  : 'Tomato',
-          _color_shadow_  : '#4a572c',
-          _color_font_    : '#803018',
-          _color_mid_     : '#c2c290',
-          _color_gradtop_ : '#e87f60',
-          _color_gradbtm_ : '#e34819',
-          _color_bkgd_    : '#d6cfc9'
+         _hex_shadow_  : '#4a572c',
+         _hex_font_    : '#803018',
+         _hex_mid_     : '#c2c290',
+         _hex_gradtop_ : '#e87f60',
+         _hex_gradbtm_ : '#e34819',
+         _hex_bkgd_    : '#d6cfc9'
         },
         { _palette_name_  : 'Canyon',
-          _color_shadow_  : '#8a6e64',
-          _color_font_    : '#6e352c',
-          _color_mid_     : '#f59a44',
-          _color_gradtop_ : '#cf5230',
-          _color_gradbtm_ : '#6e612f',
-          _color_bkgd_    : '#e3c598'
+         _hex_shadow_  : '#8a6e64',
+         _hex_font_    : '#6e352c',
+         _hex_mid_     : '#f59a44',
+         _hex_gradtop_ : '#cf5230',
+         _hex_gradbtm_ : '#6e612f',
+         _hex_bkgd_    : '#e3c598'
         },
         { _palette_name_  : 'Basket',
-          _color_shadow_  : '#e6e2df',
-          _color_font_    : '#b2e3e8',
-          _color_mid_     : '#8f8172',
-          _color_gradtop_ : '#966c5d',
-          _color_gradbtm_ : '#ccb8d1',
-          _color_bkgd_    : '#452b29'
+         _hex_shadow_  : '#e6e2df',
+         _hex_font_    : '#b2e3e8',
+         _hex_mid_     : '#8f8172',
+         _hex_gradtop_ : '#966c5d',
+         _hex_gradbtm_ : '#ccb8d1',
+         _hex_bkgd_    : '#452b29'
         },
         { _palette_name_  : 'Fresh',
-          _color_shadow_  : '#d9d9d9',
-          _color_font_    : '#f5b3b4',
-          _color_mid_     : '#d15656',
-          _color_gradtop_ : '#94353c',
-          _color_gradbtm_ : '#47322d',
-          _color_bkgd_    : '#996b42'
+         _hex_shadow_  : '#d9d9d9',
+         _hex_font_    : '#f5b3b4',
+         _hex_mid_     : '#d15656',
+         _hex_gradtop_ : '#94353c',
+         _hex_gradbtm_ : '#47322d',
+         _hex_bkgd_    : '#996b42'
         },
         { _palette_name_  : 'Mineral',
-          _color_shadow_  : '#694364',
-          _color_font_    : '#b58bab',
-          _color_mid_     : '#e3d1e2',
-          _color_gradtop_ : '#e8e4e1',
-          _color_gradbtm_ : '#c4c4c0',
-          _color_bkgd_    : '#cca772'
+         _hex_shadow_  : '#694364',
+         _hex_font_    : '#b58bab',
+         _hex_mid_     : '#e3d1e2',
+         _hex_gradtop_ : '#e8e4e1',
+         _hex_gradbtm_ : '#c4c4c0',
+         _hex_bkgd_    : '#cca772'
         },
         { _palette_name_  : 'Spice I',
-          _color_shadow_  : '#ebe3d9',
-          _color_font_    : '#e0cdaf',
-          _color_mid_     : '#c2bc74',
-          _color_gradtop_ : '#6e615a',
-          _color_gradbtm_ : '#807e82',
-          _color_bkgd_    : '#b8b8b8'
+         _hex_shadow_  : '#ebe3d9',
+         _hex_font_    : '#e0cdaf',
+         _hex_mid_     : '#c2bc74',
+         _hex_gradtop_ : '#6e615a',
+         _hex_gradbtm_ : '#807e82',
+         _hex_bkgd_    : '#b8b8b8'
         },
         { _palette_name_  : 'Spice III',
-          _color_shadow_  : '#f7efd4',
-          _color_font_    : '#faddaf',
-          _color_mid_     : '#eb712f',
-          _color_gradtop_ : '#91371b',
-          _color_gradbtm_ : '#472c25',
-          _color_bkgd_    : '#d4c2b2'
+         _hex_shadow_  : '#f7efd4',
+         _hex_font_    : '#faddaf',
+         _hex_mid_     : '#eb712f',
+         _hex_gradtop_ : '#91371b',
+         _hex_gradbtm_ : '#472c25',
+         _hex_bkgd_    : '#d4c2b2'
         },
         { _palette_name_  : 'Chili',
-          _color_shadow_  : '#283811',
-          _color_font_    : '#66492f',
-          _color_mid_     : '#b8997f',
-          _color_gradtop_ : '#a68887',
-          _color_gradbtm_ : '#d94330',
-          _color_bkgd_    : '#5c0811'
+         _hex_shadow_  : '#283811',
+         _hex_font_    : '#66492f',
+         _hex_mid_     : '#b8997f',
+         _hex_gradtop_ : '#a68887',
+         _hex_gradbtm_ : '#d94330',
+         _hex_bkgd_    : '#5c0811'
         }
       ],
       _global_mixin_map_ : {
@@ -122,7 +122,7 @@ pcss._home_ = (function ( $ ) {
         ]],
         _global_linear_grad_ : [[
           [ 'linear-gradient(to bottom,' ],
-          '_color_gradtop_', [ '0%,'], '_color_gradbtm_', '_100p_', [')']
+         '_hex_gradtop_', [ '0%,'],'_hex_gradbtm_', '_100p_', [')']
         ]]
       },
       _base_selector_list_ : [
@@ -130,12 +130,12 @@ pcss._home_ = (function ( $ ) {
           _rule_map_ : {
             _margin_      : '_0_',
             _padding_     : [[ '_2d5rem_', '_2rem_' ]],
-            _background_  : '_color_bkgd_',
+            _background_  :'_hex_bkgd_',
             _max_width_   : [ '50rem' ],
             _font_family_ : '_font_sans_',
             _font_size_   : '_base_body_font_size_',
             _line_height_ : '_1d25rem_',
-            _color_       : '_color_font_'
+            _color_       :'_hex_font_'
           }
         },
         { _selector_str_ : 'input',
@@ -212,7 +212,7 @@ pcss._home_ = (function ( $ ) {
             _height_        : '_2rem_',
             _box_shadow_    : '_global_d5_box_shadow_',
             _padding_       : '_0_',
-            _background_    : '_color_gradbtm_'
+            _background_    :'_hex_gradbtm_'
           }
         },
         { _selector_str_ : '.pcss-_head_float_',
@@ -247,7 +247,7 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : '.pcss-_head_float_ > div.pcss-_x_select_',
           _rule_map_ : {
-            _background_ : '_color_bkgd_',
+            _background_ :'_hex_bkgd_',
             _color_      : '_xfff_'
           }
         }
@@ -264,7 +264,7 @@ pcss._home_ = (function ( $ ) {
   // Begin setJqueryMap
   function setJqueryMap () {
     var
-      $head            = $( '#pcss-_head_' ),
+      $head = $( '#pcss-_head_' ),
       $head_float_list = $head.find( '.pcss-_head_float_'  )
       ;
 
