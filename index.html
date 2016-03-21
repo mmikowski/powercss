@@ -116,13 +116,14 @@
     </ul>
 
   <h2>News</h2>
-    <h3>2016-03-20: v0.7.0</h3>
-    <p>We almost declared a v1.0.0 with this release, but we kept it
-    conservative as we still have a little more clean-up, and we did just
-    completely overhaul the rule-map resolver to be more correct. Now
-    we can mix alternate lists with mixin maps and concatenated strings.
-    <code>test/resolve.js</code> shows the new resolver and the tests
-    to integrate into t.js.</p>
+    <h3>2016-03-20: v0.7.1</h3>
+    <p>We are very close to 1.x release.  The rule-map resolver has been
+    revised to handle arbitrarily complex data structures. This allows us
+    to create mixin maps that support any combination of alternate-lists,
+    concatenations, and symbol-lookups.  The isolated code can be found in 
+    be found in <code>test/resolve.js</code>. This has been merged
+    with <code>dist/pcss.js</code>, however, we still need to move the
+    tests to <code>test/t.js</code>.</p>
 
     <h3>2016-03-09: v0.6.6</h3>
     <p>Isn't regression testing grand?  Just implementing basic coverage has
