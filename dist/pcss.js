@@ -1,4 +1,4 @@
-/** PowerCSS - pcss.js
+/* PowerCSS - pcss.js
  * Run-time generated and managed CSS
  * Michael S. Mikowski - mike.mikowski@gmail.com
  * See README.md for further documentation.
@@ -13,6 +13,7 @@
 
 var pcss = (function () {
   // 1. MODULE SCOPE VARIABLES ============================
+  //noinspection MagicNumberJS
   var
     __getKeyList = Object.keys,
     __Str        = String,
@@ -20,7 +21,6 @@ var pcss = (function () {
     __j2str     = JSON.stringify,
     __str2j     = JSON.parse,
 
-    __blank     = '',
     __docRef    = document,
     __isArray   = Array.isArray,
     __false     = false,
@@ -29,12 +29,20 @@ var pcss = (function () {
     __timeStamp = Date.now,
     __winRef    = window,
 
+    topCmap = {
+      _max_resolve_count_ : 10000,
+      _regen_type_list_ : [
+        '_none_', '_merge_', '_prepare_', '_all_', '_use_'
+      ]
+    },
+
     vMap = {
       _appendChild_    : 'appendChild',
       _apply_          : 'apply',
       _array_          : 'array',
       _bind_           : 'bind',
       _childNodes_     : 'childNodes',
+      _console_        : 'console',
       _createElement_  : 'createElement',
       _createEvent_    : 'createEvent',
       _createTextNode_ : 'createTextNode',
@@ -69,12 +77,13 @@ var pcss = (function () {
       _undefined_      : 'undefined'
     },
 
-    __0     = 0,
-    __1     = 1,
-    __2     = 2,
-    __n1    = -1,
-    __undef = __winRef[ vMap._undefined_ ],
-    __console = console,
+    __0       = 0,
+    __1       = 1,
+    __2       = 2,
+    __n1      = -1,
+    __blank     = '',
+    __undef   = __winRef[ vMap._undefined_ ],
+    __console = __winRef[ vMap._console_ ],
 
     // CSS rule keys
     cssKeyMap = {
@@ -266,12 +275,6 @@ var pcss = (function () {
       _underline_     : 'underline',
       _uppercase_     : 'uppercase',
       _vertical_      : 'vertical'
-    },
-
-    topCmap = {
-      _regen_type_list_ : [
-        '_none_', '_merge_', '_prepare_', '_all_', '_use_'
-      ]
     },
 
     //  _vsheet_map_map_
@@ -710,11 +713,12 @@ var pcss = (function () {
   // 2.11 Private method /makeRuleMapStr/
   function makeRuleMapStr ( rule_map, merged_mixin_map ) {
     var
-      frame_stack = [],
-      k = __0,
+      frame_stack       = [],
+      max_resolve_count = topCmap._max_resolve_count_,
 
       key_list,  val_list, rule_key,
-      frame_obj, orig_obj, prior_frame_obj,
+      frame_obj, orig_obj, 
+      prior_frame_obj, k,
 
       val_data, val_data_type,
       tmp_data, tmp_data_type,
@@ -742,8 +746,7 @@ var pcss = (function () {
     };
     orig_obj = frame_obj;
 
-    _RESOLVE_: while ( k < 100000 ) { // avoid endless loop
-      k++;
+    _RESOLVE_: for( k=__0; k < max_resolve_count; k++ ) { // no infinite loop
       if ( frame_obj._val_idx_ >= frame_obj._val_count_ ) {
         prior_frame_obj = frame_obj;
         if ( prior_frame_obj._type_ === '_concat_' ) {
