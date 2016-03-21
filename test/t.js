@@ -409,7 +409,7 @@
         });
       }
       catch( error ) { ret_val = error; }
-      test_obj.ok( ret_val === '"body{margin:2rem;font-size:1.5rem;}"', expect_str );
+      test_obj.ok( ret_val === '"body{margin:2rem;font-size:1.5rem}"', expect_str );
       win_obj.document.addEventListener( '_pcss_prepared_',
         function( event_obj ){
           expect_str = 'Event object should provide cascade_id';
@@ -426,7 +426,7 @@
           catch( error ) { ret_val = error; }
 
           test_obj.ok(
-            ret_val === '"body{margin:2rem;font-size:2rem;}"',
+            ret_val === '"body{margin:2rem;font-size:2rem}"',
             expect_str + ret_val
           );
           test_obj.done();

@@ -128,6 +128,7 @@ pcss._home_ = (function ( $ ) {
       _base_selector_list_ : [
         { _selector_str_  : 'body',
           _rule_map_ : {
+            _display_     : '_block_',
             _margin_      : '_0_',
             _padding_     : [[ '_2d5rem_', '_2rem_' ]],
             _background_  :'_hex_bkgd_',

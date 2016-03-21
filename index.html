@@ -11,6 +11,7 @@
   <!-- ie9+ rendering support for latest standards -->
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <style>body { display : none; }</style/>
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
   ></script>
@@ -115,7 +116,15 @@
     </ul>
 
   <h2>News</h2>
-    <h3>2016-03-09: Release candidate v0.6.6</h3>
+    <h3>2016-03-20: v0.7.0</h3>
+    <p>We almost declared a v1.0.0 with this release, but we kept it
+    conservative as we still have a little more clean-up, and we did just
+    completely overhaul the rule-map resolver to be more correct. Now
+    we can mix alternate lists with mixin maps and concatenated strings.
+    <code>test/resolve.js</code> shows the new resolver and the tests
+    to integrate into t.js.</p>
+
+    <h3>2016-03-09: v0.6.6</h3>
     <p>Isn't regression testing grand?  Just implementing basic coverage has
     turned up a few interesting bugs and needs.  One example: the process
     update test was sporadically failing about 1/10th of the time because
@@ -126,7 +135,7 @@
     object provides the ID of the <strong>cascade</strong> affected.
     </p>
 
-    <h3>2016-03-07: Release candidate v0.6.2</h3>
+    <h3>2016-03-07: v0.6.2</h3>
     <p>Automated regression tests are now implemented.  You may run
     them using <code>npm install</code> and <code>npm test</code>
     in the root installation directory 
@@ -136,17 +145,17 @@
     address.
     </p>
 
-    <h3>2016-03-04: Beta v0.5.20</h3>
+    <h3>2016-03-04: v0.5.20</h3>
     Preparations for regression tests. Added key benefits section.
 
-    <h3>2016-02-24: Beta v0.5.16</h3>
+    <h3>2016-02-24: v0.5.16</h3>
     <p>This page now showcases double-buffer and theming capabilities.
     We have also completed the planned 1.x API with the addition of the
     <code>_getAssetIdList_</code> methods. At this point, all that remains
     is integration work and regression tests.
     </p>
     
-    <h3>2016-02-24: Beta v0.5.00</h3>
+    <h3>2016-02-24: v0.5.0</h3>
     <p>PowerCss is nearly feature complete, and we consider it officially
     <b>Beta</b>. We have been updating examples and squashing niggling bugs
     as we find them.</p>

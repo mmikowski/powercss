@@ -1467,7 +1467,6 @@ and Edge browsers. We expect it to work on much earlier versions of
 Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 
 ## Release Notes
-
 See prior revisions of this document for more detail for specific versions.
 
 ### Copyright (c)
@@ -1500,11 +1499,14 @@ MIT
   In-code API docs
 - Restructured project and launched powercss.org
 
-### Version 0.6.x (current)
-- ADDED events
-- WIP: Added multiple regression tests
-- WIP: nodejs support, especially with nodeunit-b
-- WIP: error handling improvements
+### Version 0.6.x
+- Published events
+- Multiple regression tests
+- Nodejs support with nodeunit-b
+- Error handling improvements
+
+### Version 0.7.x (current)
+- Refactored resolver for CSS writing
 - TODO: Compatibility test to earlier versions of Chrome and Firefox
 
 ### Version 1.x (planned)
