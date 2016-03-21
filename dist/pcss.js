@@ -329,7 +329,10 @@ var pcss = (function () {
 
   // 2.3 Private method /logIt/
   function logIt () {
-    __console.log[ vMap._apply_ ]( __console, arguments );
+    // IE9 does not have a console object unless dev tools are open
+    if ( __console ) {
+      __console.log[ vMap._apply_ ]( __console, arguments );
+    }
   }
   // end 2.3
 
