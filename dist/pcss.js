@@ -23,6 +23,7 @@ var pcss = (function () {
     __blank     = '',
     __docRef    = document,
     __isArray   = Array.isArray,
+    __false     = false,
     __null      = null,
     __true      = true,
     __timeStamp = Date.now,
@@ -35,6 +36,7 @@ var pcss = (function () {
       _bind_           : 'bind',
       _childNodes_     : 'childNodes',
       _createElement_  : 'createElement',
+      _createEvent_    : 'createEvent',
       _createTextNode_ : 'createTextNode',
       _cssText_        : 'cssText',
       _disabled_       : 'disabled',
@@ -305,7 +307,8 @@ var pcss = (function () {
       _style_el_list_    : __undef,
       _style_el_prefix_  : __undef,
       _style_el_idx_     : __n1
-    }
+    },
+    publishEvent
     ;
   // end 1. MODULE SCOPE VARIABLES ========================
 
@@ -348,25 +351,100 @@ var pcss = (function () {
   // end 2.4
   
   // 2.5 Private method /publishEvent/
-  function publishEvent ( name, data ) {
-    var event_obj;
+  publishEvent = (function publishEvent () {
+    var 
+      isCapable     = __true,
+      initEventName = '_pcss_init_',
 
-    // Events not supported on IE
-    try {
-      event_obj = new Event(
-        name,
-        { bubbles    : true,
-          cancelable : false
+      initEventObj,
+      createError,    createModeStr,
+      dispatchError,  dispatchModeStr
+      ;
+
+
+    // Determine createModeStr
+    if ( __docRef[ vMap._createEvent_ ] ) {
+      try {
+        createModeStr = '_ms_';
+        initEventObj = __docRef[ vMap._createEvent_ ]('HTMLEvents');
+        initEventObj.initEvent( initEventName, true, true );
+      }
+      catch( error ) { createError = error; }
+    }
+    else if ( Event ) {
+      try { 
+        createModeStr = '_wk_';
+        initEventObj = new Event( name );
+      }
+      catch( error ) { createError = error; }
+    }
+    if ( createError ) {
+      logIt( '_create_event_error_', createError );
+      isCapable = 'false';
+    }
+
+    if ( isCapable ) {
+      // Determine dispatchModeStr
+      if ( __docRef[ vMap._dispatchEvent_ ] ) {
+        try {
+          dispatchModeStr = '_wk_';
+          __docRef[ vMap._dispatchEvent_ ]( initEventObj );
         }
-      );
+        catch( error ) { dispatchError = error; }
+      }
+      else if ( __docRef[ name ] ) {
+        try {
+          dispatchModeStr = '_ms_';
+          __docRef[ name ]();
+        }
+        catch( error ) { dispatchError = error; }
+      }
+      else if ( __docRef[ 'on' + name ] ) {
+        try {
+          dispatchModeStr = '_mson_';
+          __docRef[ 'on' + name ]();
+        }
+        catch( error ) { dispatchError = error; }
+      }
+      else {
+        dispatchError = '_events_not_supported_';
+      }
+      if ( dispatchError ) {
+        logIt( '_dispatch_event_error_', dispatchError );
+        isCapable = 'false';
+      }
+    }
+
+    function publishMain ( name, data ) {
+      var event_obj;
+      if ( ! isCapable ) { return __false; }
+      switch( createModeStr ) {
+        case '_wk_' : event_obj = new Event( name ); break;
+        case '_ms_' : 
+          event_obj = __docRef[ vMap._createEvent_ ]('HTMLEvents');
+          event_obj.initEvent( name, true, true );
+          break;
+        default : 
+          logIt( '_unsupported_', createModeStr );
+          return __false;
+      }
       event_obj._data_ = data;
+
+      switch( dispatchModeStr ) {
+        case '_wk_' : 
+          __docRef[ vMap._dispatchEvent_ ]( event_obj );
+          break;
+        case '_ms_' : __docRef[ name ](); break;
+        case '_mson_' : __docRef[ 'on' + name ](); break;
+        default :
+          logIt( '_unsupported_', dispatchModeStr );
+          return false;
+      }
+      return __true;
     }
-    catch( error ) { logIt( error ); return; }
-    try {
-      __docRef[ vMap._dispatchEvent_ ]( event_obj );
-    }
-    catch( error ) { logIt( error ); return; }
-  }
+
+    return publishMain;
+  }());
   // end 2.5
 
   // 2.6 Private method /writeToStyleEl/

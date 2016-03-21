@@ -41,6 +41,7 @@ pcss._ex002_ = function ( display_html ) {
   base_selector_list = [
     { _selector_str_  : 'body',
       _rule_map_     : {
+        _display_    : '_block_',
         _margin_     : '_0_',
         _padding_    : [[ '_2d5rem_', '_2rem_' ]],
         _background_ : '_xddd_',
@@ -261,40 +262,6 @@ pcss._ex002_ = function ( display_html ) {
     _mode_str_   : '_change_',
     _regen_type_ : '_use_'
   });
-
-  document.body.innerHTML
-    = '<div id="pcss-_head_"></div>'
-    + '<a href="../"><div class="pcss-_logo_" title="PowerCSS"></div></a>'
-    + '<h2>Example 002: Double buffering</h2>'
-    + '<p>Click on a Cascade in the top right corner to activate.</p>'
-    + '<div id="pcss-_switch_">'
-      + '<div id="pcss-_switch_1_" class="pcss-_x_select_">Cascade A</div>'
-      + '<div id="pcss-_switch_2_">Cascade B</div>'
-    + '</div>'
-    + '<div class="pcss-_box_">PowerCSS 01<br/>'
-      + '<input title="name" type="text" placeholder="your name here"/>'
-    + '</div>'
-    + '<div class="pcss-_box_">PowerCSS 02</div>'
-    + '<div class="pcss-_box_">PowerCSS 03</div>'
-    + '<div class="pcss-_box_">PowerCSS 04</div>'
-    + '<div class="pcss-_box_">PowerCSS 04</div>'
-    + '<div class="pcss-_box_">PowerCSS 05</div>'
-    + '<div class="pcss-_box_">PowerCSS 06</div>'
-    + '<div class="pcss-_box_">PowerCSS 07</div>'
-    + '<div class="pcss-_box_">PowerCSS 08</div>'
-    + '<div class="pcss-_box_">PowerCSS 09</div>'
-    + '<div class="pcss-_box_">PowerCSS 10</div>'
-    + '<div class="pcss-_box_">PowerCSS 11</div>'
-    + '<div class="pcss-_box_">PowerCSS 12</div>'
-    + '<div class="pcss-_box_">PowerCSS 13</div>'
-    + '<div class="pcss-_box_">PowerCSS 14</div>'
-    + '<div class="pcss-_box_">PowerCSS 15</div>'
-    + '<div class="pcss-_box_">PowerCSS 16</div>'
-    + '<div class="pcss-_box_">PowerCSS 17</div>'
-    + '<div class="pcss-_box_">PowerCSS 18</div>'
-    + '<div class="pcss-_box_">PowerCSS 19</div>'
-    + '<div class="pcss-_box_">PowerCSS 20</div>'
-    ;
 
   switch_el = document.getElementById( 'pcss-_switch_' );
   link_list = switch_el.getElementsByTagName( 'div' );

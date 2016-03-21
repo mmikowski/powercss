@@ -25,7 +25,6 @@ if [ ! -x "${NODE_EXEC}" ]; then
   exit 1;
 fi
 
-echo "${JSLINT_EXEC} ${NODEUNIT_EXEC}";
 if [ ! -x "${JSLINT_EXEC}" ] || [ ! -x "${NODEUNIT_EXEC}" ]; then
   echo "Development libraries not found."
   echo "Please execute the following command: "

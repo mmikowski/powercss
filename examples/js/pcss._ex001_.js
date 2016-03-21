@@ -27,18 +27,16 @@
 */
 
 // BEGIN pcss._ex001_
-pcss._ex001_ = function ( display_html ) {
-  var
-    baseSelectorList,
-    boxSelectorList
-    ;
+pcss._ex001_ = function () {
+  var baseSelectorList, boxSelectorList;
 
   pcss._initModule_();
 
-  // Begin add _base_ vsheet
+  // Begin define selector lists
   baseSelectorList = [
     { _selector_str_  : 'body',
       _rule_map_     : {
+        _display_    : '_block_',
         _margin_     : '_0_',
         _padding_    : [[ '_2d5rem_', '_2rem_' ]],
         _background_ : '_xddd_',
@@ -94,14 +92,6 @@ pcss._ex001_ = function ( display_html ) {
     }
   ];
 
-  pcss._setVsheet_({
-    _vsheet_id_     : '_base_',
-    _mode_str_      : '_add_',
-    _selector_list_ : baseSelectorList
-  });
-  // End add _base_ vsheet
-
-  // Begin add _box01_ vsheet
   boxSelectorList = [
     { _selector_str_ : '.pcss-_box_',
       _rule_lock_list_ : [ '_font_size_' ],
@@ -135,13 +125,21 @@ pcss._ex001_ = function ( display_html ) {
       }
     }
   ];
+  // End define selector lists
 
+  // Begin Add vsheets
   pcss._setVsheet_({
     _vsheet_id_     : '_box01_',
     _mode_str_      : '_add_',
     _selector_list_ : boxSelectorList
   });
-  // End add _box01_ vsheet
+
+  pcss._setVsheet_({
+    _vsheet_id_     : '_base_',
+    _mode_str_      : '_add_',
+    _selector_list_ : baseSelectorList
+  });
+  // End Add vsheets
 
   // Begin add and use _c01_ cascade
   pcss._setCascade_({
@@ -151,36 +149,5 @@ pcss._ex001_ = function ( display_html ) {
     _regen_type_     : '_use_'
   });
   // End add and use _c01_ cascade
-
-  // Begin write html after cascade is rendered
-  document.body.innerHTML
-    = '<div id="pcss-_head_"></div>'
-    + '<a href="../"><div class="pcss-_logo_" title="PowerCSS"></div></a>'
-    + '<h2>Example 001: The basics</h2>'
-    + '<div class="pcss-_box_">PowerCSS 01<br/>'
-      + '<input title="name" type="text" placeholder="your name here"/>'
-    + '</div>'
-    + '<div class="pcss-_box_">PowerCSS 02</div>'
-    + '<div class="pcss-_box_">PowerCSS 03</div>'
-    + '<div class="pcss-_box_">PowerCSS 04</div>'
-    + '<div class="pcss-_box_">PowerCSS 04</div>'
-    + '<div class="pcss-_box_">PowerCSS 05</div>'
-    + '<div class="pcss-_box_">PowerCSS 06</div>'
-    + '<div class="pcss-_box_">PowerCSS 07</div>'
-    + '<div class="pcss-_box_">PowerCSS 08</div>'
-    + '<div class="pcss-_box_">PowerCSS 09</div>'
-    + '<div class="pcss-_box_">PowerCSS 10</div>'
-    + '<div class="pcss-_box_">PowerCSS 11</div>'
-    + '<div class="pcss-_box_">PowerCSS 12</div>'
-    + '<div class="pcss-_box_">PowerCSS 13</div>'
-    + '<div class="pcss-_box_">PowerCSS 14</div>'
-    + '<div class="pcss-_box_">PowerCSS 15</div>'
-    + '<div class="pcss-_box_">PowerCSS 16</div>'
-    + '<div class="pcss-_box_">PowerCSS 17</div>'
-    + '<div class="pcss-_box_">PowerCSS 18</div>'
-    + '<div class="pcss-_box_">PowerCSS 19</div>'
-    + '<div class="pcss-_box_">PowerCSS 20</div>'
-    ;
-  // End write html after cascade is rendered
 };
 // END pcss._ex001_

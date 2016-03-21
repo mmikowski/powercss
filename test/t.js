@@ -36,7 +36,6 @@
     ;
 
   dataMap = {
-
     _020_base_map_ : {
       _display_        : '_inline_block_',
       _opacity_        : '_1_',

@@ -390,7 +390,7 @@
       test_count = ruleMapList[ vMap._length_ ],
       i, resolve_str, expect_str;
 
-    for ( i = 10; i < test_count; i++ ) {
+    for ( i = 0; i < test_count; i++ ) {
       resolve_str = makeRuleMapStr( ruleMapList[ i ], mixinMap );
       expect_str  = expectList[ i ];
       if ( resolve_str === expect_str ) {
