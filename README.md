@@ -69,6 +69,15 @@ or more compared to traditional CSS. What's not to like?
 - **MIT license**
 - **No dependencies**
 
+## Data policy
+Before we review an example, we should understand the data policy that
+PowerCSS exmploys: It does **not** puts does not change any argument values
+**unless** explicitly explainged in API specification. Any other data structure
+provided to PowerCSS is **copied** and can be used again later without fear of 
+it being modified by PowerCSS at any time. For the inverse reason, PowerCSS
+does **not** return pointers to its data. Instead it provides snapshots using
+`_getAssetJson_` and `_getAssetIdList_`.
+
 ## Example 001: The basics
 We were careful to change as little of the existing CSS work-flow as
 possible. If we are comfortable with using static CSS, this should look
@@ -79,14 +88,7 @@ pretty familiar:
 3. Add virtual stylesheets
 4. Add and use a virtual cascade
 
-PowerCSS puts does not change any input argument unless specifically
-stated by the API specification (see `_extendRuleMap_). A data
-structure provided to PowerCSS is **copied** and can be used
-again later without fear of it being modified by PowerCSS at some later time.
-For the inverse reason, PowerCSS does **not** return pointers to its data.
-Instead we can get snapshots using `_getAssetJson_` and a few other methods.
-
-Let's now walk through a basic implementation of PowerCSS.
+Let's now walk through these steps.
 
 ### 1. Create an HTML document
 Let's create an HTML file named `pcss._ex001_.html` to illustrate
