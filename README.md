@@ -1,12 +1,6 @@
-# PowerCSS by Michael S. Mikowski
-PowerCSS 0.7.x is is undergoing final tests and tweaks prior to
-1.x release. All expected features are implemented and the API is stable and
-fully documented.
-
-## Libraries provide freedom and power
-This is a library that strives to be best-in-class. It plays well with other
-libraries and frameworks. Please do consider if
-[you really want an SPA framework][0].
+# PowerCSS - JavaScript-powered real-time CSS
+PowerCSS 1.x has been tested in public web sites and multiple
+projects, and it has been reliable and stable.
 
 ## Overview
 Unleash JavaScript to create custom styling for every person that uses
@@ -16,7 +10,7 @@ static CSS files. Here is a [presentation][1] of some of the PowerCSS
 concepts in practice. The dedicated website is at [powercss.org][2].
 
 ## Code Style
-This library is written in the code style presented in the book
+PowerCSS is [a library][0] written in the code style presented in the
 book **Single Page Web Applications - JavaScript end-to-end**
 which is available from [Amazon][3] and directly from [Manning][4].
 It uses a **git** hook to block any code that fails to pass JSLint and
@@ -73,7 +67,7 @@ or more compared to traditional CSS. What's not to like?
 Before we review an example, we should understand the data policy that
 PowerCSS exmploys: It does **not** puts does not change any argument values
 **unless** explicitly explainged in API specification. Any other data structure
-provided to PowerCSS is **copied** and can be used again later without fear of 
+provided to PowerCSS is **copied** and can be used again later without fear of
 it being modified by PowerCSS at any time. For the inverse reason, PowerCSS
 does **not** return pointers to its data. Instead it provides snapshots using
 `_getAssetJson_` and `_getAssetIdList_`.
@@ -202,7 +196,7 @@ Yes, Virginia, our code really *does* pass JSLint.
 
 ### 3. Add virtual stylesheets
 Virtual stylesheets (**vsheets**) contain the same information as a
-traditional CSS file but in JSON format and using symbols instead of 
+traditional CSS file but in JSON format and using symbols instead of
 literal strings.  Let's add two **vsheets** definition to `pcss._ex001_.js`.
 We will use some advanced features, but don't get lost in the details.
 We discuss symbol subsitution in the **Mixin maps** section.
@@ -278,7 +272,7 @@ We discuss symbol subsitution in the **Mixin maps** section.
         _position_       : '_relative_',
         _vertical_align_ : '_top_',
         _margin_         : '_1rem_',
-        _box_shadow_     : [[ 
+        _box_shadow_     : [[
           [ 'rgba( 0, 0, 0, .5)' ], '_0_', '_0_', '_d25rem_', '_0_'
         ]],
         _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
@@ -320,7 +314,7 @@ We discuss symbol subsitution in the **Mixin maps** section.
 
 Selectors are defined in a list because their order is important
 in CSS. PowerCSS records the **vsheet** definition, but it doesn't
-compile it to CSS yet - that comes later.  Now that we have two 
+compile it to CSS yet - that comes later.  Now that we have two
 **vsheets**, Let's use them in a **cascade**.
 
 ### 4. Add and use a virtual cascade
@@ -1467,14 +1461,17 @@ MIT
 - Nodejs support with nodeunit-b
 - Error handling improvements
 
-### Version 0.7.x (current)
+### Version 0.7.x
 - Refactored resolver
 - X-browser event support (IE9+)
-- TODO: Merge resolver test from `test/resolve.js` to `test/t.js`
-- TODO: Compatibility test to earlier versions of Chrome and Firefox
+- Resolver regression tests
 
-### Version 1.x (planned)
-- TODO: Release code
+### Version 1.0.x (current)
+- 1.0.0 release on 2016-03-25
+
+### Version 1.1.x (planned)
+- Support a single double-buffered cascade per web component, 
+  e.g. one for a chat feature, one for a comment feature, etc.
 
 ## Similar Projects
 [absurdjs][5], [responsive.j$][6]

@@ -19,6 +19,13 @@
   <script src="examples/js/pcss._home_.js"></script>
   <script>
   $(pcss._home_._initModule_);
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-66128066-2', 'auto');
+  ga('send', 'pageview');
   </script>
 </head>
 <body>
@@ -28,7 +35,15 @@
     <div class="pcss-_x_clear_"></div>
   </div>
   <div class="pcss-_logo_"></div>
-  <h2>Overview</h2>
+  <h2>Latest News</h2>
+    <h3>2016-03-25: v1.0.0</h3>
+    <p>Our first 1.0.x release!  The code has strong set of regression
+      tests and has been tested in a number of production and production-intent
+      projects with good results. We will add per-cascade double-buffered
+      stylesheets in the 1.1.x release, which is the the level of granularity
+      we want to acheive.</p>
+
+  <h2>What</h2>
     <p><b>PowerCSS</b> is a JavaScript library that helps developers create
     responsive, double-buffered CSS that is optimized for performance.
     Watch <a href="https://www.youtube.com/watch?v=rnkMjzhxw4s">this
@@ -45,30 +60,7 @@
       change the palette or cascade at any time. It looks good on a phone
       as well as a desktop.</p>
 
-  <h2>Why PowerCSS?</h2>
-    <p>A significant problem with traditional CSS, whether written
-    by an expert or someone using <code>{less}</code> or <code>Sass</code>,
-    is that it is <b>not</b> written as the application needs it.
-    Styling that is responsive to the user's environment is either limited
-    or simply not possible.</p>
-
-    <p>PowerCSS provides tools to write and apply infinitely adjustable
-    CSS based on almost any real-time data available to an application.
-    For example, an application could use PowerCSS to adjust styling based on
-    device orientation, ambient temperature, ambient light, GPS location,
-    heart rate, or time of day. Traditional static CSS can't compete with
-    this flexibility.</p>
-
-    <p>We feel that PowerCSS has not only achieved its primary goal, but that
-    it is often better than static CSS in many other respects as well.
-    It provides a simple and familiar API where experienced CSS authors
-    can use their existing skills to be up and running in minutes.
-    When compressed, a PowerCSS solution can download and render faster,
-    and it can speed up some CSS operations by 10x or more.
-    What's not to like?</p>
-
-
-  <h2>Examples</h2>
+  <h2>How</h2>
     <p>This page is styled using PowerCSS. Click at the top right to
       change the palette or cascade at any time.</p>
     <ul>
@@ -83,7 +75,29 @@
       <li><a href="examples/pcss._ex005_.html">Example 005</a>
         - Dynamic themes</li>
     </ul>
-  <h2>Key benefits</h2>
+
+  <h2>Why</h2>
+    <p>A significant problem with traditional CSS, whether written
+    by an expert or someone using <code>{less}</code> or <code>Sass</code>,
+    is that it is <b>not</b> written as the application needs it.
+    Styling that is responsive to the user&apos;s environment is either limited
+    or simply not possible.</p>
+
+    <p>PowerCSS provides tools to write and apply infinitely adjustable
+    CSS based on almost any real-time data available to an application.
+    For example, an application could use PowerCSS to adjust styling based on
+    device orientation, ambient temperature, ambient light, GPS location,
+    heart rate, or time of day. Traditional static CSS can&apos;t compete with
+    this flexibility.</p>
+
+    <p>We feel that PowerCSS has not only achieved its primary goal, but that
+    it is often better than static CSS in many other respects as well.
+    It provides a simple and familiar API where experienced CSS authors
+    can use their existing skills to be up and running in minutes.
+    When compressed, a PowerCSS solution can download and render faster,
+    and it can speed up some CSS operations by 10x or more.
+
+    What&apos;s not to like?</p>
     <ul>
       <li><strong>Real-time styling</strong> - Create 
       custom styling for every user of your application at any time.</li>
@@ -115,7 +129,7 @@
       <li><strong>No dependencies</strong></li>
     </ul>
 
-  <h2>News</h2>
+  <h2>Older News</h2>
     <h3>2016-03-20: v0.7.1</h3>
     <p>We are very close to 1.x release.  The rule-map resolver has been
     revised to handle arbitrarily complex data structures. This allows us
@@ -126,7 +140,8 @@
     tests to <code>test/t.js</code>.</p>
 
     <h3>2016-03-09: v0.6.6</h3>
-    <p>Isn't regression testing grand?  Just implementing basic coverage has
+    <p>Isn&apos;t regression testing grand?
+    Just implementing basic coverage has
     turned up a few interesting bugs and needs.  One example: the process
     update test was sporadically failing about 1/10th of the time because
     sometimes the test JS proceeded before the CSS string processing
@@ -168,18 +183,10 @@
     <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
     >GitHub Documentation</a> which we hope you find useful.
 
-    <p>The work remaining includes documentation updates, example implementations,
-    and regression tests. We hope to complete those tasks and see a 1.x release
-    before the end of March 2016.</p>
+    <p>The work remaining includes documentation updates, example
+    implementations, and regression tests. We hope to complete those tasks
+    and see a 1.x release before the end of March 2016.</p>
 
   <h2>End</h2>
 </body>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-66128066-2', 'auto');
-  ga('send', 'pageview');
-</script>
 </html>
