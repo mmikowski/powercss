@@ -63,26 +63,22 @@ or more compared to traditional CSS. What's not to like?
 - **MIT license**
 - **No dependencies**
 
-## Data policy
-Before we review an example, we should understand the data policy that
-PowerCSS exmploys: It does **not** puts does not change any argument values
-**unless** explicitly explainged in API specification. Any other data structure
-provided to PowerCSS is **copied** and can be used again later without fear of
-it being modified by PowerCSS at any time. For the inverse reason, PowerCSS
-does **not** return pointers to its data. Instead it provides snapshots using
-`_getAssetJson_` and `_getAssetIdList_`.
+## Data integrity policy
+Unless explicitly stated otherwise, all arguments provided to PowerCSS 
+are **copied** and will never be changed by PowerCSS. Conversely,
+PowerCSS does **not** return pointers to its data; instead one can
+acquire data snapshots using `_getAssetJson_` and `_getAssetIdList_`.
 
 ## Example 001: The basics
 We were careful to change as little of the existing CSS work-flow as
-possible. If we are comfortable with using static CSS, this should look
-pretty familiar:
+possible:
 
 1. Create an HTML document
 2. Start a JavaScript file
-3. Add virtual stylesheets
-4. Add and use a virtual cascade
+3. Add (virtual) stylesheets
+4. Add and use a (virtual) cascade
 
-Let's now walk through these steps.
+Let's walk through these steps.
 
 ### 1. Create an HTML document
 Let's create an HTML file named `pcss._ex001_.html` to illustrate
@@ -194,7 +190,7 @@ pcss._ex001_ = function () {
 
 Yes, Virginia, our code really *does* pass JSLint.
 
-### 3. Add virtual stylesheets
+### 3. Add (virtual) stylesheets
 Virtual stylesheets (**vsheets**) contain the same information as a
 traditional CSS file but in JSON format and using symbols instead of
 literal strings.  Let's add two **vsheets** definition to `pcss._ex001_.js`.
@@ -317,7 +313,7 @@ in CSS. PowerCSS records the **vsheet** definition, but it doesn't
 compile it to CSS yet - that comes later.  Now that we have two
 **vsheets**, Let's use them in a **cascade**.
 
-### 4. Add and use a virtual cascade
+### 4. Add and use a (virtual) cascade
 Now we will define a **cascade** which includes an ordered list of **vsheets**.
 This is very much like traditional CSS development where we link to static
 stylesheet files in an HTML document.  A **cascade** merges multiple **vsheets**
