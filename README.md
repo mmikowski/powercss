@@ -72,14 +72,15 @@ snapshots using `_getAssetJson_` and `_getAssetIdList_`.
 
 ## Example 001: The basics
 We were careful to change as little of the existing CSS work-flow as
-possible. Here are the steps:
+possible. Here are the steps we will take to create our first example:
 
 1. Create an HTML document
 2. Start a JavaScript file
 3. Add (virtual) stylesheets
 4. Add and use a (virtual) cascade
 
-Let's walk through these steps.
+
+Now, let's get started.
 
 ### 1. Create an HTML document
 Let's create an HTML file named `pcss._ex001_.html` to illustrate
@@ -145,7 +146,7 @@ and *then* enable analytics. On load, the `body` is not displayed.
 This is changed once the PowerCSS stylesheet is written and enabled.
 
 ### 2. Start a JavaScript file
-Now let's start a JavaScript file named to `pcss._ex001_.js` to
+Let's start a JavaScript file named to `pcss._ex001_.js` to
 provide PowerCSS directives. A complete copy can of this file can
 be found in the `node_modules/powercss/examples/js` directory or [online][8].
 
@@ -195,8 +196,8 @@ Yes, Virginia, our code really *does* pass JSLint.
 Virtual stylesheets (**vsheets**) contain the same information as a
 traditional CSS file but in JSON format and using symbols instead of
 literal strings.  Let's add two **vsheets** definition to `pcss._ex001_.js`.
-We will use some advanced features, but don't get lost in the details.
-We discuss symbol subsitution in the **Mixin maps** section.
+Don't worry about the syntax yet; we will discuss that in the **Mixin maps**
+section.
 
 ```js
   // Begin define selector lists
@@ -309,17 +310,20 @@ We discuss symbol subsitution in the **Mixin maps** section.
   // End Add vsheets
 ```
 
+
 Selectors are defined in a list because their order is important
 in CSS. PowerCSS records the **vsheet** definition, but it doesn't
 compile it to CSS yet - that comes later.  Now that we have two
-**vsheets**, Let's use them in a **cascade**.
+**vsheets**, let's use them in a virtual **cascade**.
 
 ### 4. Add and use a (virtual) cascade
 Now we will define a **cascade** which includes an ordered list of **vsheets**.
 This is very much like traditional CSS development where we link to static
 stylesheet files in an HTML document.  A **cascade** merges multiple **vsheets**
 into one. This is similar to how a browser merges multiple CSS files on load.
-However, with PowerCSS we can have many **cascades** and dynamically update them.
+However, with PowerCSS we can have many **cascades** which are automatically
+updated whenever any change affects them.
+
 Let's add one now:
 
 ```js
@@ -334,8 +338,8 @@ Let's add one now:
 };
 ```
 
-We can now save the `pcss._ex001_.js` file. Next, we'll look at the
-results.
+
+We can now save the `pcss._ex001_.js` file. Now let's review the results.
 
 ### What we have wrought
 When we [open][7] `pcss._ex001_.html` in a modern browser, we should
@@ -352,8 +356,9 @@ body {
   background  : #ddd;
   font-family : arial, helvetica, sans-serif;
   font-size   : 16px;
-  color       : #888;
+  color       : #888
 }
+
 input {
   margin        : .5rem;
   width         : 10rem;
@@ -363,19 +368,22 @@ input {
   padding       : .5rem;
   background    : #888;
   font-size     : 1rem;
-  color         : #ddd;
+  color         : #ddd
 }
-  input:focus {
-    border-color : #fff;
-    background   : #444;
-    color        : #fff;
-  }
+
+input:focus {
+  border-color : #fff;
+  background   : #444;
+  color        : #fff
+}
+
 .pcss-_logo_ {
   background-image : url(http://mmikowski.github.io/images/2016-02-22-pcss.png);
   background-size  : cover;
-  width            : 20.75rem;
-  height           : 10.125rem;
+  width  : 20.75rem;
+  height : 10.125rem
 }
+
 #pcss-_head_ {
   position   : fixed;
   z-index    : 1;
@@ -385,7 +393,7 @@ input {
   height     : 2rem;
   box-shadow : rgba( 64, 32, 32, .5) 0 0 .5rem 0;
   padding    : 0;
-  background : #eee;
+  background : #eee
 }
 /* End _base_ style */
 
@@ -410,7 +418,7 @@ input {
   font-size      : 1.5rem;
   font-weight    : 800;
   color          : #fff;
-  text-align     : center;
+  text-align     : center
 }
 /* End _box_ style */
 ```
@@ -830,6 +838,8 @@ _regen_type_ value means for the affect cascades:
               It is also the default for _setGlobalMixinMap_
   [3] _use_   This is only available for _setCascade_
 ```
+
+
 We recommend sticking with the defaults until and if we see performance issues.
 Depending on the application, setting `_regen_type_` to `_all_` for all
 **vsheets** and **cascades** may make the most sense. For others, setting
@@ -902,7 +912,7 @@ if test results warrant it.
 No matter how clean an API, sometimes its easier to think in terms
 of "what do we want to accomplish."  This is perhaps the reason
 programming language "cookbooks" have been so successful over the
-years. Let's look at some popular recipes from our own JavaScript kitchen.
+years. Our most popular recipes are listed below.
 
 ### Virtual stylesheet (**vsheet**) recipies
 #### Add a **vsheet**
