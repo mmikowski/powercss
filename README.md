@@ -9,14 +9,6 @@ double-buffering to exceed the flexibility - and often the speed - of
 static CSS files. Here is a [presentation][1] of some of the PowerCSS
 concepts in practice. The dedicated website is at [powercss.org][2].
 
-## Code Style
-PowerCSS is [a library][0] written in the code style presented in the
-book **Single Page Web Applications - JavaScript end-to-end**
-which is available from [Amazon][3] and directly from [Manning][4].
-It uses a **git** hook to block any code that fails to pass JSLint and
-regression tests. All object keys have an underscore prefix and suffix
-like `_this_` which makes them easy targets for compression.
-
 ## The Goal
 A significant problem with traditional CSS files - whether written by an
 expert or someone using {less} or Sass - is that they are **not** written
@@ -63,15 +55,24 @@ or more compared to traditional CSS. What's not to like?
 - **MIT license**
 - **No dependencies**
 
-## Data integrity policy
-Unless explicitly stated otherwise, all arguments provided to PowerCSS 
-are **copied** and will never be changed by PowerCSS. Conversely,
-PowerCSS does **not** return pointers to its data; instead one can
-acquire data snapshots using `_getAssetJson_` and `_getAssetIdList_`.
+## Code Style
+PowerCSS is [a library][0] written in the code style presented in the
+book **Single Page Web Applications - JavaScript end-to-end**
+which is available from [Amazon][3] and directly from [Manning][4].
+It uses a **git** hook to block any code that fails to pass JSLint and
+regression tests. All object keys have an underscore prefix and suffix
+like `_this_` which makes them easy targets for compression.
+
+PowerCSS employs a strict data integrity policy: All regular methods
+snapshot-copy argument arrays or objects and never change the originals.
+Only the utlitity method, `_extendRuleMap_` changes an argument, and 
+this is explicity stated in the API docs. Conversely, PowerCSS does not
+return pointers to its arrays or objects; instead one can acquire 
+snapshots using `_getAssetJson_` and `_getAssetIdList_`.
 
 ## Example 001: The basics
 We were careful to change as little of the existing CSS work-flow as
-possible:
+possible. Here are the steps:
 
 1. Create an HTML document
 2. Start a JavaScript file
@@ -139,9 +140,9 @@ be found in the `node_modules/powercss/examples` directory or [online][7].
 </html>
 ```
 
-This document is structure so that JavaScript handles all rendering.
 Our strategy is to first render the CSS, then the HTML,
-and *then* enable analytics.
+and *then* enable analytics. On load, the `body` is not displayed.
+This is changed once the PowerCSS stylesheet is written and enabled.
 
 ### 2. Start a JavaScript file
 Now let's start a JavaScript file named to `pcss._ex001_.js` to
