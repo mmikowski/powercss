@@ -1,5 +1,5 @@
 # PowerCSS - JavaScript-powered real-time CSS
-PowerCSS 1.x has been tested in public web sites and multiple
+PowerCSS 1.0 has been tested in public web sites and multiple
 projects, and it has been reliable and stable.
 
 ## Overview
