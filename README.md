@@ -1220,9 +1220,8 @@ pcss._setGlobalMixinMap_({ _mixin_map_ : { ... } });
 ```
 
 
-## API reference
+## API reference - Events
 
-### Events for cascade processing
 - `_pcss_merged_`
 - `_pcss_prepared_`
 - `_pcss_used_`
@@ -1236,6 +1235,7 @@ Notes      | Every time a cascade merge, prepare, or use is enabled, an
            | event tied to the document object is fired.
 ```
 
+## API reference - Methods
 
 ### `_initModule_`
 
@@ -1264,8 +1264,8 @@ Arguments | (positional)
 Settings  | none
 Throws    | none
 Returns   | none
-            - base_map is modified.
-            - extend_map is not.
+          |   - base_map is modified.
+          |   - extend_map is not.
 ```
 
 
@@ -1413,7 +1413,7 @@ Returns   | cascade_id, or undef on failure
 
 ## Regression tests
 Regression tests are found under the `test` directory.
-You may run them using like so:
+You may run using the `npm`, like so:
 
 ```bash
 cd node_modules/powercss;
@@ -1477,8 +1477,11 @@ MIT
 - 1.0.0 release on 2016-03-25
 
 ### Version 1.1.x (planned)
-- Support a single double-buffered cascade per web component, 
+- Use a double-buffered stylesheet per cascade.
+  This would better support isolated web feature components,
   e.g. one for a chat feature, one for a comment feature, etc.
+  Deleting a cascade should remove the associated stylesheet(s).
+  Write the double-buffer stylesheet only as needed.
 
 ## Similar Projects
 [absurdjs][5], [responsive.j$][6]
