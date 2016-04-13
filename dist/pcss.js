@@ -274,7 +274,8 @@ var pcss = (function () {
       _transparent_   : 'transparent',
       _underline_     : 'underline',
       _uppercase_     : 'uppercase',
-      _vertical_      : 'vertical'
+      _vertical_      : 'vertical',
+      _visible_       : 'visible'
     },
 
     //  _vsheet_map_map_
@@ -1473,7 +1474,7 @@ var pcss = (function () {
     }
     if ( mixin_map ) {
       cascade_map._mixin_map_ = cloneData( mixin_map );
-      cascade_map._mixin_ms_ = now_ms;
+      cascade_map._mixin_ms_  = now_ms;
     }
     // end 4.7.3
 
@@ -1484,13 +1485,13 @@ var pcss = (function () {
 
   // end 4. PUBLIC METHODS ====================================
   return {
-    _initModule_          : initModule,
-    _extendRuleMap_       : extendRuleMap,
-    _togglePcss_          : initCheck[ vMap._bind_ ]( togglePcss          ),
-    _setGlobalMixinMap_   : initCheck[ vMap._bind_ ]( setGlobalMixinMap   ),
-    _getAssetIdList_      : initCheck[ vMap._bind_ ]( getAssetIdList      ),
-    _getAssetJson_        : initCheck[ vMap._bind_ ]( getAssetJson        ),
-    _setVsheet_           : initCheck[ vMap._bind_ ]( setVsheet           ),
-    _setCascade_          : initCheck[ vMap._bind_ ]( setCascade          )
+    _initModule_        : initModule,
+    _extendRuleMap_     : extendRuleMap,
+    _togglePcss_        : initCheck[ vMap._bind_ ]( togglePcss          ),
+    _setGlobalMixinMap_ : initCheck[ vMap._bind_ ]( setGlobalMixinMap   ),
+    _getAssetIdList_    : initCheck[ vMap._bind_ ]( getAssetIdList      ),
+    _getAssetJson_      : initCheck[ vMap._bind_ ]( getAssetJson        ),
+    _setVsheet_         : initCheck[ vMap._bind_ ]( setVsheet           ),
+    _setCascade_        : initCheck[ vMap._bind_ ]( setCascade          )
   };
 }());
