@@ -105,9 +105,9 @@ var pcss = (function () {
       _baseline_               : 'baseline',
       _body_                   : 'body',
       _border_                 : 'border',
-      _border_btm_             : 'border-bottom',
-      _border_btm_color_       : 'border-bottom-color',
-      _border_btm_width_       : 'border-bottom-width',
+      _border_bottom_          : 'border-bottom',
+      _border_bottom_color_    : 'border-bottom-color',
+      _border_bottom_width_    : 'border-bottom-width',
       _border_collapse_        : 'border-collapse',
       _border_color_           : 'border-color',
       _border_left_            : 'border-left',
@@ -145,7 +145,7 @@ var pcss = (function () {
       _list_style_position_    : 'list-style-position',
       _list_style_type_        : 'list-style-type',
       _margin_                 : 'margin',
-      _margin_btm_             : 'margin-bottom',
+      _margin_bottom_          : 'margin-bottom',
       _margin_left_            : 'margin-left',
       _margin_right_           : 'margin-right',
       _margin_top_             : 'margin-top',
@@ -159,7 +159,7 @@ var pcss = (function () {
       _overflow_x_             : 'overflow-x',
       _overflow_y_             : 'overflow-y',
       _padding_                : 'padding',
-      _padding_btm_            : 'padding-bottom',
+      _padding_bottom_         : 'padding-bottom',
       _padding_left_           : 'padding-left',
       _padding_right_          : 'padding-right',
       _padding_top_            : 'padding-top',
@@ -187,6 +187,8 @@ var pcss = (function () {
     cssValMap = {
       _0_             : '0',
       _1_             : '1',
+      _2_             : '2',
+      _3_             : '3',
       _0p_            : '0%',
       _12d5p_         : '12.5%',
       _25p_           : '25%',
@@ -320,7 +322,6 @@ var pcss = (function () {
   // 2.1 Private method /cloneData/
   function cloneData ( data ) {
     if ( ! data ) { return data; }
-    //noinspection NestedFunctionCallJS
     return __str2j( __j2str( data ) );
   }
   // end 2.1 Private method /cloneData/
@@ -340,8 +341,8 @@ var pcss = (function () {
   }
   // end 2.3
 
-  // 2.4 Private metod /getValList/
-  function getValList( map, key_list ) {
+  // 2.4 Private method /makeValList/
+  function makeValList( map, key_list ) {
     var
       val_list  = [],
       key_count = key_list.length,
@@ -356,10 +357,10 @@ var pcss = (function () {
     return val_list;
   }
   // end 2.4
-  
+
   // 2.5 Private method /publishEvent/
   publishEvent = (function publishEvent () {
-    var 
+    var
       isCapable     = __true,
       initEventName = '_pcss_init_',
 
@@ -367,7 +368,6 @@ var pcss = (function () {
       createError,    createModeStr,
       dispatchError,  dispatchModeStr
       ;
-
 
     // Determine createModeStr
     if ( __docRef[ vMap._createEvent_ ] ) {
@@ -379,7 +379,7 @@ var pcss = (function () {
       catch( error ) { createError = error; }
     }
     else if ( Event ) {
-      try { 
+      try {
         createModeStr = '_wk_';
         initEventObj = new Event( name );
       }
@@ -427,18 +427,18 @@ var pcss = (function () {
       if ( ! isCapable ) { return __false; }
       switch( createModeStr ) {
         case '_wk_' : event_obj = new Event( name ); break;
-        case '_ms_' : 
+        case '_ms_' :
           event_obj = __docRef[ vMap._createEvent_ ]('HTMLEvents');
           event_obj.initEvent( name, true, true );
           break;
-        default : 
+        default :
           logIt( '_unsupported_', createModeStr );
           return __false;
       }
       event_obj._data_ = data;
 
       switch( dispatchModeStr ) {
-        case '_wk_' : 
+        case '_wk_' :
           __docRef[ vMap._dispatchEvent_ ]( event_obj );
           break;
         case '_ms_' : __docRef[ name ](); break;
@@ -463,7 +463,7 @@ var pcss = (function () {
   //
   function writeToStyleEl ( style_el, css_str ) {
     var text_el, childnode_list;
-    // Old Firefox and IE(?)
+    // Old Firefox and IE
     if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
       if ( style_el[ vMap._cssText_ ] !== css_str ) {
         style_el[ vMap._cssText_ ] = css_str;
@@ -562,9 +562,10 @@ var pcss = (function () {
       rule_key,  rule_data, i
       ;
 
+    // return undef if objects are not provided
     if ( getVarType( base_map       ) !== vMap._object_
       || getVarType( arg_extend_map ) !== vMap._object_
-    ) { return 'wtf?'; }
+    ) { return; }
 
     extend_map = cloneData( arg_extend_map );
     key_list   = __getKeyList( extend_map );
@@ -588,26 +589,35 @@ var pcss = (function () {
   function mergeCascade ( arg_vsheet_id_list, arg_mixin_map ) {
     // 2.10.1 init and args
     var
-      vsheet_map_map = topSmap._vsheet_map_map_,
-
+      vsheet_map_map       = topSmap._vsheet_map_map_,
       vsheet_count         = arg_vsheet_id_list[ vMap._length_ ],
       seen_selector_map    = {},
+      seen_cond_map        = {},
       merged_selector_list = [],
 
       merged_mixin_map,
       global_mixin_map,
 
-      i, vsheet_id,    vsheet_map,
-      selector_list,   vsheet_mixin_map,
-      selector_count,
+      i,
+      vsheet_id,   vsheet_map,
+      selector_list,  vsheet_mixin_map,
+      selector_count, namespace_str,
+      cond_stack,
+      
+      j,
+      selector_map,    selector_str,
+      fq_selector_str, pop_str,
+      begin_cond_str,  end_cond_str,
+      rule_lock_list,  rule_map,
 
-      j, selector_map,     selector_str,
-      rule_lock_list,      rule_map,
-      clone_selector_map,  merged_rpt_map,
-      merged_selector_map, merged_rule_map,
-      merged_lock_list,    rule_key_list,
-      rule_key_count,
-      l, rule_key
+      merged_rpt_map,
+      merged_selector_map,
+      merged_lock_list,
+      merged_rule_map,
+      
+      n,
+      rule_key_list, rule_key_count, 
+      rule_key,      clone_selector_map
       ;
     // end 2.10.1 init and args
 
@@ -630,74 +640,115 @@ var pcss = (function () {
       extendRuleMap( merged_mixin_map, vsheet_mixin_map );
 
       // 2.10.3.2 Consider each selector_map in the selector_list
-      selector_list    = vsheet_map._selector_list_ || [];
-      selector_count   = selector_list[ vMap._length_ ];
-      for ( j = __0; j < selector_count; j++ ) {
+      selector_list  = vsheet_map._selector_list_ || [];
+      selector_count = selector_list[ vMap._length_ ];
+      namespace_str  = __blank;
+      cond_stack = [];
+
+      _SELECT_MAP0_: for ( j = __0; j < selector_count; j++ ) {
         // 2.10.3.2.1 Init selector_map vars
         selector_map   = selector_list[ j ];
+        begin_cond_str = selector_map._begin_cond_str_;
+        end_cond_str   = selector_map._end_cond_str_;
         selector_str   = selector_map._selector_str_;
         rule_lock_list = selector_map._rule_lock_list_;
         rule_map       = selector_map._rule_map_;
-        merged_rpt_map = seen_selector_map[ selector_str ];
         // end 2.10.3.2.1
 
-        // 2.10.3.2.2 Use previously seen selector data
+        // 2.10.3.2.2 Namespace per condition stack
+        if ( begin_cond_str ) {
+          cond_stack[ vMap._push_ ]( begin_cond_str );
+          namespace_str = cond_stack[ vMap._join_ ](':');
+
+          if ( seen_cond_map[ begin_cond_str ] === __undef ) {
+            merged_selector_list[ vMap._push_]( selector_map );
+          }
+          continue _SELECT_MAP0_;
+        }
+        if ( end_cond_str !== __undef ) {
+          pop_str = cond_stack[ vMap._pop_ ]();
+          if ( end_cond_str && pop_str !== end_cond_str ) {
+            logIt( '_end_cond_str_does_not_matched_', pop_str, end_cond_str );
+          }
+          namespace_str = cond_stack[ vMap._join_ ](':');
+
+          if ( seen_cond_map[ pop_str ] === __undef ) {
+            merged_selector_list[ vMap._push_]( selector_map );
+            seen_cond_map[ pop_str ] = __true;
+          }
+          continue _SELECT_MAP0_;
+        }
+
+        if ( selector_str ) {
+          fq_selector_str = namespace_str + ':' + selector_str;
+        }
+        else {
+          logIt( '_useless_selector_map_', selector_map );
+          continue _SELECT_MAP0_;
+        }
+        // 2.10.3.2.2 Namespace per condition stack
+
+        // 2.10.3.2.3 Use previously seen selector data
+        merged_rpt_map = seen_selector_map[ fq_selector_str ];
         if ( merged_rpt_map ) {
           merged_selector_map = merged_rpt_map._selector_map_;
-          merged_rule_map     = merged_selector_map._rule_map_;
           merged_lock_list    = merged_rpt_map._rule_lock_list_;
+          merged_rule_map     = merged_selector_map._rule_map_;
 
-          // 2.10.3.2.2.1 Merge in latest locks
+          // 2.10.3.2.3.1 Merge in latest locks
           if ( rule_lock_list ) {
             merged_lock_list[ vMap._push_ ][ vMap._apply_
               ]( merged_lock_list, rule_lock_list );
             merged_rpt_map[ '_lock_on_ ' + __Str( i ) ]
               = __j2str( rule_lock_list );
           }
-          // end 2.10.3.2.2.1
-
-          // 2.10.3.2.2.2 Merge rules unless they are locked
-          rule_key_list  = ( rule_map && __getKeyList( rule_map )) || [];
-          rule_key_count = rule_key_list[ vMap._length_ ];
-          _RULE_: for ( l = __0; l < rule_key_count; l++ ) {
-            rule_key = rule_key_list[ l ];
-            if ( merged_lock_list[ vMap._indexOf_ ]( rule_key ) > __n1
-            ) {
-              logIt(
-                '_rule_key_locked_for_selector_', selector_str, rule_key
-              );
-              continue _RULE_;
-            }
-            merged_rule_map[ rule_key ] = rule_map[ rule_key ];
-          }
-          // end 2.10.3.2.2.2
-        }
-        // end 2.10.3.2.2
-
-        // 2.10.3.2.3 Init new selector data
-        else {
-          // 2.10.3.2.3.1 Clone data and place the **same map**
-          // both into the merged_selector_list and the merged_rpt_map
-          // as we want fast O(1) access to it.
-          //
-          clone_selector_map = cloneData( selector_map );
-          merged_selector_list[ vMap._push_]( clone_selector_map );
-          merged_rpt_map = { _selector_map_ : clone_selector_map };
           // end 2.10.3.2.3.1
 
-          // 2.10.3.2.3.2 Init lock list data
+          // 2.10.3.2.3.2 Merge rules unless they are locked
+          rule_key_list  = ( rule_map && __getKeyList( rule_map )) || [];
+          rule_key_count = rule_key_list[ vMap._length_ ];
+          for ( n = __0; n < rule_key_count; n++ ) {
+            rule_key = rule_key_list[ n ];
+            if ( merged_lock_list[ vMap._indexOf_ ]( rule_key ) > __n1 ) {
+              logIt(
+                '_rule_key_locked_for_selector_', fq_selector_str, rule_key
+              );
+            }
+            else {
+              merged_rule_map[ rule_key ] = rule_map[ rule_key ];
+            }
+          }
+          // end 2.10.3.2.3.2
+          //
+          // 2.10.3.2.3.3 move this selector_map to the end of the
+          // merged_selector_list
+        }
+        // end 2.10.3.2.3
+
+        // 2.10.3.2.4 Init new selector data
+        else {
+          // 2.10.3.2.4.1 Set up merged_rpt_map
+          clone_selector_map = cloneData( selector_map );
+          merged_rpt_map     = { _selector_map_ : clone_selector_map };
+          // end 2.10.3.2.4.1
+
+          // 2.10.3.2.4.2 Init lock list data
           if ( rule_lock_list ) {
             merged_rpt_map._rule_lock_list_ = cloneData( rule_lock_list );
-            merged_rpt_map[ 'lock_on_' + __Str( i ) ]
+            merged_rpt_map[ '_lock_on_' + __Str( i ) ]
               = __j2str( rule_lock_list );
           }
           else {
             merged_rpt_map._rule_lock_list_ = [];
           }
-          // end 2.10.3.2.3.2
-          seen_selector_map[ selector_str ] = merged_rpt_map;
+          // end 2.10.3.2.4.2
+
+          // 2.10.3.2.4.3 store key and merged_rpt_map
+          seen_selector_map[ fq_selector_str ] = merged_rpt_map;
+          merged_selector_list[ vMap._push_]( clone_selector_map );
+          // end 2.10.3.4.3
         }
-        // end 2.10.3.2.3
+        // end 2.10.3.2.4
       }
       // end 2.10.3.2 Consider each selector_map in the selector_list
     }
@@ -710,7 +761,7 @@ var pcss = (function () {
     };
   }
   // end 2.10 Private method /mergeCascade/
- 
+
   // 2.11 Private method /makeRuleMapStr/
   function makeRuleMapStr ( rule_map, merged_mixin_map ) {
     var
@@ -718,27 +769,31 @@ var pcss = (function () {
       max_resolve_count = topCmap._max_resolve_count_,
 
       key_list,  val_list, rule_key,
-      frame_obj, orig_obj, 
+      frame_obj, orig_obj,
       prior_frame_obj, k,
 
       val_data, val_data_type,
       tmp_data, tmp_data_type,
-      solve_data,
+      solve_data, solve_key,
 
       alt_list, alt_type,
       first_data, first_type
       ;
 
 
-    key_list = __getKeyList( rule_map );
-    val_list = getValList( rule_map, key_list );
-    rule_key = key_list[ __0 ];
+    key_list  = __getKeyList( rule_map );
+    val_list  = makeValList( rule_map, key_list );
+    rule_key  = key_list[ __0 ];
+    solve_key = cssKeyMap[ rule_key ];
+    if ( solve_key === __undef ) {
+      logIt( '_unsupported_rule_key_symbol_', rule_key );
+    }
 
     frame_obj = {
       _type_       : '_base_',
       _key_list_   : key_list,
       _rule_key_   : rule_key,
-      _solve_key_  : cssKeyMap[ rule_key ],
+      _solve_key_  : solve_key,
       _val_idx_    : __0,
       _val_list_   : val_list,
       _val_count_  : key_list[ vMap._length_],
@@ -747,7 +802,10 @@ var pcss = (function () {
     };
     orig_obj = frame_obj;
 
-    _RESOLVE_: for( k=__0; k < max_resolve_count; k++ ) { // no infinite loop
+    // We use a while loop to prevent an infinite loop
+    k = __0;
+    _RESOLVE_: while( k < max_resolve_count ) {
+      k++;
       if ( frame_obj._val_idx_ >= frame_obj._val_count_ ) {
         prior_frame_obj = frame_obj;
         if ( prior_frame_obj._type_ === '_concat_' ) {
@@ -779,7 +837,12 @@ var pcss = (function () {
       if ( frame_obj._type_ === '_base_' ) {
         rule_key  = frame_obj._key_list_[ frame_obj._val_idx_ ];
         frame_obj._rule_key_  = rule_key;
-        frame_obj._solve_key_ = cssKeyMap[ rule_key ];
+
+        solve_key = cssKeyMap[ rule_key ];
+        if ( solve_key === __undef ) {
+          logIt( '_unsupported_rule_key_symbol_', rule_key );
+        }
+        frame_obj._solve_key_ = solve_key;
       }
 
       val_data      = frame_obj._val_list_[ frame_obj._val_idx_ ];
@@ -881,8 +944,10 @@ var pcss = (function () {
       }
       frame_obj._val_idx_++;
     }
+    if ( k === max_resolve_count ) {
+      logIt( '_maximum_resolve_operations_exceeded_', k );
+    }
     return orig_obj._solve_str_;
-    
   }
   // end 2.11 Private method /makeRuleMapStr/
 
@@ -890,41 +955,67 @@ var pcss = (function () {
   function makeCssStr ( merged_selector_list, merged_mixin_map ) {
     // 2.12.1 init and args
     var
-      i,              selector_count,
-      selector_map,   selector_str,
-      rule_map,       close_str,
-      rule_str,
+      cond_stack = [],
+
+      i,
+      selector_count, selector_map,
+      selector_str,   begin_cond_str,
+      end_cond_str,   pop_str,
+      rule_map,       rule_str,
 
       solve_selector_list,
       solve_selector_str
       ;
+
     selector_count      = merged_selector_list[ vMap._length_ ];
     solve_selector_list = [];
     // end 2.12.1
 
     // 2.12.2 Consider each selector map in list
-    for ( i = __0; i < selector_count; i++ ) {
+    _SELECT_MAP1_:for ( i = __0; i < selector_count; i++ ) {
       // 2.12.2.1 Init selector_map vars
-      selector_map = merged_selector_list[ i ];
-      selector_str = selector_map._selector_str_;
-      rule_map     = selector_map._rule_map_;
-      close_str    = selector_map._close_str_ || __blank;
+      selector_map    = merged_selector_list[ i ];
+      begin_cond_str  = selector_map._begin_cond_str_;
+      end_cond_str    = selector_map._end_cond_str_;
+      selector_str    = selector_map._selector_str_;
+      rule_map        = selector_map._rule_map_;
       // end 2.12.2.1
 
-      // 2.12.2.2 Special case: no rule_map
-      if ( ! rule_map ) {
-        solve_selector_list[ vMap._push_ ]( selector_str + close_str );
-        continue;
+      // 2.12.2.2 add conditional css syntax
+      if ( begin_cond_str ) {
+        cond_stack[ vMap._push_ ]( begin_cond_str );
+        solve_selector_list[ vMap._push_ ]( begin_cond_str + '{' );
+        continue _SELECT_MAP1_;
       }
-      rule_str = makeRuleMapStr( rule_map, merged_mixin_map );
 
-      solve_selector_str = selector_str + '{' + rule_str + '}' + close_str;
+      if ( end_cond_str !== __undef ) {
+        pop_str = cond_stack[ vMap._pop_ ]();
+        if ( end_cond_str && pop_str !== end_cond_str ) {
+          logIt( '_end_cond_str_does_not_match_start_', pop_str, end_cond_str );
+        }
+        solve_selector_list[ vMap._push_ ]( '}' );
+        continue _SELECT_MAP1_;
+      }
+
+      if ( selector_str ) { solve_selector_str = selector_str; }
+      else {
+        logIt( '_useless_selector_map_', selector_map );
+        continue _SELECT_MAP1_;
+      }
+      // end 2.12.2.2
+
+      // 2.12.2.3 add rule map and store
+      if ( rule_map ) {
+        rule_str = makeRuleMapStr( rule_map, merged_mixin_map );
+        solve_selector_str += '{' + rule_str + '}';
+      }
       solve_selector_list[ vMap._push_ ]( solve_selector_str );
+      // end 2.12.2.3
     }
     // end 2.12.2 Consider each selector map in list
 
     // 2.12.3 return CSS string
-    return solve_selector_list[ vMap._join_]( '\n' );
+    return solve_selector_list[ vMap._join_]( __blank );
   }
   // end 2.12 Private method /makeCssStr/
 
@@ -937,7 +1028,9 @@ var pcss = (function () {
       merged_ms, result_map, style_el, write_idx, write_el;
 
     // 2.13.1 Bail on unrecognized regen type
-    if ( topCmap._regen_type_list_[ vMap._indexOf_ ]( regen_type ) === __n1 ) {
+    if ( topCmap._regen_type_list_[ vMap._indexOf_ ]( regen_type )
+      === __n1
+    ) {
       logIt( '_regen_type_not_supported_', regen_type );
       return;
     }

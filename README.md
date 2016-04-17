@@ -52,6 +52,7 @@ or more compared to traditional CSS. What's not to like?
 - **Quality code** - Use well tested and documented code. A commit hook is
   used to ensure no changes occur unless they pass **JSLint**
   *and* **regression tests**.
+- **Support** for arbitrary-depth nested CSS conditionals
 - **MIT license**
 - **No dependencies**
 
@@ -948,6 +949,55 @@ years. Our most popular recipes are listed below.
   });
 ```
 
+#### Add a media query to a **vsheet**
+Most CSS authors have seen a media query at some point.  This
+construct is used when we want to apply rules differently according
+to viewing devices.  A classic example might be to reduce padding
+on an element if the device screen is below a certain width:
+
+```css
+  my-foot-box { margin : 1rem; height : 5rem; }
+  @media all and (max-width: 960px) {
+    my-foot-box { margin : 0; }
+  }
+  @media all and (max-width: 550px) {
+    my-foot-box { height : 2rem; }
+  }
+```
+
+A media query provides CSS that is only applied if some condition
+is met, and is effectively an `if-then` clause for CSS, and may
+also be called a `conditional closure`. PowerCSS already supports
+[arbitrary-depth nesting][13] of CSS conditions. All we have to do
+is add a `_begin_cond_str_` object at the beginning of a condition,
+and an `_end_cond_str_` object at the end, like so:
+
+```js
+  selector_list = [
+    { _begin_cond_str_ : '@media all and (max-width: 960px)' },
+    { _selector_str_ : 'my-foot-box',
+      _rule_map_ : { _margin_ : 0 }
+    }
+    { _end_cond_str_ : '' },
+
+    { _begin_cond_str_ : '@media all and (max-width: 550px)' },
+    { _selector_str_ : 'my-foot-box',
+      _rule_map_ : { _height_ : '_2rem_' }
+    }
+    { _end_cond_str_ : '' },
+    ...
+  ]
+```
+
+If we have nested conditions you can include the string for the
+end condition and PowerCSS will log a warning if the closure
+string does not match:
+
+```js
+    { _begin_cond_str_ : '@media all and (max-width: 550px)' },
+    ...
+    { _end_cond_str_   : '@media all and (max-width: 550px)' },
+```
 
 #### Delete only the vsheet selector list
 Deleting a selector list independently is not supported.
@@ -1473,10 +1523,16 @@ MIT
 - X-browser event support (IE9+)
 - Resolver regression tests
 
-### Version 1.0.x (current)
-- 1.0.0 release on 2016-03-25
+### Version 1.0.x
+- Released 2016-03-25
 
-### Version 1.1.x (planned)
+### Version 1.1.x (current)
+- Added support for CSS conditional
+- Changed built-in keys to use "bottom" instead of "btm", as this was
+  needlessly confusing.  Example: `_border_btm_` becomes
+  `_border_bottom_`.
+
+### Version 1.2.x (planned)
 - Use a double-buffered stylesheet per cascade.
   This would better support isolated web feature components,
   e.g. one for a chat feature, one for a comment feature, etc.
@@ -1505,3 +1561,4 @@ You can reach me at mike[dot]mikowski[at]gmail[dotcom].
 [10]:http://powercss.org/examples/pcss._ex003_.html
 [11]:http://powercss.org/examples/pcss._ex004_.html
 [12]:http://powercss.org/examples/pcss._ex005_.html
+[13]:https://tabatkins.github.io/specs/css-nesting

@@ -2,19 +2,7 @@
  * t.js
  * nodeunit-b suite for PowerCSS
  *
- * Please run using /nodeunit <this_file>/
-*/
-
-/*jslint              node : true,   continue : true,
- devel   : true,    indent : 2,       maxerr  : 50,
- newcap  : true,     nomen : true,   plusplus : true,
- regexp  : true,      vars : false,    white  : true
- unparam : true,      todo : true
-*/
-
-/*global global, pcss */
-
-/* Test instructions
+ * Test instructions
  * $ cd node_modules/powercss
  * $ npm install
  * $ cd test
@@ -29,6 +17,14 @@
  * Only FireFox and Chrome are supported.
  *
 */
+/*jslint              node : true,   continue : true,
+ devel   : true,    indent : 2,       maxerr  : 50,
+ newcap  : true,     nomen : true,   plusplus : true,
+ regexp  : true,      vars : false,    white  : true
+ unparam : true,      todo : true
+*/
+/*global global, pcss */
+
   'use strict';
   var
     nubObj  = require( 'nodeunit-b' ),
@@ -228,8 +224,94 @@
           _color_       : '_color_font_'
         }
       ],
+      _050_input_list_ : [
+        // ==== test 0
+        [
+          [ { _selector_str_ : '@font-face',
+              _rule_map_ : {
+                _font_family_ : [ 'fa45_mod_p6' ],
+                _src_  : [ 
+                    "url('font/fa-4.5-mod-perspica.eot?') format('embedded-opentype'),"
+                  + "url('font/fa-4.5-mod-perspica.woff') format('woff'),"
+                  + "url('font/fa-4.5-mod-perspica.ttf') format('truetype')"
+                ]
+              }
+            },
+
+            { _begin_cond_str_ : 
+              '@media screen and (-webkit-min-device-pixel-ratio:0 )'
+            },
+            { _selector_str_ : '@font-face',
+              _rule_map_ : {
+                _font_family_ : [ 'fa45_mod_p6' ],
+                _src_  : [ "url('font/fa-4.5-mod-perspica.svg') format('svg')" ]
+              }
+            },
+            { _end_cond_str_ : '' },
+          ]
+        ],
+
+        // ==== test 1
+        [
+          [
+            { _begin_cond_str_ : '@media all and (max-width: 550px)' },
+            { _selector_str_ : '.p6-_box_.p6-_x_open_',
+              _rule_map_ : { _padding_left_ : '_0_' }
+            },
+            { _selector_str_ : '.p6-_shell_nav_.p6-_x_open_',
+              _rule_map_ : { _width_ : '_100p_' }
+            },
+            { _end_cond_str_ : '' }
+          ],
+          [
+            { _begin_cond_str_ : '@media all and (max-width: 550px)' },
+            { _selector_str_ : '.p6-_box_.p6-_x_open_',
+              _rule_map_ : { _padding_left_ : '_1rem_' }
+            },
+            { _selector_str_ : '.p6-_shell_nav_.p6-_x_open_',
+              _rule_map_ : { _width_ : ['50rem'] }
+            },
+            { _end_cond_str_ : '' }
+          ]
+        ]
+      ],
+      _050_expect_list_ : [ 
+        "@font-face{font-family:fa45_mod_p6;src:url('font/fa-4.5-mod-perspica.eot?') format('embedded-opentype'),url('font/fa-4.5-mod-perspica.woff') format('woff'),url('font/fa-4.5-mod-perspica.ttf') format('truetype')}@media screen and (-webkit-min-device-pixel-ratio:0 ){@font-face{font-family:fa45_mod_p6;src:url('font/fa-4.5-mod-perspica.svg') format('svg')}}",
+        "@media all and (max-width: 550px){.p6-_box_.p6-_x_open_{padding-left:1rem}.p6-_shell_nav_.p6-_x_open_{width:50rem}}"
+      ]
     }
     ;
+
+  function nextRuleMap040 () {
+    var
+      smap          = this,
+      test_obj      = smap._test_obj_,
+      rule_map_list = smap._rule_map_list_,
+      selector_map  = { _selector_str_ : 'body' },
+      selector_list = [ selector_map ],
+
+      expect_str, ret_data
+      ;
+
+    selector_map._rule_map_ = rule_map_list[ smap._rule_map_idx_ ];
+
+    expect_str = 'Change vsheet _s02_';
+    try {
+      ret_data = pcss._setVsheet_({
+        _vsheet_id_     : '_s02_',
+        _mode_str_      : '_change_',
+        _selector_list_ : selector_list,
+        _regen_type_    : '_prepare_'
+      });
+    }
+    catch( error ) { ret_data = error; }
+
+    test_obj.ok( ret_data === '_s02_', expect_str );
+    smap._rule_map_idx_++;
+    if ( smap._rule_map_idx_ < rule_map_list.length ) {
+      setTimeout( nextRuleMap040.bind( smap ), 100 );
+    }
+  }
 
   function onPrepared040 ( event_obj ) {
     var
@@ -260,34 +342,85 @@
     }
   }
 
-  function nextRuleMap040 () {
+  function nextCascade050 () {
     var
-      smap          = this,
-      test_obj      = smap._test_obj_,
-      rule_map_list = smap._rule_map_list_,
-      selector_map  = { _selector_str_ : 'body' },
-      selector_list = [ selector_map ],
+      smap           = this,
+      test_obj       = smap._test_obj_,
+      input_list     = smap._input_list_,
+      cascade_list   = input_list[ smap._input_idx_ ],
+      cascade_id     = 'c' + String(smap._input_idx_),
+      vsheet_id_list = [],
 
+      i, selector_list, vsheet_id,
       expect_str, ret_data
       ;
 
-    selector_map._rule_map_ = rule_map_list[ smap._rule_map_idx_ ];
-  
-    expect_str = 'Change vsheet _s02_';
+    for ( i = 0; i < cascade_list.length; i++ ) {
+      selector_list = cascade_list[ i ];
+      vsheet_id     = 's' + String( i ) + cascade_id;
+      expect_str    = 'Vsheet id is ' + vsheet_id;
+
+      try {
+        ret_data = pcss._setVsheet_({
+          _vsheet_id_     : vsheet_id,
+          _mode_str_      : '_add_',
+          _selector_list_ : selector_list,
+          _regen_type_    : '_prepare_'
+        });
+      }
+      catch( error ) { ret_data = error; }
+      test_obj.ok( ret_data === vsheet_id, expect_str );
+      vsheet_id_list.push( vsheet_id );
+    }
+
+    expect_str = 'Add cascade ' + cascade_id;
     try {
-      ret_data = pcss._setVsheet_({
-        _vsheet_id_     : '_s02_',
-        _mode_str_      : '_change_',
-        _selector_list_ : selector_list,
-        _regen_type_    : '_prepare_'
+      ret_data = pcss._setCascade_({
+        _cascade_id_     : cascade_id,
+        _mode_str_       : '_add_',
+        _vsheet_id_list_ : vsheet_id_list,
+        _regen_type_     : '_prepare_'
+      });
+    }
+    catch( error ) {
+      ret_data = error;
+    }
+    test_obj.ok( ret_data === cascade_id, expect_str );
+
+    smap._input_idx_++;
+    if ( smap._input_idx_ < input_list.length ) {
+      setTimeout( nextCascade050.bind( smap ), 100 );
+    }
+  }
+
+  function onPrepared050 ( event_obj ) {
+    var
+      smap         = this,
+      test_obj     = smap._test_obj_,
+      expect_list  = smap._expect_list_,
+      cascade_id   = 'c' + String(smap._prepared_idx_),
+
+      expect_str, css_str, ret_data;
+
+    expect_str = 'Event object should provide cascade_id ' + cascade_id;
+    test_obj.ok( event_obj._data_ === cascade_id, expect_str );
+
+    css_str    = '"' + expect_list[ smap._prepared_idx_ ] + '"';
+    expect_str = 'css string matches expected ';
+
+    try {
+      ret_data = pcss._getAssetJson_({
+        _asset_id_      : cascade_id,
+        _asset_type_    : '_cascade_',
+        _asset_subtype_ : '_css_str_'
       });
     }
     catch( error ) { ret_data = error; }
 
-    test_obj.ok( ret_data === '_s02_', expect_str );
-    smap._rule_map_idx_++;
-    if ( smap._rule_map_idx_ < rule_map_list.length ) {
-      setTimeout( nextRuleMap040.bind( smap ), 100 );
+    test_obj.ok( ret_data === css_str, expect_str );
+    smap._prepared_idx_++;
+    if ( smap._prepared_idx_ === smap._input_list_.length ) {
+      test_obj.done();
     }
   }
 
@@ -647,15 +780,14 @@
 
     test040Resolver : function ( test_obj, win_obj, pcss_obj ) {
       var
-        expect_list     = topCmap._040_expect_list_,
-        rule_map_list   = topCmap._040_rule_map_list_,
+        input_list  = topCmap._040_rule_map_list_,
+        expect_list = topCmap._040_expect_list_,
 
         smap, expect_str, ret_data,
         fn_next_rule_map, fn_onprepared
         ;
 
-        test_obj.expect( 41 );
-
+      test_obj.expect( 41 );
 
       expect_str = '_init_module_ should return "bar-"';
       try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'bar' }); }
@@ -686,17 +818,50 @@
       test_obj.ok( ret_data === '_c02_', expect_str );
 
       smap = {
+        _rule_map_list_ : input_list,
         _expect_list_   : expect_list,
-        _prepared_idx_  : 0,
-        _rule_map_list_ : rule_map_list,
-        _rule_map_idx_  : 0,
         _test_obj_      : test_obj,
+
+        _prepared_idx_  : 0,
+        _rule_map_idx_  : 0,
       };
 
-      fn_next_rule_map = nextRuleMap040.bind( smap );
+      fn_next_rule_map = nextRuleMap040.bind(   smap );
       fn_onprepared    = onPrepared040.bind(  smap );
 
       win_obj.document.addEventListener( '_pcss_prepared_', fn_onprepared );
       fn_next_rule_map();
+    },
+
+    test050Cascade : function ( test_obj, win_obj, pcss_obj ) {
+      var
+        input_list  = topCmap._050_input_list_,
+        expect_list = topCmap._050_expect_list_,
+
+        smap, expect_str, ret_data,
+        fn_next_cascade, fn_onprepared
+        ;
+
+      test_obj.expect( 9 );
+
+      expect_str = '_init_module_ should return "bar-"';
+      try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'bar' }); }
+      catch( error ) { ret_data = error; }
+      test_obj.ok( ret_data === 'bar-', expect_str );
+
+      smap = {
+        _input_list_    : input_list,
+        _expect_list_   : expect_list,
+        _test_obj_      : test_obj,
+
+        _prepared_idx_  : 0,
+        _input_idx_     : 0,
+      };
+
+      fn_next_cascade = nextCascade050.bind( smap );
+      fn_onprepared   = onPrepared050.bind(  smap );
+
+      win_obj.document.addEventListener( '_pcss_prepared_', fn_onprepared );
+      fn_next_cascade();
     }
   });
