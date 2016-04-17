@@ -230,7 +230,7 @@
           [ { _selector_str_ : '@font-face',
               _rule_map_ : {
                 _font_family_ : [ 'fa45_mod_p6' ],
-                _src_  : [ 
+                _src_  : [
                     "url('font/fa-4.5-mod-perspica.eot?') format('embedded-opentype'),"
                   + "url('font/fa-4.5-mod-perspica.woff') format('woff'),"
                   + "url('font/fa-4.5-mod-perspica.ttf') format('truetype')"
@@ -238,7 +238,7 @@
               }
             },
 
-            { _begin_cond_str_ : 
+            { _begin_cond_str_ :
               '@media screen and (-webkit-min-device-pixel-ratio:0 )'
             },
             { _selector_str_ : '@font-face',
@@ -273,11 +273,83 @@
             },
             { _end_cond_str_ : '' }
           ]
+        ],
+
+        // ==== test 2
+        [
+          [
+            { _begin_cond_str_ : '.foo' },
+            { _begin_cond_str_ : '.bar' },
+            { _begin_cond_str_ : '.bing' },
+            { _selector_str_ : '.baz',
+              _rule_map_ : { _margin_ : '_0_' }
+            },
+            { _end_cond_str_ : '' },
+            { _end_cond_str_ : '' },
+            { _end_cond_str_ : '' },
+          ]
+        ],
+
+        // ==== test 3
+        [
+          [
+            { _begin_cond_str_ : '.foo' },
+            { _selector_str_ : '.baz',
+              _rule_map_ : {
+                _top_     : '_0_',
+                _margin_  : '_0_',
+                _padding_ : '_1rem_'
+              }
+            },
+            { _end_cond_str_ : 'foo' }
+          ],
+          [
+            { _begin_cond_str_ : '.foo' },
+            { _selector_str_ : '.baz',
+              _rule_map_ : {
+                _top_     : '_1rem_',
+                _padding_ : '_0_'
+              }
+            },
+            { _end_cond_str_ : 'foo' }
+          ]
+        ],
+
+        // ==== test 4
+        [
+          [
+            { _begin_cond_str_ : '.foo' },
+            { _selector_str_ : '.baz',
+              _rule_map_ : {
+                _top_     : '_0_',
+                _margin_  : '_0_',
+                _padding_ : '_1rem_'
+              }
+            },
+            { _end_cond_str_ : 'foo' },
+
+            { _begin_cond_str_ : '.foo' },
+            { _selector_str_ : '.baz',
+              _rule_map_ : {
+                _top_     : '_1rem_',
+                _padding_ : '_0_'
+              }
+            },
+            { _end_cond_str_ : 'foo' }
+          ]
         ]
       ],
-      _050_expect_list_ : [ 
+
+      _050_expect_list_ : [
         "@font-face{font-family:fa45_mod_p6;src:url('font/fa-4.5-mod-perspica.eot?') format('embedded-opentype'),url('font/fa-4.5-mod-perspica.woff') format('woff'),url('font/fa-4.5-mod-perspica.ttf') format('truetype')}@media screen and (-webkit-min-device-pixel-ratio:0 ){@font-face{font-family:fa45_mod_p6;src:url('font/fa-4.5-mod-perspica.svg') format('svg')}}",
-        "@media all and (max-width: 550px){.p6-_box_.p6-_x_open_{padding-left:1rem}.p6-_shell_nav_.p6-_x_open_{width:50rem}}"
+
+        "@media all and (max-width: 550px){.p6-_box_.p6-_x_open_{padding-left:1rem}.p6-_shell_nav_.p6-_x_open_{width:50rem}}",
+
+        ".foo{.bar{.bing{.baz{margin:0}}}}",
+
+        ".foo{.baz{top:1rem;margin:0;padding:0}}",
+
+        ".foo{.baz{top:1rem;margin:0;padding:0}}",
       ]
     }
     ;
@@ -842,7 +914,7 @@
         fn_next_cascade, fn_onprepared
         ;
 
-      test_obj.expect( 9 );
+      test_obj.expect( 22 );
 
       expect_str = '_init_module_ should return "bar-"';
       try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'bar' }); }

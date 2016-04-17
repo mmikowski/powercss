@@ -643,7 +643,7 @@ var pcss = (function () {
       selector_list  = vsheet_map._selector_list_ || [];
       selector_count = selector_list[ vMap._length_ ];
       namespace_str  = __blank;
-      cond_stack = [];
+      cond_stack     = [];
 
       _SELECT_MAP0_: for ( j = __0; j < selector_count; j++ ) {
         // 2.10.3.2.1 Init selector_map vars

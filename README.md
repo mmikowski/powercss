@@ -1,7 +1,4 @@
 # PowerCSS - JavaScript-powered real-time CSS
-PowerCSS 1.0 has been tested in public web sites and multiple
-projects, and it has been reliable and stable.
-
 ## Overview
 Unleash JavaScript to create custom styling for every person that uses
 your web application. PowerCSS employs merging, caching, compression, and
@@ -34,7 +31,7 @@ or more compared to traditional CSS. What's not to like?
 - **Real-time styling** - Create custom styling for every user of your
   application at any time.
 - **Pure JS** - Remove the need for **any** static CSS files.
-- **Namespaced** - Play well with frameworks, jQuery, other libraries,
+- **Name-spaced** - Play well with frameworks, jQuery, other libraries,
   and third-party JavaScript.
 - **Double-buffering** - Minimize page re-flows with this automatic
   feature. It can speed up some styling changes by more than 10x.
@@ -43,7 +40,7 @@ or more compared to traditional CSS. What's not to like?
 - **Mixins** - Create custom symbols at multiple levels: virtual
   stylesheet, virtual cascade, and global. Change a mixin map and watch
   the styles change immediately.
-- **Familiar workflow** - Leverage your experience with static CSS
+- **Familiar work-flow** - Leverage your experience with static CSS
   files using virtual stylesheets and cascades.
 - **Machine optimized CSS** - Have the browser work more efficiently
   as only **one stylesheet** is used for styling at any given time,
@@ -52,7 +49,7 @@ or more compared to traditional CSS. What's not to like?
 - **Quality code** - Use well tested and documented code. A commit hook is
   used to ensure no changes occur unless they pass **JSLint**
   *and* **regression tests**.
-- **Support** for arbitrary-depth nested CSS conditionals
+- **Media queries** and arbitrary-depth conditionals
 - **MIT license**
 - **No dependencies**
 
@@ -66,9 +63,9 @@ like `_this_` which makes them easy targets for compression.
 
 PowerCSS employs a strict data integrity policy: All regular methods
 snapshot-copy argument arrays or objects and never change the originals.
-Only the utlitity method, `_extendRuleMap_` changes an argument, and 
-this is explicity stated in the API docs. Conversely, PowerCSS does not
-return pointers to its arrays or objects; instead one can acquire 
+Only the utility method, `_extendRuleMap_` changes an argument, and
+this is explicit stated in the API docs. Conversely, PowerCSS does not
+return pointers to its arrays or objects; instead one can acquire
 snapshots using `_getAssetJson_` and `_getAssetIdList_`.
 
 ## Example 001: The basics
@@ -604,7 +601,7 @@ priority over **built-in** values. Think of this as "the last match
 wins." Consider the following PowerCSS rule definition:
 
 ```js
-  rule_map : { background : '_bcolor_', ... }
+  rule_map : { _background_ : '_bcolor_', ... }
 ```
 
 
@@ -653,7 +650,7 @@ Literal values are just that: a string we want to use as-is. Simply wrap any
 string in an array to have it read as a literal, as illustrated below:
 
 ```js
-  rule_map : { background : [ 'blue' ], ... }
+  rule_map : { _background_ : [ 'blue' ], ... }
 ```
 
 
@@ -763,7 +760,7 @@ the provided rule map in the **vsheet** definition:
       { _select_str_ : '.pcss-_box_',
         _locked_rule_list_ : [ '_font_size_' ],
         _rule_map_ : {
-          _font_size_ : '16px'
+          _font_size_ : [ '16px' ]
           // ...
         }
       }
@@ -816,9 +813,9 @@ and merging sometimes dozens of external stylesheets.
 Any change to PowerCSS has up to four process phases:
 
 1. Update the data stored in PowerCSS
-2. Remerged the selector list and mixin maps of any affected cascades
+2. Merge the selector list and mixin maps of any affected cascades
 3. Create and store the CSS of any affected cascades
-4. Write the CSS to the stylesheet if directed
+4. Write the CSS to the stylesheet element
 
 The `_setVsheet_`, `_setCascade_`, and `_setGlobalMixinMap_` methods
 all accept a `_regen_type_` parameter which defines how far to proceed
@@ -905,9 +902,123 @@ convenience will provide the best solution. Here is an example:
   });
 ```
 
+The default `_regen_type_` may change if test results warrant it.
 
-The current `_regen_type_` default may change prior to the 1.x release
-if test results warrant it.
+
+## Conditional expressions
+
+### Use
+PowerCSS supports arbitrary-depth `conditional expressions` which
+can be used to construct `@media` queries as described in the
+**The Power Cookbook** section.
+
+### Syntax
+PowerCSS provides the `_begin_cond_str_` and `_end_cond_str_`
+objects to create a conditional closure:
+
+```js
+  selector_list = [
+    { _begin_cond_str_ : '.foo' },
+    { _selector_str_ : '.baz',
+      _rule_map_ : { _margin_ : '_0_' }
+    },
+    { _end_cond_str_ : '' },
+    ...
+  ]
+```
+
+This will result in the following *invalid* CSS text:
+
+```css
+  .foo{ .baz{ margin : 0 } }
+```
+
+### Nesting
+We can nest conditional expressions as deep as we want and PowerCSS
+will create the closures:
+
+```js
+  selector_list = [
+    { _begin_cond_str_ : '.foo' },
+    { _begin_cond_str_ : '.bar' },
+    { _begin_cond_str_ : '.bing' },
+    { _selector_str_ : '.baz',
+      _rule_map_ : { _margin_ : '_0_' }
+    },
+    { _end_cond_str_ : '' },
+    { _end_cond_str_ : '' },
+    { _end_cond_str_ : '' },
+    ...
+  ]
+```
+
+This will result in the following *invalid* CSS:
+
+```css
+  .foo{ .bar{ .bing{ .baz{ margin : 0 } } } }
+```
+
+We can optionally include the end condition string to ensure
+our closures match.  If they do not, a warning is printed to
+the console:
+
+```js
+  selector_list = [
+    { _begin_cond_str_ : '.foo' },
+    { _begin_cond_str_ : '.bar' },
+    { _begin_cond_str_ : '.bing' },
+    { _selector_str_ : '.baz',
+      _rule_map_ : { '_margin_' : '_0_' }
+    }
+    { _end_cond_str_ : '.bing' }
+    { _end_cond_str_ : '.bar' }
+    { _end_cond_str_ : '.foo' }
+```
+
+### Redundancies
+PowerCSS will combine and remove redundancies for each unique scope.
+The latest declaration always 'wins'. Consider the following declaration:
+
+```js
+  selector_list = [
+    { _begin_cond_str_ : '.foo' },
+    { _selector_str_ : '.baz',
+      _rule_map_ : {
+        _top_     : '_0_',
+        _margin_  : '_0_',
+        _padding_ : '_1rem_'
+      }
+    },
+    { _end_cond_str_ : 'foo' },
+    ...
+
+    { _begin_cond_str_ : '.foo' },
+    { _selector_str_ : '.baz',
+      _rule_map_ : {
+        _top_     : '_1rem_',
+        _padding_ : '_0_'
+      }
+    },
+    { _end_cond_str_ : 'foo' },
+    ...
+  ]
+```
+
+This will result in a single conditional expression in the output CSS:
+
+```css
+  .foo{
+    .baz{
+      top     : 1rem; /* 2nd declaration */
+      margin  : 0;    /* 1st */
+      padding : 0;    /* 2nd */
+    }
+  }
+```
+
+### Future use
+Future implementations of CSS will support [arbitrary-depth nesting][13]
+and PowerCSS should be ready with minor changes.
 
 ## The PowerCSS cookbook
 No matter how clean an API, sometimes its easier to think in terms
@@ -915,7 +1026,7 @@ of "what do we want to accomplish."  This is perhaps the reason
 programming language "cookbooks" have been so successful over the
 years. Our most popular recipes are listed below.
 
-### Virtual stylesheet (**vsheet**) recipies
+### Virtual stylesheet (**vsheet**) recipes
 #### Add a **vsheet**
 
 ```js
@@ -950,56 +1061,48 @@ years. Our most popular recipes are listed below.
 ```
 
 #### Add a media query to a **vsheet**
-Most CSS authors have seen a media query at some point.  This
-construct is used when we want to apply rules differently according
-to viewing devices.  A classic example might be to reduce padding
-on an element if the device screen is below a certain width:
-
-```css
-  my-foot-box { margin : 1rem; height : 5rem; }
-  @media all and (max-width: 960px) {
-    my-foot-box { margin : 0; }
-  }
-  @media all and (max-width: 550px) {
-    my-foot-box { height : 2rem; }
-  }
-```
-
-A media query provides CSS that is only applied if some condition
-is met, and is effectively an `if-then` clause for CSS, and may
-also be called a `conditional closure`. PowerCSS already supports
-[arbitrary-depth nesting][13] of CSS conditions. All we have to do
-is add a `_begin_cond_str_` object at the beginning of a condition,
-and an `_end_cond_str_` object at the end, like so:
+The following `selector_list` adjustments will provide a media
+query closure:
 
 ```js
   selector_list = [
-    { _begin_cond_str_ : '@media all and (max-width: 960px)' },
-    { _selector_str_ : 'my-foot-box',
-      _rule_map_ : { _margin_ : 0 }
-    }
-    { _end_cond_str_ : '' },
-
     { _begin_cond_str_ : '@media all and (max-width: 550px)' },
-    { _selector_str_ : 'my-foot-box',
-      _rule_map_ : { _height_ : '_2rem_' }
+    { _selector_str_ : '.my-foot-box',
+      _rule_map_ : { _margin_ : '_0_' }
     }
-    { _end_cond_str_ : '' },
+    { _end_cond_str_ : '' }
+  ]
+```
+
+The resulting CSS:
+
+```css
+  @media all and (max-width: 550px){
+    .my-foot-box{ margin : 0 }
+  }
+```
+
+#### Add a font face to a **vsheet**
+
+Using the bullet-proof font declaration format:
+
+```js
+  selector_list = [
+    { _selector_str_ : '@font-face',
+      _rule_map_ : {
+        _font_family_ : [ 'myFont' ],
+        _src_  : [
+            "url('font/myFont.eot?') format('embedded-opentype'),"
+          + "url('font/myFont.woff') format('woff'),"
+          + "url('font/myFont.ttf') format('truetype')"
+        ]
+      }
+    },
     ...
   ]
 ```
 
-If we have nested conditions you can include the string for the
-end condition and PowerCSS will log a warning if the closure
-string does not match:
-
-```js
-    { _begin_cond_str_ : '@media all and (max-width: 550px)' },
-    ...
-    { _end_cond_str_   : '@media all and (max-width: 550px)' },
-```
-
-#### Delete only the vsheet selector list
+#### Delete a **vsheet** selector list
 Deleting a selector list independently is not supported.
 However, one may change the `_selector_list_` to an empty array
 for a similar effect. Setting the value to `undefined` will
@@ -1014,7 +1117,7 @@ not work.
 ```
 
 
-#### Delete only the vsheet mixin map
+#### Delete a **vsheet** mixin map
 Deleting a vsheet mixin map independently is not supported.
 However, one may change `_mixin_map_` to an empty object
 for a similar effect. Setting the value to `undefined` will
@@ -1137,7 +1240,7 @@ indefinitely. Here is an example:
 ```
 
 
-#### Delete only a vsheet id list from a **cascade**
+#### Delete a vsheet id list from a **cascade**
 Deleting a vsheet ID list independently is not supported.
 However, one may change the `_vsheet_id_list_` to an empty array
 for a similar effect. Setting the value to `undefined` will
@@ -1152,7 +1255,7 @@ not work.
 ```
 
 
-#### Delete only a mixin map from a **cascade**
+#### Delete a mixin map from a **cascade**
 Deleting a mixin map independently is not supported.
 However, one may change the `_mixin_map_` to an empty array
 for a similar effect. Setting the value to `undefined` will
@@ -1228,7 +1331,7 @@ the styling will be removed.
 #### Set the style element prefixes
 
 ```js
-pcss._initModule({_style_el_prefix_ : 'ns' });
+pcss.__initModule_({_style_el_prefix_ : 'ns' });
 ```
 
 The style element prefix may only be set once on the initial call.
@@ -1237,7 +1340,7 @@ Subsequent calls will ignore any request to change this.
 #### Get the current style prefix
 
 ```js
-style_el_prefix = pcss._initModule();
+style_el_prefix = pcss.__initModule_();
 ```
 
 The `_initModule_` method returns the style prefix in use.
@@ -1344,7 +1447,7 @@ Returns   | The number of vsheets affected by the change
 ```
 Example   | pcss._togglePcss_( true );
 Purpose   | Enable or disable PowerCSS
-Arguments | boolean (optional)
+Arguments | Boolean (optional)
           | If not provided, will toggle PowerCSS on or off.
           | If provided, true will turn PowerCSS on, and false
           | will turn PowerCSS off.
@@ -1515,7 +1618,7 @@ MIT
 ### Version 0.6.x
 - Published events
 - Multiple automated regression tests
-- Nodejs support with nodeunit-b
+- NodeJS support with nodeunit-b
 - Error handling improvements
 
 ### Version 0.7.x
@@ -1527,7 +1630,7 @@ MIT
 - Released 2016-03-25
 
 ### Version 1.1.x (current)
-- Added support for CSS conditional
+- Added support for CSS conditional expressions
 - Changed built-in keys to use "bottom" instead of "btm", as this was
   needlessly confusing.  Example: `_border_btm_` becomes
   `_border_bottom_`.
@@ -1537,7 +1640,7 @@ MIT
   This would better support isolated web feature components,
   e.g. one for a chat feature, one for a comment feature, etc.
   Deleting a cascade should remove the associated stylesheet(s).
-  Write the double-buffer stylesheet only as needed.
+  Write the double-buffer stylesheet elements only as needed.
 
 ## Similar Projects
 [absurdjs][5], [responsive.j$][6]
