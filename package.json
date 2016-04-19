@@ -1,5 +1,5 @@
 { "name": "powercss",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Unleash PowerCSS to create custom styling for every user of your web application. PowerCSS uses merging, caching, compression, and double-buffering to exceed the speed and flexibility of static CSS. https://www.youtube.com/watch?v=rnkMjzhxw4s",
   "keywords": [
     "css", "power", "powercss", "power-css", "css-power",

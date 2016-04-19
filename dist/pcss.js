@@ -420,9 +420,10 @@ var pcss = (function () {
       else {
         dispatchError = '_events_not_supported_';
       }
+
       if ( dispatchError ) {
         logIt( '_dispatch_event_error_', dispatchError );
-        isCapable = 'false';
+        isCapable = __false;
       }
     }
 
