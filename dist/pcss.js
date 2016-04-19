@@ -322,6 +322,7 @@ var pcss = (function () {
   // 2.1 Private method /cloneData/
   function cloneData ( data ) {
     if ( ! data ) { return data; }
+    //noinspection NestedFunctionCallJS
     return __str2j( __j2str( data ) );
   }
   // end 2.1 Private method /cloneData/
@@ -361,10 +362,9 @@ var pcss = (function () {
   // 2.5 Private method /publishEvent/
   publishEvent = (function publishEvent () {
     var
-      isCapable     = __true,
       initEventName = '_pcss_init_',
 
-      initEventObj,
+      initEventObj,   isCapable,
       createError,    createModeStr,
       dispatchError,  dispatchModeStr
       ;
@@ -385,9 +385,13 @@ var pcss = (function () {
       }
       catch( error ) { createError = error; }
     }
+
     if ( createError ) {
       logIt( '_create_event_error_', createError );
-      isCapable = 'false';
+      isCapable = __false;
+    }
+    else {
+      isCapable = __true;
     }
 
     if ( isCapable ) {

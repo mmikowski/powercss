@@ -67,9 +67,7 @@ pcss._ex001_ = function () {
     },
     { _selector_str_ : '.pcss-_logo_',
       _rule_map_     : {
-        _background_image_ : [
-          'url(http://mmikowski.github.io/images/2016-02-22-pcss.png)'
-        ],
+        _background_image_ : [ 'url(../img/pcss_25percent.png)' ],
         _background_size_ : '_cover_',
         _width_  : [ '20.75rem' ],
         _height_ : [ '10.125rem' ]

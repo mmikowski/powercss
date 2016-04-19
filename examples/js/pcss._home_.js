@@ -126,17 +126,19 @@ pcss._home_ = (function ( $ ) {
         ]]
       },
       _base_selector_list_ : [
+        { _selector_str_ : 'html',
+          _rule_map_ : {
+            _font_size_ : '_base_body_font_size_'
+          }
+        },
         { _selector_str_  : 'body',
           _rule_map_ : {
             _display_     : '_block_',
             _margin_      : '_0_',
-            _padding_     : [[ '_2d5rem_', '_2rem_' ]],
-            _background_  :'_hex_bkgd_',
-            _max_width_   : [ '50rem' ],
+            _background_  : '_hex_bkgd_',
             _font_family_ : '_font_sans_',
-            _font_size_   : '_base_body_font_size_',
             _line_height_ : '_1d25rem_',
-            _color_       :'_hex_font_'
+            _color_       : '_hex_font_'
           }
         },
         { _selector_str_ : 'input',
@@ -159,16 +161,25 @@ pcss._home_ = (function ( $ ) {
             _color_        : '_xfff_'
           }
         },
+        { _selector_str_ : '.pcss-_content_',
+          _rule_map_ : {
+            _position_    : '_relative_',
+            _padding_     : [[ '_2d5rem_', '_2rem_' ]],
+            _max_width_   : [ '72rem' ],
+            _margin_      : [[ '_0_', '_auto_' ]],
+            _box_shadow_  : '_global_d5_box_shadow_'
+          }
+        },
         { _selector_str_ : '.pcss-_logo_',
           _rule_map_ : {
-            _background_image_ : ['url(http://mmikowski.github.io/images/2016-02-22-pcss.png)'],
+            _background_image_ : [ 'url(img/pcss_25percent.png)' ],
             _background_size_ : '_cover_',
             _width_  : [ '20.75rem' ],
             _height_ : [ '10.125rem' ]
           }
         },
         { _selector_str_ : 'li',
-          _rule_map_ : { _margin_btm_ : '_d25rem_' }
+          _rule_map_ : { _margin_bottom_ : '_d25rem_' }
         },
         { _selector_str_ : '.pcss-_x_clear_',
           _rule_map_ : { _clear_ : '_both_' }
@@ -183,15 +194,16 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : 'h2',
           _rule_lock_list_ : [ '_font_size_' ],
           _rule_map_ : {
+            _display_       : '_block_',
             _opacity_        : '_1_',
             _position_       : '_relative_',
-            _vertical_align_ : '_top_',
-            _margin_         : [[ '_2rem_', '_0_', '_d5rem_', '_0_' ]],
-            _box_shadow_     : '_global_d25_box_shadow_',
-            _border_         : [[ '_d25rem_', '_solid_', '_xeee_' ]],
-            _border_radius_  : '_1rem_',
+            _margin_         : [[ '_2rem_', '_0_', '_0_', [ '-3rem' ] ]],
             _width_          : [ '16rem' ],
             _height_         : '_3rem_',
+            _vertical_align_ : '_top_',
+            _box_shadow_     : '_global_d25_box_shadow_',
+            _border_         : [[ '_0_', '_solid_', '_xeee_' ]],
+            _border_radius_  : [[ '_0_', '_1rem_', '_1rem_', '_0_' ]],
             _line_height_    : '_3rem_',
             _background_     : '_global_linear_grad_',
             _font_size_      : '_1d5rem_',
@@ -308,11 +320,12 @@ pcss._home_ = (function ( $ ) {
     // Begin add _box02_ vsheet by *revising* box_selector_list
     box_rule_map = box_selector_list[ 0 ]._rule_map_;
     pcss._extendRuleMap_( box_rule_map, {
-      _display_    : '_block_',
-      _width_      : null,
-      _max_width_  : null,
+      _left_       : '_50p_',
+      _margin_     : [[ '_2rem_', '_0_', '_d5rem_', [ '-8rem' ] ]],
       _font_size_  : '_2rem_',
       _box_shadow_ : '_global_d5_box_shadow_',
+      _border_radius_ : '_d5rem_',
+      _border_width_ : '_d5rem_',
       _background_ : '_global_linear_grad_'
     });
 
@@ -325,8 +338,9 @@ pcss._home_ = (function ( $ ) {
 
     // Begin add _box03_ vsheet by *revising* box_selector_list
     pcss._extendRuleMap_( box_rule_map, {
-      _display_       : '_inline_block_',
       _width_         : [ '18rem' ],
+      _left_          : '_100p_',
+      _margin_        : [[ '_2rem_', '_0_', '_d5rem_', [ '-16rem' ] ]],
       _max_width_     : null,
       _box_shadow_    : '_global_d25_box_shadow_',
       _border_width_  : '_1rem_',
