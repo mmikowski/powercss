@@ -138,7 +138,8 @@ pcss._home_ = (function ( $ ) {
             _background_  : '_hex_bkgd_',
             _font_family_ : '_font_sans_',
             _line_height_ : '_1d25rem_',
-            _color_       : '_hex_font_'
+            _color_       : '_hex_font_',
+            _overflow_x_  : '_hidden_'
           }
         },
         { _selector_str_ : 'input',
