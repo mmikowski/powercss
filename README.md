@@ -62,11 +62,11 @@ regression tests. All object keys have an underscore prefix and suffix
 like `_this_` which makes them easy targets for compression.
 
 PowerCSS employs a strict data integrity policy: All regular methods
-snapshot-copy argument arrays or objects and never change the originals.
-Only the utility method, `_extendRuleMap_` changes an argument, and
-this is explicit stated in the API docs. Conversely, PowerCSS does not
-return pointers to its arrays or objects; instead one can acquire
-snapshots using `_getAssetJson_` and `_getAssetIdList_`.
+never change an argument. Only the utility method `_extendRuleMap_`
+changes an argument and this is explicit stated in the API docs.
+Conversely, PowerCSS does not return pointers to its arrays or objects;
+instead one can acquire snapshots using `_getAssetJson_`
+and `_getAssetIdList_`.
 
 ## Example 001: The basics
 We were careful to change as little of the existing CSS work-flow as
@@ -78,7 +78,7 @@ possible. Here are the steps we will take to create our first example:
 4. Add and use a (virtual) cascade
 
 
-Now, let's get started.
+Let's get started!
 
 ### 1. Create an HTML document
 Let's create an HTML file named `pcss._ex001_.html` to illustrate
