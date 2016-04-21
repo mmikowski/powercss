@@ -88,7 +88,8 @@ pcss._home_ = (function ( $ ) {
         },
         { _palette_name_  : 'Mineral',
          _hex_shadow_  : '#694364',
-         _hex_font_    : '#b58bab',
+         _hex_font_    : '#54384d',
+         _hex_font_lt_ : '#b58bab',
          _hex_mid_     : '#e3d1e2',
          _hex_gradtop_ : '#e8e4e1',
          _hex_gradbtm_ : '#c4c4c0',
@@ -97,7 +98,8 @@ pcss._home_ = (function ( $ ) {
         },
         { _palette_name_  : 'Spice I',
          _hex_shadow_  : '#ebe3d9',
-         _hex_font_    : '#e0cdaf',
+         _hex_font_    : '#472c00',
+         _hex_font_lt_ : '#e0cdaf',
          _hex_mid_     : '#c2bc74',
          _hex_gradtop_ : '#6e615a',
          _hex_gradbtm_ : '#807e82',
@@ -106,7 +108,8 @@ pcss._home_ = (function ( $ ) {
         },
         { _palette_name_  : 'Spice III',
          _hex_shadow_  : '#f7efd4',
-         _hex_font_    : '#faddaf',
+         _hex_font_    : '#996f2d',
+         _hex_font_lt_ : '#faddaf',
          _hex_mid_     : '#eb712f',
          _hex_gradtop_ : '#91371b',
          _hex_gradbtm_ : '#472c25',
@@ -114,21 +117,25 @@ pcss._home_ = (function ( $ ) {
          _hex_bkgd_dk_ : '#baa18a'
         },
         { _palette_name_  : 'Chili',
-         _hex_shadow_  : '#283811',
-         _hex_font_    : '#66492f',
-         _hex_mid_     : '#b8997f',
-         _hex_gradtop_ : '#a68887',
-         _hex_gradbtm_ : '#d94330',
-         _hex_bkgd_    : '#5c0811',
-         _hex_bkgd_dk_ : '#7a2d36'
+         _hex_shadow_    : '#eeffd5',
+         _hex_shadow_dk_ : '#283811',
+         _hex_font_      : '#ffd1a7',
+         _hex_font_lt_   : '#66492f',
+         _hex_mid_       : '#b8997f',
+         _hex_gradtop_   : '#a68887',
+         _hex_gradbtm_   : '#d94330',
+         _hex_bkgd_      : '#5c0811',
+         _hex_bkgd_dk_   : '#7a2d36'
         }
       ],
       _global_mixin_map_ : {
         _global_d25_box_shadow_ : [[
-          ['rgba( 0, 0, 0, .5)'], '_0_', '_0_', '_d25rem_', '_0_'
+          // ['rgba( 0, 0, 0, .5)'], '_0_', '_0_', '_d25rem_', '_0_'
+          '_hex_shadow_', '_0_', '_0_', '_d25rem_', '_0_'
         ]],
         _global_d5_box_shadow_  : [[
-          ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
+          // ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
+          '_hex_shadow_', '_0_', '_0_', '_d5rem_', '_0_'
         ]],
         _global_linear_grad_ : [[
           [ 'linear-gradient(to bottom,' ],
