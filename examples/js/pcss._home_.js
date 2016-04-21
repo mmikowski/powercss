@@ -38,7 +38,8 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#455c4f',
          _hex_gradtop_ : '#cc5543',
          _hex_gradbtm_ : '#edb579',
-         _hex_bkgd_    : '#dbe6af'
+         _hex_bkgd_    : '#dbe6af',
+         _hex_bkgd_dk_ : '#b9c391'
         },
         { _palette_name_  : 'Autumn II',
          _hex_shadow_  : '#d1cec5',
@@ -46,7 +47,8 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#755330',
          _hex_gradtop_ : '#b0703c',
          _hex_gradbtm_ : '#dba72e',
-         _hex_bkgd_    : '#e3cca1'
+         _hex_bkgd_    : '#e3cca1',
+         _hex_bkgd_dk_ : '#bdaa86'
         },
         { _palette_name_  : 'Tomato',
          _hex_shadow_  : '#4a572c',
@@ -54,15 +56,17 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#c2c290',
          _hex_gradtop_ : '#e87f60',
          _hex_gradbtm_ : '#e34819',
-         _hex_bkgd_    : '#d6cfc9'
+         _hex_bkgd_    : '#d6cfc9',
+         _hex_bkgd_dk_ : '#bab4af'
         },
         { _palette_name_  : 'Canyon',
          _hex_shadow_  : '#8a6e64',
          _hex_font_    : '#6e352c',
          _hex_mid_     : '#f59a44',
          _hex_gradtop_ : '#cf5230',
-         _hex_gradbtm_ : '#6e612f',
-         _hex_bkgd_    : '#e3c598'
+         _hex_gradbtm_ : '#96884f',
+         _hex_bkgd_    : '#e3c598',
+         _hex_bkgd_dk_ : '#c2a882'
         },
         { _palette_name_  : 'Basket',
          _hex_shadow_  : '#e6e2df',
@@ -70,7 +74,8 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#8f8172',
          _hex_gradtop_ : '#966c5d',
          _hex_gradbtm_ : '#ccb8d1',
-         _hex_bkgd_    : '#452b29'
+         _hex_bkgd_    : '#452b29',
+         _hex_bkgd_dk_ : '#704643'
         },
         { _palette_name_  : 'Fresh',
          _hex_shadow_  : '#d9d9d9',
@@ -78,7 +83,8 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#d15656',
          _hex_gradtop_ : '#94353c',
          _hex_gradbtm_ : '#47322d',
-         _hex_bkgd_    : '#996b42'
+         _hex_bkgd_    : '#996b42',
+         _hex_bkgd_dk_ : '#7a4c22'
         },
         { _palette_name_  : 'Mineral',
          _hex_shadow_  : '#694364',
@@ -86,7 +92,8 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#e3d1e2',
          _hex_gradtop_ : '#e8e4e1',
          _hex_gradbtm_ : '#c4c4c0',
-         _hex_bkgd_    : '#cca772'
+         _hex_bkgd_    : '#cca772',
+         _hex_bkgd_dk_ : '#a17f4f'
         },
         { _palette_name_  : 'Spice I',
          _hex_shadow_  : '#ebe3d9',
@@ -94,7 +101,8 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#c2bc74',
          _hex_gradtop_ : '#6e615a',
          _hex_gradbtm_ : '#807e82',
-         _hex_bkgd_    : '#b8b8b8'
+         _hex_bkgd_    : '#b8b8b8',
+         _hex_bkgd_dk_ : '#9c9c9c'
         },
         { _palette_name_  : 'Spice III',
          _hex_shadow_  : '#f7efd4',
@@ -102,7 +110,8 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#eb712f',
          _hex_gradtop_ : '#91371b',
          _hex_gradbtm_ : '#472c25',
-         _hex_bkgd_    : '#d4c2b2'
+         _hex_bkgd_    : '#d4c2b2',
+         _hex_bkgd_dk_ : '#baa18a'
         },
         { _palette_name_  : 'Chili',
          _hex_shadow_  : '#283811',
@@ -110,7 +119,8 @@ pcss._home_ = (function ( $ ) {
          _hex_mid_     : '#b8997f',
          _hex_gradtop_ : '#a68887',
          _hex_gradbtm_ : '#d94330',
-         _hex_bkgd_    : '#5c0811'
+         _hex_bkgd_    : '#5c0811',
+         _hex_bkgd_dk_ : '#7a2d36'
         }
       ],
       _global_mixin_map_ : {
@@ -131,11 +141,14 @@ pcss._home_ = (function ( $ ) {
             _font_size_ : '_base_body_font_size_'
           }
         },
+        { _selector_str_ : 'a',
+          _rule_map_ : { _color_ : '_inherit_' }
+        },
         { _selector_str_  : 'body',
           _rule_map_ : {
             _display_     : '_block_',
             _margin_      : '_0_',
-            _background_  : '_hex_bkgd_',
+            _background_  : '_hex_bkgd_dk_',
             _font_family_ : '_font_sans_',
             _line_height_ : '_1d25rem_',
             _color_       : '_hex_font_',
@@ -168,6 +181,7 @@ pcss._home_ = (function ( $ ) {
             _padding_     : [[ '_2d5rem_', '_2rem_' ]],
             _max_width_   : [ '72rem' ],
             _margin_      : [[ '_0_', '_auto_' ]],
+            _background_  : '_hex_bkgd_',
             _box_shadow_  : '_global_d5_box_shadow_'
           }
         },
@@ -250,7 +264,7 @@ pcss._home_ = (function ( $ ) {
             _height_        : '_auto_',
             _box_shadow_    : '_global_d5_box_shadow_',
             _border_radius_ : [[ '_0_', '_0_', '_d5rem_', '_d5rem_' ]],
-            _background_    : '_xfff_'
+            _background_    :'_hex_gradbtm_'
           }
         },
         { _selector_str_ : '.pcss-_head_float_ > div',
