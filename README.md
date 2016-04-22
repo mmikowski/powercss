@@ -780,7 +780,7 @@ Open the file with your browser to see the results.
 CSS uses long keywords and values, and is often quite repetitive.
 A PowerCSS solution can often be compressed to a fraction of the size
 of minimized CSS. Consider the example above where we created the
-`_global_red_grad_map__` symbol. The initial definition required 276
+`_global_red_grad_map_` symbol. The initial definition required 276
 characters, or 113% of minimized CSS. However, if we use this symbol
 more than once, we come out far ahead, as the compressed PowerCSS
 representation is only 2.9% the size of the minimized CSS. If we use
@@ -1331,7 +1331,7 @@ the styling will be removed.
 #### Set the style element prefixes
 
 ```js
-pcss.__initModule_({_style_el_prefix_ : 'ns' });
+pcss._initModule_({_style_el_prefix_ : 'ns' });
 ```
 
 The style element prefix may only be set once on the initial call.
@@ -1340,7 +1340,7 @@ Subsequent calls will ignore any request to change this.
 #### Get the current style prefix
 
 ```js
-style_el_prefix = pcss.__initModule_();
+style_el_prefix = pcss._initModule_();
 ```
 
 The `_initModule_` method returns the style prefix in use.
