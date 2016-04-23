@@ -39,21 +39,30 @@
   <h2>News</h2>
     <h3>2016-04-15: v1.1 released</h3>
     <p>We have added support for arbitrary-depth conditional 
-    CSS and media queries. The API remains backward compatible.
-    Multiple regression test for this capability have been added.
-    See the updated <b>Cookbook</b> section of the Github README
-    for details.</p>
+    CSS and media queries. See the <b>Conditional Expressions</b> section of updated
+    <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
+     target="_blank">GitHub Documentation</a>. We added 22 regression tests to
+     ensure quality and reliability.</p>
+   
+    <p>The API remains almost completely backwards compatible in this release
+    which we feel is a major accomplishment given the requirements of
+    conditional expressions.  The only exception is that the irregular
+    symbol names containing "bottom" have been made consistent.
+    For example, <code>border_btm</code> has been renamed to
+    <code>border_bottom</code> as the former was needlessly different
+    from the CSS symbol.</p>
+
   <h2>What</h2>
     <p><b>PowerCSS</b> is a JavaScript library that helps developers create
     responsive, double-buffered CSS that is optimized for performance.
-    Watch <a href="https://www.youtube.com/watch?v=rnkMjzhxw4s">this
-    presentation</a> for an an overview of CSS double-buffering.
+    Watch <a href="https://www.youtube.com/watch?v=rnkMjzhxw4s"
+    target="_blank">this presentation</a> for an an overview of CSS double-buffering.
     PowerCSS is all-new code with many additional capabilities
     and optimizations.<p>
 
     <p>The project is hosted on <a href="https://github.com/mmikowski/powercss"
-    >GitHub</a> and is available as an
-    <a href="https://www.npmjs.com/package/powercss">npm package</a>.
+    target="_blank">GitHub</a> and is available as an
+    <a href="https://www.npmjs.com/package/powercss" target="_blank">npm package</a>.
     It can be installed using <code>npm install powercss</code>.</p>
 
     <p>This page is styled using PowerCSS. Click at the top right to
@@ -186,7 +195,7 @@
     capabilities. The documentation and examples have expanded and updated.
     We have added the PowerCSS Cookbook section to the
     <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
-    >GitHub Documentation</a> which we hope you find useful.
+    target="_blank">GitHub Documentation</a> which we hope you find useful.</p>
 
     <p>The work remaining includes documentation updates, example
     implementations, and regression tests. We hope to complete those tasks

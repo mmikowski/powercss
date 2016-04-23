@@ -33,108 +33,137 @@ pcss._home_ = (function ( $ ) {
     topCmap = {
       _palette_list_ : [
         { _palette_name_  : 'Autumn I',
-         _hex_shadow_  : '#6d7696',
-         _hex_font_    : '#59484f',
-         _hex_mid_     : '#455c4f',
-         _hex_gradtop_ : '#cc5543',
-         _hex_gradbtm_ : '#edb579',
-         _hex_bkgd_    : '#dbe6af',
-         _hex_bkgd_dk_ : '#b9c391'
+          _hex_bright_    : '#fff',
+          _hex_shadow_    : '#6d7696',
+          _hex_font_      : '#59484f',
+          _hex_mid_       : '#455c4f',
+          _hex_link_      : '#cc5543',
+          _hex_gradtop_   : '#cc5543',
+          _hex_link_dk_   : '#b32914',
+          _hex_gradbtm_   : '#edb579',
+          _hex_bkgd_      : '#dbe6af',
+          _hex_bkgd_dk_   : '#b9c391'
         },
         { _palette_name_  : 'Autumn II',
-         _hex_shadow_  : '#d1cec5',
-         _hex_font_    : '#997c67',
-         _hex_mid_     : '#755330',
-         _hex_gradtop_ : '#b0703c',
-         _hex_gradbtm_ : '#dba72e',
-         _hex_bkgd_    : '#e3cca1',
-         _hex_bkgd_dk_ : '#bdaa86'
+          _hex_bright_    : '#fff',
+          _hex_shadow_    : '#d1cec5',
+          _hex_font_lt_   : '#997c67',
+          _hex_font_      : '#6a5647',
+          _hex_mid_       : '#755330',
+          _hex_link_      : '#b0703c',
+          _hex_gradtop_   : '#b0703c',
+          _hex_link_dk_   : '#96541e',
+          _hex_gradbtm_   : '#dba72e',
+          _hex_bkgd_      : '#e3cca1',
+          _hex_bkgd_dk_   : '#bdaa86'
         },
         { _palette_name_  : 'Tomato',
-         _hex_shadow_  : '#4a572c',
-         _hex_font_    : '#803018',
-         _hex_mid_     : '#c2c290',
-         _hex_gradtop_ : '#e87f60',
-         _hex_gradbtm_ : '#e34819',
-         _hex_bkgd_    : '#d6cfc9',
-         _hex_bkgd_dk_ : '#bab4af'
+          _hex_bright_    : '#fff',
+          _hex_shadow_    : '#4a572c',
+          _hex_font_      : '#803018',
+          _hex_mid_       : '#c2c290',
+          _hex_link_      : '#e87f60',
+          _hex_gradtop_   : '#e87f60',
+          _hex_link_dk_   : '#e34819',
+          _hex_gradbtm_   : '#e34819',
+          _hex_bkgd_      : '#d6cfc9',
+          _hex_bkgd_dk_   : '#bab4af'
         },
         { _palette_name_  : 'Canyon',
-         _hex_shadow_  : '#8a6e64',
-         _hex_font_    : '#6e352c',
-         _hex_mid_     : '#f59a44',
-         _hex_gradtop_ : '#cf5230',
-         _hex_gradbtm_ : '#96884f',
-         _hex_bkgd_    : '#e3c598',
-         _hex_bkgd_dk_ : '#c2a882'
+          _hex_bright_    : '#fff',
+          _hex_shadow_    : '#8a6e64',
+          _hex_font_      : '#6e352c',
+          _hex_mid_       : '#f59a44',
+          _hex_link_      : '#cf5230',
+          _hex_gradtop_   : '#cf5230',
+          _hex_link_dk_   : '#af3210',
+          _hex_gradbtm_   : '#96884f',
+          _hex_bkgd_      : '#e3c598',
+          _hex_bkgd_dk_   : '#c2a882'
         },
         { _palette_name_  : 'Basket',
-         _hex_shadow_  : '#e6e2df',
-         _hex_font_    : '#b2e3e8',
-         _hex_mid_     : '#8f8172',
-         _hex_gradtop_ : '#966c5d',
-         _hex_gradbtm_ : '#ccb8d1',
-         _hex_bkgd_    : '#452b29',
-         _hex_bkgd_dk_ : '#704643'
+          _hex_bright_    : '#966c5d',
+          _hex_shadow_    : '#e6e2df',
+          _hex_font_      : '#b2e3e8',
+          _hex_mid_       : '#8f8172',
+          _hex_link_      : '#452b29',
+          _hex_gradtop_   : '#966c5d',
+          _hex_link_dk_   : '#fff',
+          _hex_gradbtm_   : '#98899c',
+          _hex_bkgd_      : '#452b29',
+          _hex_bkgd_dk_   : '#704643'
         },
         { _palette_name_  : 'Fresh',
-         _hex_shadow_  : '#d9d9d9',
-         _hex_font_    : '#f5b3b4',
-         _hex_mid_     : '#d15656',
-         _hex_gradtop_ : '#94353c',
-         _hex_gradbtm_ : '#47322d',
-         _hex_bkgd_    : '#996b42',
-         _hex_bkgd_dk_ : '#7a4c22'
+          _hex_bright_    : '#94353c',
+          _hex_shadow_    : '#d9d9d9',
+          _hex_font_      : '#ffe3c4',
+          _hex_mid_       : '#d15656',
+          _hex_link_      : '#ffe3c4', 
+          _hex_gradtop_   : '#94353c',
+          _hex_link_dk_   : '#fff',
+          _hex_gradbtm_   : '#47322d',
+          _hex_bkgd_      : '#996b42',
+          _hex_bkgd_dk_   : '#7a4c22'
         },
         { _palette_name_  : 'Mineral',
-         _hex_shadow_  : '#694364',
-         _hex_font_    : '#54384d',
-         _hex_font_lt_ : '#b58bab',
-         _hex_mid_     : '#e3d1e2',
-         _hex_gradtop_ : '#e8e4e1',
-         _hex_gradbtm_ : '#c4c4c0',
-         _hex_bkgd_    : '#cca772',
-         _hex_bkgd_dk_ : '#a17f4f'
+          _hex_bright_    : '#e8e4e1',
+          _hex_shadow_    : '#694364',
+          _hex_font_      : '#54384d',
+          _hex_font_lt_   : '#b58bab',
+          _hex_mid_       : '#e3d1e2',
+          _hex_link_      : '#694364',
+          _hex_gradtop_   : '#c4c4ca',
+          _hex_link_dk_   : '#54384d',
+          _hex_gradbtm_   : '#a4a4a9',
+          _hex_bkgd_      : '#cca772',
+          _hex_bkgd_dk_   : '#a17f4f'
         },
         { _palette_name_  : 'Spice I',
-         _hex_shadow_  : '#ebe3d9',
-         _hex_font_    : '#472c00',
-         _hex_font_lt_ : '#e0cdaf',
-         _hex_mid_     : '#c2bc74',
-         _hex_gradtop_ : '#6e615a',
-         _hex_gradbtm_ : '#807e82',
-         _hex_bkgd_    : '#b8b8b8',
-         _hex_bkgd_dk_ : '#9c9c9c'
+          _hex_bright_    : '#fff',
+          _hex_shadow_    : '#ebe3d9',
+          _hex_font_      : '#472c00',
+          _hex_link_      : '#472c00',
+          _hex_font_lt_   : '#e0cdaf',
+          _hex_mid_       : '#c2bc74',
+          _hex_gradtop_   : '#6e615a',
+          _hex_link_dk_   : '#807e82', 
+          _hex_gradbtm_   : '#807e82',
+          _hex_bkgd_      : '#b8b8b8',
+          _hex_bkgd_dk_   : '#9c9c9c'
         },
         { _palette_name_  : 'Spice III',
-         _hex_shadow_  : '#f7efd4',
-         _hex_font_    : '#996f2d',
-         _hex_font_lt_ : '#faddaf',
-         _hex_mid_     : '#eb712f',
-         _hex_gradtop_ : '#91371b',
-         _hex_gradbtm_ : '#472c25',
-         _hex_bkgd_    : '#d4c2b2',
-         _hex_bkgd_dk_ : '#baa18a'
+          _hex_bright_    : '#fff',
+          _hex_shadow_    : '#f7efd4',
+          _hex_font_      : '#472c25',
+          _hex_link_      : '#472c25',
+          _hex_font_lt_   : '#faddaf',
+          _hex_mid_       : '#eb712f',
+          _hex_gradtop_   : '#91371b',
+          _hex_link_dk_   : '#baa18a',
+          _hex_gradbtm_   : '#baa18a',
+          _hex_bkgd_      : '#d4c2b2',
+          _hex_bkgd_dk_   : '#baa18a'
         },
         { _palette_name_  : 'Chili',
-         _hex_shadow_    : '#eeffd5',
-         _hex_shadow_dk_ : '#283811',
-         _hex_font_      : '#ffd1a7',
-         _hex_font_lt_   : '#66492f',
-         _hex_mid_       : '#b8997f',
-         _hex_gradtop_   : '#a68887',
-         _hex_gradbtm_   : '#d94330',
-         _hex_bkgd_      : '#5c0811',
-         _hex_bkgd_dk_   : '#7a2d36'
+          _hex_bright_    : '#d94330',
+          _hex_shadow_    : '#eeffd5',
+          _hex_shadow_dk_ : '#283811',
+          _hex_font_      : '#ffd1a7',
+          _hex_link_      : '#eeffd5',
+          _hex_font_lt_   : '#66492f',
+          _hex_mid_       : '#b8997f',
+          _hex_gradtop_   : '#a68887',
+          _hex_link_dk_   : '#ffd1a7',  
+          _hex_gradbtm_   : '#d94330',
+          _hex_bkgd_      : '#5c0811',
+          _hex_bkgd_dk_   : '#7a2d36'
         }
       ],
       _global_mixin_map_ : {
         _global_d25_box_shadow_ : [[
-          // ['rgba( 0, 0, 0, .5)'], '_0_', '_0_', '_d25rem_', '_0_'
           '_hex_shadow_', '_0_', '_0_', '_d25rem_', '_0_'
         ]],
         _global_d5_box_shadow_  : [[
-          // ['rgba( 64, 32, 32, .5)'], '_0_', '_0_', '_d5rem_', '_0_'
           '_hex_shadow_', '_0_', '_0_', '_d5rem_', '_0_'
         ]],
         _global_linear_grad_ : [[
@@ -148,18 +177,50 @@ pcss._home_ = (function ( $ ) {
             _font_size_ : '_base_body_font_size_'
           }
         },
-        { _selector_str_ : 'a',
-          _rule_map_ : { _color_ : '_inherit_' }
-        },
         { _selector_str_  : 'body',
           _rule_map_ : {
             _display_     : '_block_',
             _margin_      : '_0_',
             _background_  : '_hex_bkgd_dk_',
             _font_family_ : '_font_sans_',
-            _line_height_ : '_1d25rem_',
             _color_       : '_hex_font_',
             _overflow_x_  : '_hidden_'
+          }
+        },
+        { _selector_str_ : 'p,li',
+          _rule_map_ : {
+            _line_height_ : '_1d75rem_',
+          }
+        },
+        { _selector_str_ : 'a',
+          _rule_map_ : {
+            _display_         : '_inline_block_',
+            _height_          : '_1d25rem_',
+            _border_radius_   : '_d25rem_',
+            _padding_         : [[ '_0_', '_d375rem_', '_d0625rem_', '_d375rem_' ]],
+            _color_           : '_hex_link_',
+            _background_      : '_hex_bright_',
+            _text_decoration_ : '_none_',
+            _box_shadow_      : '_global_d25_box_shadow_'
+          }
+        },
+        { _selector_str_ : 'a:hover',
+          _rule_map_ : {
+            _background_ : '_hex_link_dk_',
+            _color_      : '_hex_bright_',
+            _text_decoration_ : '_underline_'
+          }
+        },
+        { _selector_str_ : 'code',
+          _rule_map_ : {
+            _display_       : '_inline_block_',
+            _height_        : '_1d25rem_',
+            _border_radius_ : '_d25rem_',
+            _padding_       : [[ '_0_', '_d375rem_', '_d0625rem_', '_d375rem_' ]],
+            _font_family_   : [ 'courier, fixed' ],
+            _color_         : '_hex_bkgd_',
+            _background_    : '_hex_font_',
+            _font_weight_   : '_800_'
           }
         },
         { _selector_str_ : 'input',
@@ -173,13 +234,6 @@ pcss._home_ = (function ( $ ) {
             _background_    : '_x888_',
             _font_size_     : '_1rem_',
             _color_         : '_xddd_'
-          }
-        },
-        { _selector_str_ : 'input:focus',
-          _rule_map_ : {
-            _border_color_ : '_xfff_',
-            _background_   : '_x444_',
-            _color_        : '_xfff_'
           }
         },
         { _selector_str_ : '.pcss-_content_',
@@ -250,6 +304,7 @@ pcss._home_ = (function ( $ ) {
             _background_    :'_hex_gradbtm_'
           }
         },
+
         { _selector_str_ : '.pcss-_head_float_',
           _rule_map_ : {
             _position_      : '_relative_',
