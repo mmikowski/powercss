@@ -28,6 +28,7 @@
 
 // BEGIN pcss._home_
 pcss._home_ = (function ( $ ) {
+  //---------------- BEGIN MODULE SCOPE VARIABLES --------------
   'use strict';
   var
     topCmap = {
@@ -350,8 +351,10 @@ pcss._home_ = (function ( $ ) {
     },
     jqueryMap = {}
     ;
+  // ================== END MODULE SCOPE VARIABLES =====================
 
-  // Begin setJqueryMap
+  // ======================= BEGIN DOM METHODS =========================
+  // Begin DOM method /setJqueryMap/
   function setJqueryMap () {
     var
       $head = $( '#pcss-_head_' ),
@@ -365,9 +368,9 @@ pcss._home_ = (function ( $ ) {
       _$head_palette_    : $head_float_list.eq(1)
     };
   }
-  // End setJqueryMap
+  // End DOM method /setJqueryMap/
 
-  // Begin setStyle
+  // Begin DOM method setStyle
   function setStyle () {
     var
       box_selector_list = topCmap._box_selector_list_,
@@ -465,9 +468,9 @@ pcss._home_ = (function ( $ ) {
       '_asset_type_' : '_cascade_'
     });
   }
-  // End setStyle
+  // End DOM method /setStyle/
 
-  // Begin drawCascadeSelect
+  // Begin DOM method /drawCascadeSelect/
   function drawCascadeSelect () {
     var
       div_list = [],
@@ -484,9 +487,9 @@ pcss._home_ = (function ( $ ) {
     jqueryMap._$head_cascade_.html( cascade_html );
 
   }
-  // End drawCascadeSelect
+  // End DOM method /drawCascadeSelect/
 
-  // Begin drawPaletteSelect
+  // Begin DOM method /drawPaletteSelect/
   function drawPaletteSelect () {
     var
       palette_list  = topCmap._palette_list_,
@@ -508,19 +511,19 @@ pcss._home_ = (function ( $ ) {
     palette_html = div_list.join( '' );
     jqueryMap._$head_palette_.html( palette_html );
   }
-  // End drawPaletteSelect
+  // End DOM method /drawPaletteSelect/
 
-  // Begin setPaletteIdx
-  function setPaletteIdx () {
+  // Begin DOM method /pickPaletteIdx/
+  function pickPaletteIdx ( palette_idx ) {
     var
       base_mixin_map = topCmap._base_mixin_map_,
       palette_list   = topCmap._palette_list_,
-      palette_idx    = topSmap._palette_idx_,
       palette_map    = palette_list[ palette_idx],
       $child_list    = jqueryMap._$head_palette_.children()
       ;
 
     if ( ! palette_map ) { return; }
+    topSmap._palette_idx_ = palette_idx;
     $child_list.removeClass( 'pcss-_x_select_' );
     $child_list.eq( palette_idx + 1 ).addClass( 'pcss-_x_select_');
 
@@ -533,17 +536,17 @@ pcss._home_ = (function ( $ ) {
       _regen_type_ : '_all_'
     });
   }
-  // End setPaletteIdx
+  // End DOM method /pickPaletteIdx/
 
-  // Begin setCascade
-  function setCascade () {
+  // Begin DOM method /pickCascadeIdx/
+  function pickCascadeIdx ( cascade_idx ) {
     var
-      cascade_idx     = topSmap._cascade_idx_,
       cascade_id_list = topSmap._cascade_id_list_,
       cascade_id      = cascade_id_list[ cascade_idx],
       $child_list     = jqueryMap._$head_cascade_.children()
       ;
     if ( ! cascade_id ) { return; }
+    topSmap._cascade_idx_ = cascade_idx;
     $child_list.removeClass( 'pcss-_x_select_' );
     $child_list.eq( cascade_idx + 1 ).addClass( 'pcss-_x_select_');
 
@@ -553,9 +556,11 @@ pcss._home_ = (function ( $ ) {
       _regen_type_ : '_use_'
     });
   }
-  // End setCascade
+  // End DOM method /pickCascadeIdx/
+  //---------------------- END DOM METHODS ---------------------
 
-  // Begin onClickHead
+  //------------------- BEGIN EVENT HANDLERS -------------------
+  // Begin event handler /onClickHead/
   function onClickHead ( event_obj ) {
     var
       target_el  = event_obj.target,
@@ -577,21 +582,21 @@ pcss._home_ = (function ( $ ) {
     }
     if ( target_idx > 0 ) {
       if ( float_idx === 1 ) {
-        topSmap._palette_idx_ = target_idx - 1;
-        setPaletteIdx();
+        pickPaletteIdx( target_idx - 1 );
       }
       else {
-        topSmap._cascade_idx_ = target_idx - 1;
-        setCascade();
+        pickCascadeIdx( target_idx - 1 );
       }
     }
     setTimeout( function () {
       $float_div.removeClass( 'pcss-_x_active_' );
     }, 250 );
   }
-  // End onClickHead
+  // End event handler /onClickHead/
+  // ======================= END EVENT HANDLERS ========================
 
-  // Begin initModule
+  // ====================== BEGIN PUBLIC METHODS =======================
+  // Begin public method /initModule/
   function initModule () {
     pcss._initModule_();
 
@@ -600,16 +605,15 @@ pcss._home_ = (function ( $ ) {
     drawCascadeSelect();
     drawPaletteSelect();
 
-    setPaletteIdx();
-    setCascade();
+    pickPaletteIdx( 0 );
+    pickCascadeIdx( 0 );
 
     jqueryMap._$head_.on( 'click', onClickHead );
   }
-  // End initModule
+  // End public method /initModule/
 
-  return {
-    _initModule_ : initModule
-  };
+  return { _initModule_ : initModule };
+  // ======================= END PUBLIC METHODS ========================
 }( jQuery ));
 // END pcss._home_
 
