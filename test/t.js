@@ -478,7 +478,6 @@
     test_obj.ok( event_obj._data_ === cascade_id, expect_str );
 
     css_str    = '"' + expect_list[ smap._prepared_idx_ ] + '"';
-    expect_str = 'css string matches expected ';
 
     try {
       ret_data = pcss._getAssetJson_({
@@ -489,6 +488,8 @@
     }
     catch( error ) { ret_data = error; }
 
+    expect_str = 'return data |' + ret_data 
+      + '| matches expected css_str |' + css_str + '|';
     test_obj.ok( ret_data === css_str, expect_str );
     smap._prepared_idx_++;
     if ( smap._prepared_idx_ === smap._input_list_.length ) {

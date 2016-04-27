@@ -665,23 +665,22 @@ var pcss = (function () {
         if ( begin_cond_str ) {
           cond_stack[ vMap._push_ ]( begin_cond_str );
           namespace_str = cond_stack[ vMap._join_ ](':');
-
-          if ( seen_cond_map[ begin_cond_str ] === __undef ) {
+          if ( seen_cond_map[ namespace_str ] === __undef ) {
             merged_selector_list[ vMap._push_]( selector_map );
           }
           continue _SELECT_MAP0_;
         }
+
         if ( end_cond_str !== __undef ) {
+          if ( seen_cond_map[ namespace_str ] === __undef ) {
+            merged_selector_list[ vMap._push_]( selector_map );
+            seen_cond_map[ namespace_str ] = true;
+          }
           pop_str = cond_stack[ vMap._pop_ ]();
           if ( end_cond_str && pop_str !== end_cond_str ) {
             logIt( '_end_cond_str_does_not_matched_', pop_str, end_cond_str );
           }
           namespace_str = cond_stack[ vMap._join_ ](':');
-
-          if ( seen_cond_map[ pop_str ] === __undef ) {
-            merged_selector_list[ vMap._push_]( selector_map );
-            seen_cond_map[ pop_str ] = __true;
-          }
           continue _SELECT_MAP0_;
         }
 
