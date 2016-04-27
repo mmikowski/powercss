@@ -30,7 +30,7 @@
   </script>
 </head>
 <body>
-  <div id="pcss-_head_">
+  <div class="pcss-_head_">
     <div class="pcss-_head_float_"></div>
     <div class="pcss-_head_float_"></div>
     <div class="pcss-_x_clear_"></div>
@@ -39,23 +39,24 @@
   <div class="pcss-_logo_"></div>
   <h2>News</h2>
     <h3>2016-04-15: v1.1 released</h3>
-    <p>We have added support for arbitrary-depth conditional 
-    CSS and media queries. See the <b>Conditional Expressions</b> section of updated
+    <p><strong>We have added support for arbitrary-depth conditional 
+    CSS and media queries.</strong> See the <code>Conditional
+    Expressions</code> section of updated
     <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
-     target="_blank">GitHub Documentation</a>. We added 22 regression tests to
+     target="_blank">documentation</a>. We added 22 regression tests to
      ensure quality and reliability.</p>
    
-    <p>The API remains almost completely backwards compatible in this release
-    which we feel is a major accomplishment given the requirements of
-    conditional expressions.  The only exception is that the irregular
+    <p><strong>The API is backwards compatible with 1.0</strong> which we feel is 
+    a major accomplishment given the requirements of
+    conditional expressions. The only exception is that the irregular
     symbol names containing "bottom" have been made consistent.
     For example, <code>border_btm</code> has been renamed to
     <code>border_bottom</code> as the former was needlessly different
     from the CSS symbol.</p>
 
   <h2>What</h2>
-    <p><b>PowerCSS</b> is a JavaScript library that helps developers create
-    responsive, double-buffered CSS that is optimized for performance.
+    <p><strong>PowerCSS is a JavaScript library that create run-time CSS optimized for
+    performance.</strong>
     Watch <a href="https://www.youtube.com/watch?v=rnkMjzhxw4s"
     target="_blank">this presentation</a> for an an overview of CSS double-buffering.
     PowerCSS is all-new code with many additional capabilities
@@ -64,50 +65,51 @@
     <p>The project is hosted on <a href="https://github.com/mmikowski/powercss"
     target="_blank">GitHub</a> and is available as an
     <a href="https://www.npmjs.com/package/powercss" target="_blank">npm package</a>.
-    It can be installed using <code>npm install powercss</code>.</p>
+    It can be installed using <code>npm install powercss</code>. After
+    installation, if you&apos;d like to run the regression tests, enter the
+    following into a Bash shell:</p>
 
-    <p>This page is styled using PowerCSS. Click at the top right to
-      change the palette or cascade at any time. It looks good on a phone
-      as well as a desktop.</p>
+    <pre>cd node_modules/powercss
+npm install
+npm test</pre>
 
   <h2>How</h2>
-    <p>This page is styled using PowerCSS. Click at the top right to
-      change the palette or cascade at any time.</p>
+    <p><strong>This page is styled using PowerCSS</strong>. I know, dog-food
+    much?  Anyway, click at the top right to change the palette or cascade at any time.
+    It looks good on a phone as well as a desktop.  Here are more examples:</p>
+
     <ul>
-      <li><a href="examples/pcss._ex001_.html">Example 001</a>
-        - The basics</li>
-      <li><a href="examples/pcss._ex002_.html">Example 002</a>
-        - Double buffering</li>
-      <li><a href="examples/pcss._ex003_.html">Example 003</a>
-        - Mixin-maps</li>
-      <li><a href="examples/pcss._ex004_.html">Example 004</a>
-        - Compression</li>
-      <li><a href="examples/pcss._ex005_.html">Example 005</a>
-        - Dynamic themes</li>
+      <li><a href="examples/pcss._ex001_.html">001 The basics</a></li>
+      <li><a href="examples/pcss._ex002_.html">002 Double buffering</a></li>
+      <li><a href="examples/pcss._ex003_.html">003 Mixin-maps</a></li>
+      <li><a href="examples/pcss._ex004_.html">004 Compression</a></li>
+      <li><a href="examples/pcss._ex005_.html">005 Dynamic themes</a></li>
     </ul>
 
   <h2>Why</h2>
-    <p>A significant problem with traditional CSS, whether written
-    by an expert or someone using <code>{less}</code> or <code>Sass</code>,
-    is that it is <b>not</b> written as the application needs it.
-    Styling that is responsive to the user&apos;s environment is either limited
-    or simply not possible.</p>
+    <p><strong>Traditional CSS is created well before it is used</strong>,
+    not when the application needs it. While preprocessors such as 
+    <code>{less}</code>, <code>Stylus</code>, or <code>Sass</code> can help
+    reduce some of the tedium of creating styling variations, they complicate the 
+    tool chain and can hinder design iterations.</p>
 
-    <p>PowerCSS provides tools to write and apply infinitely adjustable
-    CSS based on almost any real-time data available to an application.
-    For example, an application could use PowerCSS to adjust styling based on
-    device orientation, ambient temperature, ambient light, GPS location,
-    heart rate, or time of day. Traditional static CSS can&apos;t compete with
+    <p><strong>PowerCSS is designed and optimized for run-time
+    creation and application of CSS</strong>. It can be responsive to the user&apos;s 
+    environment to a level not possible with preprocessors.  Even better,
+    there is no additional compile step to hinder design iteration.
+    Styling can be infinitely adjust based on almost any real-time data available
+    to an application such as ambient temperature, device orientation, ambient light, 
+    GPS location, heart rate, or time of day. Static CSS can&apos;t compete with
     this flexibility.</p>
 
-    <p>We feel that PowerCSS has not only achieved its primary goal, but that
+    <p><strong>PowerCSS has not only achieved its primary goal</strong>, but
     it is often better than static CSS in many other respects as well.
     It provides a simple and familiar API where experienced CSS authors
     can use their existing skills to be up and running in minutes.
     When compressed, a PowerCSS solution can download and render faster,
     and it can speed up some CSS operations by 10x or more.
-
     What&apos;s not to like?</p>
+
     <ul>
       <li><strong>Real-time styling</strong> - Create 
       custom styling for every user of your application at any time.</li>
@@ -140,69 +142,44 @@
     </ul>
 
   <h2>Older News</h2>
-    <h3>2016-03-25: v1.0</h3>
-    <p>We feel the code is now production ready. It has strong set of regression
-      tests and has been tested in a number of production and production-intent
-      projects with good results. We plan to add per-cascade double-buffered
-      stylesheets in the 1.2.x release.</p>
-    <h3>2016-03-20: v0.7.1</h3>
-    <p>We are very close to 1.x release.  The rule-map resolver has been
-    revised to handle arbitrarily complex data structures. This allows us
-    to create mixin maps that support any combination of alternate-lists,
-    concatenations, and symbol-lookups.  The isolated code can be found in 
-    be found in <code>test/resolve.js</code>. This has been merged
-    with <code>dist/pcss.js</code>, however, we still need to move the
-    tests to <code>test/t.js</code>.</p>
+  <h3>2016-03-25: v1.0</h3>
+  <p>Our first production release. We have a strong set of regression
+  tests and has been used in a number of production and production-intent
+  projects with good results. We plan to add per-cascade double-buffered
+  stylesheets in the 1.2.x release.</p>
 
-    <h3>2016-03-09: v0.6.6</h3>
-    <p>Isn&apos;t regression testing grand?
-    Just implementing basic coverage has
-    turned up a few interesting bugs and needs.  One example: the process
-    update test was sporadically failing about 1/10th of the time because
-    sometimes the test JS proceeded before the CSS string processing
-    completed.  So now we have events which are trigged by these processing
-    steps (not yet supported in IE).  They are <code>_pcss_merged_</code>, 
-    <code>_pcss_prepared_</code>, and <code>_pcss_used_</code>.  The event
-    object provides the ID of the <strong>cascade</strong> affected.
-    </p>
+  <h3>2016-03-20: v0.7.1</h3>
+  <p>We revised the rule-map resolver to handle arbitrarily complex data structures.
+  This allows us to create mixin maps that support any combination of alternate-lists,
+  concatenations, and symbol-lookups. The isolated code is found in 
+  <code>test/resolve.js</code>.</p>
 
-    <h3>2016-03-07: v0.6.2</h3>
-    <p>Automated regression tests are now implemented.  You may run
-    them using <code>npm install</code> and <code>npm test</code>
-    in the root installation directory 
-    (<code>node_modules/powercss/</code>).
-    Code coverage metrics and production deployments are underway to
-    help flush out any remaining refinements or bugs we may want to 
-    address.
-    </p>
+  <h3>2016-03-09: v0.6.6</h3>
+  <p>Writing tests uncovered a number of bugs and needs. 
+  We added process events: <code>_pcss_merged_</code>, 
+  <code>_pcss_prepared_</code>, and <code>_pcss_used_</code>.
+  The event object provides the ID of the <strong>cascade</strong> affected.
+  </p>
 
-    <h3>2016-03-04: v0.5.20</h3>
-    Preparations for regression tests. Added key benefits section.
+  <h3>2016-03-07: v0.6.2</h3>
+  <p>Automated regression were implemented. Production deployments
+  were helping to flush out any desired capabilities or or bugs.</p>
 
-    <h3>2016-02-24: v0.5.16</h3>
-    <p>This page now showcases double-buffer and theming capabilities.
-    We have also completed the planned 1.x API with the addition of the
-    <code>_getAssetIdList_</code> methods. At this point, all that remains
-    is integration work and regression tests.
-    </p>
-    
-    <h3>2016-02-24: v0.5.0</h3>
-    <p>PowerCss is nearly feature complete, and we consider it officially
-    <b>Beta</b>. We have been updating examples and squashing niggling bugs
-    as we find them.</p>
+  <h3>2016-03-04: v0.5.20</h3>
+  <p>Added key benefits section.</p>
 
-    <p>This version saw our last big API overhaul we expect before the 1.x
-    release. We cut the number of methods in half while adding many
-    capabilities. The documentation and examples have expanded and updated.
-    We have added the PowerCSS Cookbook section to the
-    <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
-    target="_blank">GitHub Documentation</a> which we hope you find useful.</p>
+  <h3>2016-02-24: v0.5.16</h3>
+  <p>We added double-buffering and theming capabilities to the home page.
+  We have also completed the planned 1.x API with the addition of the
+  <code>_getAssetIdList_</code> methods.</p>
+  
+  <h3>2016-02-24: v0.5.0</h3>
+  <p>PowerCss was nearly feature complete on this date and considered
+  <b>Beta</b>. The API was overhauled, cutting the number of methods in
+  half while adding many capabilities.  Documentation and examples were
+  expanded and updated.  The cookbook section was added.</p>
 
-    <p>The work remaining includes documentation updates, example
-    implementations, and regression tests. We hope to complete those tasks
-    and see a 1.x release before the end of March 2016.</p>
-
-  <h2>End</h2>
-  </div>
+ <h2>End</h2>
+ </div>
 </body>
 </html>

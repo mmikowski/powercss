@@ -1,10 +1,11 @@
-/* pss._home_.js
+/*
+ * pss._home_.js
  * PowerCSS - run-time generated and managed CSS
  * Homepage CSS
  * Michael S. Mikowski - mike.mikowski@gmail.com
 */
 /*jslint        browser : true, continue : true,
-  devel : true,  indent : 2,      maxerr : 50,
+  devel  : true, indent : 2,      maxerr : 50,
   newcap : true,  nomen : true, plusplus : true,
   regexp : true, sloppy : true,     vars : false,
   white : true,    todo : true,  unparam : true
@@ -28,10 +29,40 @@
 
 // BEGIN pcss._home_
 pcss._home_ = (function ( $ ) {
-  //---------------- BEGIN MODULE SCOPE VARIABLES --------------
+  // ================= BEGIN MODULE SCOPE VARIABLES ====================
   'use strict';
   var
     topCmap = {
+      _font_list_list_ : [
+        [ 'fa-4-5-mod-msm',    'font/'                  ],
+        [ 'Sansation-Regular', 'font/vendor/Sansation/' ]
+      ],
+
+      _font_src_tmplt_ : "url('%!%_font_path_%!%.eot?iefix=1')"
+        + " format('embedded-opentype'),"
+        + "url('%!%_font_path_%!%.woff') format('woff'),"
+        + "url('%!%_font_path_%!%.ttf') format('truetype'),"
+        + "url('%!%_font_path_%!%.svg') format('svg')",
+
+      _global_mixin_map_ : {
+        _shadow_d1875_ : [[
+          '_hex_shadow_', '_0_', '_0_', '_d125rem_', '_d0625rem_'
+        ]],
+        _shadow_d625_  : [[
+          '_hex_shadow_', '_0_', '_0_', '_d5rem_', '_0_'
+        ]],
+        _font_family_awesome_   : 'fa-4-5-mod-msm, sans-serif',
+        _font_family_arial_     : 'arial, helvetica, sans-serif',
+        _font_family_sansation_ : 'sansation-regular, sans-serif',
+        _font_size_             : '16px',
+        _trans_short_           : 'all .2s ease',
+        _trans_mid_             : 'all .4s ease',
+        _trans_long_            : 'all .5s ease',
+        _linear_grad_01_        : [[
+          [ 'linear-gradient(to bottom,' ],
+         '_hex_gradtop_', [ '0%,' ], '_hex_gradbtm_', '_100p_', [')']
+        ]]
+      },
       _palette_list_ : [
         { _palette_name_  : 'Autumn I',
           _hex_bright_    : '#fff',
@@ -95,7 +126,7 @@ pcss._home_ = (function ( $ ) {
           _hex_bkgd_dk_   : '#704643'
         },
         { _palette_name_  : 'Fresh',
-          _hex_bright_    : '#94353c',
+          _hex_bright_    : '#9c9d55',
           _hex_shadow_    : '#d9d9d9',
           _hex_font_      : '#ffe3c4',
           _hex_mid_       : '#d15656',
@@ -146,7 +177,7 @@ pcss._home_ = (function ( $ ) {
           _hex_bkgd_dk_   : '#baa18a'
         },
         { _palette_name_  : 'Chili',
-          _hex_bright_    : '#d94330',
+          _hex_bright_    : '#9c9d55',
           _hex_shadow_    : '#eeffd5',
           _hex_shadow_dk_ : '#283811',
           _hex_font_      : '#ffd1a7',
@@ -160,22 +191,14 @@ pcss._home_ = (function ( $ ) {
           _hex_bkgd_dk_   : '#7a2d36'
         }
       ],
-      _global_mixin_map_ : {
-        _global_d25_box_shadow_ : [[
-          '_hex_shadow_', '_0_', '_0_', '_d25rem_', '_0_'
-        ]],
-        _global_d5_box_shadow_  : [[
-          '_hex_shadow_', '_0_', '_0_', '_d5rem_', '_0_'
-        ]],
-        _global_linear_grad_ : [[
-          [ 'linear-gradient(to bottom,' ],
-         '_hex_gradtop_', [ '0%,'],'_hex_gradbtm_', '_100p_', [')']
-        ]]
-      },
+
       _base_selector_list_ : [
         { _selector_str_ : 'html',
-          _rule_map_ : {
-            _font_size_ : '_base_body_font_size_'
+          _rule_map_     : {
+            _font_family_ : '_font_family_arial_',
+            _font_size_   : '_font_size_',
+            _color_       : '_hex_font_',
+            _background_  : '_hex_bkgd_'
           }
         },
         { _selector_str_  : 'body',
@@ -183,26 +206,80 @@ pcss._home_ = (function ( $ ) {
             _display_     : '_block_',
             _margin_      : '_0_',
             _background_  : '_hex_bkgd_dk_',
-            _font_family_ : '_font_sans_',
             _color_       : '_hex_font_',
             _overflow_x_  : '_hidden_'
           }
         },
-        { _selector_str_ : 'p,li',
+        { _selector_str_ : '*',
+          _rule_map_     : {
+            __moz_box_sizing_  : '_border_box_',
+            _box_sizing_       : '_border_box_',
+            _float_            : '_none_',
+            _margin_           : '_0_',
+            _clip_             : '_auto_',
+            _height_           : '_auto_',
+            _width_            : '_auto_',
+            _padding_          : '_0_',
+            _line_height_      : '_inherit_',
+            _vertical_align_   : '_inherit_',
+            _font_family_      : '_inherit_',
+            _font_size_        : '_inherit_',
+            _font_weight_      : '_inherit_',
+            _font_style_       : '_inherit_',
+            _text_decoration_  : '_inherit_',
+            _color_            : '_inherit_',
+            _background_color_ : '_transparent_',
+            _outline_          : '_transparent_',
+
+            __webkit_user_select_ : '_inherit_',
+            __moz_user_select_    : '_inherit_',
+            __o_user_select_      : '_inherit_',
+            _user_select_         : '_inherit_'
+          }
+        },
+
+        { _selector_str_ : '::-webkit-input-placeholder',
+          _rule_map_     : { _color_ : '_hex_mid_' }
+        },
+        { _selector_str_ : '::-moz-placeholder',
+          _rule_map_     : {
+            _color_   : '_hex_mid_',
+            _opacity_ : '_1_'
+          }
+        },
+        { _selector_str_ : '::-ms-input-placeholder',
+          _rule_map_     : { _color_ : '_hex_mid_' }
+        },
+        { _selector_str_ : 'p',
+          _rule_map_ : {
+            _margin_top_    : '_d75rem_',
+            _margin_bottom_ : '_d5rem_',
+            _line_height_   : '_1d625rem_'
+          }
+        },
+        { _selector_str_ : 'ul,ol',
+          _rule_map_ : {
+            _margin_left_ : '_4rem_'
+          }
+        },
+        { _selector_str_ : 'li',
           _rule_map_ : {
             _line_height_ : '_1d75rem_',
+           _margin_bottom_ : '_d5rem_'
           }
         },
         { _selector_str_ : 'a',
           _rule_map_ : {
             _display_         : '_inline_block_',
-            _height_          : '_1d25rem_',
+            _margin_          : [[ '_0_', '_d25rem_' ]],
+            _height_          : '_1d5rem_',
+            _line_height_     : '_1d5rem_',
             _border_radius_   : '_d25rem_',
-            _padding_         : [[ '_0_', '_d375rem_', '_d0625rem_', '_d375rem_' ]],
+            _padding_         : [[ '_0_', '_d375rem_' ]],
             _color_           : '_hex_link_',
             _background_      : '_hex_bright_',
             _text_decoration_ : '_none_',
-            _box_shadow_      : '_global_d25_box_shadow_'
+            _box_shadow_      : '_shadow_d1875_'
           }
         },
         { _selector_str_ : 'a:hover',
@@ -212,55 +289,73 @@ pcss._home_ = (function ( $ ) {
             _text_decoration_ : '_underline_'
           }
         },
-        { _selector_str_ : 'code',
+        { _selector_str_ : 'code,pre',
           _rule_map_ : {
-            _display_       : '_inline_block_',
-            _height_        : '_1d25rem_',
+            _margin_          : [[ '_0_', '_d25rem_' ]],
+            _line_height_   : '_1d5rem_',
             _border_radius_ : '_d25rem_',
-            _padding_       : [[ '_0_', '_d375rem_', '_d0625rem_', '_d375rem_' ]],
+            _padding_       : [[ '_0_', '_d375rem_' ]],
             _font_family_   : [ 'courier, fixed' ],
-            _color_         : '_hex_bkgd_',
-            _background_    : '_hex_font_',
+            _color_         : '_hex_bright_',
+            _background_    : '_hex_bkgd_dk_',
             _font_weight_   : '_800_'
           }
         },
-        { _selector_str_ : 'input',
-          _rule_map_ : {
-            _margin_        : '_d5rem_',
-            _width_         : '_base_input_width_',
-            _border_        : '_base_input_border_',
-            _border_radius_ : '_d5rem_',
-            _outline_       : '_none_',
-            _padding_       : '_d5rem_',
-            _background_    : '_x888_',
-            _font_size_     : '_1rem_',
-            _color_         : '_xddd_'
+        { _selector_str_ : 'code', 
+          _rule_map_ : { 
+            _display_ : '_inline_block_'
           }
         },
-        { _selector_str_ : '.pcss-_content_',
+        { _selector_str_ : 'pre',
           _rule_map_ : {
-            _position_    : '_relative_',
-            _padding_     : [[ '_2d5rem_', '_2rem_' ]],
-            _max_width_   : [ '72rem' ],
-            _margin_      : [[ '_0_', '_auto_' ]],
-            _background_  : '_hex_bkgd_',
-            _box_shadow_  : '_global_d5_box_shadow_'
+            _margin_ : [[ '_1rem_', '_4rem_' ]],
+            _padding_ : [[ '_d5rem_', '_1rem_' ]],
+            _overflow_x_ : '_auto_',
+            _overflow_y_ : '_auto_'
+          }
+        },
+
+        { _selector_str_ : 'strong',
+          _rule_map_ : { _font_weight_ : '_800_' }
+        },
+
+        /* Begin .pcss-_x_*_ selectors */
+        { _selector_str_ : '.pcss-_x_noselect_',
+           _rule_map_ : {
+            __webkit_user_select_ : '_none_',
+            __moz_user_select_    : '_none_',
+            __o_user_select_      : '_none_',
+            _user_select_         : '_none_'
+          }
+        },
+        { _selector_str_ : '.pcss-_x_fa_icon_',
+          _rule_map_ : {
+            _display_        : '_inline_block_',
+            _font_family_    : '_font_family_awesome_',
+            _font_size_      : '_1d5rem_',
+            _text_align_     : '_center_',
+            _width_          : '_1d5rem_',
+            _vertical_align_ : '_middle_'
           }
         },
         { _selector_str_ : '.pcss-_logo_',
           _rule_map_ : {
+            _margin_bottom_    : '_2rem_',
             _background_image_ : [ 'url(img/pcss_25percent.png)' ],
-            _background_size_ : '_cover_',
-            _width_  : [ '20.75rem' ],
-            _height_ : [ '10.125rem' ]
+            _background_size_  : '_cover_',
+            _width_            : [ '20.75rem' ],
+            _height_           : [ '10.125rem' ]
           }
         },
-        { _selector_str_ : 'li',
-          _rule_map_ : { _margin_bottom_ : '_d25rem_' }
-        },
-        { _selector_str_ : '.pcss-_x_clear_',
-          _rule_map_ : { _clear_ : '_both_' }
+        { _selector_str_ : '.pcss-_x_clearfloat_',
+          _rule_map_     : {
+            _visibility_ : [[ '_hidden_', '_important_' ]],
+            _float_      : [[ '_none_',   '_important_' ]],
+            _height_     : [[ '_0_',      '_important_' ]],
+            _clear_      : [[ '_both_',   '_important_' ]]
+          }
         }
+        /* End .pcss-_x_*_ selectors */
       ],
       _base_mixin_map_ : {
         _base_body_font_size_  : '16px',
@@ -271,27 +366,35 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : 'h2',
           _rule_lock_list_ : [ '_font_size_' ],
           _rule_map_ : {
-            _display_       : '_block_',
+            _display_        : '_inline_block_',
             _opacity_        : '_1_',
             _position_       : '_relative_',
-            _margin_         : [[ '_2rem_', '_0_', '_0_', [ '-3rem' ] ]],
-            _width_          : [ '16rem' ],
-            _height_         : '_3rem_',
+            _margin_         : [[ '_1rem_', '_0_', '_d75rem_', [ '-4.5rem' ] ]],
+            _padding_        : [[ '_d625rem_', '_3rem_' ]],
             _vertical_align_ : '_top_',
-            _box_shadow_     : '_global_d25_box_shadow_',
-            _border_         : [[ '_0_', '_solid_', '_xeee_' ]],
+            _box_shadow_     : '_shadow_d625_',
+            _border_         : '_0_',
             _border_radius_  : [[ '_0_', '_1rem_', '_1rem_', '_0_' ]],
-            _line_height_    : '_3rem_',
-            _background_     : '_global_linear_grad_',
+            _line_height_    : '_2rem_',
+            _background_     : '_linear_grad_01_',
+            _font_family_    : '_font_family_sansation_',
             _font_size_      : '_1d5rem_',
             _font_weight_    : '_800_',
             _color_          : '_xfff_',
-            _text_align_     : '_center_'
+            _text_align_     : '_left_'
+          }
+        },
+        { _selector_str_ : 'h3',
+          _rule_map_ : {
+            _margin_top_    : '_d75rem_',
+            _margin_bottom_ : '_d5rem_',
+            _font_size_     : '_1d25rem_',
+            _font_weight_   : '_800_'
           }
         }
       ],
       _head_selector_list_ : [
-        { _selector_str_ : '#pcss-_head_',
+        { _selector_str_ : '.pcss-_head_',
           _rule_map_   : {
             _display_       : '_block_',
             _position_      : '_fixed_',
@@ -300,7 +403,7 @@ pcss._home_ = (function ( $ ) {
             _left_          : '_0_',
             _right_         : '_0_',
             _height_        : '_2rem_',
-            _box_shadow_    : '_global_d5_box_shadow_',
+            _box_shadow_    : '_shadow_d625_',
             _padding_       : '_0_',
             _background_    :'_hex_gradbtm_'
           }
@@ -312,7 +415,7 @@ pcss._home_ = (function ( $ ) {
             _float_         : '_right_',
             _margin_        : [[ '_0_', '_d25rem_' ]],
             _padding_       : [[ '_0_', '_d75rem_', '_d75rem_' ]],
-            _height_        : '_1d25rem_',
+            _height_        : '_1d75rem_',
             _line_height_   : '_2rem_',
             _overflow_      : '_hidden_',
             _cursor_        : '_pointer_',
@@ -325,7 +428,7 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : '.pcss-_head_float_.pcss-_x_active_',
           _rule_map_ : {
             _height_        : '_auto_',
-            _box_shadow_    : '_global_d5_box_shadow_',
+            _box_shadow_    : '_shadow_d625_',
             _border_radius_ : [[ '_0_', '_0_', '_d5rem_', '_d5rem_' ]],
             _background_    :'_hex_gradbtm_'
           }
@@ -341,7 +444,17 @@ pcss._home_ = (function ( $ ) {
             _background_ :'_hex_bkgd_',
             _color_      : '_xfff_'
           }
-        }
+        },
+        { _selector_str_ : '.pcss-_content_',
+          _rule_map_ : {
+            _position_    : '_relative_',
+            _padding_     : [[ '_2d5rem_', '_3d5rem_' ]],
+            _max_width_   : [ '72rem' ],
+            _margin_      : [[ '_0_', '_auto_' ]],
+            _background_  : '_hex_bkgd_',
+            _box_shadow_  : '_shadow_d625_'
+          }
+        },
       ]
     },
 
@@ -357,7 +470,7 @@ pcss._home_ = (function ( $ ) {
   // Begin DOM method /setJqueryMap/
   function setJqueryMap () {
     var
-      $head = $( '#pcss-_head_' ),
+      $head = $( '.pcss-_head_' ),
       $head_float_list = $head.find( '.pcss-_head_float_'  )
       ;
 
@@ -400,13 +513,15 @@ pcss._home_ = (function ( $ ) {
     // Begin add _box02_ vsheet by *revising* box_selector_list
     box_rule_map = box_selector_list[ 0 ]._rule_map_;
     pcss._extendRuleMap_( box_rule_map, {
-      _left_       : '_50p_',
-      _margin_     : [[ '_2rem_', '_0_', '_d5rem_', [ '-8rem' ] ]],
-      _font_size_  : '_2rem_',
-      _box_shadow_ : '_global_d5_box_shadow_',
+      _left_          : '_50p_',
+      _margin_        : [[ '_2rem_', '_0_', '_d5rem_', [ '-8rem' ] ]],
+      _width_         : [ '16rem' ],
+      _font_size_     : '_2rem_',
       _border_radius_ : '_d5rem_',
-      _border_width_ : '_d5rem_',
-      _background_ : '_global_linear_grad_'
+      _border_style_  : '_solid_',
+      _border_width_  : '_d5rem_',
+      _text_align_    : '_center_',
+      _box_shadow_    : '_shadow_d625_'
     });
 
     pcss._setVsheet_({
@@ -418,16 +533,15 @@ pcss._home_ = (function ( $ ) {
 
     // Begin add _box03_ vsheet by *revising* box_selector_list
     pcss._extendRuleMap_( box_rule_map, {
-      _width_         : [ '18rem' ],
+      _width_         : [ '12rem' ],
       _left_          : '_100p_',
-      _margin_        : [[ '_2rem_', '_0_', '_d5rem_', [ '-16rem' ] ]],
-      _max_width_     : null,
-      _box_shadow_    : '_global_d25_box_shadow_',
-      _border_width_  : '_1rem_',
-      _border_radius_ : '_0_',
+      _margin_        : [[ '_2rem_', '_0_', '_d5rem_', [ '-8rem' ] ]],
+      _box_shadow_    : '_shadow_d1875_',
+      _border_radius_ : [[ '_1rem_', '_0_', '_0_', '_1rem_' ]],
+      _border_right_  : '_0_',
       _font_family_   : '_font_fixed_',
       _font_size_     : '_1d75rem_',
-      _background_    : '_global_linear_grad_'
+      _text_align_    : '_center_'
     });
 
     pcss._setVsheet_({
@@ -557,9 +671,9 @@ pcss._home_ = (function ( $ ) {
     });
   }
   // End DOM method /pickCascadeIdx/
-  //---------------------- END DOM METHODS ---------------------
+  // ======================== END DOM METHODS ==========================
 
-  //------------------- BEGIN EVENT HANDLERS -------------------
+  // ===================== BEGIN EVENT HANDLERS ========================
   // Begin event handler /onClickHead/
   function onClickHead ( event_obj ) {
     var
