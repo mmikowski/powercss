@@ -74,7 +74,7 @@ pcss._home_ = (function ( $ ) {
           _hex_link_dk_   : '#b32914',
           _hex_gradbtm_   : '#edb579',
           _hex_bkgd_      : '#dbe6af',
-          _hex_bkgd_dk_   : '#b9c391'
+          _hex_bkgd_dk_   : '#9aa278'
         },
         { _palette_name_  : 'Autumn II',
           _hex_bright_    : '#fff',
