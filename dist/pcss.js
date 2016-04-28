@@ -81,7 +81,7 @@ var pcss = (function () {
     __1       = 1,
     __2       = 2,
     __n1      = -1,
-    __blank     = '',
+    __blank   = '',
     __undef   = __winRef[ vMap._undefined_ ],
     __console = __winRef[ vMap._console_ ],
 
@@ -598,7 +598,6 @@ var pcss = (function () {
       vsheet_map_map       = topSmap._vsheet_map_map_,
       vsheet_count         = arg_vsheet_id_list[ vMap._length_ ],
       seen_selector_map    = {},
-      seen_cond_map        = {},
       merged_selector_list = [],
 
       merged_mixin_map,
@@ -609,7 +608,7 @@ var pcss = (function () {
       selector_list,  vsheet_mixin_map,
       selector_count, namespace_str,
       cond_stack,
-      
+
       j,
       selector_map,    selector_str,
       fq_selector_str, pop_str,
@@ -620,9 +619,9 @@ var pcss = (function () {
       merged_selector_map,
       merged_lock_list,
       merged_rule_map,
-      
+
       n,
-      rule_key_list, rule_key_count, 
+      rule_key_list, rule_key_count,
       rule_key,      clone_selector_map
       ;
     // end 2.10.1 init and args
@@ -665,20 +664,16 @@ var pcss = (function () {
         if ( begin_cond_str ) {
           cond_stack[ vMap._push_ ]( begin_cond_str );
           namespace_str = cond_stack[ vMap._join_ ](':');
-          if ( seen_cond_map[ namespace_str ] === __undef ) {
-            merged_selector_list[ vMap._push_]( selector_map );
-          }
+          merged_selector_list[ vMap._push_]( selector_map );
+          seen_selector_map[ namespace_str ] = selector_map;
           continue _SELECT_MAP0_;
         }
 
         if ( end_cond_str !== __undef ) {
-          if ( seen_cond_map[ namespace_str ] === __undef ) {
-            merged_selector_list[ vMap._push_]( selector_map );
-            seen_cond_map[ namespace_str ] = true;
-          }
+          merged_selector_list[ vMap._push_]( selector_map );
           pop_str = cond_stack[ vMap._pop_ ]();
           if ( end_cond_str && pop_str !== end_cond_str ) {
-            logIt( '_end_cond_str_does_not_matched_', pop_str, end_cond_str );
+            logIt( '_end_cond_str_does_not_match_begin_', pop_str, end_cond_str );
           }
           namespace_str = cond_stack[ vMap._join_ ](':');
           continue _SELECT_MAP0_;
@@ -966,6 +961,7 @@ var pcss = (function () {
       selector_count, selector_map,
       selector_str,   begin_cond_str,
       end_cond_str,   pop_str,
+      selector_idx,   last_str,
       rule_map,       rule_str,
 
       solve_selector_list,
@@ -989,16 +985,25 @@ var pcss = (function () {
       // 2.12.2.2 add conditional css syntax
       if ( begin_cond_str ) {
         cond_stack[ vMap._push_ ]( begin_cond_str );
-        solve_selector_list[ vMap._push_ ]( begin_cond_str + '{' );
+        solve_selector_list[ vMap._push_ ]( begin_cond_str );
+        solve_selector_list[ vMap._push_ ]( '{' );
         continue _SELECT_MAP1_;
       }
 
       if ( end_cond_str !== __undef ) {
         pop_str = cond_stack[ vMap._pop_ ]();
         if ( end_cond_str && pop_str !== end_cond_str ) {
-          logIt( '_end_cond_str_does_not_match_start_', pop_str, end_cond_str );
+          logIt( '_end_cond_str_does_not_match_begin_', pop_str, end_cond_str );
         }
-        solve_selector_list[ vMap._push_ ]( '}' );
+        selector_idx = solve_selector_list[ vMap._length_ ] - __1;
+        last_str     = solve_selector_list[ selector_idx  ];
+        if ( last_str === '{' ) {
+          selector_idx--;
+          solve_selector_list[ vMap._length_ ] = selector_idx;
+        }
+        else { 
+          solve_selector_list[ vMap._push_ ]( '}' );
+        }
         continue _SELECT_MAP1_;
       }
 
