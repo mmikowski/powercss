@@ -130,6 +130,7 @@ var pcss = (function () {
       _clear_                  : 'clear',
       _clip_                   : 'clip',
       _color_                  : 'color',
+      _content_                : 'content',
       _cursor_                 : 'cursor',
       _display_                : 'display',
       _empty_cells_            : 'empty_cells',
@@ -768,7 +769,8 @@ var pcss = (function () {
       frame_stack       = [],
       max_resolve_count = topCmap._max_resolve_count_,
 
-      key_list,  val_list, rule_key,
+      key_list,
+      val_list, rule_key,
       frame_obj, orig_obj,
       prior_frame_obj, k,
 
@@ -782,6 +784,8 @@ var pcss = (function () {
 
 
     key_list  = __getKeyList( rule_map );
+    if ( key_list[ vMap._length_ ] === __0 ) { return __blank; }
+
     val_list  = makeValList( rule_map, key_list );
     rule_key  = key_list[ __0 ];
     solve_key = cssKeyMap[ rule_key ];
