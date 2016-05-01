@@ -55,6 +55,7 @@ pcss._home_ = (function ( $ ) {
         + "url('%!%_font_path_%!%.svg') format('svg')",
 
       _global_mixin_map_ : {
+        _logo_url_     : 'url(img/pcss-25p-lt.png)',
         _shadow_d1875_ : [[
           '_hex_shadow_', '_0_', '_0_', '_d125rem_', '_d0625rem_'
         ]],
@@ -85,6 +86,32 @@ pcss._home_ = (function ( $ ) {
           _hex_gradbtm_   : '#02353e',
           _hex_bkgd_      : '#ececec',
           _hex_bkgd_dk_   : '#666'
+        },
+        { _palette_name_  : 'Basket',
+          _hex_bright_    : '#452b29',
+          _hex_shadow_    : '#e6e2df',
+          _hex_font_      : '#e6e2df',
+          _hex_mid_       : '#8f8172',
+          _hex_link_      : '#98899c',
+          _hex_gradtop_   : '#98899c',
+          _hex_link_dk_   : '#736078',
+          _hex_gradbtm_   : '#736078',
+          _hex_bkgd_      : '#452b29',
+          _hex_bkgd_dk_   : '#704643',
+          _logo_url_ : 'url(img/pcss-25p-dk.png)',
+        },
+        { _palette_name_  : 'Invert',
+          _hex_bright_    : '#131b22',
+          _hex_shadow_    : '#c0c8d0',
+          _hex_font_      : '#c0c8d8',
+          _hex_mid_       : '#9199a1',
+          _hex_link_      : '#8ccbfb',
+          _hex_gradtop_   : '#8ccbfb',
+          _hex_link_dk_   : '#c1e3fd',
+          _hex_gradbtm_   : '#c1e3fd',
+          _hex_bkgd_      : '#131b22',
+          _hex_bkgd_dk_   : '#9199a1',
+          _logo_url_ : 'url(img/pcss-25p-dk.png)',
         },
         { _palette_name_  : 'Autumn I',
           _hex_bright_    : '#fff',
@@ -134,18 +161,6 @@ pcss._home_ = (function ( $ ) {
           _hex_gradbtm_   : '#96884f',
           _hex_bkgd_      : '#e3c598',
           _hex_bkgd_dk_   : '#c2a882'
-        },
-        { _palette_name_  : 'Basket',
-          _hex_bright_    : '#452b29',
-          _hex_shadow_    : '#e6e2df',
-          _hex_font_      : '#e6e2df',
-          _hex_mid_       : '#8f8172',
-          _hex_link_      : '#98899c',
-          _hex_gradtop_   : '#98899c',
-          _hex_link_dk_   : '#736078',
-          _hex_gradbtm_   : '#736078',
-          _hex_bkgd_      : '#452b29',
-          _hex_bkgd_dk_   : '#704643'
         },
         { _palette_name_  : 'Fresh',
           _hex_bright_    : '#ffffdb',
@@ -199,7 +214,7 @@ pcss._home_ = (function ( $ ) {
           _hex_bkgd_dk_   : '#baa18a'
         },
         { _palette_name_  : 'Chili',
-          _hex_bright_    : '#fdff8a',
+          _hex_bright_    : '#fdfda8',
           _hex_shadow_    : '#eeffd5',
           _hex_shadow_dk_ : '#283811',
           _hex_font_      : '#ffd1a7',
@@ -210,7 +225,8 @@ pcss._home_ = (function ( $ ) {
           _hex_gradbtm_   : '#d94330',
           _hex_link_dk_   : '#d94330',  
           _hex_bkgd_      : '#5c0811',
-          _hex_bkgd_dk_   : '#7a2d36'
+          _hex_bkgd_dk_   : '#7a2d36',
+          _logo_url_ : 'url(img/pcss-25p-dk.png)',
         }
       ],
       _base_selector_list_ : [
@@ -352,14 +368,23 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : '.pcss-_x_fa_icon_',
           _rule_map_ : {
             _font_family_    : '_font_family_awesome_',
-            _font_size_      : '_1d5rem_',
-            _vertical_align_ : '_top_'
+            _font_weight_    : '_400_'
+          }
+        },
+        { _selector_str_ : 'h1 .pcss-_x_fa_icon_, h2 .pcss-_x_fa_icon_',
+          _rule_map_ : {
+            _display_      : '_inline_block_',
+            _margin_right_ : '_d625rem_',
+            _width_        : '_2rem_',
+            _text_align_   : '_center_',
+            _font_size_    : '_1d75rem_',
+            _line_height_  : '_1d75rem_'
           }
         },
         { _selector_str_ : '.pcss-_logo_',
           _rule_map_ : {
             _margin_           : [[ '_2rem_', '_auto_' ]],
-            _background_image_ : [ 'url(img/pcss_25percent.png)' ],
+            _background_image_ : '_logo_url_',
             _background_size_  : '_cover_',
             _width_            : [ '20.75rem' ],
             _height_           : [ '10.125rem' ]
@@ -459,16 +484,6 @@ pcss._home_ = (function ( $ ) {
             _box_shadow_  : '_shadow_d625_'
           }
         },
-        { _selector_str_ : '.pcss-_portrait_',
-          _rule_map_ : {
-            _float_      : '_right_',
-            _width_      : [ '243px' ],
-            _height_     : [ '324px' ],
-            _margin_     : [[ '_1rem_', '_0_', '_2rem_', '_2rem_' ]],
-            _background_ : [ 'url(img/closeup_2012.jpg)' ],
-            _box_shadow_ : '_shadow_d625_'
-          }
-        },
         { _selector_str_ : '.pcss-_alt_clearfloat_',
           _rule_map_     : {
             _visibility_ : '_hidden_',
@@ -492,16 +507,6 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : 'ul,ol',
           _rule_map_ : { _margin_left_ : '_2rem_' }
         },
-        { _selector_str_ : '.pcss-_portrait_',
-          _rule_map_ : {
-            _float_      : '_none_',
-            _width_      : [ '243px' ],
-            _height_     : [ '324px' ],
-            _margin_     : [[ '_1rem_', '_auto_' ]],
-            _background_ : [ 'url(img/closeup_2012.jpg)' ],
-            _box_shadow_ : '_shadow_d625_'
-          }
-        },
         { _end_cond_str_ : __blank }
       ],
       // end _head_selector_list_
@@ -512,7 +517,7 @@ pcss._home_ = (function ( $ ) {
             _display_        : '_inline_block_',
             _opacity_        : '_1_',
             _position_       : '_relative_',
-            _margin_         : [[ '_1rem_', '_0_', '_d75rem_', [ '-4.5rem' ] ]],
+            _margin_         : [[ '_1rem_', '_0_', '_d75rem_', [ '-6rem' ] ]],
             _padding_        : [[ '_d625rem_', '_3rem_' ]],
             _vertical_align_ : '_top_',
             _box_shadow_     : '_shadow_d625_',
@@ -544,7 +549,7 @@ pcss._home_ = (function ( $ ) {
         { _begin_cond_str_ : '@media all and (max-width: 650px)' },
         { _selector_str_ : 'h2,h2',
           _rule_map_ : {
-            _margin_ : [[ '_1rem_', '_0_', '_d75rem_', [ '-2.5rem' ] ]],
+            _margin_ : [[ '_1rem_', '_0_', '_d75rem_', [ '-3.25rem' ] ]],
           }
         },
         { _selector_str_ : 'h1',
@@ -818,14 +823,19 @@ pcss._home_ = (function ( $ ) {
   // Begin DOM method /drawCascadeSelect/
   function drawCascadeSelect () {
     var
+      cascade_id_list = topSmap._cascade_id_list_,
+      cascade_count   = cascade_id_list.length,
       div_list = [],
+
 
       i, cascade_name, cascade_html
       ;
 
-    for ( i = -1; i < 3; i++ ) {
+    for ( i = -1; i < cascade_count; i++ ) {
       cascade_name = ( i < __0 )
-        ? 'Cascade' : 'cascade ' + String( i );
+        ? 'Cascade '
+          + '<span class="pcss-_x_fa_icon_">&#xf0d7;</span>'
+        : 'cascade ' + String( i );
       div_list[ i + __1 ] = '<div>' + cascade_name + '</div>';
     }
     cascade_html = div_list.join( __blank );
@@ -845,7 +855,8 @@ pcss._home_ = (function ( $ ) {
       ;
     for ( i = -1; i < palette_count; i++ ) {
       if ( i < __0 ) {
-        palette_name = 'Palette';
+        palette_name = 'Palette '
+          + '<span class="pcss-_x_fa_icon_">&#xf0d7;</span>';
       }
       else {
         palette_map  = palette_list[ i ];

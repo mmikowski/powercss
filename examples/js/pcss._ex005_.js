@@ -185,7 +185,7 @@ pcss._ex005_ = function ( display_html ) {
       _rule_map_     : {
         _width_  : [ '20.75rem'  ],
         _height_ : [ '10.125rem' ],
-        _background_image_ : [ 'url(../img/pcss_25percent.png)' ],
+        _background_image_ : [ 'url(../img/pcss-25p-lt.png)' ],
         _background_size_  : '_cover_',
       }
     },

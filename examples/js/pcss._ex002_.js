@@ -73,7 +73,7 @@ pcss._ex002_ = function ( display_html ) {
     },
     { _selector_str_ : '.pcss-_logo_',
       _rule_map_     : {
-        _background_image_ : [ 'url(../img/pcss_25percent.png)' ],
+        _background_image_ : [ 'url(../img/pcss-25p-lt.png)' ],
         _background_size_ : '_cover_',
         _width_  : [ '20.75rem' ],
         _height_ : [ '10.125rem' ]
