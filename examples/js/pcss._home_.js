@@ -1,14 +1,12 @@
 /*
  * pss._home_.js
  * PowerCSS - run-time generated and managed CSS
- * Homepage CSS
- * Michael S. Mikowski - mike.mikowski@gmail.com
 */
-/*jslint        browser : true, continue : true,
-  devel  : true, indent : 2,      maxerr : 50,
-  newcap : true,  nomen : true, plusplus : true,
-  regexp : true, sloppy : true,     vars : false,
-  white : true,    todo : true,  unparam : true
+/*jslint         browser : true, continue : true,
+  devel  : true,  indent : 2,      maxerr : 50,
+  newcap : true,   nomen : true, plusplus : true,
+  regexp : true,  sloppy : true,     vars : false,
+   white : true,    todo : true,  unparam : true
 */
 /*global pcss, jQuery */
 
@@ -27,11 +25,23 @@
  *    10. transition or animation definitions
 */
 
-// BEGIN pcss._home_
 pcss._home_ = (function ( $ ) {
   // ================= BEGIN MODULE SCOPE VARIABLES ====================
   'use strict';
   var
+    __null  = null,
+    __blank = '',
+    __0     = 0,
+    __1     = 1,
+
+    topSmap = {
+      _cascade_id_      : '_c01_',
+      _cascade_id_list_ : [],
+      _palette_idx_     : __0,
+      _palette_map_     : {}
+    },
+    jqueryMap = {},
+
     topCmap = {
       _font_list_list_ : [
         [ 'fa-4-5-mod-msm',    'font/'                  ],
@@ -64,6 +74,18 @@ pcss._home_ = (function ( $ ) {
         ]]
       },
       _palette_list_ : [
+        { _palette_name_  : 'Newspaper',
+          _hex_bright_    : '#ececec',
+          _hex_shadow_    : '#373737',
+          _hex_font_      : '#373737',
+          _hex_mid_       : '#666',
+          _hex_link_      : '#046273',
+          _hex_gradtop_   : '#046273',
+          _hex_link_dk_   : '#02353e',
+          _hex_gradbtm_   : '#02353e',
+          _hex_bkgd_      : '#ececec',
+          _hex_bkgd_dk_   : '#666'
+        },
         { _palette_name_  : 'Autumn I',
           _hex_bright_    : '#fff',
           _hex_shadow_    : '#6d7696',
@@ -114,19 +136,19 @@ pcss._home_ = (function ( $ ) {
           _hex_bkgd_dk_   : '#c2a882'
         },
         { _palette_name_  : 'Basket',
-          _hex_bright_    : '#966c5d',
+          _hex_bright_    : '#452b29',
           _hex_shadow_    : '#e6e2df',
-          _hex_font_      : '#b2e3e8',
+          _hex_font_      : '#e6e2df',
           _hex_mid_       : '#8f8172',
-          _hex_link_      : '#452b29',
-          _hex_gradtop_   : '#966c5d',
-          _hex_link_dk_   : '#fff',
-          _hex_gradbtm_   : '#98899c',
+          _hex_link_      : '#98899c',
+          _hex_gradtop_   : '#98899c',
+          _hex_link_dk_   : '#736078',
+          _hex_gradbtm_   : '#736078',
           _hex_bkgd_      : '#452b29',
           _hex_bkgd_dk_   : '#704643'
         },
         { _palette_name_  : 'Fresh',
-          _hex_bright_    : '#9c9d55',
+          _hex_bright_    : '#ffffdb',
           _hex_shadow_    : '#d9d9d9',
           _hex_font_      : '#ffe3c4',
           _hex_mid_       : '#d15656',
@@ -143,15 +165,15 @@ pcss._home_ = (function ( $ ) {
           _hex_font_      : '#54384d',
           _hex_font_lt_   : '#b58bab',
           _hex_mid_       : '#e3d1e2',
-          _hex_link_      : '#694364',
-          _hex_gradtop_   : '#c4c4ca',
-          _hex_link_dk_   : '#54384d',
-          _hex_gradbtm_   : '#a4a4a9',
+          _hex_link_      : '#54384d',
+          _hex_gradtop_   : '#54384d',
+          _hex_link_dk_   : '#8b8b8f',
+          _hex_gradbtm_   : '#8b8b8f',
           _hex_bkgd_      : '#cca772',
           _hex_bkgd_dk_   : '#a17f4f'
         },
         { _palette_name_  : 'Spice I',
-          _hex_bright_    : '#fff',
+          _hex_bright_    : '#fff6eb',
           _hex_shadow_    : '#ebe3d9',
           _hex_font_      : '#472c00',
           _hex_link_      : '#472c00',
@@ -177,21 +199,20 @@ pcss._home_ = (function ( $ ) {
           _hex_bkgd_dk_   : '#baa18a'
         },
         { _palette_name_  : 'Chili',
-          _hex_bright_    : '#9c9d55',
+          _hex_bright_    : '#fdff8a',
           _hex_shadow_    : '#eeffd5',
           _hex_shadow_dk_ : '#283811',
           _hex_font_      : '#ffd1a7',
-          _hex_link_      : '#eeffd5',
           _hex_font_lt_   : '#66492f',
           _hex_mid_       : '#b8997f',
           _hex_gradtop_   : '#a68887',
-          _hex_link_dk_   : '#ffd1a7',  
+          _hex_link_      : '#a68887',
           _hex_gradbtm_   : '#d94330',
+          _hex_link_dk_   : '#d94330',  
           _hex_bkgd_      : '#5c0811',
           _hex_bkgd_dk_   : '#7a2d36'
         }
       ],
-
       _base_selector_list_ : [
         { _selector_str_ : 'html',
           _rule_map_     : {
@@ -254,13 +275,11 @@ pcss._home_ = (function ( $ ) {
           _rule_map_ : {
             _margin_top_    : '_d75rem_',
             _margin_bottom_ : '_d5rem_',
-            _line_height_   : '_1d625rem_'
+            _line_height_   : '_2rem_'
           }
         },
         { _selector_str_ : 'ul,ol',
-          _rule_map_ : {
-            _margin_left_ : '_4rem_'
-          }
+          _rule_map_ : { _margin_left_ : '_4rem_' }
         },
         { _selector_str_ : 'li',
           _rule_map_ : {
@@ -314,14 +333,16 @@ pcss._home_ = (function ( $ ) {
             _overflow_y_ : '_auto_'
           }
         },
-
         { _selector_str_ : 'strong',
           _rule_map_ : { _font_weight_ : '_800_' }
+        },
+        { _selector_str_ : 'i',
+          _rule_map_ : { _font_style_ : '_italic_' }
         },
 
         /* Begin .pcss-_x_*_ selectors */
         { _selector_str_ : '.pcss-_x_noselect_',
-           _rule_map_ : {
+          _rule_map_ : {
             __webkit_user_select_ : '_none_',
             __moz_user_select_    : '_none_',
             __o_user_select_      : '_none_',
@@ -330,17 +351,14 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : '.pcss-_x_fa_icon_',
           _rule_map_ : {
-            _display_        : '_inline_block_',
             _font_family_    : '_font_family_awesome_',
             _font_size_      : '_1d5rem_',
-            _text_align_     : '_center_',
-            _width_          : '_1d5rem_',
-            _vertical_align_ : '_middle_'
+            _vertical_align_ : '_top_'
           }
         },
         { _selector_str_ : '.pcss-_logo_',
           _rule_map_ : {
-            _margin_bottom_    : '_2rem_',
+            _margin_           : [[ '_2rem_', '_auto_' ]],
             _background_image_ : [ 'url(img/pcss_25percent.png)' ],
             _background_size_  : '_cover_',
             _width_            : [ '20.75rem' ],
@@ -349,21 +367,146 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : '.pcss-_x_clearfloat_',
           _rule_map_     : {
-            _visibility_ : [[ '_hidden_', '_important_' ]],
-            _float_      : [[ '_none_',   '_important_' ]],
-            _height_     : [[ '_0_',      '_important_' ]],
-            _clear_      : [[ '_both_',   '_important_' ]]
+            _visibility_ : '_hidden_',
+            _float_      : '_none_',
+            _height_     : '_0_',
+            _clear_      : '_both_'
           }
+        },
+        { _selector_str_: '@keyframes spinIt {'
+            + '100%{transform:rotate(360deg);}}'
+        },
+        { _selector_str_ : '.pcss-_x_spin_',
+          _rule_map_     : {
+            _display_      : '_none_',
+            _position_     : '_absolute_',
+            _top_          : '_50p_',
+            _left_         : '_50p_',
+            _margin_left_  : [ '-2rem' ],
+            _margin_right_ : [ '-2rem' ],
+            _height_       : '_4rem_',
+            _line_height_  : '_4rem_',
+            _font_size_    : '_4rem_',
+            _width_        : '_4rem_',
+            _text_align_   : '_center_',
+            _font_family_  : '_font_family_awesome_',
+            _animation_    : [ 'spinIt 1s linear infinite' ]
+          }
+        },
+        { _selector_str_ : '.pcss-_x_spin_.pcss-_x_active_',
+          _rule_map_     : { _display_ : '_block_' }
         }
         /* End .pcss-_x_*_ selectors */
       ],
-      _base_mixin_map_ : {
-        _base_body_font_size_  : '16px',
-        _base_input_width_     : '10rem',
-        _base_input_border_    : [[ '_d125rem_','_solid_','_xddd_' ]]
-      },
+      // end _base_selector_list_
+      _head_selector_list_ : [
+        { _selector_str_ : '.pcss-_head_',
+          _rule_map_   : {
+            _display_       : '_block_',
+            _position_      : '_fixed_',
+            _z_index_       : '_1_',
+            _top_           : '_0_',
+            _right_         : '_0_',
+            _border_radius_ : [[ '_0_', '_0_', '_0_', '_d5rem_' ]],
+            _height_        : '_2rem_',
+            _box_shadow_    : '_shadow_d625_',
+            _background_    :'_hex_gradtop_'
+          }
+        },
+
+        { _selector_str_ : '.pcss-_head_float_',
+          _rule_map_ : {
+            _position_      : '_relative_',
+            _float_         : '_right_',
+            _border_radius_ : [[ '_0_', '_0_', '_d5rem_', '_d5rem_' ]],
+            _padding_       : [[ '_0_', '_d75rem_', '_d75rem_' ]],
+            _height_        : '_1d75rem_',
+            _line_height_   : '_2rem_',
+            _overflow_      : '_hidden_',
+            _cursor_        : '_pointer_',
+            _color_         : '_hex_bright_',
+            _background_    : '_hex_gradtop_',
+            _transition_    : [ 'all .5s ease' ]
+          }
+        },
+        { _selector_str_ : '.pcss-_head_float_.pcss-_x_active_',
+          _rule_map_ : {
+            _height_        : '_auto_',
+            _box_shadow_    : '_shadow_d625_',
+          }
+        },
+        { _selector_str_ : '.pcss-_head_float_ > div',
+          _rule_map_     : { 
+            _border_radius_ : '_d25rem_',
+            _padding_ : [['_0_','_d5rem_']]
+          }
+        },
+        { _selector_str_ : '.pcss-_head_float_ > div:first-child',
+          _rule_map_     : { _font_weight_ : '_800_' }
+        },
+        { _selector_str_ : '.pcss-_head_float_ > div.pcss-_x_select_',
+          _rule_map_ : {
+            _background_ : '_hex_gradbtm_',
+          }
+        },
+        { _selector_str_ : '.pcss-_content_',
+          _rule_map_ : {
+            _position_    : '_relative_',
+            _padding_     : [[ '_3rem_', '_3d5rem_' ]],
+            _max_width_   : [ '72rem' ],
+            _margin_      : [[ '_0_', '_auto_' ]],
+            _background_  : '_hex_bkgd_',
+            _box_shadow_  : '_shadow_d625_'
+          }
+        },
+        { _selector_str_ : '.pcss-_portrait_',
+          _rule_map_ : {
+            _float_      : '_right_',
+            _width_      : [ '243px' ],
+            _height_     : [ '324px' ],
+            _margin_     : [[ '_1rem_', '_0_', '_2rem_', '_2rem_' ]],
+            _background_ : [ 'url(img/closeup_2012.jpg)' ],
+            _box_shadow_ : '_shadow_d625_'
+          }
+        },
+        { _selector_str_ : '.pcss-_alt_clearfloat_',
+          _rule_map_     : {
+            _visibility_ : '_hidden_',
+            _float_      : '_none_',
+            _height_     : '_0_'
+          }
+        },
+        { _begin_cond_str_ : '@media all and (max-width: 650px)' },
+        { _selector_str_ : '.pcss-_head_',
+          _rule_map_ : {
+            _left_ : '_0_',
+            _border_radius_ : '_0_'
+          }
+        },
+        { _selector_str_ : '.pcss-_content_',
+          _rule_map_ : {
+            _left_ : '_0_',
+            _padding_     : [[ '_3rem_', '_1d5rem_' ]],
+          }
+        },
+        { _selector_str_ : 'ul,ol',
+          _rule_map_ : { _margin_left_ : '_2rem_' }
+        },
+        { _selector_str_ : '.pcss-_portrait_',
+          _rule_map_ : {
+            _float_      : '_none_',
+            _width_      : [ '243px' ],
+            _height_     : [ '324px' ],
+            _margin_     : [[ '_1rem_', '_auto_' ]],
+            _background_ : [ 'url(img/closeup_2012.jpg)' ],
+            _box_shadow_ : '_shadow_d625_'
+          }
+        },
+        { _end_cond_str_ : __blank }
+      ],
+      // end _head_selector_list_
       _box_selector_list_ : [
-        { _selector_str_ : 'h2',
+        { _selector_str_ : 'h1,h2',
           _rule_lock_list_ : [ '_font_size_' ],
           _rule_map_ : {
             _display_        : '_inline_block_',
@@ -380,8 +523,14 @@ pcss._home_ = (function ( $ ) {
             _font_family_    : '_font_family_sansation_',
             _font_size_      : '_1d5rem_',
             _font_weight_    : '_800_',
-            _color_          : '_xfff_',
+            _color_          : '_hex_bright_',
             _text_align_     : '_left_'
+          }
+        },
+        { _selector_str_ : 'h1',
+          _rule_map_ : {
+            _margin_top_     : [ '-3rem' ],
+            _border_radius_  : [[ '_0_', '_0_', '_1rem_', '_0_' ]]
           }
         },
         { _selector_str_ : 'h3',
@@ -391,81 +540,99 @@ pcss._home_ = (function ( $ ) {
             _font_size_     : '_1d25rem_',
             _font_weight_   : '_800_'
           }
-        }
-      ],
-      _head_selector_list_ : [
-        { _selector_str_ : '.pcss-_head_',
-          _rule_map_   : {
-            _display_       : '_block_',
-            _position_      : '_fixed_',
-            _z_index_       : '_1_',
-            _top_           : '_0_',
-            _left_          : '_0_',
-            _right_         : '_0_',
-            _height_        : '_2rem_',
-            _box_shadow_    : '_shadow_d625_',
-            _padding_       : '_0_',
-            _background_    :'_hex_gradbtm_'
-          }
         },
-
-        { _selector_str_ : '.pcss-_head_float_',
+        { _begin_cond_str_ : '@media all and (max-width: 650px)' },
+        { _selector_str_ : 'h2,h2',
           _rule_map_ : {
-            _position_      : '_relative_',
-            _float_         : '_right_',
-            _margin_        : [[ '_0_', '_d25rem_' ]],
-            _padding_       : [[ '_0_', '_d75rem_', '_d75rem_' ]],
-            _height_        : '_1d75rem_',
-            _line_height_   : '_2rem_',
-            _overflow_      : '_hidden_',
-            _cursor_        : '_pointer_',
-            _transition_    : [ 'all .5s ease' ]
+            _margin_ : [[ '_1rem_', '_0_', '_d75rem_', [ '-2.5rem' ] ]],
           }
         },
-        { _selector_str_ : '.pcss-_head_float_:first-child',
-          _rule_map_     : {_margin_right_ : '_d5rem_'}
-        },
-        { _selector_str_ : '.pcss-_head_float_.pcss-_x_active_',
+        { _selector_str_ : 'h1',
           _rule_map_ : {
-            _height_        : '_auto_',
-            _box_shadow_    : '_shadow_d625_',
-            _border_radius_ : [[ '_0_', '_0_', '_d5rem_', '_d5rem_' ]],
-            _background_    :'_hex_gradbtm_'
+            _border_radius_  : [[ '_0_', '_1rem_', '_1rem_', '_0_' ]],
+            _margin_ : [[ '_1rem_', '_0_', '_d75rem_', [ '-2.5rem' ] ]],
           }
         },
-        { _selector_str_ : '.pcss-_head_float_ > div',
-          _rule_map_     : { _padding_ : [['_0_','_d5rem_']] }
-        },
-        { _selector_str_ : '.pcss-_head_float_ > div:first-child',
-          _rule_map_     : { _font_weight_ : '_800_' }
-        },
-        { _selector_str_ : '.pcss-_head_float_ > div.pcss-_x_select_',
-          _rule_map_ : {
-            _background_ :'_hex_bkgd_',
-            _color_      : '_xfff_'
-          }
-        },
-        { _selector_str_ : '.pcss-_content_',
-          _rule_map_ : {
-            _position_    : '_relative_',
-            _padding_     : [[ '_2d5rem_', '_3d5rem_' ]],
-            _max_width_   : [ '72rem' ],
-            _margin_      : [[ '_0_', '_auto_' ]],
-            _background_  : '_hex_bkgd_',
-            _box_shadow_  : '_shadow_d625_'
-          }
-        },
+        { _end_cond_str_ : __blank }
       ]
+      // end _box_selector_list_
     },
-
-    topSmap = {
-      _cascade_idx_ : 0,
-      _palette_idx_ : 0
-    },
-    jqueryMap = {}
+    // end topCmap
+    fillTmplt
     ;
   // ================== END MODULE SCOPE VARIABLES =====================
 
+  // ===================== BEGIN UTLILTY METHODS =======================
+  fillTmplt = (function () {
+
+    /*jslint unparam: true*/
+    function lookupFn ( match_str, lookup_name ) {
+      var 
+        lookup_map  = this,
+        return_data = lookup_name && lookup_map
+        ;
+      lookup_name.split('.').forEach(
+        function ( key_name ) {
+          return_data = return_data && return_data[ key_name ]; 
+        }
+      );
+      return ( return_data === undefined ) ? __blank : return_data;
+    }
+    /*jslint unparam: false*/
+
+    function mainFn ( arg_map ) {
+      var
+        input_str  = arg_map._input_str_,
+        lookup_map = arg_map._lookup_map_,
+        tmplt_rx   = /%!%([^%]+)%!%/g,
+        bound_fn   = lookupFn.bind( lookup_map )
+        ;
+      return input_str.replace( tmplt_rx, bound_fn );
+    }
+
+    return mainFn;
+  }());
+
+  function makeFontSelectorList () {
+    var
+      font_list_list = topCmap._font_list_list_,
+      font_count     = font_list_list.length,
+      font_sel_list  = [],
+      pad_str        = __blank,
+
+      i, font_list, font_name,
+      font_path,    src_str,
+      selector_map
+      ;
+
+    for ( i = __0; i < font_count; i++ ) {
+      font_list = font_list_list[ i ];
+      font_name = font_list[ __0 ];
+      font_path = font_list[ __1 ];
+
+      src_str = fillTmplt({
+        _input_str_  : topCmap._font_src_tmplt_,
+        _lookup_map_ : {
+          _font_name_ : font_name,
+          _font_path_ : font_path + font_name
+        }
+      });
+
+      // Adding white-space to the selector makes it unique, which
+      // allows us to add multiple @font-face rules.
+      selector_map = { _selector_str_ : pad_str + '@font-face',
+        _rule_map_ : {
+          _font_family_ : [ font_name ],
+          _src_         : [ src_str ]
+        }
+      };
+      font_sel_list.push( selector_map );
+      pad_str += ' '; 
+    }
+    return font_sel_list;
+  }
+  // ====================== END UTLILTY METHODS ========================
+ 
   // ======================= BEGIN DOM METHODS =========================
   // Begin DOM method /setJqueryMap/
   function setJqueryMap () {
@@ -477,44 +644,67 @@ pcss._home_ = (function ( $ ) {
     jqueryMap = {
       _$head_            : $head,
       _$head_float_list_ : $head_float_list,
-      _$head_cascade_    : $head_float_list.eq(0),
-      _$head_palette_    : $head_float_list.eq(1)
+      _$head_cascade_    : $head_float_list.eq(__0),
+      _$head_palette_    : $head_float_list.eq(__1)
     };
   }
   // End DOM method /setJqueryMap/
 
-  // Begin DOM method setStyle
-  function setStyle () {
+  // Begin DOM method /setStyle/
+  function setStyle( arg_palette_map ) {
     var
-      box_selector_list = topCmap._box_selector_list_,
-      box_rule_map
+      font_selector_list = makeFontSelectorList(),
+      palette_list       = topCmap._palette_list_,
+      box_selector_list  = topCmap._box_selector_list_,
+
+      palette_map,
+      h1h2_rule_map,   h1_rule_map,
+      small_h1h2_map,  small_h1_map
       ;
+
+    palette_map = ( typeof arg_palette_map === 'object' )
+      ? arg_palette_map : palette_list[ __0 ];
 
     // Set global mixin map
     pcss._setGlobalMixinMap_({
-      _mixin_map_ : topCmap._global_mixin_map_
+      _mixin_map_  : topCmap._global_mixin_map_,
+      _regen_type_ : '_none_'
     });
 
-    // Add _base_ vsheet
+    // Add font vsheet
+    pcss._setVsheet_({
+      _vsheet_id_     : '_font_',
+      _mode_str_      : '_add_',
+      _selector_list_ : font_selector_list,
+      _regen_type_    : '_none_'
+    });
+
+    // Add base vsheet
     pcss._setVsheet_({
       _vsheet_id_     : '_base_',
       _mode_str_      : '_add_',
       _selector_list_ : topCmap._base_selector_list_,
-      _mixin_map_     : topCmap._base_mixin_map_
+      _regen_type_    : '_none_'
     });
 
-    // Add _box01_ vsheet
+    // Add box01 vsheet
     pcss._setVsheet_({
       _vsheet_id_     : '_box01_',
       _mode_str_      : '_add_',
-      _selector_list_ : box_selector_list
+      _selector_list_ : box_selector_list,
+      _regen_type_    : '_none_'
     });
 
     // Begin add _box02_ vsheet by *revising* box_selector_list
-    box_rule_map = box_selector_list[ 0 ]._rule_map_;
-    pcss._extendRuleMap_( box_rule_map, {
+    h1h2_rule_map  = box_selector_list[ __0 ]._rule_map_;
+    h1_rule_map    = box_selector_list[ __1 ]._rule_map_;
+    small_h1h2_map = box_selector_list[ 4 ]._rule_map_;
+    small_h1_map   = box_selector_list[ 5 ]._rule_map_;
+
+    pcss._extendRuleMap_( h1h2_rule_map, {
       _left_          : '_50p_',
       _margin_        : [[ '_2rem_', '_0_', '_d5rem_', [ '-8rem' ] ]],
+      _padding_       : '_d625rem_',
       _width_         : [ '16rem' ],
       _font_size_     : '_2rem_',
       _border_radius_ : '_d5rem_',
@@ -523,64 +713,105 @@ pcss._home_ = (function ( $ ) {
       _text_align_    : '_center_',
       _box_shadow_    : '_shadow_d625_'
     });
-
+    pcss._extendRuleMap_( h1_rule_map, {
+      _left_          : '_0_',
+      _margin_left_   : '_0_',
+      _border_radius_ : '_d5rem_',
+      _margin_top_    : '_1rem_'
+    });
+    pcss._extendRuleMap_( small_h1h2_map, { _margin_ : __null, });
+    pcss._extendRuleMap_( small_h1_map, {
+      _display_       : '_block_',
+      _left_          : '_auto_',
+      _margin_        : [[ '_1rem_', '_auto_' ]],
+      _border_radius_ : '_d5rem_'
+    });
     pcss._setVsheet_({
       _vsheet_id_     : '_box02_',
       _mode_str_      : '_add_',
-      _selector_list_ : box_selector_list
+      _selector_list_ : box_selector_list,
+      _regen_type_    : '_none_'
     });
     // End add _box02_ vsheet by *revising* box_selector_list
 
     // Begin add _box03_ vsheet by *revising* box_selector_list
-    pcss._extendRuleMap_( box_rule_map, {
-      _width_         : [ '12rem' ],
-      _left_          : '_100p_',
-      _margin_        : [[ '_2rem_', '_0_', '_d5rem_', [ '-8rem' ] ]],
+    pcss._extendRuleMap_( h1h2_rule_map, {
+      _left_          : __null,
+      _width_         : __null,
+      _display_       : '_block_',
+      _float_         : '_right_',
+      _margin_        : [[ '_2rem_', [ '-4.5rem' ], '_d5rem_', '_1rem_' ]],
+      _max_width_     : [ '90%' ],
+      _padding_       : [[ '_d625rem_', '_3rem_', '_d625rem_', '_1rem_' ]],
       _box_shadow_    : '_shadow_d1875_',
-      _border_radius_ : [[ '_1rem_', '_0_', '_0_', '_1rem_' ]],
-      _border_right_  : '_0_',
+      _border_radius_ : '_1rem_',
       _font_family_   : '_font_fixed_',
       _font_size_     : '_1d75rem_',
+      _text_align_    : '_right_'
+    });
+    pcss._extendRuleMap_( h1_rule_map, {
+      _float_         : '_left_',
+      _margin_        : [[ [ '-3.5rem'], '_0_', [ '-8rem' ], [ '-4.5rem' ] ]],
+      _padding_       : [[ '_d625rem_', '_2rem_', '_d625rem_', '_2rem_' ]],
+      _border_radius_ : [[ '_0_', '_0_', '_1rem_', '_1rem_' ]],
+      _text_align_    : '_left_'
+    });
+    box_selector_list.push({
+      _selector_str_ : '.pcss-_alt_clearfloat_',
+      _rule_map_     : { _clear_  : '_right_' }
+    });
+    pcss._extendRuleMap_( small_h1_map, {
+      _display_       : '_block_',
+      _float_         : '_none_',
+      _left_          : '_auto_',
+      _max_width_     : [ '24rem' ],
+      _margin_        : [[ '_1rem_', '_auto_' ]],
       _text_align_    : '_center_'
     });
-
     pcss._setVsheet_({
       _vsheet_id_     : '_box03_',
       _mode_str_      : '_add_',
-      _selector_list_ : box_selector_list
+      _selector_list_ : box_selector_list,
+      _regen_type_    : '_none_'
     });
     // End add _box03_ vsheet by *revising* box_selector_list
 
-    // Add _head_ vsheet
+    // Add head vsheet
     pcss._setVsheet_({
       _vsheet_id_     : '_head_',
       _mode_str_      : '_add_',
-      _selector_list_ : topCmap._head_selector_list_
+      _selector_list_ : topCmap._head_selector_list_,
+      _regen_type_    : '_none_'
     });
 
-    // Begin Create cascades to toggle
+    // Begin create cascades to toggle
     pcss._setCascade_({
       _cascade_id_     : '_c01_',
       _mode_str_       : '_add_',
-      _vsheet_id_list_ : [ '_base_', '_head_', '_box01_' ]
+      _vsheet_id_list_ : [ '_font_', '_base_', '_head_', '_box01_' ],
+      _mixin_map_      : palette_map,
+      _regen_type_     : '_none_'
     });
 
     pcss._setCascade_({
       _cascade_id_     : '_c02_',
       _mode_str_       : '_add_',
-      _vsheet_id_list_ : [ '_base_', '_head_', '_box02_' ]
+      _vsheet_id_list_ : [ '_font_', '_base_', '_head_', '_box02_' ],
+      _mixin_map_      : palette_map,
+      _regen_type_     : '_none_'
     });
 
     pcss._setCascade_({
       _cascade_id_     : '_c03_',
       _mode_str_       : '_add_',
-      _vsheet_id_list_ : [ '_base_', '_head_', '_box03_' ]
+      _vsheet_id_list_ : [ '_font_', '_base_', '_head_', '_box03_' ],
+      _mixin_map_      : palette_map,
+      _regen_type_     : '_none_'
     });
-    // End Create cascades to toggle
+    // End create cascades to toggle
 
-    topSmap._cascade_id_list_ = pcss._getAssetIdList_( {
-      '_asset_type_' : '_cascade_'
-    });
+    topSmap._cascade_id_list_
+      = pcss._getAssetIdList_({ '_asset_type_' : '_cascade_' });
   }
   // End DOM method /setStyle/
 
@@ -593,11 +824,11 @@ pcss._home_ = (function ( $ ) {
       ;
 
     for ( i = -1; i < 3; i++ ) {
-      cascade_name = ( i < 0 )
+      cascade_name = ( i < __0 )
         ? 'Cascade' : 'cascade ' + String( i );
-      div_list[ i + 1 ] = '<div>' + cascade_name + '</div>';
+      div_list[ i + __1 ] = '<div>' + cascade_name + '</div>';
     }
-    cascade_html = div_list.join( '' );
+    cascade_html = div_list.join( __blank );
     jqueryMap._$head_cascade_.html( cascade_html );
 
   }
@@ -613,16 +844,16 @@ pcss._home_ = (function ( $ ) {
       i, palette_map, palette_name, palette_html
       ;
     for ( i = -1; i < palette_count; i++ ) {
-      if ( i < 0 ) {
+      if ( i < __0 ) {
         palette_name = 'Palette';
       }
       else {
         palette_map  = palette_list[ i ];
         palette_name = palette_map._palette_name_;
       }
-      div_list[ i + 1 ] = '<div>' + palette_name + '</div>';
+      div_list[ i + __1 ] = '<div>' + palette_name + '</div>';
     }
-    palette_html = div_list.join( '' );
+    palette_html = div_list.join( __blank );
     jqueryMap._$head_palette_.html( palette_html );
   }
   // End DOM method /drawPaletteSelect/
@@ -630,25 +861,18 @@ pcss._home_ = (function ( $ ) {
   // Begin DOM method /pickPaletteIdx/
   function pickPaletteIdx ( palette_idx ) {
     var
-      base_mixin_map = topCmap._base_mixin_map_,
-      palette_list   = topCmap._palette_list_,
-      palette_map    = palette_list[ palette_idx],
-      $child_list    = jqueryMap._$head_palette_.children()
+      palette_list = topCmap._palette_list_,
+      palette_map  = palette_list[ palette_idx ],
+      $child_list  = jqueryMap._$head_palette_.children()
       ;
 
     if ( ! palette_map ) { return; }
     topSmap._palette_idx_ = palette_idx;
     $child_list.removeClass( 'pcss-_x_select_' );
-    $child_list.eq( palette_idx + 1 ).addClass( 'pcss-_x_select_');
+    $child_list.eq( palette_idx + __1 ).addClass( 'pcss-_x_select_');
 
-    pcss._extendRuleMap_( base_mixin_map, palette_map );
-
-    pcss._setVsheet_({
-      _vsheet_id_  : '_base_',
-      _mode_str_   : '_change_',
-      _mixin_map_  : base_mixin_map,
-      _regen_type_ : '_all_'
-    });
+    topSmap._palette_map_ = palette_map;
+    // useCascade will take care of presenting the updated palette_map
   }
   // End DOM method /pickPaletteIdx/
 
@@ -659,18 +883,31 @@ pcss._home_ = (function ( $ ) {
       cascade_id      = cascade_id_list[ cascade_idx],
       $child_list     = jqueryMap._$head_cascade_.children()
       ;
+
     if ( ! cascade_id ) { return; }
-    topSmap._cascade_idx_ = cascade_idx;
     $child_list.removeClass( 'pcss-_x_select_' );
-    $child_list.eq( cascade_idx + 1 ).addClass( 'pcss-_x_select_');
+    $child_list.eq( cascade_idx + __1 ).addClass( 'pcss-_x_select_');
+
+    topSmap._cascade_id_ = cascade_id;
+    // useCascade will take care of presenting the updated cascade_id
+  }
+  // End DOM method /pickCascadeIdx/
+
+  // Being DOM method /useCascade/
+  function useCascade () {
+    var
+      cascade_id  = topSmap._cascade_id_,
+      palette_map = topSmap._palette_map_
+      ;
 
     pcss._setCascade_({
       _cascade_id_ : cascade_id,
       _mode_str_   : '_change_',
+      _mixin_map_  : palette_map,
       _regen_type_ : '_use_'
     });
   }
-  // End DOM method /pickCascadeIdx/
+  // End DOM method /useCascade/
   // ======================== END DOM METHODS ==========================
 
   // ===================== BEGIN EVENT HANDLERS ========================
@@ -684,7 +921,7 @@ pcss._home_ = (function ( $ ) {
       float_idx  = $float_div.index()
       ;
 
-    if ( $float_div.length === 0 ) { return; }
+    if ( $float_div.length === __0 ) { return; }
 
     if ( ! $float_div.hasClass( 'pcss-_x_active_') ) {
       $float_div.addClass( 'pcss-_x_active_' );
@@ -694,14 +931,17 @@ pcss._home_ = (function ( $ ) {
     if ( $target.hasClass( 'pcss-_head_float_') ) {
       return;
     }
-    if ( target_idx > 0 ) {
-      if ( float_idx === 1 ) {
-        pickPaletteIdx( target_idx - 1 );
+    if ( target_idx > __0 ) {
+      if ( float_idx === __1 ) {
+        pickPaletteIdx( target_idx - __1 );
+        useCascade();
       }
       else {
-        pickCascadeIdx( target_idx - 1 );
+        pickCascadeIdx( target_idx - __1 );
+        useCascade();
       }
     }
+
     setTimeout( function () {
       $float_div.removeClass( 'pcss-_x_active_' );
     }, 250 );
@@ -719,8 +959,10 @@ pcss._home_ = (function ( $ ) {
     drawCascadeSelect();
     drawPaletteSelect();
 
-    pickPaletteIdx( 0 );
-    pickCascadeIdx( 0 );
+    pickPaletteIdx( __0 );
+    pickCascadeIdx( __0 );
+
+    useCascade();
 
     jqueryMap._$head_.on( 'click', onClickHead );
   }
