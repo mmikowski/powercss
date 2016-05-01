@@ -168,9 +168,9 @@ pcss._home_ = (function ( $ ) {
           _hex_shadow_    : '#d9d9d9',
           _hex_font_      : '#ffe3c4',
           _hex_mid_       : '#d15656',
-          _hex_link_      : '#ffe3c4', 
+          _hex_link_      : '#94353c',
           _hex_gradtop_   : '#94353c',
-          _hex_link_dk_   : '#fff',
+          _hex_link_dk_   : '#47322d',
           _hex_gradbtm_   : '#47322d',
           _hex_bkgd_      : '#996b42',
           _hex_bkgd_dk_   : '#7a4c22'
