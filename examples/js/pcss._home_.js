@@ -85,7 +85,8 @@ pcss._home_ = (function ( $ ) {
           _hex_link_dk_   : '#02353e',
           _hex_gradbtm_   : '#02353e',
           _hex_bkgd_      : '#ececec',
-          _hex_bkgd_dk_   : '#666'
+          _hex_bkgd_dk_   : '#666',
+          _logo_url_      : 'url(img/pcss-25p-np.png)'
         },
         { _palette_name_  : 'Basket',
           _hex_bright_    : '#452b29',
@@ -98,7 +99,7 @@ pcss._home_ = (function ( $ ) {
           _hex_gradbtm_   : '#736078',
           _hex_bkgd_      : '#452b29',
           _hex_bkgd_dk_   : '#704643',
-          _logo_url_ : 'url(img/pcss-25p-dk.png)',
+          _logo_url_      : 'url(img/pcss-25p-basket.png)',
         },
         { _palette_name_  : 'Invert',
           _hex_bright_    : '#131b22',
@@ -111,7 +112,7 @@ pcss._home_ = (function ( $ ) {
           _hex_gradbtm_   : '#c1e3fd',
           _hex_bkgd_      : '#131b22',
           _hex_bkgd_dk_   : '#9199a1',
-          _logo_url_ : 'url(img/pcss-25p-dk.png)',
+          _logo_url_      : 'url(img/pcss-25p-dk.png)',
         },
         { _palette_name_  : 'Autumn I',
           _hex_bright_    : '#fff',
@@ -185,7 +186,8 @@ pcss._home_ = (function ( $ ) {
           _hex_link_dk_   : '#8b8b8f',
           _hex_gradbtm_   : '#8b8b8f',
           _hex_bkgd_      : '#cca772',
-          _hex_bkgd_dk_   : '#a17f4f'
+          _hex_bkgd_dk_   : '#a17f4f',
+          _logo_url_      : 'url(img/pcss-25p-mineral.png)'
         },
         { _palette_name_  : 'Spice I',
           _hex_bright_    : '#fff6eb',
@@ -226,7 +228,7 @@ pcss._home_ = (function ( $ ) {
           _hex_link_dk_   : '#d94330',  
           _hex_bkgd_      : '#5c0811',
           _hex_bkgd_dk_   : '#7a2d36',
-          _logo_url_ : 'url(img/pcss-25p-dk.png)',
+          _logo_url_      : 'url(img/pcss-25p-dk.png)',
         }
       ],
       _base_selector_list_ : [
