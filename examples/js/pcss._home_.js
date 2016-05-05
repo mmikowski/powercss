@@ -519,7 +519,7 @@ pcss._home_ = (function ( $ ) {
             _display_        : '_inline_block_',
             _opacity_        : '_1_',
             _position_       : '_relative_',
-            _margin_         : [[ '_1rem_', '_0_', '_d75rem_', [ '-6rem' ] ]],
+            _margin_         : [[ '_1rem_', '_0_', '_d75rem_', [ '-5rem' ] ]],
             _padding_        : [[ '_d625rem_', '_3rem_' ]],
             _vertical_align_ : '_top_',
             _box_shadow_     : '_shadow_d625_',

@@ -199,15 +199,24 @@ var pcss = (function () {
       _75p_           : '75%',
       _87d5p_         : '87.5%',
       _100p_          : '100%',
-      _d0625rem_      : '.0625rem',
-      _d125rem_       : '.125rem',
-      _d25rem_        : '.25rem',
-      _d375rem_       : '.375rem',
-      _d5rem_         : '.5rem',
-      _d625rem_       : '.625rem',
-      _d75rem_        : '.75rem',
-      _d875rem_       : '.875rem',
-      _1rem_          : '1rem',
+      // 1px increments for 16px nominal font-size
+      _d0625rem_      : '.0625rem', // 01px
+      _d125rem_       : '.125rem',  // 02px
+      _d1875rem_      : '.1875rem', // 03px
+      _d25rem_        : '.25rem',   // 04px
+      _d3125rem_      : '.3125rem', // 05px
+      _d375rem_       : '.375rem',  // 06px
+      _d4375rem_      : '.4375rem', // 07px
+      _d5rem_         : '.5rem',    // 08px
+      _d5625rem_      : '.5625rem', // 09px
+      _d625rem_       : '.625rem',  // 10px
+      _d6875rem_      : '.6875rem', // 11px
+      _d75rem_        : '.75rem',   // 12px
+      _d8125rem_      : '.8125rem', // 13px
+      _d875rem_       : '.875rem',  // 14px
+      _d9375rem_      : '.9375rem', // 15px
+      _1rem_          : '1rem',     // 16px
+      // 2px increments for 16px nominal font size
       _1d125rem_      : '1.125rem',
       _1d25rem_       : '1.25rem',
       _1d375rem_      : '1.375rem',
@@ -215,13 +224,18 @@ var pcss = (function () {
       _1d625rem_      : '1.625rem',
       _1d75rem_       : '1.75rem',
       _1d875rem_      : '1.875rem',
+      // 4px increments for 16px nominal font-size
       _2rem_          : '2rem',
       _2d25rem_       : '2.25rem',
       _2d5rem_        : '2.5rem',
       _2d75rem_       : '2.75rem',
+      // 8px increments for 16px nominal font-size
       _3rem_          : '3rem',
       _3d5rem_        : '3.5rem',
       _4rem_          : '4rem',
+      _4d5rem_        : '4.5rem',
+      _5rem_          : '5rem',
+
       _200_           : '200',
       _400_           : '400',
       _800_           : '800',
