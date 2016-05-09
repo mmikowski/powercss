@@ -43,6 +43,7 @@ pcss._home_ = (function ( $ ) {
     jqueryMap = {},
 
     topCmap = {
+      _debounce_ms_    : 250,
       _font_list_list_ : [
         [ 'fa-4-5-mod-msm',    'font/'                  ],
         [ 'Sansation-Regular', 'font/vendor/Sansation/' ]
@@ -64,7 +65,7 @@ pcss._home_ = (function ( $ ) {
         ]],
         _font_family_awesome_   : 'fa-4-5-mod-msm, sans-serif',
         _font_family_arial_     : 'arial, helvetica, sans-serif',
-        _font_family_sansation_ : 'sansation-regular, sans-serif',
+        _font_family_sansation_ : 'Sansation-Regular, sans-serif',
         _font_size_             : '16px',
         _trans_short_           : 'all .2s ease',
         _trans_mid_             : 'all .4s ease',
@@ -99,7 +100,7 @@ pcss._home_ = (function ( $ ) {
           _hex_gradbtm_   : '#736078',
           _hex_bkgd_      : '#452b29',
           _hex_bkgd_dk_   : '#704643',
-          _logo_url_      : 'url(img/pcss-25p-basket.png)',
+          _logo_url_      : 'url(img/pcss-25p-basket.png)'
         },
         { _palette_name_  : 'Invert',
           _hex_bright_    : '#131b22',
@@ -112,7 +113,7 @@ pcss._home_ = (function ( $ ) {
           _hex_gradbtm_   : '#c1e3fd',
           _hex_bkgd_      : '#131b22',
           _hex_bkgd_dk_   : '#9199a1',
-          _logo_url_      : 'url(img/pcss-25p-dk.png)',
+          _logo_url_      : 'url(img/pcss-25p-dk.png)'
         },
         { _palette_name_  : 'Autumn I',
           _hex_bright_    : '#fff',
@@ -197,7 +198,7 @@ pcss._home_ = (function ( $ ) {
           _hex_font_lt_   : '#e0cdaf',
           _hex_mid_       : '#c2bc74',
           _hex_gradtop_   : '#6e615a',
-          _hex_link_dk_   : '#807e82', 
+          _hex_link_dk_   : '#807e82',
           _hex_gradbtm_   : '#807e82',
           _hex_bkgd_      : '#b8b8b8',
           _hex_bkgd_dk_   : '#9c9c9c'
@@ -225,10 +226,10 @@ pcss._home_ = (function ( $ ) {
           _hex_gradtop_   : '#a68887',
           _hex_link_      : '#a68887',
           _hex_gradbtm_   : '#d94330',
-          _hex_link_dk_   : '#d94330',  
+          _hex_link_dk_   : '#d94330',
           _hex_bkgd_      : '#5c0811',
           _hex_bkgd_dk_   : '#7a2d36',
-          _logo_url_      : 'url(img/pcss-25p-dk.png)',
+          _logo_url_      : 'url(img/pcss-25p-dk.png)'
         }
       ],
       _base_selector_list_ : [
@@ -289,11 +290,13 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : '::-ms-input-placeholder',
           _rule_map_     : { _color_ : '_hex_mid_' }
         },
+        { _selector_str_ : 'section',
+          _rule_map_ : { _margin_bottom_ : '_2rem_' }
+        },
         { _selector_str_ : 'p',
           _rule_map_ : {
-            _margin_top_    : '_d75rem_',
-            _margin_bottom_ : '_d5rem_',
-            _line_height_   : '_2rem_'
+            _margin_bottom_ : '_d75rem_',
+            _line_height_   : '_1d75rem_'
           }
         },
         { _selector_str_ : 'ul,ol',
@@ -338,8 +341,8 @@ pcss._home_ = (function ( $ ) {
             _font_weight_   : '_800_'
           }
         },
-        { _selector_str_ : 'code', 
-          _rule_map_ : { 
+        { _selector_str_ : 'code',
+          _rule_map_ : {
             _display_ : '_inline_block_'
           }
         },
@@ -385,11 +388,19 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : '.pcss-_logo_',
           _rule_map_ : {
-            _margin_           : [[ '_2rem_', '_auto_' ]],
+            _margin_           : [[ '_0_', '_auto_', '_d625rem_', '_auto_' ]],
             _background_image_ : '_logo_url_',
             _background_size_  : '_cover_',
             _width_            : [ '20.75rem' ],
             _height_           : [ '10.125rem' ]
+          }
+        },
+        { _selector_str_ : '.pcss-_byline_',
+          _rule_map_ : {
+            _font_family_    : '_font_family_sansation_',
+            _font_size_      : '_1d25rem_',
+            _font_weight_    : '_800_',
+            _text_align_     : '_center_'
           }
         },
         { _selector_str_ : '.pcss-_x_clearfloat_',
@@ -422,11 +433,8 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : '.pcss-_x_spin_.pcss-_x_active_',
           _rule_map_     : { _display_ : '_block_' }
-        }
+        },
         /* End .pcss-_x_*_ selectors */
-      ],
-      // end _base_selector_list_
-      _head_selector_list_ : [
         { _selector_str_ : '.pcss-_head_',
           _rule_map_   : {
             _display_       : '_block_',
@@ -440,7 +448,6 @@ pcss._home_ = (function ( $ ) {
             _background_    :'_hex_gradtop_'
           }
         },
-
         { _selector_str_ : '.pcss-_head_float_',
           _rule_map_ : {
             _position_      : '_relative_',
@@ -459,11 +466,11 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : '.pcss-_head_float_.pcss-_x_active_',
           _rule_map_ : {
             _height_        : '_auto_',
-            _box_shadow_    : '_shadow_d625_',
+            _box_shadow_    : '_shadow_d625_'
           }
         },
         { _selector_str_ : '.pcss-_head_float_ > div',
-          _rule_map_     : { 
+          _rule_map_     : {
             _border_radius_ : '_d25rem_',
             _padding_ : [['_0_','_d5rem_']]
           }
@@ -473,7 +480,7 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : '.pcss-_head_float_ > div.pcss-_x_select_',
           _rule_map_ : {
-            _background_ : '_hex_gradbtm_',
+            _background_ : '_hex_gradbtm_'
           }
         },
         { _selector_str_ : '.pcss-_content_',
@@ -503,15 +510,20 @@ pcss._home_ = (function ( $ ) {
         { _selector_str_ : '.pcss-_content_',
           _rule_map_ : {
             _left_ : '_0_',
-            _padding_     : [[ '_3rem_', '_1d5rem_' ]],
+            _padding_     : [[ '_3rem_', '_1d5rem_' ]]
           }
         },
         { _selector_str_ : 'ul,ol',
           _rule_map_ : { _margin_left_ : '_2rem_' }
         },
+        { _selector_str_ : 'pre',
+          _rule_map_ : {
+            _margin_ : [[ '_1rem_', '_1rem_' ]]
+          }
+        },
         { _end_cond_str_ : __blank }
       ],
-      // end _head_selector_list_
+      // end _base_selector_list_
       _box_selector_list_ : [
         { _selector_str_ : 'h1,h2',
           _rule_lock_list_ : [ '_font_size_' ],
@@ -519,7 +531,7 @@ pcss._home_ = (function ( $ ) {
             _display_        : '_inline_block_',
             _opacity_        : '_1_',
             _position_       : '_relative_',
-            _margin_         : [[ '_1rem_', '_0_', '_d75rem_', [ '-5rem' ] ]],
+            _margin_         : [[ '_0_', '_0_', '_1rem_', [ '-4.5rem' ] ]],
             _padding_        : [[ '_d625rem_', '_2rem_' ]],
             _vertical_align_ : '_top_',
             _box_shadow_     : '_shadow_d625_',
@@ -542,22 +554,22 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : 'h3',
           _rule_map_ : {
-            _margin_top_    : '_d75rem_',
             _margin_bottom_ : '_d5rem_',
             _font_size_     : '_1d25rem_',
-            _font_weight_   : '_800_'
+            _font_weight_   : '_800_',
+            _color_         : '_hex_mid_'
           }
         },
         { _begin_cond_str_ : '@media all and (max-width: 650px)' },
         { _selector_str_ : 'h2,h2',
           _rule_map_ : {
-            _margin_ : [[ '_1rem_', '_0_', '_d75rem_', [ '-3.25rem' ] ]],
+            _margin_ : [[ '_0_', '_0_', '_1d5rem_', [ '-3.25rem' ] ]]
           }
         },
         { _selector_str_ : 'h1',
           _rule_map_ : {
             _border_radius_  : [[ '_0_', '_1rem_', '_1rem_', '_0_' ]],
-            _margin_ : [[ '_1rem_', '_0_', '_d75rem_', [ '-2.5rem' ] ]],
+            _margin_ : [[ '_1rem_', '_0_', '_1d5rem_', [ '-2.5rem' ] ]]
           }
         },
         { _end_cond_str_ : __blank }
@@ -571,21 +583,18 @@ pcss._home_ = (function ( $ ) {
 
   // ===================== BEGIN UTLILTY METHODS =======================
   fillTmplt = (function () {
-
-    /*jslint unparam: true*/
     function lookupFn ( match_str, lookup_name ) {
-      var 
+      var
         lookup_map  = this,
         return_data = lookup_name && lookup_map
         ;
       lookup_name.split('.').forEach(
         function ( key_name ) {
-          return_data = return_data && return_data[ key_name ]; 
+          return_data = return_data && return_data[ key_name ];
         }
       );
       return ( return_data === undefined ) ? __blank : return_data;
     }
-    /*jslint unparam: false*/
 
     function mainFn ( arg_map ) {
       var
@@ -634,12 +643,12 @@ pcss._home_ = (function ( $ ) {
         }
       };
       font_sel_list.push( selector_map );
-      pad_str += ' '; 
+      pad_str += ' ';
     }
     return font_sel_list;
   }
   // ====================== END UTLILTY METHODS ========================
- 
+
   // ======================= BEGIN DOM METHODS =========================
   // Begin DOM method /setJqueryMap/
   function setJqueryMap () {
@@ -726,7 +735,7 @@ pcss._home_ = (function ( $ ) {
       _border_radius_ : '_d5rem_',
       _margin_top_    : '_1rem_'
     });
-    pcss._extendRuleMap_( small_h1h2_map, { _margin_ : __null, });
+    pcss._extendRuleMap_( small_h1h2_map, { _margin_ : __null });
     pcss._extendRuleMap_( small_h1_map, {
       _display_       : '_block_',
       _left_          : '_auto_',
@@ -783,19 +792,11 @@ pcss._home_ = (function ( $ ) {
     });
     // End add _box03_ vsheet by *revising* box_selector_list
 
-    // Add head vsheet
-    pcss._setVsheet_({
-      _vsheet_id_     : '_head_',
-      _mode_str_      : '_add_',
-      _selector_list_ : topCmap._head_selector_list_,
-      _regen_type_    : '_none_'
-    });
-
     // Begin create cascades to toggle
     pcss._setCascade_({
       _cascade_id_     : '_c01_',
       _mode_str_       : '_add_',
-      _vsheet_id_list_ : [ '_font_', '_base_', '_head_', '_box01_' ],
+      _vsheet_id_list_ : [ '_font_', '_base_', '_box01_' ],
       _mixin_map_      : palette_map,
       _regen_type_     : '_none_'
     });
@@ -803,7 +804,7 @@ pcss._home_ = (function ( $ ) {
     pcss._setCascade_({
       _cascade_id_     : '_c02_',
       _mode_str_       : '_add_',
-      _vsheet_id_list_ : [ '_font_', '_base_', '_head_', '_box02_' ],
+      _vsheet_id_list_ : [ '_font_', '_base_', '_box02_' ],
       _mixin_map_      : palette_map,
       _regen_type_     : '_none_'
     });
@@ -811,7 +812,7 @@ pcss._home_ = (function ( $ ) {
     pcss._setCascade_({
       _cascade_id_     : '_c03_',
       _mode_str_       : '_add_',
-      _vsheet_id_list_ : [ '_font_', '_base_', '_head_', '_box03_' ],
+      _vsheet_id_list_ : [ '_font_', '_base_', '_box03_' ],
       _mixin_map_      : palette_map,
       _regen_type_     : '_none_'
     });
@@ -957,7 +958,7 @@ pcss._home_ = (function ( $ ) {
 
     setTimeout( function () {
       $float_div.removeClass( 'pcss-_x_active_' );
-    }, 250 );
+    }, topCmap._debounce_ms_ );
   }
   // End event handler /onClickHead/
   // ======================= END EVENT HANDLERS ========================
@@ -986,11 +987,7 @@ pcss._home_ = (function ( $ ) {
 }( jQuery ));
 // END pcss._home_
 
-/** Color palettes thanks to:
- * DuoParadigms Public Relations & Design, Inc.
- * http://www.duoparadigms.com/2013/10/11/10-color-palettes-perfect-autumnfall-season/
- * 10 Color Palettes (and HEX Codes) Perfect for the Autumn/Fall Season
- * Posted by Aaress Lawless | Tags: Graphic Design
- * Call Us: 832-387-4693
+/** Color palettes modified from: DuoParadigms Public Relations & Design, Inc.
+ * http://www.duoparadigms.com/2013/10/11/
+ * 10-color-palettes-perfect-autumnfall-season/ * Posted by Aaress Lawless
 */
-
