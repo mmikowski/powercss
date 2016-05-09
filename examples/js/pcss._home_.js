@@ -48,11 +48,11 @@ pcss._home_ = (function ( $ ) {
         [ 'Sansation-Regular', 'font/vendor/Sansation/' ]
       ],
 
-      _font_src_tmplt_ : "url('%!%_font_path_%!%.eot?iefix=1')"
+      _font_src_tmplt_ : "url('{_font_path_}.eot?iefix=1')"
         + " format('embedded-opentype'),"
-        + "url('%!%_font_path_%!%.woff') format('woff'),"
-        + "url('%!%_font_path_%!%.ttf') format('truetype'),"
-        + "url('%!%_font_path_%!%.svg') format('svg')",
+        + "url('{_font_path_}.woff') format('woff'),"
+        + "url('{_font_path_}.ttf') format('truetype'),"
+        + "url('{_font_path_}.svg') format('svg')",
 
       _global_mixin_map_ : {
         _logo_url_     : 'url(img/pcss-25p-lt.png)',
@@ -520,7 +520,7 @@ pcss._home_ = (function ( $ ) {
             _opacity_        : '_1_',
             _position_       : '_relative_',
             _margin_         : [[ '_1rem_', '_0_', '_d75rem_', [ '-5rem' ] ]],
-            _padding_        : [[ '_d625rem_', '_3rem_' ]],
+            _padding_        : [[ '_d625rem_', '_2rem_' ]],
             _vertical_align_ : '_top_',
             _box_shadow_     : '_shadow_d625_',
             _border_         : '_0_',
@@ -591,7 +591,7 @@ pcss._home_ = (function ( $ ) {
       var
         input_str  = arg_map._input_str_,
         lookup_map = arg_map._lookup_map_,
-        tmplt_rx   = /%!%([^%]+)%!%/g,
+        tmplt_rx   = /\{([^\{\}]+[^\\])\}/g,
         bound_fn   = lookupFn.bind( lookup_map )
         ;
       return input_str.replace( tmplt_rx, bound_fn );
