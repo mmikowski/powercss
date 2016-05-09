@@ -40,8 +40,6 @@ pcss._home_ = (function ( $ ) {
       _palette_idx_     : __0,
       _palette_map_     : {}
     },
-    jqueryMap = {},
-
     topCmap = {
       _debounce_ms_    : 250,
       _font_list_list_ : [
@@ -291,7 +289,7 @@ pcss._home_ = (function ( $ ) {
           _rule_map_     : { _color_ : '_hex_mid_' }
         },
         { _selector_str_ : 'section',
-          _rule_map_ : { _margin_bottom_ : '_2rem_' }
+          _rule_map_ : { _margin_bottom_ : '_3rem_' }
         },
         { _selector_str_ : 'p',
           _rule_map_ : {
@@ -348,8 +346,9 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : 'pre',
           _rule_map_ : {
-            _margin_ : [[ '_1rem_', '_4rem_' ]],
-            _padding_ : [[ '_d5rem_', '_1rem_' ]],
+            _margin_     : [[ '_0_', '_4rem_' ]],
+            _padding_    : [[ '_d5rem_', '_1rem_' ]],
+            _max_width_  : [ '90rem' ],
             _overflow_x_ : '_auto_',
             _overflow_y_ : '_auto_'
           }
@@ -531,7 +530,7 @@ pcss._home_ = (function ( $ ) {
             _display_        : '_inline_block_',
             _opacity_        : '_1_',
             _position_       : '_relative_',
-            _margin_         : [[ '_0_', '_0_', '_1rem_', [ '-4.5rem' ] ]],
+            _margin_         : [[ '_0_', '_0_', '_1d5rem_', [ '-4.5rem' ] ]],
             _padding_        : [[ '_d625rem_', '_2rem_' ]],
             _vertical_align_ : '_top_',
             _box_shadow_     : '_shadow_d625_',
@@ -577,6 +576,9 @@ pcss._home_ = (function ( $ ) {
       // end _box_selector_list_
     },
     // end topCmap
+    
+    jqueryMap = {},
+    
     fillTmplt
     ;
   // ================== END MODULE SCOPE VARIABLES =====================
@@ -719,7 +721,7 @@ pcss._home_ = (function ( $ ) {
 
     pcss._extendRuleMap_( h1h2_rule_map, {
       _left_          : '_50p_',
-      _margin_        : [[ '_2rem_', '_0_', '_d5rem_', [ '-8rem' ] ]],
+      _margin_        : [[ '_0_', '_0_', '_1d5rem_', [ '-8rem' ] ]],
       _padding_       : '_d625rem_',
       _width_         : [ '16rem' ],
       _font_size_     : '_2rem_',
@@ -756,7 +758,7 @@ pcss._home_ = (function ( $ ) {
       _width_         : __null,
       _display_       : '_block_',
       _float_         : '_right_',
-      _margin_        : [[ '_2rem_', [ '-4.5rem' ], '_d5rem_', '_1rem_' ]],
+      _margin_        : [[ '_0_', [ '-4.5rem' ], '_1d5rem_', '_1rem_' ]],
       _max_width_     : [ '90%' ],
       _padding_       : [[ '_d625rem_', '_3rem_', '_d625rem_', '_1rem_' ]],
       _box_shadow_    : '_shadow_d1875_',
@@ -966,6 +968,8 @@ pcss._home_ = (function ( $ ) {
   // ====================== BEGIN PUBLIC METHODS =======================
   // Begin public method /initModule/
   function initModule () {
+    var palette_idx;
+    
     pcss._initModule_();
 
     setJqueryMap();
@@ -973,9 +977,12 @@ pcss._home_ = (function ( $ ) {
     drawCascadeSelect();
     drawPaletteSelect();
 
-    pickPaletteIdx( __0 );
+    palette_idx = Math.floor(
+      topCmap._palette_list_.length * Math.random()
+    );
+    
+    pickPaletteIdx( palette_idx );
     pickCascadeIdx( __0 );
-
     useCascade();
 
     jqueryMap._$head_.on( 'click', onClickHead );
