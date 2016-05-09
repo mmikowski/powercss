@@ -61,8 +61,8 @@ pcss._home_ = (function ( $ ) {
         _shadow_d625_  : [[
           '_hex_shadow_', '_0_', '_0_', '_d5rem_', '_0_'
         ]],
-        _font_family_awesome_   : 'fa-4-5-mod-msm, sans-serif',
-        _font_family_arial_     : 'arial, helvetica, sans-serif',
+        _font_family_awesome_   : 'fa-4-5-mod-msm,    sans-serif',
+        _font_family_arial_     : 'Arial, Helvetica,  sans-serif',
         _font_family_sansation_ : 'Sansation-Regular, sans-serif',
         _font_size_             : '16px',
         _trans_short_           : 'all .2s ease',
@@ -215,7 +215,7 @@ pcss._home_ = (function ( $ ) {
           _hex_bkgd_dk_   : '#baa18a'
         },
         { _palette_name_  : 'Chili',
-          _hex_bright_    : '#fdfda8',
+          _hex_bright_    : '#eeffec',
           _hex_shadow_    : '#eeffd5',
           _hex_shadow_dk_ : '#283811',
           _hex_font_      : '#ffd1a7',
@@ -223,8 +223,8 @@ pcss._home_ = (function ( $ ) {
           _hex_mid_       : '#b8997f',
           _hex_gradtop_   : '#a68887',
           _hex_link_      : '#a68887',
-          _hex_gradbtm_   : '#d94330',
-          _hex_link_dk_   : '#d94330',
+          _hex_gradbtm_   : '#866663',
+          _hex_link_dk_   : '#866663',
           _hex_bkgd_      : '#5c0811',
           _hex_bkgd_dk_   : '#7a2d36',
           _logo_url_      : 'url(img/pcss-25p-dk.png)'
@@ -348,7 +348,6 @@ pcss._home_ = (function ( $ ) {
           _rule_map_ : {
             _margin_     : [[ '_0_', '_4rem_' ]],
             _padding_    : [[ '_d5rem_', '_1rem_' ]],
-            _max_width_  : [ '90rem' ],
             _overflow_x_ : '_auto_',
             _overflow_y_ : '_auto_'
           }
@@ -434,6 +433,7 @@ pcss._home_ = (function ( $ ) {
           _rule_map_     : { _display_ : '_block_' }
         },
         /* End .pcss-_x_*_ selectors */
+
         { _selector_str_ : '.pcss-_head_',
           _rule_map_   : {
             _display_       : '_block_',
@@ -517,7 +517,7 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : 'pre',
           _rule_map_ : {
-            _margin_ : [[ '_1rem_', '_1rem_' ]]
+            _margin_ : [[ '_0_', '_1rem_', '_1rem_', '_1rem_' ]]
           }
         },
         { _end_cond_str_ : __blank }
@@ -553,10 +553,10 @@ pcss._home_ = (function ( $ ) {
         },
         { _selector_str_ : 'h3',
           _rule_map_ : {
-            _margin_bottom_ : '_d5rem_',
+            _margin_bottom_ : '_d75rem_',
             _font_size_     : '_1d25rem_',
             _font_weight_   : '_800_',
-            _color_         : '_hex_mid_'
+            _color_         : '_hex_gradtop_'
           }
         },
         { _begin_cond_str_ : '@media all and (max-width: 650px)' },
@@ -583,7 +583,7 @@ pcss._home_ = (function ( $ ) {
     ;
   // ================== END MODULE SCOPE VARIABLES =====================
 
-  // ===================== BEGIN UTLILTY METHODS =======================
+  // ===================== BEGIN UTILITY METHODS =======================
   fillTmplt = (function () {
     function lookupFn ( match_str, lookup_name ) {
       var
@@ -649,7 +649,7 @@ pcss._home_ = (function ( $ ) {
     }
     return font_sel_list;
   }
-  // ====================== END UTLILTY METHODS ========================
+  // ====================== END UTILITY METHODS ========================
 
   // ======================= BEGIN DOM METHODS =========================
   // Begin DOM method /setJqueryMap/
@@ -735,7 +735,7 @@ pcss._home_ = (function ( $ ) {
       _left_          : '_0_',
       _margin_left_   : '_0_',
       _border_radius_ : '_d5rem_',
-      _margin_top_    : '_1rem_'
+      _margin_top_    : '_0_'
     });
     pcss._extendRuleMap_( small_h1h2_map, { _margin_ : __null });
     pcss._extendRuleMap_( small_h1_map, {
@@ -845,7 +845,6 @@ pcss._home_ = (function ( $ ) {
     }
     cascade_html = div_list.join( __blank );
     jqueryMap._$head_cascade_.html( cascade_html );
-
   }
   // End DOM method /drawCascadeSelect/
 
@@ -980,7 +979,7 @@ pcss._home_ = (function ( $ ) {
     palette_idx = Math.floor(
       topCmap._palette_list_.length * Math.random()
     );
-    
+
     pickPaletteIdx( palette_idx );
     pickCascadeIdx( __0 );
     useCascade();
