@@ -73,6 +73,7 @@ pcss._home_ = (function ( $ ) {
          '_hex_gradtop_', [ '0%,' ], '_hex_gradbtm_', '_100p_', [')']
         ]]
       },
+      _local_idx_key_ : 'pcss-_palette_idx_',
       _palette_list_ : [
         { _palette_name_  : 'Newspaper',
           _hex_bright_    : '#ececec',
@@ -668,6 +669,27 @@ pcss._home_ = (function ( $ ) {
   }
   // End DOM method /setJqueryMap/
 
+  // Begin DOM method /getPaletteIdx/
+  function getPaletteIdx ( palette_count ) {
+    var
+      local_key = topCmap._local_idx_key_,
+      palette_idx;
+
+    if ( localStorage && localStorage.hasOwnProperty( local_key ) ) {
+      palette_idx = parseInt( localStorage[ local_key ], 10 );
+      palette_idx++;
+    }
+    if ( isNaN( palette_idx ) ) {
+      palette_idx = Math.floor( palette_count * Math.random());
+    }
+    if ( palette_idx >= palette_count ) { palette_idx = __0; }
+
+    if ( localStorage ) { localStorage[ local_key ] = palette_idx; }
+
+    return palette_idx;
+  }
+  // End DOM method /getPaletteIdx/
+  //
   // Begin DOM method /setStyle/
   function setStyle( arg_palette_map ) {
     var
@@ -878,7 +900,8 @@ pcss._home_ = (function ( $ ) {
     var
       palette_list = topCmap._palette_list_,
       palette_map  = palette_list[ palette_idx ],
-      $child_list  = jqueryMap._$head_palette_.children()
+      $child_list  = jqueryMap._$head_palette_.children(),
+      local_key    = topCmap._local_idx_key_
       ;
 
     if ( ! palette_map ) { return; }
@@ -886,8 +909,9 @@ pcss._home_ = (function ( $ ) {
     $child_list.removeClass( 'pcss-_x_select_' );
     $child_list.eq( palette_idx + __1 ).addClass( 'pcss-_x_select_');
 
-    topSmap._palette_map_ = palette_map;
     // useCascade will take care of presenting the updated palette_map
+    topSmap._palette_map_ = palette_map;
+    if ( localStorage ) { localStorage[ local_key ] = palette_idx; }
   }
   // End DOM method /pickPaletteIdx/
 
@@ -967,7 +991,7 @@ pcss._home_ = (function ( $ ) {
   // ====================== BEGIN PUBLIC METHODS =======================
   // Begin public method /initModule/
   function initModule () {
-    var palette_idx;
+    var palette_count, palette_idx;
     
     pcss._initModule_();
 
@@ -976,9 +1000,8 @@ pcss._home_ = (function ( $ ) {
     drawCascadeSelect();
     drawPaletteSelect();
 
-    palette_idx = Math.floor(
-      topCmap._palette_list_.length * Math.random()
-    );
+    palette_count = topCmap._palette_list_.length;
+    palette_idx   = getPaletteIdx( palette_count );
 
     pickPaletteIdx( palette_idx );
     pickCascadeIdx( __0 );
