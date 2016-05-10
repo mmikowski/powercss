@@ -887,6 +887,10 @@ var pcss = (function () {
       _TYPE_: switch ( val_data_type ) {
         // Resolve alternate lists
         case vMap._object_ :
+          if ( val_data === __null ) {
+            logIt( '_null_object_found_', frame_obj );
+            break _TYPE_;
+          }
           alt_list = val_data._alt_list_;
           alt_type = getVarType( alt_list );
 
