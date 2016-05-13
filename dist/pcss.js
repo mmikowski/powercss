@@ -1023,7 +1023,7 @@ var pcss = (function () {
           selector_idx--;
           solve_selector_list[ vMap._length_ ] = selector_idx;
         }
-        else { 
+        else {
           solve_selector_list[ vMap._push_ ]( '}' );
         }
         continue _SELECT_MAP1_;
@@ -1612,7 +1612,7 @@ var pcss = (function () {
 
   // 4.9 Public method /getCssValMap/
   function getCssValMap () { return cssValMap; }
-  
+
   // end 4. PUBLIC METHODS ====================================
   return {
     _initModule_        : initModule,
