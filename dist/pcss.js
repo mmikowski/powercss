@@ -1145,7 +1145,6 @@ var pcss = (function () {
   // end 3. EVENT HANDLERS ====================================
 
   // 4. PUBLIC METHODS ========================================
-
   // 4.1 Public method /initModule/
   // ------------------------------
   // Example   | pcss._initModule_({ _style_el_prefix_ : 'ns' });
@@ -1608,15 +1607,23 @@ var pcss = (function () {
   }
   // end 4.7 Public method /setCascade/
 
+  // 4.8 Public method /getCssKeyMap/
+  function getCssKeyMap () { return cssKeyMap; }
+
+  // 4.9 Public method /getCssValMap/
+  function getCssValMap () { return cssValMap; }
+  
   // end 4. PUBLIC METHODS ====================================
   return {
     _initModule_        : initModule,
     _extendRuleMap_     : extendRuleMap,
-    _togglePcss_        : initCheck[ vMap._bind_ ]( togglePcss          ),
-    _setGlobalMixinMap_ : initCheck[ vMap._bind_ ]( setGlobalMixinMap   ),
-    _getAssetIdList_    : initCheck[ vMap._bind_ ]( getAssetIdList      ),
-    _getAssetJson_      : initCheck[ vMap._bind_ ]( getAssetJson        ),
-    _setVsheet_         : initCheck[ vMap._bind_ ]( setVsheet           ),
-    _setCascade_        : initCheck[ vMap._bind_ ]( setCascade          )
+    _togglePcss_        : initCheck[ vMap._bind_ ]( togglePcss        ),
+    _setGlobalMixinMap_ : initCheck[ vMap._bind_ ]( setGlobalMixinMap ),
+    _getAssetIdList_    : initCheck[ vMap._bind_ ]( getAssetIdList    ),
+    _getAssetJson_      : initCheck[ vMap._bind_ ]( getAssetJson      ),
+    _setVsheet_         : initCheck[ vMap._bind_ ]( setVsheet         ),
+    _setCascade_        : initCheck[ vMap._bind_ ]( setCascade        ),
+    _getCssValMap_      : getCssValMap,
+    _getCssKeyMap_      : getCssKeyMap
   };
 }());
