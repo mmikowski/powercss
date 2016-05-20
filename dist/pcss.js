@@ -87,6 +87,10 @@ var pcss = (function () {
 
     // CSS rule keys
     cssKeyMap = {
+
+      __moz_appearance_            : '-moz-appearance',
+      __ms_appearance_             : '-ms-appearance',
+      __webkit_appearance_         : '-webkit-appearance',
       __moz_box_sizing_            : '-moz-box-sizing',
       __webkit_font_smoothing_     : '-webkit-font-smoothing',
       __webkit_overflow_scrolling_ : '-webkit-overflow-scrolling',
