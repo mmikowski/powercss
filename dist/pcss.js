@@ -87,7 +87,6 @@ var pcss = (function () {
 
     // CSS rule keys
     cssKeyMap = {
-
       __moz_appearance_            : '-moz-appearance',
       __ms_appearance_             : '-ms-appearance',
       __webkit_appearance_         : '-webkit-appearance',
