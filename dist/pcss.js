@@ -258,7 +258,7 @@ var pcss = (function () {
       _border_box_    : 'border-box',
       _both_          : 'both',
       _center_        : 'center',
-      _center_center_ : 'center center',
+      _circle_        : 'circle',
       _clip_          : 'clip',
       _collapse_      : 'collapse',
       _contain_       : 'contain',
@@ -369,11 +369,10 @@ var pcss = (function () {
       key_count = key_list.length,
       i, key, val_data;
 
-    for ( i = 0; i < key_count; i++ ) {
-      key      = key_list[ i ];
-      val_data = map[ key ];
-
-      val_list[i] = val_data;
+    for ( i = __0; i < key_count; i++ ) {
+      key           = key_list[ i ];
+      val_data      = map[ key ];
+      val_list[ i ] = val_data;
     }
     return val_list;
   }
