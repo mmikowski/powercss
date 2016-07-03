@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# To deploy this script:
+# cd ../.git/hooks
+# ln -s ../../bin/git-hook_pre-commit pre-commit
+#
 # See http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
-
 # exit when encountering undeclared variables
 set -u;
 
@@ -9,22 +12,19 @@ set -u;
 # (disabled here as we do are own checking)
 # set -e;
 
-# Adjust for links
+## BEGIN Layout variables ==================================================
 LINK_PATH=$(readlink -f -- "${0}");
-BIN_PATH=$( cd ${LINK_PATH%/*} && echo $PWD ); # absolute path to this bin
+BIN_PATH=$(cd ${LINK_PATH%/*} && echo $PWD); # absolute path to this bin
 ROOT_DIR=$(cd "$(git rev-parse --show-toplevel)" && pwd );
-NODE_EXEC=$(which node);
 JSLINT_EXEC="${ROOT_DIR}/node_modules/jslint/bin/jslint.js";
+NODE_EXEC=$(which node);
 NODEUNIT_EXEC="${ROOT_DIR}/node_modules/nodeunit/bin/nodeunit";
 NODEUNIT_FILE="${ROOT_DIR}/test/t.js";
-TMP_FILE="/tmp/git-pre-commit.tmp";
+MAKEDOC_EXEC="${ROOT_DIR}/bin/make_doc";
+TMP_FILE="/tmp/git-pre-commit.${$}tmp";
+## END Layout variables ====================================================
 
-if [ ! -x "${NODE_EXEC}" ]; then
-  echo "Node not found.  Please install nodejs and ensure it is "
-  echo " found in your PATH environment variable."
-  exit 1;
-fi
-
+## BEGIN Lint JavaScript files =============================================
 if [ ! -x "${JSLINT_EXEC}" ] || [ ! -x "${NODEUNIT_EXEC}" ]; then
   echo "Development libraries not found."
   echo "Please execute the following command: "
@@ -66,9 +66,47 @@ fi
 
 rm "${TMP_FILE}";
 echo;
+## END Lint JavaScript files ===============================================
 
-echo "Running regression tests"
+## BEGIN Progress changed documents ========================================
+## TODO
+##  if [ ! -x "${MAKEDOC_EXEC}" ]; then
+##    echo "bin/make_doc not found.  This file should exist.";
+##    echo "Please check your installation.";
+##    exit 1;
+##  fi
+##  echo "Updating HTML documents from MarkDown";
+##  "${MAKEDOC_EXEC}";
+##  RET_VAL=$?;
+##  if [ "${RET_VAL}" -eq "0" ]; then
+##    echo "Document file failure".
+##    echo "Please check your installation.";
+##    exit "${RET_VAL}";
+##  fi
+##
+## END Progress changed documents ==========================================
 
+## BEGIN Run regression tests ==============================================
+if [ ! -x "${NODE_EXEC}" ]; then
+  echo "Node not found.  Please install nodejs and ensure it is "
+  echo " found in your PATH environment variable."
+  exit 1;
+fi
+
+if [ ! -x "${NODEUNIT_EXEC}" ]; then
+  echo "Nodeunit not found.  Please run "
+  echo "cd ${ROOT_DIR}; npm install"
+  echo
+fi
+
+if [ ! -r "${NODEUNIT_FILE}" ]; then
+  echo "Nodeunit file ${NODEUNIT_FILE} not found."
+  echo "Please ensure it exists."
+  echo
+  exit 1;
+fi
+
+echo "Running regression tests";
 "${NODEUNIT_EXEC}" "${NODEUNIT_FILE}"
 exit $?;
-
+## END Run regression tests ================================================
