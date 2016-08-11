@@ -268,7 +268,7 @@ var pcss = (function () {
       _disc_          : 'disc',
       _ellipsis_      : 'ellipsis',
       _fixed_         : 'fixed',
-      _font_fixed_    : 'courier, fixed',
+      _font_fixed_    : 'courier, fixed, monospace',
       _font_sans_     : 'arial, helvetica, sans-serif',
       _hidden_        : 'hidden',
       _important_     : '!important',
