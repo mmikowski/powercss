@@ -1634,6 +1634,7 @@ MIT
 - Changed built-in keys to use "bottom" instead of "btm", as this was
   needlessly confusing.  Example: `_border_btm_` becomes
   `_border_bottom_`.
+- Added method `_getGlobalMixinMap_`
 
 ### Version 1.2.x (planned)
 - Use a double-buffered stylesheet per cascade.
@@ -1641,6 +1642,7 @@ MIT
   e.g. one for a chat feature, one for a comment feature, etc.
   Deleting a cascade should remove the associated stylesheet(s).
   Write the double-buffer stylesheet elements only as needed.
+- Provide tools to convert existing CSS to PowerCSS JavaScript.
 
 ## Similar Projects
 [absurdjs][5], [responsive.j$][6]

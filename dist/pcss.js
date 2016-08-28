@@ -264,6 +264,7 @@ var pcss = (function () {
       _contain_       : 'contain',
       _content_box_   : 'content-box',
       _cover_         : 'cover',
+      _decimal_       : 'decimal',
       _default_       : 'default',
       _disc_          : 'disc',
       _ellipsis_      : 'ellipsis',
@@ -273,6 +274,7 @@ var pcss = (function () {
       _hidden_        : 'hidden',
       _important_     : '!important',
       _inherit_       : 'inherit',
+      _inline_        : 'inline',
       _inline_block_  : 'inline-block',
       _italic_        : 'italic',
       _left_          : 'left',
@@ -1616,6 +1618,9 @@ var pcss = (function () {
   // 4.9 Public method /getCssValMap/
   function getCssValMap () { return cssValMap; }
 
+  // 4.10 Public method /getGlobalMixinMap/
+  function getGlobalMixinMap () { return topSmap._global_mixin_map_; }
+
   // end 4. PUBLIC METHODS ====================================
   return {
     _initModule_        : initModule,
@@ -1627,6 +1632,7 @@ var pcss = (function () {
     _setVsheet_         : initCheck[ vMap._bind_ ]( setVsheet         ),
     _setCascade_        : initCheck[ vMap._bind_ ]( setCascade        ),
     _getCssValMap_      : getCssValMap,
-    _getCssKeyMap_      : getCssKeyMap
+    _getCssKeyMap_      : getCssKeyMap,
+    _getGlobalMixinMap_ : getGlobalMixinMap
   };
 }());
