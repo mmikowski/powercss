@@ -1629,14 +1629,21 @@ MIT
 ### Version 1.0.x
 - Released 2016-03-25
 
-### Version 1.1.x (current)
+### Version 1.1.x 
+- Initial release 2016-03-25
 - Added support for CSS conditional expressions
 - Changed built-in keys to use "bottom" instead of "btm", as this was
   needlessly confusing.  Example: `_border_btm_` becomes
   `_border_bottom_`.
 - Added method `_getGlobalMixinMap_`
+- Fully backward compatible to 1.0 API
 
-### Version 1.2.x (planned)
+### Version 1.2.x
+- Initial release 2016-09-03
+- Moved key and value maps to pcss.cfg.js
+- Fully backward compatible to 1.0 API
+
+### Version 1.3.x (planned)
 - Use a double-buffered stylesheet per cascade.
   This would better support isolated web feature components,
   e.g. one for a chat feature, one for a comment feature, etc.
