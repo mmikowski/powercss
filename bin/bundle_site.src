@@ -1,0 +1,1 @@
+tar cvzf website.tgz AUTHORS.txt dist examples font img index.html LICENSE.txt README.md 
