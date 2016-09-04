@@ -503,7 +503,8 @@
   }
 
   nubObj.setInjectRoot(__dirname, '../dist/');
-  nubObj.inject([ 'pcss.js' ]);
+  nubObj.inject([ 'pcss.js'     ]);
+  nubObj.inject([ 'pcss.cfg.js' ]);
 
   exports.t = nubObj({
     // make these properties of window conveniently available to tests

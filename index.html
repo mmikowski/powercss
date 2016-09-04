@@ -17,6 +17,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
   ></script>
   <script src="dist/pcss.js"></script>
+  <script src="dist/pcss.cfg.js"></script>
   <script src="examples/js/pcss._home_.js"></script>
   <script>
   $(pcss._home_._initModule_);
@@ -45,21 +46,27 @@
     <section>
       <h2><span class="pcss-_x_fa_icon_">&#xf1ea;</span> Latest News</h2>
       <div class="pcss-_alt_clearfloat_"></div>
+      <p><strong>2016-09-03: v1.2 &#8212; External symbol
+      definitions.</strong> PowerCSS can now use custom symbol maps.
+      The <code>pcss._initModule_({...})</code> method has two additional
+      options: <code>_css_key_map_</code> and <code>_css_val_map_</code>.
 
-      <p><strong>2016-03-25: v1.1 &#8212; Conditional expressions.</strong>
-        PowerCSS now supports arbitrary-depth conditional CSS and media
-        queries. See the <code>Conditional Expressions</code> section of updated
-        <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
-           target="_blank">documentation</a>. We added 22 regression tests to
-        ensure quality and reliability.</p>
+      <p><strong>PowerCSS v1.2 is fully backward compatible</strong> with v1.1
+      and v1.0 as long as we add the <code>pcss.cfg.js</code> source file:
+      page like so:</p>
 
-      <p><strong>The API is backwards compatible with 1.0</strong> which we feel is
-        a major accomplishment given the requirements of
-        conditional expressions. The only exception is that the irregular
-        symbol names containing "bottom" have been made consistent.
-        For example, <code>_border_btm_</code> has been renamed to
-        <code>_border_bottom_</code> as the former was needlessly different
-        from the CSS symbol.</p>
+      <pre><code>&lt;!-- v1.1 --&gt;
+&lt;script&gt;../dist/pcss.js&lt;/script&gt;
+
+&lt;!-- v1.2+ --&gt;
+&lt;script&gt;../dist/pcss.js&lt;/script&gt;
+&lt;script&gt;../dist/pcss.cfg.js&lt;/script&gt;
+</code></pre><br/>
+
+      <p>No changes to client code is necessary, as PowerCSS checks and
+      includes the default CSS key and value maps from <code>pcss.cfg.js</code>
+      file if they are not otherwise provided in the <code>pcss._initModule_({...})</code>
+      call.  The API remains fully backward compatible with 1.0.</p>
     </section>
 
     <section>
@@ -162,6 +169,14 @@ npm test</pre>
     <section>
       <h2><span class="pcss-_x_fa_icon_">&#xf017;</span> Older News</h2>
       <div class="pcss-_alt_clearfloat_"></div>
+
+      <p><strong>2016-03-25: v1.1 &#8212; Conditional expressions.</strong>
+        PowerCSS now supports arbitrary-depth conditional CSS and media
+        queries. See the <code>Conditional Expressions</code> section of updated
+        <a href="https://github.com/mmikowski/powercss/blob/master/README.md"
+           target="_blank">documentation</a>. We added 22 regression tests to
+        ensure quality and reliability.</p>
+
       <p><strong>2016-03-25: v1.0 &#8212; First production release.
       </strong> We have a strong set of regression
         tests and has been used in a number of production and production-intent
