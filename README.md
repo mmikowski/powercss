@@ -1643,7 +1643,12 @@ MIT
 - Moved key and value maps to pcss.cfg.js
 - Fully backward compatible to 1.0 API
 
-### Version 1.3.x (planned)
+### Version 1.3.x
+- Added `setStyleAttr` which provides capability to change styles
+  after the stylesheet has been written.
+- Fully backward compatible to 1.0 API
+
+### Version 1.4.x (planned)
 - Use a double-buffered stylesheet per cascade.
   This would better support isolated web feature components,
   e.g. one for a chat feature, one for a comment feature, etc.

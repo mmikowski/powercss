@@ -334,7 +334,7 @@ pcss._home_ = (function ( $ ) {
             _line_height_   : '_1d5rem_',
             _border_radius_ : '_d25rem_',
             _padding_       : [[ '_0_', '_d375rem_' ]],
-            _font_family_   : [ 'courier, fixed' ],
+            _font_family_   : '_font_fixed_',
             _color_         : '_hex_bright_',
             _background_    : '_hex_bkgd_dk_',
             _font_weight_   : '_800_'

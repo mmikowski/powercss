@@ -96,6 +96,8 @@ pcss._cfg_ = (function () {
       _position_               : 'position',
       _resize_                 : 'resize',
       _right_                  : 'right',
+      _rx_                     : 'rx',
+      _ry_                     : 'ry',
       _src_                    : 'src',
       _stroke_                 : 'stroke',
       _stroke_opacity_         : 'stroke-opacity',
@@ -115,10 +117,27 @@ pcss._cfg_ = (function () {
 
     // Common CSS values
     cssValMap = {
-      _0_             : '0',
-      _1_             : '1',
-      _2_             : '2',
-      _3_             : '3',
+      _d0_  : '.0',
+      _d1_  : '.1',
+      _d2_  : '.2',
+      _d3_  : '.3',
+      _d4_  : '.4',
+      _d5_  : '.5',
+      _d6_  : '.6',
+      _d7_  : '.7',
+      _d8_  : '.8',
+      _d9_  : '.9',
+      _0_   : '0',
+      _1_   : '1',
+      _2_   : '2',
+      _3_   : '3',
+      _4_   : '4',
+      _5_   : '5',
+      _6_   : '6',
+      _7_   : '7',
+      _8_   : '8',
+      _9_   : '9',
+
       _0p_            : '0%',
       _12d5p_         : '12.5%',
       _25p_           : '25%',
@@ -128,23 +147,44 @@ pcss._cfg_ = (function () {
       _75p_           : '75%',
       _87d5p_         : '87.5%',
       _100p_          : '100%',
+
       // 1px increments for 16px nominal font-size
-      _d0625rem_      : '.0625rem', // 01px
-      _d125rem_       : '.125rem',  // 02px
-      _d1875rem_      : '.1875rem', // 03px
-      _d25rem_        : '.25rem',   // 04px
-      _d3125rem_      : '.3125rem', // 05px
-      _d375rem_       : '.375rem',  // 06px
-      _d4375rem_      : '.4375rem', // 07px
-      _d5rem_         : '.5rem',    // 08px
-      _d5625rem_      : '.5625rem', // 09px
-      _d625rem_       : '.625rem',  // 10px
-      _d6875rem_      : '.6875rem', // 11px
-      _d75rem_        : '.75rem',   // 12px
-      _d8125rem_      : '.8125rem', // 13px
-      _d875rem_       : '.875rem',  // 14px
-      _d9375rem_      : '.9375rem', // 15px
-      _1rem_          : '1rem',     // 16px
+      // VIM tip: I used visual-select and tac reverse order
+      // :'<'>!tac
+      _n2rem_         : '-2rem',
+      _n1rem_         : '-1rem',
+      _nd9375rem_     : '-.9375rem', // 15px
+      _nd875rem_      : '-.875rem',  // 14px
+      _nd8125rem_     : '-.8125rem', // 13px
+      _nd75rem_       : '-.75rem',   // 12px
+      _nd6875rem_     : '-.6875rem', // 11px
+      _nd625rem_      : '-.625rem',  // 10px
+      _nd5625rem_     : '-.5625rem', // 09px
+      _nd5rem_        : '-.5rem',    // 08px
+      _nd4375rem_     : '-.4375rem', // 07px
+      _nd375rem_      : '-.375rem',  // 06px
+      _nd3125rem_     : '-.3125rem', // 05px
+      _nd25rem_       : '-.25rem',   // 04px
+      _nd1875rem_     : '-.1875rem', // 03px
+      _nd125rem_      : '-.125rem',  // 02px
+      _nd0625rem_     : '-.0625rem', // 01px
+      _d0625rem_      : '.0625rem',  // 01px
+      _d125rem_       : '.125rem',   // 02px
+      _d1875rem_      : '.1875rem',  // 03px
+      _d25rem_        : '.25rem',    // 04px
+      _d3125rem_      : '.3125rem',  // 05px
+      _d375rem_       : '.375rem',   // 06px
+      _d4375rem_      : '.4375rem',  // 07px
+      _d5rem_         : '.5rem',     // 08px
+      _d5625rem_      : '.5625rem',  // 09px
+      _d625rem_       : '.625rem',   // 10px
+      _d6875rem_      : '.6875rem',  // 11px
+      _d75rem_        : '.75rem',    // 12px
+      _d8125rem_      : '.8125rem',  // 13px
+      _d875rem_       : '.875rem',   // 14px
+      _d9375rem_      : '.9375rem',  // 15px
+      _1rem_          : '1rem',      // 16px
+
       // 2px increments for 16px nominal font size
       _1d125rem_      : '1.125rem',
       _1d25rem_       : '1.25rem',
@@ -188,6 +228,7 @@ pcss._cfg_ = (function () {
       _circle_        : 'circle',
       _clip_          : 'clip',
       _collapse_      : 'collapse',
+      _col_resize_    : 'col-resize',
       _contain_       : 'contain',
       _content_box_   : 'content-box',
       _cover_         : 'cover',
@@ -196,8 +237,8 @@ pcss._cfg_ = (function () {
       _disc_          : 'disc',
       _ellipsis_      : 'ellipsis',
       _fixed_         : 'fixed',
-      _font_fixed_    : 'courier, fixed, monospace',
-      _font_sans_     : 'arial, helvetica, sans-serif',
+      _font_fixed_    : 'courier new,courier,fixed,monospace',
+      _font_sans_     : 'arial,helvetica,sans-serif',
       _hidden_        : 'hidden',
       _important_     : '!important',
       _inherit_       : 'inherit',

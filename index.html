@@ -46,27 +46,28 @@
     <section>
       <h2><span class="pcss-_x_fa_icon_">&#xf1ea;</span> Latest News</h2>
       <div class="pcss-_alt_clearfloat_"></div>
-      <p><strong>2016-09-03: v1.2 &#8212; External symbol
-      definitions.</strong> PowerCSS can now use custom symbol maps.
-      The <code>pcss._initModule_({...})</code> method has two additional
-      options: <code>_css_key_map_</code> and <code>_css_val_map_</code>.
+      <p><strong>2016-09-06: v1.3 &#8212; Added <code>_setStyleAttr_</code>
+      method.</strong> PowerCSS can now change styles on-the-fly after a
+      stylesheet is written.  Here is an example:</p>
 
-      <p><strong>PowerCSS v1.2 is fully backward compatible</strong> with v1.1
-      and v1.0 as long as we add the <code>pcss.cfg.js</code> source file:
-      page like so:</p>
+      <pre>// Rewrite an attribute for a style.
+// This will update all elements with this class in the DOM immediately
+//
+pcss._setStyleAttr_({
+  _selector_str_ : '.xhi-_svg_ellipse_',
+  _attr_key_ : 'rx',
+  _attr_val_ : x_radius_px
+});</pre><br/>
 
-      <pre><code>&lt;!-- v1.1 --&gt;
-&lt;script&gt;../dist/pcss.js&lt;/script&gt;
+      <p>If you have just a few style changes, <code>_setStyleAttr_</code>
+      can be more efficient or easier to implement. Other times, double-buffer
+      stylesheet flipping will be much faster or easier.  The easiest solution 
+      is usually the best; however, if performance is critical you should
+      profile both approaches in you applicaiton to help you determine which
+      makes the most sense.</p>
 
-&lt;!-- v1.2+ --&gt;
-&lt;script&gt;../dist/pcss.js&lt;/script&gt;
-&lt;script&gt;../dist/pcss.cfg.js&lt;/script&gt;
-</code></pre><br/>
-
-      <p>No changes to client code is necessary, as PowerCSS checks and
-      includes the default CSS key and value maps from <code>pcss.cfg.js</code>
-      file if they are not otherwise provided in the <code>pcss._initModule_({...})</code>
-      call.  The API remains fully backward compatible with 1.0.</p>
+      <p><strong>PowerCSS v1.3</strong> is backward compatible with all
+      versions since 1.0.</p>
     </section>
 
     <section>
@@ -169,6 +170,28 @@ npm test</pre>
     <section>
       <h2><span class="pcss-_x_fa_icon_">&#xf017;</span> Older News</h2>
       <div class="pcss-_alt_clearfloat_"></div>
+
+      <p><strong>2016-09-03: v1.2 &#8212; External symbol
+      definitions.</strong> PowerCSS can now use custom symbol maps.
+      The <code>pcss._initModule_({...})</code> method has two additional
+      options: <code>_css_key_map_</code> and <code>_css_val_map_</code>.
+
+      <p><strong>PowerCSS v1.2 is fully backward compatible</strong> with v1.1
+      and v1.0 as long as we add the <code>pcss.cfg.js</code> source file:
+      page like so:</p>
+
+      <pre>&lt;!-- v1.1 --&gt;
+&lt;script&gt;../dist/pcss.js&lt;/script&gt;
+
+&lt;!-- v1.2+ --&gt;
+&lt;script&gt;../dist/pcss.js&lt;/script&gt;
+&lt;script&gt;../dist/pcss.cfg.js&lt;/script&gt;
+</pre><br/>
+
+      <p>No changes to client code is necessary, as PowerCSS checks and
+      includes the default CSS key and value maps from <code>pcss.cfg.js</code>
+      file if they are not otherwise provided in the <code>pcss._initModule_({...})</code>
+      call.  The API remains fully backward compatible with 1.0.</p>
 
       <p><strong>2016-03-25: v1.1 &#8212; Conditional expressions.</strong>
         PowerCSS now supports arbitrary-depth conditional CSS and media

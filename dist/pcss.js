@@ -119,6 +119,7 @@ var pcss = (function () {
 
       _vsheet_map_map_   : {},
       _cascade_map_map_  : {},
+      _rule_list_        : __undef,
       _style_el_list_    : __undef,
       _style_el_prefix_  : __undef,
       _style_el_idx_     : __n1
@@ -911,7 +912,8 @@ var pcss = (function () {
       }
       write_el[ vMap._sheet_ ][ vMap._disabled_ ] = ! topSmap._is_enabled_;
 
-      topSmap._style_el_idx_ = write_idx;
+      topSmap._style_el_idx_    = write_idx;
+      topSmap._active_rule_map_ = __undef;
       topSmap._el_cascade_list_[ write_idx ] = cascade_id;
       publishEvent( '_pcss_used_', cascade_id );
     }
@@ -920,6 +922,59 @@ var pcss = (function () {
   }
   // end 2.13 Private method /regenCascade/
 
+  function setActiveRuleMap () {
+    var
+      style_el    = topSmap._style_el_list_[ topSmap._style_el_idx_ ],
+      sheet_list  = __docRef[ vMap._styleSheets_ ],
+      sheet_count = sheet_list[ vMap._length_ ],
+      active_rule_map = {},
+
+      idx, sheet_obj, solve_sheet_obj,
+      rule_list, rule_count, rule_obj,
+      selector_str
+      ;
+
+    for ( idx = __0; idx < sheet_count; idx++ ) {
+      sheet_obj = sheet_list[ idx ];
+      if ( sheet_obj.ownerNode === style_el ) {
+        solve_sheet_obj = sheet_obj; break;
+      }
+    }
+    if ( ! solve_sheet_obj ) { return; }
+
+    rule_list  = solve_sheet_obj.rules || solve_sheet_obj.cssRules;
+    if ( ! rule_list ) { return; }
+
+    rule_count = rule_list[ vMap._length_ ];
+    for ( idx = __0; idx < rule_count; idx++ ) {
+      rule_obj  = rule_list[ idx ];
+      selector_str = rule_obj.selectorText;
+      if ( selector_str ) {
+        active_rule_map[ selector_str ] = rule_obj;
+      }
+    }
+    topSmap._active_rule_map_ = active_rule_map;
+    return active_rule_map;
+  }
+
+  function setStyleAttr ( arg_map ) {
+    var
+      selector_str    = arg_map._selector_str_,
+      attr_key        = arg_map._attr_key_,
+      attr_val        = arg_map._attr_val_,
+      active_rule_map = topSmap._active_rule_map_,
+      rule_obj, style_obj
+      ;
+
+    if ( ! active_rule_map ) { active_rule_map = setActiveRuleMap(); }
+    if ( ! active_rule_map ) { return; }
+    rule_obj  = active_rule_map[ selector_str ];
+    style_obj = rule_obj && rule_obj.style;
+
+    if ( style_obj && style_obj[ vMap._hasOwnProp_ ]( attr_key ) ) {
+      style_obj[ attr_key ] = attr_val;
+    }
+  }
   // 2.14 Private method /initCheck/
   // Wrapper function that checks init before proceeding
   //
@@ -1436,8 +1491,9 @@ var pcss = (function () {
     _getAssetJson_      : initCheck[ vMap._bind_ ]( getAssetJson      ),
     _setVsheet_         : initCheck[ vMap._bind_ ]( setVsheet         ),
     _setCascade_        : initCheck[ vMap._bind_ ]( setCascade        ),
-    _getCssValMap_      : getCssValMap,
-    _getCssKeyMap_      : getCssKeyMap,
-    _getGlobalMixinMap_ : getGlobalMixinMap
+    _getCssValMap_      : initCheck[ vMap._bind_ ]( getCssValMap      ),
+    _getCssKeyMap_      : initCheck[ vMap._bind_ ]( getCssKeyMap      ),
+    _getGlobalMixinMap_ : initCheck[ vMap._bind_ ]( getGlobalMixinMap ),
+    _setStyleAttr_      : initCheck[ vMap._bind_ ]( setStyleAttr      )
   };
 }());
