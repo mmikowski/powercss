@@ -551,12 +551,10 @@ as illustrated below:
 
   // Global option
   pcss._setGlobalMixinMap_({
-    _mixin_id_   : '_base_',
     _mode_str_   : '_add_',
     _mixin_map_  : global_mixin_map,
   });
 ```
-
 
 A **mixin map** is simple key-value pair object as illustrated below:
 
@@ -1369,9 +1367,11 @@ pcss._togglePcss();
 #### Change the global mixin map
 
 ```js
-pcss._setGlobalMixinMap_({ _mixin_map_ : { ... } });
+pcss._setGlobalMixinMap_({
+  _mode_type_ : 'change',
+  _mixin_map_ : { ... }
+});
 ```
-
 
 ## API reference - Events
 
@@ -1393,11 +1393,17 @@ Notes      | Every time a cascade merge, prepare, or use is enabled, an
 ### `_initModule_`
 
 ```
-Example   | pcss._initModule_({ _style_el_prefix_ : 'ns' });
+Example   | pcss._initModule_({
+          |   _style_el_prefix_ : 'ns',
+          |   _css_key_map_     : {...},
+          |   _css_val_map_     : {...}
+          | });
 Purpose   | Initializes style elements using the provided prefix
-Arguments | _style_el_prefix_ :
-          | Optional: A prefix to name-space the two style elements
-          | If not provided, the prefix 'pcss' will be used.
+Arguments | _style_el_prefix_  (opt) A prefix to name-space the two 
+          |   <style> elements. If not provided, the prefix 'pcss'
+          |    will be used.
+          | _css_key_map_, _css_val_map_ (opt) Maps to used to look-up
+          |   CSS keys and values respectively.
 Settings  | none
 Throws    | A string error object if style elements already exist
 Returns   | The style prefix, e.g. 'ns-'
@@ -1537,7 +1543,7 @@ Returns   | vsheet_id, or undef on failure
 
 
 ### `_setCascade_`
-See **The PowerCSS cookbook** section to see how `_setCascade_`
+See **The PowerCSS cookbook** section to explore how `_setCascade_`
 may be used to accomplish common tasks.
 
 ```
@@ -1562,11 +1568,51 @@ Settings  | none
 Throws    | none
 Returns   | cascade_id, or undef on failure
 ```
+### `_getCssKeyMap_` (new in 1.2)
 
+### `_getCssValMap_` (new in 1.2)
+
+### `_getGlobalMixinMap_` (new in 1.2)
+
+```
+Example   | pcss._getGlobalMixinMap_();
+Purpose   | Returns the currently set global mixin map.
+Arguments | none
+Notes     | This returns a mixinmap pointer, which can lead to problems
+          | if the application tampers with the content.  Don't do that.
+Settings  | none
+Throws    | none
+Returns   | The global mixin map.  This could be undef.
+```
+
+### `_setStyleAttr_` (new in 1.3)
+
+```
+Example   | pcss._setStyleAttr_({
+          |   _selector_str_   : '.my_class',
+          |   _attr_key_       : 'font-size',
+          |   _attr_val_       : '12pt'
+          | });
+Purpose   | Immediately changes a selector definition in 
+          | the currently active style sheet. In the example provided,
+          | all text within the selected class would be resized to 12pt.
+          | Each attribute change can cause a document reflow.
+Arguments | _selector_str_   (req) A CSS selector like '#my_id'
+          | _attr_key_       (req) A CSS attribute like 'color'
+          | _attr_val_       (req) A CSS value like '#ff0000'
+Notes     | Sometimes it is more efficient to change a single style than to
+          | generate and double-buffer-switch a stylesheet.  Profile your
+          | code if performance is important!
+          | Future versions will accept a map of attributes to apply to a
+          | single selector.
+Settings  | none
+Throws    | none
+Returns   | undef
+```
 
 ## Regression tests
-Regression tests are found under the `test` directory.
-You may run using the `npm`, like so:
+Regression tests are found under the `test` directory.  You may
+run using the `npm`, like so:
 
 ```bash
 cd node_modules/powercss;
@@ -1584,8 +1630,6 @@ and Edge browsers. We expect it to work on much earlier versions of
 Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 
 ## Release Notes
-See prior revisions of this document for more detail for specific versions.
-
 ### Copyright (c)
 2016 Michael S. Mikowski (mike[dot]mikowski[at]gmail[dotcom])
 
@@ -1629,7 +1673,7 @@ MIT
 ### Version 1.0.x
 - Released 2016-03-25
 
-### Version 1.1.x 
+### Version 1.1.x
 - Initial release 2016-03-25
 - Added support for CSS conditional expressions
 - Changed built-in keys to use "bottom" instead of "btm", as this was
@@ -1641,12 +1685,18 @@ MIT
 ### Version 1.2.x
 - Initial release 2016-09-03
 - Moved key and value maps to pcss.cfg.js
+- Adjusted _initModule_ to allow support for custom keys and values
+- Added _getCssKeyMap_ and _getCssValMap_ methods
 - Fully backward compatible to 1.0 API
 
 ### Version 1.3.x
 - Added `setStyleAttr` which provides capability to change styles
   after the stylesheet has been written.
 - Fully backward compatible to 1.0 API
+
+### Version 1.3.x (planned)
+- Update `setStyleAttr` to accept a map of attributes and values to 
+  apply for a selector.
 
 ### Version 1.4.x (planned)
 - Use a double-buffered stylesheet per cascade.
