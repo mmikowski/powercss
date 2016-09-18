@@ -1596,57 +1596,60 @@ MIT
 - First "public release" versions of PowerCSS with a working example.
 
 ### Version 0.2.x
-- Added double-buffering support and example
+- Added double-buffering support and example.
 
 ### Version 0.3.x
-- API changes
-- Added mixin support at 4 levels
-- Reverted to true double-buffering ( only 2 style elements )
+- Made API changes.
+- Added mixin support at 4 levels.
+- Reverted to true double-buffering ( only 2 style elements ).
 
 ### Version 0.4.x
 - API changes
 - API reference section
 
 ### Version 0.5.x
-- Refactored and greatly simplify API
-- Implemented time-based minimal processing
-- `_regen_type_` option to manage CSS generation processing;
-- Recipes section and expanded API reference
-- In-code API docs
-- Restructured project and launched powercss.org
+- Refactored and greatly simplify API.
+- Implemented time-based minimal processing.
+- `_regen_type_` option to manage CSS generation processing.
+- Added `Recipes` section and expanded API reference.
+- Added In-code API docs
+- Restructured project and launched powercss.org.
 
 ### Version 0.6.x
-- Published events
-- Multiple automated regression tests
-- NodeJS support with nodeunit-b
-- Error handling improvements
+- Added events.
+- Created multiple automated regression tests.
+- Used NodeJS for testing with nodeunit-b.
+- Improved error handling.
 
 ### Version 0.7.x
-- Refactored resolver
-- X-browser event support (IE9+)
-- Resolver regression tests
+- Refactored resolver.
+- Made event cross-browser (IE9+).
+- Added resolver regression tests.
 
 ### Version 1.0.x
-- Released 2016-03-25
+- Released 2016-03-25.
 
 ### Version 1.1.x 
-- Initial release 2016-03-25
-- Added support for CSS conditional expressions
+- Initial release 2016-03-25.
+- Added support for CSS conditional expressions.
 - Changed built-in keys to use "bottom" instead of "btm", as this was
   needlessly confusing.  Example: `_border_btm_` becomes
   `_border_bottom_`.
-- Added method `_getGlobalMixinMap_`
-- Fully backward compatible to 1.0 API
+- Added method `_getGlobalMixinMap_`.
+- Fully backward compatible to 1.0 API.
 
 ### Version 1.2.x
-- Initial release 2016-09-03
-- Moved key and value maps to pcss.cfg.js
+- Initial release 2016-09-03.
+- Moved key and value maps to pcss.cfg.js.
 - Fully backward compatible to 1.0 API
 
-### Version 1.3.x
+### Version 1.3.x (current)
+- Initial release 2016-09-12.
+- Expanded keywords support in pcss.cfg.js.
+- Removed unfinished bower support.
 - Added `setStyleAttr` which provides capability to change styles
   after the stylesheet has been written.
-- Fully backward compatible to 1.0 API
+- Fully backward compatible to 1.0 API.
 
 ### Version 1.4.x (planned)
 - Use a double-buffered stylesheet per cascade.

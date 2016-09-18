@@ -106,12 +106,14 @@ pcss._cfg_ = (function () {
       _text_decoration_        : 'text-decoration',
       _text_indent_            : 'text-indent',
       _text_overflow_          : 'text-overflow',
+      _text_shadow_            : 'text-shadow',
       _top_                    : 'top',
       _transition_             : 'transition',
       _vertical_align_         : 'vertical-align',
       _visibility_             : 'visibility',
       _white_space_            : 'white-space',
       _width_                  : 'width',
+      _word_break_             : 'word-break',
       _z_index_                : 'z-index'
     },
 
@@ -224,6 +226,7 @@ pcss._cfg_ = (function () {
       _border_box_    : 'border-box',
       _both_          : 'both',
       _bottom_        : 'bottom',
+      _break_word_    : 'break-word',
       _center_        : 'center',
       _circle_        : 'circle',
       _clip_          : 'clip',
