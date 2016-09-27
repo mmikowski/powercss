@@ -16,8 +16,8 @@ var pcss = (function () {
   // 1. MODULE SCOPE VARIABLES ============================
   //noinspection MagicNumberJS
   var
-    __getKeyList = Object.keys,
-    __Str        = String,
+    __keys = Object.keys,
+    __Str  = String,
 
     __j2str     = JSON.stringify,
     __str2j     = JSON.parse,
@@ -383,7 +383,7 @@ var pcss = (function () {
     ) { return; }
 
     extend_map = cloneData( arg_extend_map );
-    key_list   = __getKeyList( extend_map );
+    key_list   = __keys( extend_map );
     key_count  = key_list[ vMap._length_ ];
 
     _KEY_: for ( i = __0; i < key_count; i++ ) {
@@ -514,7 +514,7 @@ var pcss = (function () {
           // end 2.10.3.2.3.1
 
           // 2.10.3.2.3.2 Merge rules unless they are locked
-          rule_key_list  = ( rule_map && __getKeyList( rule_map )) || [];
+          rule_key_list  = ( rule_map && __keys( rule_map )) || [];
           rule_key_count = rule_key_list[ vMap._length_ ];
           for ( n = __0; n < rule_key_count; n++ ) {
             rule_key = rule_key_list[ n ];
@@ -591,7 +591,7 @@ var pcss = (function () {
       ;
 
 
-    key_list  = __getKeyList( rule_map );
+    key_list  = __keys( rule_map );
     if ( key_list[ vMap._length_ ] === __0 ) { return __blank; }
 
     val_list  = makeValList( rule_map, key_list );
@@ -1110,7 +1110,7 @@ var pcss = (function () {
     topSmap._global_mixin_ms_  = __timeStamp();
 
     // 4.3.3 Regenerate cascade maps to regen_type level
-    cascade_id_list  = __getKeyList( cascade_map_map );
+    cascade_id_list  = __keys( cascade_map_map );
     cascade_id_count = cascade_id_list[ vMap._length_ ];
     for ( i = __0; i < cascade_id_count; i++ ) {
       cascade_id     = cascade_id_list[ i ];
@@ -1162,7 +1162,7 @@ var pcss = (function () {
     // end 4.4.2
 
     // 4.4.3 return list of keys
-    return __getKeyList( asset_map_map );
+    return __keys( asset_map_map );
   }
   // end 4.4 Public method /getAssetIdList/
 
@@ -1333,7 +1333,7 @@ var pcss = (function () {
     // end 4.6.3
 
     // 4.6.4 Consider each cascade_map in _cascade_map_map
-    cascade_id_list  = __getKeyList( cascade_map_map );
+    cascade_id_list  = __keys( cascade_map_map );
     cascade_id_count = cascade_id_list[ vMap._length_ ];
     for ( i = __0; i < cascade_id_count; i++ ) {
       cascade_id     = cascade_id_list[ i ];

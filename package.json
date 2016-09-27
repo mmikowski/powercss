@@ -1,5 +1,5 @@
 { "name": "powercss",
-  "version": "1.3.1",
+  "version": "1.3.4",
   "description": "Unleash PowerCSS to create custom styling for every user of your web application. PowerCSS uses merging, caching, compression, and double-buffering to exceed the speed and flexibility of static CSS. https://www.youtube.com/watch?v=rnkMjzhxw4s",
   "keywords": [
     "css", "power", "powercss", "power-css", "css-power",
@@ -10,7 +10,7 @@
     "desktop and mobile",
     "desktop and touch"
   ],
-  "main": "pcss.js",
+  "main": "dist/",
   "scripts": {
     "test": "node_modules/.bin/nodeunit test/t.js"
   },
@@ -19,6 +19,7 @@
     "url": "git+https://github.com/mmikowski/powercss.git"
   },
   "author": "Michael S. Mikowski <mike.mikowski@gmail.com>",
+  "contributors": [ "Michael S. Mikowski <mike.mikowski@gmail.com>" ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mmikowski/powercss/issues"
@@ -30,6 +31,5 @@
     "nodeunit"       : "^0.9.1",
     "nodeunit-b"     : "^4.0.0",
     "node-inspector" : "^0.12.5"
-  },
-  "maintainers": [ "Michael S. Mikowski <mike.mikowski@gmail.com>" ]
+  }
 }
