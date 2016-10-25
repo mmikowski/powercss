@@ -1,5 +1,5 @@
 { "name": "powercss",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "Unleash PowerCSS to create custom styling for every user of your web application. PowerCSS uses merging, caching, compression, and double-buffering to exceed the speed and flexibility of static CSS. https://www.youtube.com/watch?v=rnkMjzhxw4s",
   "keywords": [
     "css", "power", "powercss", "power-css", "css-power",
@@ -12,7 +12,8 @@
   ],
   "main": "dist/",
   "scripts": {
-    "test": "node_modules/.bin/nodeunit test/t.js"
+    "test": "node_modules/.bin/nodeunit test/t.js",
+    "cover": "node_modules/.bin/istanbul cover node_modules/.bin/nodeunit -- --reporter=verbose test/t.js"
   },
   "repository": {
     "type": "git",
@@ -27,9 +28,11 @@
   "homepage": "https://github.com/mmikowski/powercss",
   "dependencies": {},
   "devDependencies": {
-    "jslint"         : "^0.9.6",
-    "nodeunit"       : "^0.9.1",
+    "istanbul"       : "^0.4.5",
+    "jslint"         : "^0.9.8",
+    "jsdom"          : "^9.8.2",
+    "nodeunit"       : "^0.9.5",
     "nodeunit-b"     : "^4.0.0",
-    "node-inspector" : "^0.12.5"
+    "node-inspector" : "^0.12.8"
   }
 }
