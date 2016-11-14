@@ -79,7 +79,7 @@ var pcss = (function () {
     __undef   = __winRef[ vMap._undefined_ ],
     __console = __winRef[ vMap._console_ ],
 
-    // Top Confiruration Map (topCmap)
+    // Top Configuration Map (topCmap)
     topCmap = {
       _max_resolve_count_ : 10000,
       _regen_type_list_ : [
