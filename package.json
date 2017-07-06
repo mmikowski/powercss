@@ -1,12 +1,26 @@
-{ "name": "powercss",
-  "version": "1.3.5",
+{
+  "name": "powercss",
+  "version": "1.3.6-rc01",
   "description": "Unleash PowerCSS to create custom styling for every user of your web application. PowerCSS uses merging, caching, compression, and double-buffering to exceed the speed and flexibility of static CSS. https://www.youtube.com/watch?v=rnkMjzhxw4s",
   "keywords": [
-    "css", "power", "powercss", "power-css", "css-power",
-    "css-alive", "alive-css", "css-live", "live-css",
-    "jscss", "js-css", "css-js", "cssjs",
-    "desktop", "touch","mobile",
-    "phone","tablet",
+    "css",
+    "power",
+    "powercss",
+    "power-css",
+    "css-power",
+    "css-alive",
+    "alive-css",
+    "css-live",
+    "live-css",
+    "jscss",
+    "js-css",
+    "css-js",
+    "cssjs",
+    "desktop",
+    "touch",
+    "mobile",
+    "phone",
+    "tablet",
     "desktop and mobile",
     "desktop and touch"
   ],
@@ -20,7 +34,9 @@
     "url": "git+https://github.com/mmikowski/powercss.git"
   },
   "author": "Michael S. Mikowski <mike.mikowski@gmail.com>",
-  "contributors": [ "Michael S. Mikowski <mike.mikowski@gmail.com>" ],
+  "contributors": [
+    "Michael S. Mikowski <mike.mikowski@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mmikowski/powercss/issues"
@@ -28,11 +44,10 @@
   "homepage": "https://github.com/mmikowski/powercss",
   "dependencies": {},
   "devDependencies": {
-    "istanbul"       : "^0.4.5",
-    "jslint"         : "^0.9.8",
-    "jsdom"          : "^9.8.2",
-    "nodeunit"       : "^0.9.5",
-    "nodeunit-b"     : "^4.0.0",
-    "node-inspector" : "^0.12.8"
+    "istanbul": "*",
+    "jsdom": "^11.1.0",
+    "jslint": "^0.10.3",
+    "nodeunit": "^0.11.1",
+    "nodeunit-b": "*"
   }
 }

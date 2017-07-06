@@ -1637,65 +1637,63 @@ Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 MIT
 
 ### Version 0.1.x
-- First "public release" versions of PowerCSS with a working example.
+x First "public release" versions of PowerCSS with a working example.
 
 ### Version 0.2.x
-- Added double-buffering support and example.
+x Added double-buffering support and example.
 
 ### Version 0.3.x
-- Made API changes.
-- Added mixin support at 4 levels.
-- Reverted to true double-buffering ( only 2 style elements ).
+x Made API changes.
+x Added mixin support at 4 levels.
+x Reverted to true double-buffering ( only 2 style elements ).
 
 ### Version 0.4.x
-- API changes
-- API reference section
+x API changes
+x API reference section
 
 ### Version 0.5.x
-- Refactored and greatly simplify API.
-- Implemented time-based minimal processing.
-- `_regen_type_` option to manage CSS generation processing.
-- Added `Recipes` section and expanded API reference.
-- Added In-code API docs
-- Restructured project and launched powercss.org.
+x Refactored and greatly simplify API.
+x Implemented time-based minimal processing.
+x `_regen_type_` option to manage CSS generation processing.
+x Added `Recipes` section and expanded API reference.
+x Added In-code API docs
+x Restructured project and launched powercss.org.
 
 ### Version 0.6.x
-- Added events.
-- Created multiple automated regression tests.
-- Used NodeJS for testing with nodeunit-b.
-- Improved error handling.
+x Added events.
+x Created multiple automated regression tests.
+x Used NodeJS for testing with nodeunit-b.
+x Improved error handling.
 
 ### Version 0.7.x
-- Refactored resolver.
-- Made event cross-browser (IE9+).
-- Added resolver regression tests.
+x Refactored resolver.
+x Made event cross-browser (IE9+).
+x Added resolver regression tests.
 
 ### Version 1.0.x
-- Released 2016-03-25.
+x Released 2016-03-25.
 
 ### Version 1.1.x 
-- Initial release 2016-03-25.
-- Added support for CSS conditional expressions.
-- Changed built-in keys to use "bottom" instead of "btm", as this was
-  needlessly confusing.  Example: `_border_btm_` becomes
-  `_border_bottom_`.
-- Added method `_getGlobalMixinMap_`.
-- Fully backward compatible to 1.0 API.
+x Initial release 2016-03-25.
+x Added support for CSS conditional expressions.
+x Changed built-in keys to use "bottom" instead of "btm", as this was needlessly confusing.  Example: `_border_btm_` becomes `_border_bottom_`.
+x Added method `_getGlobalMixinMap_`.
+x Fully backward compatible to 1.0 API.
 
 ### Version 1.2.x
-- Initial release 2016-09-03.
-- Moved key and value maps to pcss.cfg.js.
-- Adjusted _initModule_ to allow support for custom keys and values.
-- Added `_getCssKeyMap_` and `_getCssValMap_` methods.
-- Fully backward compatible to 1.0 API
+x Initial release 2016-09-03.
+x Moved key and value maps to pcss.cfg.js.
+x Adjusted _initModule_ to allow support for custom keys and values.
+x Added `_getCssKeyMap_` and `_getCssValMap_` methods.
+x Fully backward compatible to 1.0 API
 
 ### Version 1.3.x (current)
-- Initial release 2016-09-12.
-- Expanded keywords support in pcss.cfg.js.
-- Removed unfinished bower support.
-- Added `setStyleAttr` which provides capability to change styles
-  after the stylesheet has been written.
-- Fully backward compatible to 1.0 API.
+x Initial release 2016-09-12.
+x Expanded keywords support in pcss.cfg.js.
+x Removed unfinished bower support.
+x Added `setStyleAttr` which provides capability to change styles after the stylesheet has been written.
+x Fully backward compatible to 1.0 API.
+x Update libs, npm, and nodejs to latest
 
 ### Version 1.3.x (planned)
 - Update `setStyleAttr` to accept a map of attributes and values to 
@@ -1708,6 +1706,9 @@ MIT
   Deleting a cascade should remove the associated stylesheet(s).
   Write the double-buffer stylesheet elements only as needed.
 - Provide tools to convert existing CSS to PowerCSS JavaScript.
+
+### Version 1.5.x (planned)
+- Add extendo-map expansion
 
 ## Similar Projects
 [absurdjs][5], [responsive.j$][6]
