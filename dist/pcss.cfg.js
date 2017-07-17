@@ -60,6 +60,8 @@ pcss._cfg_ = (function () {
       _clear_                  : 'clear',
       _clip_                   : 'clip',
       _color_                  : 'color',
+      _column_width_           : 'column-width',
+      _column_count_           : 'column-count',
       _content_                : 'content',
       _cursor_                 : 'cursor',
       _display_                : 'display',
