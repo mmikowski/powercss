@@ -1637,7 +1637,6 @@ Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 MIT
 
 ### Version 0.1.x
-<<<<<<< HEAD
 - (x) First "public release" versions of PowerCSS with a working example.
 
 ### Version 0.2.x
@@ -1696,65 +1695,6 @@ MIT
 - (x) Added `setStyleAttr` which provides capability to change styles 
       after the stylesheet has been written.
 - (x) Fully backward compatible to 1.0 API.
-=======
-x First "public release" versions of PowerCSS with a working example.
-
-### Version 0.2.x
-x Added double-buffering support and example.
-
-### Version 0.3.x
-x Made API changes.
-x Added mixin support at 4 levels.
-x Reverted to true double-buffering ( only 2 style elements ).
-
-### Version 0.4.x
-x API changes
-x API reference section
-
-### Version 0.5.x
-x Refactored and greatly simplify API.
-x Implemented time-based minimal processing.
-x `_regen_type_` option to manage CSS generation processing.
-x Added `Recipes` section and expanded API reference.
-x Added In-code API docs
-x Restructured project and launched powercss.org.
-
-### Version 0.6.x
-x Added events.
-x Created multiple automated regression tests.
-x Used NodeJS for testing with nodeunit-b.
-x Improved error handling.
-
-### Version 0.7.x
-x Refactored resolver.
-x Made event cross-browser (IE9+).
-x Added resolver regression tests.
-
-### Version 1.0.x
-x Released 2016-03-25.
-
-### Version 1.1.x 
-x Initial release 2016-03-25.
-x Added support for CSS conditional expressions.
-x Changed built-in keys to use "bottom" instead of "btm", as this was needlessly confusing.  Example: `_border_btm_` becomes `_border_bottom_`.
-x Added method `_getGlobalMixinMap_`.
-x Fully backward compatible to 1.0 API.
-
-### Version 1.2.x
-x Initial release 2016-09-03.
-x Moved key and value maps to pcss.cfg.js.
-x Adjusted _initModule_ to allow support for custom keys and values.
-x Added `_getCssKeyMap_` and `_getCssValMap_` methods.
-x Fully backward compatible to 1.0 API
-
-### Version 1.3.x (current)
-x Initial release 2016-09-12.
-x Expanded keywords support in pcss.cfg.js.
-x Removed unfinished bower support.
-x Added `setStyleAttr` which provides capability to change styles after the stylesheet has been written.
-x Fully backward compatible to 1.0 API.
-x Update libs, npm, and nodejs to latest
->>>>>>> develop
 
 ### Version 1.3.x (planned)
 - (x) Update `setStyleAttr` to accept a map of attributes and values to 
