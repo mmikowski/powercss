@@ -13,9 +13,8 @@
   "devDependencies": {
     "istanbul": "0.4.5",
     "jsdom": "11.1.0",
-    "jslint": "0.10.3",
-    "nodeunit": "0.11.1",
-    "nodeunit-b": "4.0.0"
+    "jslint": "^0.10.3",
+    "nodeunit": "0.11.1"
   },
   "homepage": "https://github.com/mmikowski/powercss",
   "keywords": [

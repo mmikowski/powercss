@@ -17,9 +17,9 @@
 'use strict';
 var
   jsdomObj = require( 'jsdom' ),
-  winRef   = new jsdomObj.JSDOM().window,
-  docRef   = winRef.document,
-  jQuery   = require( 'jquery' )( winRef ),
+  winObj   = new jsdomObj.JSDOM().window,
+  docObj   = winObj.document,
+  jQuery   = require( 'jquery' )( winObj ),
   pcssObj  = require( '../dist/pcss-1.3.5.js' ),
   pcssCfg  = require( '../dist/pcss.cfg-1.3.5.js '),
   configMap = {
@@ -348,8 +348,8 @@ var
   }
   ;
 
-global.window   = winRef;
-global.document = docRef;
+global.window   = winObj;
+global.document = docObj;
 global.jQuery   = jQuery;
 global.$        = jQuery;
 
@@ -500,53 +500,58 @@ function onPrepared050 ( event_obj ) {
 }
 
 
-function test010Init ( test_obj ) {
-var
-  method_list = [
-    '_togglePcss_',     '_setGlobalMixinMap_',
-    '_getAssetIdList_', '_getAssetJson_',
-    '_setVsheet_',      '_setCascade_'
-  ],
-  method_count = method_list.length,
-  i, method_key, expect_str, ret_data;
+// == BEGIN 10: testInit ==============================================
+function testInit ( test_obj ) {
+  var
+    method_list = [
+      '_togglePcss_',     '_setGlobalMixinMap_',
+      '_getAssetIdList_', '_getAssetJson_',
+      '_setVsheet_',      '_setCascade_'
+    ],
+    method_count = method_list.length,
+    i, method_key, expect_str, ret_data
+    ;
 
-test_obj.expect( 9 );
-expect_str = 'pcss_obj and pcss should point to same object';
-test_obj.ok( pcss_obj === pcss, expect_str );
+  test_obj.expect( 9 );
+  expect_str = 'pcssObj and pcss should point to same object';
+  test_obj.ok( pcssObj === pcss, expect_str );
 
-for ( i = 0; i < method_count; i++ ) {
-  method_key = method_list[ i ];
-  expect_str = 'method ' + method_key
-    + ' should fail prior to _initModule_';
-  try { ret_data = pcss_obj[ method_key ](); }
+  for ( i = 0; i < method_count; i++ ) {
+    method_key = method_list[ i ];
+    expect_str = 'method ' + method_key
+      + ' should fail prior to _initModule_';
+    try { ret_data = pcssObj[ method_key ](); }
+    catch( error ) { ret_data = error; }
+    test_obj.ok(
+      ret_data === '_please_run_initmodule_first_',
+      expect_str
+    );
+  }
+
+  expect_str = '_init_module_ should return "pcss-"';
+  try { ret_data = pcssObj._initModule_(); }
   catch( error ) { ret_data = error; }
-  test_obj.ok(
-    ret_data === '_please_run_initmodule_first_',
-    expect_str
-  );
+  test_obj.ok( ret_data === 'pcss-', expect_str );
+
+  expect_str = 'Initial toggle should return false';
+  try { ret_data = pcssObj._togglePcss_(); }
+  catch( error ) { ret_data = error; }
+  test_obj.ok( ret_data === false, expect_str );
+
+  test_obj.done();
 }
+// == . END 10: testInit ==============================================
 
-expect_str = '_init_module_ should return "pcss-"';
-try { ret_data = pcss_obj._initModule_(); }
-catch( error ) { ret_data = error; }
-test_obj.ok( ret_data === 'pcss-', expect_str );
-
-expect_str = 'Initial toggle should return false';
-try { ret_data = pcss_obj._togglePcss_(); }
-catch( error ) { ret_data = error; }
-test_obj.ok( ret_data === false, expect_str );
-
-test_obj.done();
-}
-
-function test020ExtendRuleMap ( test_obj ) {
+// == BEGIN 20: extendRuleMap =========================================
+// Test level 20: extend rule map
+function extendRuleMap ( test_obj ) {
   var
     base_map, extend_map, check_map, expect_str, ret_data;
 
   test_obj.expect( 14 );
 
   expect_str = '_init_module_ should return "nu-"';
-  try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'nu' }); }
+  try { ret_data = pcssObj._initModule_({ _style_el_prefix_ : 'nu' }); }
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === 'nu-', expect_str );
 
@@ -554,7 +559,7 @@ function test020ExtendRuleMap ( test_obj ) {
   base_map   = {};
   extend_map = {};
   check_map  = {};
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
+  try { ret_data = pcssObj._extendRuleMap_( base_map, extend_map ); }
   catch( error ) { ret_data = error; }
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
@@ -563,7 +568,7 @@ function test020ExtendRuleMap ( test_obj ) {
   base_map   = {};
   extend_map = { foo : null };
   check_map  = {};
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
+  try { ret_data = pcssObj._extendRuleMap_( base_map, extend_map ); }
   catch( error ) { ret_data = error; }
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
@@ -572,7 +577,7 @@ function test020ExtendRuleMap ( test_obj ) {
   base_map   = { foo : 'fred' };
   extend_map = { foo : null };
   check_map  = {};
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
+  try { ret_data = pcssObj._extendRuleMap_( base_map, extend_map ); }
   catch( error ) { ret_data = error; }
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
@@ -581,7 +586,7 @@ function test020ExtendRuleMap ( test_obj ) {
   base_map   = { foo : 'fred', red : '#f00' };
   extend_map = { foo : null };
   check_map  = { red : '#f00' };
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
+  try { ret_data = pcssObj._extendRuleMap_( base_map, extend_map ); }
   catch( error ) { ret_data = error; }
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
@@ -590,7 +595,7 @@ function test020ExtendRuleMap ( test_obj ) {
   base_map   = { foo : 'fred', red : '#f00' };
   extend_map = { foo : null,   red : null   };
   check_map  = {};
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
+  try { ret_data = pcssObj._extendRuleMap_( base_map, extend_map ); }
   catch( error ) { ret_data = error; }
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
@@ -599,20 +604,22 @@ function test020ExtendRuleMap ( test_obj ) {
   base_map   = configMap._020_base_map_;
   extend_map = configMap._020_extend_map_;
   check_map  = configMap._020_check_map_;
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
+  try { ret_data = pcssObj._extendRuleMap_( base_map, extend_map ); }
   catch( error ) { ret_data = error; }
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
 
   expect_str = '_init_module_ again should return "nu-" regardless of args';
-  try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'foo' }); }
+  try { ret_data = pcssObj._initModule_({ _style_el_prefix_ : 'foo' }); }
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === 'nu-', expect_str );
 
   test_obj.done();
 }
+// == . END 20: extendRuleMap =========================================
 
-function test030Vsheets ( test_obj ) {
+// == BEGIN 30: createVSheets =========================================
+function createVSheets ( test_obj ) {
   var
     s00_selector_list = [
       { _selector_str_   : 'body',
@@ -636,17 +643,17 @@ function test030Vsheets ( test_obj ) {
   test_obj.expect( 17 );
 
   expect_str = 'Stylesheet count should === 0';
-  try { ret_data = win_obj.document.styleSheets.length; }
+  try { ret_data = docObj.styleSheets.length; }
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === 0, expect_str );
 
   expect_str = '_init_module_ should return "foo-"';
-  try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'foo' }); }
+  try { ret_data = pcssObj._initModule_({ _style_el_prefix_ : 'foo' }); }
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === 'foo-', expect_str );
 
   expect_str = 'Stylesheet count should === 2';
-  try { ret_data = win_obj.document.styleSheets.length; }
+  try { ret_data = docObj.styleSheets.length; }
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === 2, expect_str );
 
@@ -782,7 +789,7 @@ function test030Vsheets ( test_obj ) {
   }
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === '"body{margin:2rem;font-size:1.5rem}"', expect_str );
-  win_obj.document.addEventListener( '_pcss_prepared_',
+  docObj.addEventListener( '_pcss_prepared_',
     function( event_obj ){
       expect_str = 'Event object should provide cascade_id';
       test_obj.ok( event_obj._data_ === '_c00_', expect_str );
@@ -821,8 +828,10 @@ function test030Vsheets ( test_obj ) {
     test_obj.ok( ret_data === '_s00_', expect_str );
   }, 0 );
 }
+// == BEGIN 30: createVSheets =========================================
 
-function test040Resolver : function ( test_obj, win_obj, pcss_obj ) {
+// == BEGIN 40: checkResolver =========================================
+function checkResolver ( test_obj ) {
   var
     input_list  = configMap._040_rule_map_list_,
     expect_list = configMap._040_expect_list_,
@@ -834,7 +843,7 @@ function test040Resolver : function ( test_obj, win_obj, pcss_obj ) {
   test_obj.expect( 41 );
 
   expect_str = '_init_module_ should return "bar-"';
-  try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'bar' }); }
+  try { ret_data = pcssObj._initModule_({ _style_el_prefix_ : 'bar' }); }
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === 'bar-', expect_str );
 
@@ -873,11 +882,13 @@ function test040Resolver : function ( test_obj, win_obj, pcss_obj ) {
   fn_next_rule_map = nextRuleMap040.bind(   smap );
   fn_onprepared    = onPrepared040.bind(  smap );
 
-  win_obj.document.addEventListener( '_pcss_prepared_', fn_onprepared );
+  docObj.addEventListener( '_pcss_prepared_', fn_onprepared );
   fn_next_rule_map();
-},
+}
+// == . END 40: checkResolver =========================================
 
-test050Cascade : function ( test_obj, win_obj, pcss_obj ) {
+// == BEGIN 50: makeCascades ==========================================
+function makeCascades ( test_obj ) {
   var
     input_list  = configMap._050_input_list_,
     expect_list = configMap._050_expect_list_,
@@ -889,7 +900,7 @@ test050Cascade : function ( test_obj, win_obj, pcss_obj ) {
   test_obj.expect( 22 );
 
   expect_str = '_init_module_ should return "bar-"';
-  try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'bar' }); }
+  try { ret_data = pcssObj._initModule_({ _style_el_prefix_ : 'bar' }); }
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === 'bar-', expect_str );
 
@@ -905,40 +916,15 @@ test050Cascade : function ( test_obj, win_obj, pcss_obj ) {
   fn_next_cascade = nextCascade050.bind( smap );
   fn_onprepared   = onPrepared050.bind(  smap );
 
-  win_obj.document.addEventListener( '_pcss_prepared_', fn_onprepared );
+  docObj.addEventListener( '_pcss_prepared_', fn_onprepared );
   fn_next_cascade();
 }
-  function onWinError ( error_data, url_str, line_idx ) {
-    console.warn( error_data, url_str, line_idx );
-    return false; // true - prevent default handler, false - allow
-  }
+// == . END 50: makeCascades ==========================================
 
-  nubObj.setInjectRoot(__dirname, '../dist/');
-  nubObj.inject([ 'pcss.js'     ]);
-  nubObj.inject([ 'pcss.cfg.js' ]);
-
-  exports.t = nubObj({
-    // make these properties of window conveniently available to tests
-    provide: [ 'pcss' ],
-    // html to bootstrap sandbox DOM
-    html: '<!doctype html><html><head></head><body></body></html>',
-    setUp: function( finish_fn, win_obj, nub_obj ) {
-      console.log( 'setUp' );
-      // finish_fn = callback fn to execute on complete
-      // win_obj     = window object with a document attached
-      // nub_obj     = nodeunit-b object
-
-      // mock out jquery.ajax
-      // win_obj.$.ajax = function() {};
-      win_obj.onerror     = onWinError;
-      global.pcss         = win_obj.pcss;
-      finish_fn();
-    },
-    tearDown: function( finish_fn, win_obj, nub_obj ) {
-      console.log( 'tearDown' );
-      // another chance to mutate nub_obj, win_obj
-      // (though win_obj will be reset in setUp)
-      finish_fn();
-    },
-  });
-
+module.exports = {
+  testInit      : testInit,
+  extendRuleMap : extendRuleMap,
+  createVSheets : createVSheets,
+  checkResolver : checkResolver,
+  makeCascades  : makeCascades
+};
