@@ -11,6 +11,11 @@
 */
 /*global Event, pcss:true */
 
+/* istanbul ignore next */
+try          { __window = window; }
+catch ( e1 ) { __window = global[ 'window' ]; }
+
+// BEGIN module pcss ======================================
 var pcss = (function () {
   'use strict';
   // 1. MODULE SCOPE VARIABLES ============================
@@ -79,15 +84,15 @@ var pcss = (function () {
     __undef   = __winRef[ vMap._undefined_ ],
     __console = __winRef[ vMap._console_ ],
 
-    // Top Configuration Map (topCmap)
-    topCmap = {
+    // Top Configuration Map (configMap)
+    configMap = {
       _max_resolve_count_ : 10000,
       _regen_type_list_ : [
         '_none_', '_merge_', '_prepare_', '_all_', '_use_'
       ]
     },
 
-    // Top State Map (topSmap) dynamic data structure
+    // Top State Map (stateMap) dynamic data structure
     //  _vsheet_map_map_
     //    +- `vsheet_id1`
     //       |- _vsheet_id_     : `vsheet_id1`
@@ -109,7 +114,7 @@ var pcss = (function () {
     //      |- _css_str_              : `cascade_css`
     //      +- _css_ms_               : `timestamp`
 
-    topSmap = {
+    stateMap = {
       _is_enabled_       : __true,
       _is_init_          : __false,
       _el_cascade_list_  : [],
@@ -311,7 +316,7 @@ var pcss = (function () {
   function initStyleEls () {
     var
       head_el         = __docRef[ vMap._head_ ],
-      style_el_prefix = topSmap._style_el_prefix_,
+      style_el_prefix = stateMap._style_el_prefix_,
       style_el_list   = [],
 
       i, style_el_id, style_el
@@ -332,14 +337,14 @@ var pcss = (function () {
       style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
       style_el_list[ vMap._push_ ]( style_el );
     }
-    topSmap._style_el_list_ = style_el_list;
+    stateMap._style_el_list_ = style_el_list;
   }
   // end 2.7 Private method /initStyleEls/
 
   // 2.8 Private method /checkVsheetIds/
   function checkVsheetIds( vsheet_id_list ) {
     var
-      vsheet_map_map  = topSmap._vsheet_map_map_,
+      vsheet_map_map  = stateMap._vsheet_map_map_,
       vsheet_id_count = vsheet_id_list[ vMap._length_ ],
       unknown_id_list = [],
 
@@ -404,7 +409,7 @@ var pcss = (function () {
   function mergeCascade ( arg_vsheet_id_list, arg_mixin_map ) {
     // 2.10.1 init and args
     var
-      vsheet_map_map       = topSmap._vsheet_map_map_,
+      vsheet_map_map       = stateMap._vsheet_map_map_,
       vsheet_count         = arg_vsheet_id_list[ vMap._length_ ],
       seen_selector_map    = {},
       merged_selector_list = [],
@@ -436,7 +441,7 @@ var pcss = (function () {
     // end 2.10.1 init and args
 
     // 2.10.2 merge global and cascade mixin map
-    global_mixin_map  = topSmap._global_mixin_map_ || {};
+    global_mixin_map  = stateMap._global_mixin_map_ || {};
     merged_mixin_map  = cloneData( global_mixin_map );
     extendRuleMap( merged_mixin_map, arg_mixin_map );
 
@@ -575,7 +580,7 @@ var pcss = (function () {
   function makeRuleMapStr ( rule_map, merged_mixin_map ) {
     var
       frame_stack       = [],
-      max_resolve_count = topCmap._max_resolve_count_,
+      max_resolve_count = configMap._max_resolve_count_,
 
       key_list,
       val_list, rule_key,
@@ -854,7 +859,7 @@ var pcss = (function () {
       merged_ms, result_map, style_el, write_idx, write_el;
 
     // 2.13.1 Bail on unrecognized regen type
-    if ( topCmap._regen_type_list_[ vMap._indexOf_ ]( regen_type )
+    if ( configMap._regen_type_list_[ vMap._indexOf_ ]( regen_type )
       === __n1
     ) {
       logIt( '_regen_type_not_supported_', regen_type );
@@ -868,7 +873,7 @@ var pcss = (function () {
     merged_ms = cascade_map._merged_selector_ms_;
     if ( merged_ms <= cascade_map._vsheet_ms_
       || merged_ms <= cascade_map._mixin_ms_
-      || merged_ms <= topSmap._global_mixin_ms_
+      || merged_ms <= stateMap._global_mixin_ms_
     ) {
       result_map = mergeCascade(
         cascade_map._vsheet_id_list_, cascade_map._mixin_map_
@@ -896,25 +901,25 @@ var pcss = (function () {
 
     // 2.13.5 _all_ and _use_ level regen
     if ( regen_type === '_use_' || (
-      topSmap._el_cascade_list_[ topSmap._style_el_idx_ ] === cascade_id
+      stateMap._el_cascade_list_[ stateMap._style_el_idx_ ] === cascade_id
     ) ) {
-      style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ];
-      switch( topSmap._style_el_idx_ ) {
+      style_el  = stateMap._style_el_list_[ stateMap._style_el_idx_ ];
+      switch( stateMap._style_el_idx_ ) {
         case     __0 : write_idx = __1; break;
         case     __1 : write_idx = __0; break;
         default      : write_idx = __0; break;
       }
-      write_el  = topSmap._style_el_list_[ write_idx ];
+      write_el  = stateMap._style_el_list_[ write_idx ];
       writeToStyleEl ( write_el, cascade_map._css_str_ );
 
       if ( style_el ) {
         style_el[ vMap._sheet_ ][ vMap._disabled_ ] = __true;
       }
-      write_el[ vMap._sheet_ ][ vMap._disabled_ ] = ! topSmap._is_enabled_;
+      write_el[ vMap._sheet_ ][ vMap._disabled_ ] = ! stateMap._is_enabled_;
 
-      topSmap._style_el_idx_    = write_idx;
-      topSmap._active_rule_map_ = __undef;
-      topSmap._el_cascade_list_[ write_idx ] = cascade_id;
+      stateMap._style_el_idx_    = write_idx;
+      stateMap._active_rule_map_ = __undef;
+      stateMap._el_cascade_list_[ write_idx ] = cascade_id;
       publishEvent( '_pcss_used_', cascade_id );
     }
     // end 2.13.5
@@ -924,7 +929,7 @@ var pcss = (function () {
 
   function setActiveRuleMap () {
     var
-      style_el    = topSmap._style_el_list_[ topSmap._style_el_idx_ ],
+      style_el    = stateMap._style_el_list_[ stateMap._style_el_idx_ ],
       sheet_list  = __docRef[ vMap._styleSheets_ ],
       sheet_count = sheet_list[ vMap._length_ ],
       active_rule_map = {},
@@ -953,7 +958,7 @@ var pcss = (function () {
         active_rule_map[ selector_str ] = rule_obj;
       }
     }
-    topSmap._active_rule_map_ = active_rule_map;
+    stateMap._active_rule_map_ = active_rule_map;
     return active_rule_map;
   }
 
@@ -962,7 +967,7 @@ var pcss = (function () {
       selector_str    = arg_map._selector_str_,
       attr_key        = arg_map._attr_key_,
       attr_val        = arg_map._attr_val_,
-      active_rule_map = topSmap._active_rule_map_,
+      active_rule_map = stateMap._active_rule_map_,
       rule_obj, style_obj
       ;
 
@@ -980,7 +985,7 @@ var pcss = (function () {
   //
   function initCheck () {
     var target_fn = this;
-    if ( ! topSmap._style_el_prefix_ ) {
+    if ( ! stateMap._style_el_prefix_ ) {
       throw '_please_run_initmodule_first_';
     }
     return target_fn[ vMap._apply_ ]( this, arguments );
@@ -1014,9 +1019,9 @@ var pcss = (function () {
       ;
 
     // 4.1.2 Init element prefix
-    if ( ! topSmap._style_el_prefix_ ) {
+    if ( ! stateMap._style_el_prefix_ ) {
       style_el_prefix += '-';
-      topSmap._style_el_prefix_ = style_el_prefix;
+      stateMap._style_el_prefix_ = style_el_prefix;
       // Create two style elements '<prefix>-0' and '<prefix>-1'
       initStyleEls();
     }
@@ -1034,8 +1039,8 @@ var pcss = (function () {
     cssValMap = css_val_map;
 
     // 4.1.4 return prefix
-    topSmap._is_init_ = __true;
-    return topSmap._style_el_prefix_;
+    stateMap._is_init_ = __true;
+    return stateMap._style_el_prefix_;
   }
   // end 4.1 Public method /initModule/
 
@@ -1053,18 +1058,18 @@ var pcss = (function () {
   //
   function togglePcss( arg_do_enable ) {
     var
-      style_el  = topSmap._style_el_list_[ topSmap._style_el_idx_ ],
+      style_el  = stateMap._style_el_list_[ stateMap._style_el_idx_ ],
       do_disable;
 
     do_disable = ( arg_do_enable === __undef )
-      ? topSmap._is_enabled_ : ! arg_do_enable;
+      ? stateMap._is_enabled_ : ! arg_do_enable;
 
     if ( style_el ) {
       style_el[ vMap._sheet_ ][ vMap._disabled_ ] = do_disable;
     }
 
-    topSmap._is_enabled_ = ! do_disable;
-    return topSmap._is_enabled_;
+    stateMap._is_enabled_ = ! do_disable;
+    return stateMap._is_enabled_;
   }
   // end 4.2 Public method /togglePcss/
 
@@ -1093,7 +1098,7 @@ var pcss = (function () {
       mixin_map  = opt_map._mixin_map_  || {},
       regen_type = opt_map._regen_type_ || '_all_',
 
-      cascade_map_map = topSmap._cascade_map_map_,
+      cascade_map_map = stateMap._cascade_map_map_,
 
       cascade_id_list, cascade_id_count,
       i, cascade_id,   cascade_map
@@ -1106,8 +1111,8 @@ var pcss = (function () {
     // end 4.3.1
 
     // 4.3.2 Set mixin map
-    topSmap._global_mixin_map_ = cloneData( mixin_map );
-    topSmap._global_mixin_ms_  = __timeStamp();
+    stateMap._global_mixin_map_ = cloneData( mixin_map );
+    stateMap._global_mixin_ms_  = __timeStamp();
 
     // 4.3.3 Regenerate cascade maps to regen_type level
     cascade_id_list  = __keys( cascade_map_map );
@@ -1149,10 +1154,10 @@ var pcss = (function () {
     // 4.4.2 Set asset_map
     switch ( asset_type ) {
       case '_cascade_' :
-        asset_map_map = topSmap._cascade_map_map_;
+        asset_map_map = stateMap._cascade_map_map_;
         break;
       case '_vsheet_' :
-        asset_map_map = topSmap._vsheet_map_map_;
+        asset_map_map = stateMap._vsheet_map_map_;
         break;
       default :
         logIt( '_asset_type_not_found_', asset_type );
@@ -1208,15 +1213,15 @@ var pcss = (function () {
     // 4.5.2 Set asset_map
     switch ( asset_type ) {
       case '_cascade_' :
-        asset_map = topSmap._cascade_map_map_[ asset_id ];
+        asset_map = stateMap._cascade_map_map_[ asset_id ];
         break;
       case '_vsheet_' :
-        asset_map = topSmap._vsheet_map_map_[ asset_id ];
+        asset_map = stateMap._vsheet_map_map_[ asset_id ];
         break;
       case '_global_mixin_' :
-        return __j2str( topSmap._global_mixin_map_ );
+        return __j2str( stateMap._global_mixin_map_ );
       case '_el_cascade_list_' :
-        return __j2str( topSmap._el_cascade_list_ );
+        return __j2str( stateMap._el_cascade_list_ );
       default :
         logIt( '_asset_type_not_found_', asset_type );
         asset_map = {};
@@ -1260,8 +1265,8 @@ var pcss = (function () {
   function setVsheet ( arg_opt_map ) {
     // 4.6.1 Init and arguments
     var
-      vsheet_map_map  = topSmap._vsheet_map_map_,
-      cascade_map_map = topSmap._cascade_map_map_,
+      vsheet_map_map  = stateMap._vsheet_map_map_,
+      cascade_map_map = stateMap._cascade_map_map_,
 
       opt_map         = arg_opt_map || {},
       vsheet_id       = opt_map._vsheet_id_,
@@ -1391,7 +1396,7 @@ var pcss = (function () {
       mixin_map       = opt_map._mixin_map_,
       regen_type      = opt_map._regen_type_,
 
-      cascade_map_map = topSmap._cascade_map_map_,
+      cascade_map_map = stateMap._cascade_map_map_,
       now_ms          = __timeStamp(),
 
       cascade_map, unknown_id_list,
@@ -1443,9 +1448,9 @@ var pcss = (function () {
     // 4.7.3 Delete, change, or add data as provided
     if ( mode_str === '_delete_' ) {
       delete cascade_map_map[ cascade_id ];
-      style_el_idx = topSmap._style_el_idx_;
-      if ( topSmap[ style_el_idx ] === cascade_id ) {
-        style_el = topSmap._style_el_list_[ style_el_idx ];
+      style_el_idx = stateMap._style_el_idx_;
+      if ( stateMap[ style_el_idx ] === cascade_id ) {
+        style_el = stateMap._style_el_list_[ style_el_idx ];
         writeToStyleEl( style_el, __blank );
       }
       return cascade_id;
@@ -1478,7 +1483,7 @@ var pcss = (function () {
   function getCssValMap () { return cssValMap; }
 
   // 4.10 Public method /getGlobalMixinMap/
-  function getGlobalMixinMap () { return topSmap._global_mixin_map_; }
+  function getGlobalMixinMap () { return stateMap._global_mixin_map_; }
 
   // end 4. PUBLIC METHODS ====================================
   return {
@@ -1497,7 +1502,13 @@ var pcss = (function () {
     _setStyleAttr_      : initCheck[ vMap._bind_ ]( setStyleAttr      )
   };
 }());
+// END module pcss ======================================
 
+// == BEGIN BROWSER AND NODE SUPPORT ===================================
 /* istanbul ignore next */
-try { module.exports = { pcss : pcss }; }
+try { 
+  global.pcss = pcss;
+  module.exports = pcss;
+}
 catch ( ignore ) {}
+// == . END BROWSER AND NODE SUPPORT ===================================

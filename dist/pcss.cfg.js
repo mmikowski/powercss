@@ -11,7 +11,13 @@
 */
 /*global pcss */
 
-pcss._cfg_ = (function () {
+var __ns = 'pcss', __NS;
+/* istanbul ignore next */
+try          { __NS = global[ __ns ]; }
+catch ( e1 ) { __NS = window[ __ns ]; }
+
+// == BEGIN MODULE __NS._cfg_ =========================================
+__NS._cfg_ = (function () {
   'use strict';
   var
     cssKeyMap = {
@@ -290,4 +296,4 @@ pcss._cfg_ = (function () {
     _cssValMap_ : cssValMap
   };
 }());
-
+// == . END MODULE __NS._cfg_ =========================================
