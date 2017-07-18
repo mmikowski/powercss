@@ -11,19 +11,19 @@
  regexp  : true,    sloppy : true,       vars : false,
   white  : true       todo : true     unparam : true,
 */
-/*global global, pcss */
+/*global global, document, window, pcss */
 
 // == BEGIN MODULE SCOPE VARIABLES  ===================================
 'use strict';
 var
   pathObj        = require( 'path' ),
   jsdomObj       = require( 'jsdom' ),
-  fqTestDirname  = pathObj.resolve( '' ),
+  fqTestDirname  = __dirname,
   fqProjDirname  = pathObj.dirname( fqTestDirname ),
   configMap = {
     _file_core_name_ : fqProjDirname + '/dist/pcss.js',
     _file_cfg_name_  : fqProjDirname + '/dist/pcss.cfg.js',
-    _020_base_map_ : {
+    _02_base_map_ : {
       _display_        : '_inline_block_',
       _opacity_        : '_1_',
       _box_sizing_     : '_border_box_',
@@ -42,7 +42,7 @@ var
       _color_          : '_xfff_',
       _text_align_     : '_center_'
     },
-    _020_extend_map_ : {
+    _02_extend_map_ : {
       _display_    : '_block_',
       _width_      : null,
       _margin_     : null,
@@ -50,7 +50,7 @@ var
       _font_size_  : '_2rem_',
       _box_shadow_ : '_global_d5_box_shadow_'
     },
-    _020_check_map_ : {
+    _02_check_map_ : {
       _display_        : '_block_',
       _opacity_        : '_1_',
       _box_sizing_     : '_border_box_',
@@ -68,15 +68,15 @@ var
       _color_          : '_xfff_',
       _text_align_     : '_center_'
     },
-    _030_json01_ : '[{"_selector_str_":"body","_rule_lock_list_":'
+    _03_json01_ : '[{"_selector_str_":"body","_rule_lock_list_":'
       + '["_font_size_"],"_rule_map_":{"_margin_":"_0_",'
       + '"_font_size_":"_1d5rem_"}}]',
-    _030_json02_ : '[{"_selector_str_":"body","_rule_map_":'
+    _03_json02_ : '[{"_selector_str_":"body","_rule_map_":'
       + '{"_margin_":"_2rem_","_font_size_":"_2rem_"}}]',
-    _030_merged_01_ : '[{"_selector_str_":"body","_rule_lock_list_"'
+    _03_merged_01_ : '[{"_selector_str_":"body","_rule_lock_list_"'
       + ':["_font_size_"],"_rule_map_":{"_margin_":"_2rem_",'
       + '"_font_size_":"_1d5rem_"}}]',
-    _040_mixin_map_ : {
+    _04_mixin_map_ : {
       _font_size_      : '16px',
       _color_font_     : '#888',
       _font_sans_      : 'sans',
@@ -89,7 +89,7 @@ var
         ]
       }
     },
-    _040_expect_list_ : [
+    _04_expect_list_ : [
       'color:#888',
 
       'color:#888;font-family:sans;font-size:16px;margin:0;overflow-y:scroll',
@@ -124,7 +124,7 @@ var
         + 'background:2.5rem 2rem holy-cow 16px;'
         + 'font-family:sans;font-size:16px;color:#888'
     ],
-    _040_rule_map_list_ : [
+    _04_rule_map_list_ : [
       { _color_       : '_color_font_' }, // ======= 0
       { _color_       : '_color_font_',   // ======= 1
         _font_family_ : '_font_sans_',
@@ -218,8 +218,8 @@ var
         _color_       : '_color_font_'
       }
     ],
-    _050_input_list_ : [
-      // ==== test 0
+    _05_input_list_ : [
+      // ==== test 00
       [
         [ { _selector_str_ : '@font-face',
             _rule_map_ : {
@@ -245,7 +245,7 @@ var
         ]
       ],
 
-      // ==== test 1
+      // ==== test 01
       [
         [
           { _begin_cond_str_ : '@media all and (max-width: 550px)' },
@@ -269,7 +269,7 @@ var
         ]
       ],
 
-      // ==== test 2
+      // ==== test 02
       [
         [
           { _begin_cond_str_ : '.foo' },
@@ -284,7 +284,7 @@ var
         ]
       ],
 
-      // ==== test 3
+      // ==== test 03
       [
         [
           { _begin_cond_str_ : '.foo' },
@@ -295,7 +295,14 @@ var
               _padding_ : '_1rem_'
             }
           },
-          { _end_cond_str_ : '.foo' }
+          { // Useless selector map
+            _rule_map_ : {
+              _top_     : '_0_',
+              _margin_  : '_0_',
+              _padding_ : '_1rem_'
+            }
+          },
+          { _end_cond_str_ : 'purposely-mis-matched' }
         ],
         [
           { _begin_cond_str_ : '.foo' },
@@ -309,7 +316,7 @@ var
         ]
       ],
 
-      // ==== test 4
+      // ==== test 04
       [
         [
           { _begin_cond_str_ : '.foo' },
@@ -334,7 +341,7 @@ var
       ]
     ],
 
-    _050_expect_list_ : [
+    _05_expect_list_ : [
       "@font-face{font-family:fa45_mod_p6;src:url('font/fa-4.5-mod-perspica.eot?') format('embedded-opentype'),url('font/fa-4.5-mod-perspica.woff') format('woff'),url('font/fa-4.5-mod-perspica.ttf') format('truetype')}@media screen and (-webkit-min-device-pixel-ratio:0 ){@font-face{font-family:fa45_mod_p6;src:url('font/fa-4.5-mod-perspica.svg') format('svg')}}",
 
       "@media all and (max-width: 550px){.p6-_box_.p6-_x_open_{padding-left:1rem}.p6-_shell_nav_.p6-_x_open_{width:50rem}}",
@@ -350,7 +357,7 @@ var
 // == . END MODULE SCOPE VARIABLES  ===================================
 
 // == BEGIN NODEUNIT TESTS ============================================
-function nextRuleMap040 () {
+function nextRuleMap04 () {
   var
     smap          = this,
     test_obj      = smap._test_obj_,
@@ -377,11 +384,11 @@ function nextRuleMap040 () {
   test_obj.ok( ret_data === '_s02_', expect_str );
   smap._rule_map_idx_++;
   if ( smap._rule_map_idx_ < rule_map_list.length ) {
-    setTimeout( nextRuleMap040.bind( smap ), 100 );
+    setTimeout( nextRuleMap04.bind( smap ), 100 );
   }
 }
 
-function onPrepared040 ( event_obj ) {
+function onPrepared04 ( event_obj ) {
   var
     smap         = this,
     test_obj     = smap._test_obj_,
@@ -410,7 +417,7 @@ function onPrepared040 ( event_obj ) {
   }
 }
 
-function nextCascade050 () {
+function nextCascade05 () {
   var
     smap           = this,
     test_obj       = smap._test_obj_,
@@ -457,11 +464,11 @@ function nextCascade050 () {
 
   smap._input_idx_++;
   if ( smap._input_idx_ < input_list.length ) {
-    setTimeout( nextCascade050.bind( smap ), 100 );
+    setTimeout( nextCascade05.bind( smap ), 100 );
   }
 }
 
-function onPrepared050 ( event_obj ) {
+function onPrepared05 ( event_obj ) {
   var
     smap         = this,
     test_obj     = smap._test_obj_,
@@ -494,7 +501,7 @@ function onPrepared050 ( event_obj ) {
 }
 
 function loadFreshPcssObj () {
-  var 
+  var
     win_obj = new jsdomObj.JSDOM().window,
     doc_obj = win_obj.document,
     pcss_obj;
@@ -511,7 +518,7 @@ function loadFreshPcssObj () {
   return pcss_obj;
 }
 
-// == BEGIN 10: testInit ==============================================
+// == BEGIN 1. testInit ==============================================
 function testInit ( test_obj ) {
   var
     method_list = [
@@ -554,10 +561,9 @@ function testInit ( test_obj ) {
 
   test_obj.done();
 }
-// == . END 10: testInit ==============================================
+// == . END 1. testInit ==============================================
 
-// == BEGIN 20: extendRuleMap =========================================
-// Test level 20: extend rule map
+// == BEGIN 2. extendRuleMap =========================================
 function extendRuleMap ( test_obj ) {
   var
     pcss_obj = loadFreshPcssObj(),
@@ -568,10 +574,7 @@ function extendRuleMap ( test_obj ) {
   expect_str = '_init_module_ should return "nu-"';
   try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'nu' }); }
   catch( error ) { ret_data = error; }
-  test_obj.ok( ret_data === 'nu-', expect_str
-    + ' NOT ' + ret_data + JSON.stringify( Object.keys( require.cache ) )
-  );
-
+  test_obj.ok( ret_data === 'nu-', expect_str );
   expect_str = 'base_map should be empty';
   base_map   = {};
   extend_map = {};
@@ -618,9 +621,9 @@ function extendRuleMap ( test_obj ) {
   test_obj.ok( ret_data === base_map, expect_str );
 
   expect_str = 'base_map should match complex results';
-  base_map   = configMap._020_base_map_;
-  extend_map = configMap._020_extend_map_;
-  check_map  = configMap._020_check_map_;
+  base_map   = configMap._02_base_map_;
+  extend_map = configMap._02_extend_map_;
+  check_map  = configMap._02_check_map_;
   try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
   catch( error ) { ret_data = error; }
   test_obj.deepEqual( base_map, check_map, expect_str );
@@ -633,9 +636,9 @@ function extendRuleMap ( test_obj ) {
 
   test_obj.done();
 }
-// == . END 20: extendRuleMap =========================================
+// == . END 02. extendRuleMap =========================================
 
-// == BEGIN 30: createVSheets =========================================
+// == BEGIN 03. createVSheets =========================================
 function createVSheets ( test_obj ) {
   var
     pcss_obj = loadFreshPcssObj(),
@@ -696,7 +699,7 @@ function createVSheets ( test_obj ) {
     });
   }
   catch( error ) { ret_data = error; }
-  test_obj.ok( ret_data === configMap._030_json01_, expect_str );
+  test_obj.ok( ret_data === configMap._03_json01_, expect_str );
 
   expect_str = 'Add vsheet _s01_';
   try {
@@ -718,7 +721,7 @@ function createVSheets ( test_obj ) {
     });
   }
   catch( error ) { ret_data = error; }
-  test_obj.ok( ret_data === configMap._030_json02_, expect_str );
+  test_obj.ok( ret_data === configMap._03_json02_, expect_str );
 
   expect_str = 'Add cascade _c00_';
   try {
@@ -785,7 +788,7 @@ function createVSheets ( test_obj ) {
     });
   }
   catch( error ) { ret_data = error; }
-  test_obj.ok( ret_data === configMap._030_merged_01_, expect_str );
+  test_obj.ok( ret_data === configMap._03_merged_01_, expect_str );
 
   expect_str = 'Change cascade _c00_ _regen_type_ to _prepare_';
   try {
@@ -847,13 +850,13 @@ function createVSheets ( test_obj ) {
     test_obj.ok( ret_data === '_s00_', expect_str );
   }, 0 );
 }
-// == BEGIN 30: createVSheets =========================================
+// == . END 03. createVSheets =========================================
 
-// == BEGIN 40: checkResolver =========================================
+// == BEGIN 4: checkResolver =========================================
 function checkResolver ( test_obj ) {
   var
-    input_list  = configMap._040_rule_map_list_,
-    expect_list = configMap._040_expect_list_,
+    input_list  = configMap._04_rule_map_list_,
+    expect_list = configMap._04_expect_list_,
     pcss_obj    = loadFreshPcssObj(),
 
     smap, expect_str, ret_data,
@@ -872,7 +875,7 @@ function checkResolver ( test_obj ) {
     ret_data = pcss._setVsheet_({
       _vsheet_id_     : '_s02_',
       _mode_str_      : '_add_',
-      _mixin_map_     : configMap._040_mixin_map_
+      _mixin_map_     : configMap._04_mixin_map_
     });
   }
   catch( error ) { ret_data = error; }
@@ -899,19 +902,19 @@ function checkResolver ( test_obj ) {
     _rule_map_idx_  : 0
   };
 
-  fn_next_rule_map = nextRuleMap040.bind(   smap );
-  fn_onprepared    = onPrepared040.bind(  smap );
+  fn_next_rule_map = nextRuleMap04.bind(   smap );
+  fn_onprepared    = onPrepared04.bind(  smap );
 
   document.addEventListener( '_pcss_prepared_', fn_onprepared );
   fn_next_rule_map();
 }
-// == . END 40: checkResolver =========================================
+// == . END 04. checkResolver =========================================
 
 // == BEGIN 50: makeCascades ==========================================
 function makeCascades ( test_obj ) {
   var
-    input_list  = configMap._050_input_list_,
-    expect_list = configMap._050_expect_list_,
+    input_list  = configMap._05_input_list_,
+    expect_list = configMap._05_expect_list_,
     pcss_obj    = loadFreshPcssObj(),
 
     smap, expect_str, ret_data,
@@ -934,19 +937,87 @@ function makeCascades ( test_obj ) {
     _input_idx_     : 0
   };
 
-  fn_next_cascade = nextCascade050.bind( smap );
-  fn_onprepared   = onPrepared050.bind(  smap );
+  fn_next_cascade = nextCascade05.bind( smap );
+  fn_onprepared   = onPrepared05.bind(  smap );
 
   document.addEventListener( '_pcss_prepared_', fn_onprepared );
   fn_next_cascade();
 }
 // == . END 50: makeCascades ==========================================
 
+// == BEGIN 06: getData ===============================================
+function getData ( test_obj ) {
+  var
+    pcss_obj    = loadFreshPcssObj(),
+    expect_str, ret_data, ret_map
+    ;
+
+  test_obj.expect( 5 );
+  pcss_obj._initModule_();
+
+  // =======
+  expect_str = 'global mixin map is empty';
+  ret_data = pcss_obj._getAssetJson_({
+    _asset_type_    : '_global_mixin_map_'
+  });
+  test_obj.ok( ret_data === '{}', expect_str );
+
+  // =======
+  expect_str = 'global mixin map is set as expected';
+  ret_data = pcss_obj._setGlobalMixinMap_({
+    _mixin_map_   : { foo : 'bar' },
+    _change_type_ : '_replace_',
+    _regen_type_  : '_all_'
+  });
+  ret_data = pcss_obj._getAssetJson_({
+    _asset_type_    : '_global_mixin_map_'
+  });
+  test_obj.ok( ret_data === '{"foo":"bar"}', expect_str );
+
+  // =======
+  expect_str = 'global mixin map is replaced as expected';
+  ret_data = pcss_obj._setGlobalMixinMap_({
+    _mixin_map_  : { bing : 'bang' },
+    _change_type_  : '_replace_',
+    _regen_type_ : '_all_'
+  });
+  ret_data = pcss_obj._getAssetJson_({
+    _asset_type_ : '_global_mixin_map_'
+  });
+  test_obj.ok( ret_data === '{"bing":"bang"}', expect_str );
+
+  // =======
+  expect_str = 'global mixin map is merged as expected';
+  ret_data = pcss_obj._setGlobalMixinMap_({
+    _mixin_map_  : { foo : 'bar' },
+    _mode_type_  : '_merge_',
+    _regen_type_ : '_all_'
+  });
+  ret_data = pcss_obj._getAssetJson_({
+    _asset_type_ : '_global_mixin_map_'
+  });
+  ret_map = JSON.parse( ret_data );
+  console.warn( '>>>>', ret_data );
+  test_obj.deepEqual( ret_map, {bing:'bang',foo:'bar'}, expect_str );
+
+  // =======
+  expect_str = 'Cascade list is empty';
+  ret_data = pcss_obj._getAssetJson_({
+    _asset_type_    : '_el_cascade_list_'
+  });
+  test_obj.ok( ret_data === '[]', expect_str );
+
+  test_obj.done();
+}
+// == . END 06: getData ===============================================
+
+
 module.exports = {
   testInit      : testInit,
   extendRuleMap : extendRuleMap,
   createVSheets : createVSheets,
   checkResolver : checkResolver,
-  makeCascades  : makeCascades
+  makeCascades  : makeCascades,
+  getData       : getData
 };
 

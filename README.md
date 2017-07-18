@@ -551,8 +551,8 @@ as illustrated below:
 
   // Global option
   pcss._setGlobalMixinMap_({
-    _mode_str_   : '_add_',
-    _mixin_map_  : global_mixin_map,
+    _change_type_ : '_replace_',
+    _mixin_map_   : global_mixin_map,
   });
 ```
 
@@ -1368,7 +1368,7 @@ pcss._togglePcss();
 
 ```js
 pcss._setGlobalMixinMap_({
-  _mode_type_ : 'change',
+  _change_type_ : '_replace_',
   _mixin_map_ : { ... }
 });
 ```
@@ -1432,21 +1432,19 @@ Returns   | none
 
 ```
 Example   | pcss._setGlobalMixinMap_({
-          |   _mode_type_ : 'add',
+          |   _change_type_ : '_replace_' or '_merge_'
           |   _mixin_map_ : mixin_map
           | });
-Purpose   | Add, change, delete, or update process status for
-          | a global mixin map id.
-          |
-Arguments | _mode_type_  (req) '_add_', '_change_', or '_delete_'
-          | _mixin_map_  (opt)
-          | _regen_type_ (opt) '_none_', '_merge_', '_prepare_', or '_all_'
-Notes     | _regen_type_ defaults to '_all_' if not provided.
+Purpose   | Replace or merge copy of map provided with globla mixin map
+Arguments | _change_type_  (opt) <'_change_'>, '_merge_'
+          |   _change_ - Replace with copy of provided map
+          |   _merge_  - Merge values into existing map
+          | _mixin_map_    (opt) <{}>
+          | _regen_type_   (opt) <'_all_'>, '_none_', '_merge_', '_prepare_'
 Settings  | none
 Throws    | none
 Returns   | The number of vsheets affected by the change
 ```
-
 
 ### `_togglePcss_`
 

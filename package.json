@@ -13,7 +13,7 @@
   "devDependencies": {
     "istanbul": "0.4.5",
     "jsdom": "11.1.0",
-    "jslint": "^0.10.3",
+    "jslint": "0.11.0",
     "nodeunit": "0.11.1"
   },
   "homepage": "https://github.com/mmikowski/powercss",
@@ -47,8 +47,11 @@
     "url": "git+https://github.com/mmikowski/powercss.git"
   },
   "scripts": {
-    "test": "node_modules/.bin/nodeunit test/t.js",
-    "cover": "node_modules/.bin/istanbul cover node_modules/.bin/nodeunit -- --reporter=verbose test/t.js"
+    "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/nodeunit -- --reporter=verbose test/t.js",
+    "publish-coverage": "node_modules/.bin/istanbul cover node_modules/.bin/nodeunit -- --reporter=verbose test/t.js | cat coverage/lcov.info | node_modules/.bin/coveralls",
+    "requirements-check": "bin/check-node-version",
+    "setup": "bin/setup",
+    "test": "node_modules/.bin/nodeunit test/t.js"
   },
-  "version": "1.3.7"
+  "version": "1.4.0"
 }

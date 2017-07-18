@@ -9,16 +9,16 @@
   regexp : true, sloppy : true,     vars : false,
   white : true,    todo : true,  unparam : true
 */
-/*global Event, pcss:true */
+/*global Event, pcss:true, window:true */
 
 /* istanbul ignore next */
-try          { __window = window; }
-catch ( e1 ) { __window = global[ 'window' ]; }
+try          { var __window = window; }
+catch ( e1 ) { __window = global.window; }
 
-// BEGIN module pcss ======================================
+// == BEGIN MODULE PCSS ===============================================
 var pcss = (function () {
   'use strict';
-  // 1. MODULE SCOPE VARIABLES ============================
+  // == BEGIN 1. MODULE SCOPE VARIABLES ===============================
   //noinspection MagicNumberJS
   var
     __keys = Object.keys,
@@ -27,13 +27,13 @@ var pcss = (function () {
     __j2str     = JSON.stringify,
     __str2j     = JSON.parse,
 
-    __docRef    = window.document,
+    __docRef    = __window.document,
     __isArray   = Array.isArray,
     __false     = false,
     __null      = null,
     __true      = true,
     __timeStamp = Date.now,
-    __winRef    = window,
+    __winRef    = __window,
 
     vMap = {
       _appendChild_    : 'appendChild',
@@ -132,9 +132,9 @@ var pcss = (function () {
 
     cssKeyMap, cssValMap, publishEvent
     ;
-  // end 1. MODULE SCOPE VARIABLES ========================
+  // == . END 1. MODULE SCOPE VARIABLES ===============================
 
-  // 2. PRIVATE METHODS ===================================
+  // == BEGIN 2. PRIVATE METHODS ======================================
   // 2.1 Private method /cloneData/
   function cloneData ( data ) {
     if ( ! data ) { return data; }
@@ -765,6 +765,8 @@ var pcss = (function () {
       }
       frame_obj._val_idx_++;
     }
+
+    /* istanbul ignore next */
     if ( k === max_resolve_count ) {
       logIt( '_maximum_resolve_operations_exceeded_', k );
     }
@@ -991,13 +993,12 @@ var pcss = (function () {
     return target_fn[ vMap._apply_ ]( this, arguments );
   }
   // end 2.14
-  // end 2. PRIVATE METHODS ===================================
+  // == END 2. PRIVATE METHODS ========================================
 
-  // 3. EVENT HANDLERS ========================================
-  //
-  // end 3. EVENT HANDLERS ====================================
+  // == BEGIN 3. EVENT HANDLERS =======================================
+  // == . END 3. EVENT HANDLERS =======================================
 
-  // 4. PUBLIC METHODS ========================================
+  // == BEGIN 4. PUBLIC METHODS =======================================
   // 4.1 Public method /initModule/
   // ------------------------------
   // Example   | pcss._initModule_({ _style_el_prefix_ : 'ns' });
@@ -1074,18 +1075,16 @@ var pcss = (function () {
   // end 4.2 Public method /togglePcss/
 
   // 4.3 Public method /setGlobalMixinMap/
-  // -------------------------------------
   // Example   | pcss._setGlobalMixinMap_({
-  //           |   _mode_type_ : 'add',
+  //           |   _change_type_ : '_replace_' or '_merge_'
   //           |   _mixin_map_ : mixin_map
   //           | });
-  // Purpose   | Add, change, delete, or update process status for
-  //           | a global mixin map id.
-  //           |
-  // Arguments | _mode_type_  (req) '_add_', '_change_', or '_delete_'
-  //           | _mixin_map_  (opt)
-  //           | _regen_type_ (opt) '_none_', '_merge_', '_prepare_', or '_all_'
-  // Notes     | _regen_type_ defaults to '_all_' if not provided.
+  // Purpose   | Replace or merge copy of map provided with globla mixin map
+  // Arguments | _change_type_  (opt) <'_change_'>, '_merge_'
+  //           |   _change_ - Replace with copy of provided map
+  //           |   _merge_  - Merge values into existing map
+  //           | _mixin_map_    (opt) <{}>
+  //           | _regen_type_   (opt) <'_all_'>, '_none_', '_merge_', '_prepare_'
   // Settings  | none
   // Throws    | none
   // Returns   | The number of vsheets affected by the change
@@ -1095,8 +1094,9 @@ var pcss = (function () {
     var
       opt_map    = arg_opt_map || {},
 
-      mixin_map  = opt_map._mixin_map_  || {},
-      regen_type = opt_map._regen_type_ || '_all_',
+      change_type = opt_map._change_type_ || '_replace_',
+      mixin_map   = opt_map._mixin_map_   || {},
+      regen_type  = opt_map._regen_type_  || '_all_',
 
       cascade_map_map = stateMap._cascade_map_map_,
 
@@ -1111,7 +1111,15 @@ var pcss = (function () {
     // end 4.3.1
 
     // 4.3.2 Set mixin map
-    stateMap._global_mixin_map_ = cloneData( mixin_map );
+    switch ( change_type ) {
+      case '_replace_' :
+        stateMap._global_mixin_map_ = mixin_map;
+        break;
+      case '_merge_' :
+        extendRuleMap( stateMap._global_mixin_map_ );
+        break;
+      default: return __0;
+    }
     stateMap._global_mixin_ms_  = __timeStamp();
 
     // 4.3.3 Regenerate cascade maps to regen_type level
@@ -1181,7 +1189,7 @@ var pcss = (function () {
   // Arguments | _asset_id_ (req) The existing ID of either a cascade
   //           |  or a vsheet.
   //           | _asset_type_ (req) '_vsheet_', '_cascade_',
-  //           |   '_global_mixin_', '_el_cascade_list_',
+  //           |   '_global_mixin_map_', '_el_cascade_list_',
   //           | _asset_subtype_ (opt)
   //           |   '_vsheet_' supports:
   //           |      _vsheet_id_,    _selector_list_,
@@ -1218,7 +1226,7 @@ var pcss = (function () {
       case '_vsheet_' :
         asset_map = stateMap._vsheet_map_map_[ asset_id ];
         break;
-      case '_global_mixin_' :
+      case '_global_mixin_map_' :
         return __j2str( stateMap._global_mixin_map_ );
       case '_el_cascade_list_' :
         return __j2str( stateMap._el_cascade_list_ );
@@ -1236,9 +1244,8 @@ var pcss = (function () {
     if ( asset_map && asset_map[ vMap._hasOwnProp_ ]( asset_subtype ) ) {
       return __j2str( asset_map[ asset_subtype ] );
     }
-    return __undef;
   }
-  // end 4.5 Public method /getAssetJson/
+  // . END 4.5 Public method /getAssetJson/
 
   // 4.6 Public method /setVsheet/
   // Example   | pcss._setVsheet_({
@@ -1484,8 +1491,6 @@ var pcss = (function () {
 
   // 4.10 Public method /getGlobalMixinMap/
   function getGlobalMixinMap () { return stateMap._global_mixin_map_; }
-
-  // end 4. PUBLIC METHODS ====================================
   return {
     _initModule_        : initModule,
 
@@ -1501,14 +1506,15 @@ var pcss = (function () {
     _getGlobalMixinMap_ : initCheck[ vMap._bind_ ]( getGlobalMixinMap ),
     _setStyleAttr_      : initCheck[ vMap._bind_ ]( setStyleAttr      )
   };
+  // == . END 4. PUBLIC METHODS =======================================
 }());
-// END module pcss ======================================
+// == . END MODULE PCSS ===============================================
 
-// == BEGIN BROWSER AND NODE SUPPORT ===================================
+// == BEGIN 5. BROWSER AND NODE SUPPORT ===============================
 /* istanbul ignore next */
-try { 
+try {
   global.pcss = pcss;
   module.exports = pcss;
 }
 catch ( ignore ) {}
-// == . END BROWSER AND NODE SUPPORT ===================================
+// == . END 5. BROWSER AND NODE SUPPORT ===============================
