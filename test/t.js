@@ -16,6 +16,7 @@
 // == BEGIN MODULE SCOPE VARIABLES  ===================================
 'use strict';
 var
+  __0            = 0,
   pathObj        = require( 'path' ),
   jsdomObj       = require( 'jsdom' ),
   fqTestDirname  = __dirname,
@@ -359,143 +360,133 @@ var
 // == BEGIN NODEUNIT TESTS ============================================
 function nextRuleMap04 () {
   var
-    smap          = this,
-    test_obj      = smap._test_obj_,
-    rule_map_list = smap._rule_map_list_,
+    context_map   = this,
+    test_obj      = context_map._test_obj_,
+    rule_map_list = context_map._rule_map_list_,
     selector_map  = { _selector_str_ : 'body' },
     selector_list = [ selector_map ],
 
     expect_str, ret_data
     ;
 
-  selector_map._rule_map_ = rule_map_list[ smap._rule_map_idx_ ];
+  selector_map._rule_map_ = rule_map_list[ context_map._rule_map_idx_ ];
 
   expect_str = 'Change vsheet _s02_';
-  try {
-    ret_data = pcss._setVsheet_({
-      _vsheet_id_     : '_s02_',
-      _mode_str_      : '_change_',
-      _selector_list_ : selector_list,
-      _regen_type_    : '_prepare_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._setVsheet_({
+    _vsheet_id_     : '_s02_',
+    _mode_str_      : '_change_',
+    _selector_list_ : selector_list,
+    _regen_type_    : '_prepare_'
+  });
 
   test_obj.ok( ret_data === '_s02_', expect_str );
-  smap._rule_map_idx_++;
-  if ( smap._rule_map_idx_ < rule_map_list.length ) {
-    setTimeout( nextRuleMap04.bind( smap ), 100 );
+  context_map._rule_map_idx_++;
+  if ( context_map._rule_map_idx_ < rule_map_list.length ) {
+    setTimeout( nextRuleMap04.bind( context_map ), __0 );
   }
 }
 
 function onPrepared04 ( event_obj ) {
   var
-    smap         = this,
-    test_obj     = smap._test_obj_,
-    expect_list  = smap._expect_list_,
+    context_map = this,
+    test_obj    = context_map._test_obj_,
+    expect_list = context_map._expect_list_,
 
     expect_str, css_str, ret_data;
 
   expect_str = 'Event object should provide cascade_id';
   test_obj.ok( event_obj._data_ === '_c02_', expect_str );
 
-  css_str    = '"body{' + expect_list[ smap._prepared_idx_ ] + '}"';
+  css_str    = '"body{' + expect_list[ context_map._prepared_idx_ ] + '}"';
   expect_str = 'css string matches expected';
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : '_c02_',
-      _asset_type_    : '_cascade_',
-      _asset_subtype_ : '_css_str_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : '_c02_',
+    _asset_type_    : '_cascade_',
+    _asset_subtype_ : '_css_str_'
+  });
 
   test_obj.ok( ret_data === css_str, expect_str );
-  smap._prepared_idx_++;
-  if ( smap._prepared_idx_ === smap._rule_map_list_.length ) {
+  context_map._prepared_idx_++;
+  if ( context_map._prepared_idx_ === context_map._rule_map_list_.length ) {
     test_obj.done();
   }
 }
 
 function nextCascade05 () {
   var
-    smap           = this,
-    test_obj       = smap._test_obj_,
-    input_list     = smap._input_list_,
-    cascade_list   = input_list[ smap._input_idx_ ],
-    cascade_id     = 'c' + String(smap._input_idx_),
+    context_map    = this,
+    test_obj       = context_map._test_obj_,
+    input_list     = context_map._input_list_,
+    cascade_list   = input_list[ context_map._input_idx_ ],
+    cascade_id     = 'c' + String(context_map._input_idx_),
     vsheet_id_list = [],
 
     i, selector_list, vsheet_id,
     expect_str, ret_data
     ;
 
-  for ( i = 0; i < cascade_list.length; i++ ) {
+  for ( i = __0 ; i < cascade_list.length; i++ ) {
     selector_list = cascade_list[ i ];
     vsheet_id     = 's' + String( i ) + cascade_id;
     expect_str    = 'Vsheet id is ' + vsheet_id;
 
-    try {
-      ret_data = pcss._setVsheet_({
-        _vsheet_id_     : vsheet_id,
-        _mode_str_      : '_add_',
-        _selector_list_ : selector_list,
-        _regen_type_    : '_prepare_'
-      });
-    }
-    catch( error ) { ret_data = error; }
+    ret_data = pcss._setVsheet_({
+      _vsheet_id_     : vsheet_id,
+      _mode_str_      : '_add_',
+      _selector_list_ : selector_list,
+      _regen_type_    : '_prepare_'
+    });
     test_obj.ok( ret_data === vsheet_id, expect_str );
     vsheet_id_list.push( vsheet_id );
   }
 
   expect_str = 'Add cascade ' + cascade_id;
-  try {
-    ret_data = pcss._setCascade_({
-      _cascade_id_     : cascade_id,
-      _mode_str_       : '_add_',
-      _vsheet_id_list_ : vsheet_id_list,
-      _regen_type_     : '_prepare_'
-    });
-  }
-  catch( error ) {
-    ret_data = error;
-  }
+  ret_data = pcss._setCascade_({
+    _cascade_id_     : cascade_id,
+    _mode_str_       : '_add_',
+    _vsheet_id_list_ : vsheet_id_list,
+    _regen_type_     : '_use_'
+  });
   test_obj.ok( ret_data === cascade_id, expect_str );
 
-  smap._input_idx_++;
-  if ( smap._input_idx_ < input_list.length ) {
-    setTimeout( nextCascade05.bind( smap ), 100 );
+  // ret_data = pcss._setCascade_( {
+  //   _cascade_id_ : cascade_id,
+  //   _mode_str_ : '_change_',
+  //   _regen_type_ : '_use_'
+  // });
+  // test_obj.ok( ret_data === cascade_id, expect_str );
+
+  context_map._input_idx_++;
+  if ( context_map._input_idx_ < input_list.length ) {
+    setTimeout( nextCascade05.bind( context_map ), __0 );
   }
 }
 
 function onPrepared05 ( event_obj ) {
   var
-    smap         = this,
-    test_obj     = smap._test_obj_,
-    expect_list  = smap._expect_list_,
-    cascade_id   = 'c' + String(smap._prepared_idx_),
+    context_map  = this,
+    test_obj     = context_map._test_obj_,
+    expect_list  = context_map._expect_list_,
+    cascade_id   = 'c' + String(context_map._prepared_idx_),
 
     expect_str, css_str, ret_data;
 
   expect_str = 'Event object should provide cascade_id ' + cascade_id;
   test_obj.ok( event_obj._data_ === cascade_id, expect_str );
 
-  css_str    = '"' + expect_list[ smap._prepared_idx_ ] + '"';
+  css_str    = '"' + expect_list[ context_map._prepared_idx_ ] + '"';
 
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : cascade_id,
-      _asset_type_    : '_cascade_',
-      _asset_subtype_ : '_css_str_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : cascade_id,
+    _asset_type_    : '_cascade_',
+    _asset_subtype_ : '_css_str_'
+  });
 
   expect_str = 'return data |' + ret_data
     + '| matches expected css_str |' + css_str + '|';
   test_obj.ok( ret_data === css_str, expect_str );
-  smap._prepared_idx_++;
-  if ( smap._prepared_idx_ === smap._input_list_.length ) {
+  context_map._prepared_idx_++;
+  if ( context_map._prepared_idx_ === context_map._input_list_.length ) {
     test_obj.done();
   }
 }
@@ -537,7 +528,7 @@ function testInit ( test_obj ) {
   expect_str = 'pcss_obj and pcss should point to same object';
   test_obj.ok( pcss_obj === pcss, expect_str );
 
-  for ( i = 0; i < method_count; i++ ) {
+  for ( i = __0; i < method_count; i++ ) {
     method_key = method_list[ i ];
     expect_str = 'method ' + method_key
       + ' should fail prior to _initModule_';
@@ -572,15 +563,14 @@ function extendRuleMap ( test_obj ) {
   test_obj.expect( 14 );
 
   expect_str = '_init_module_ should return "nu-"';
-  try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'nu' }); }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'nu' });
   test_obj.ok( ret_data === 'nu-', expect_str );
+
   expect_str = 'base_map should be empty';
   base_map   = {};
   extend_map = {};
   check_map  = {};
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
-  catch( error ) { ret_data = error; }
+  ret_data   = pcss_obj._extendRuleMap_( base_map, extend_map );
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
 
@@ -588,8 +578,7 @@ function extendRuleMap ( test_obj ) {
   base_map   = {};
   extend_map = { foo : null };
   check_map  = {};
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
-  catch( error ) { ret_data = error; }
+  ret_data   = pcss_obj._extendRuleMap_( base_map, extend_map );
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
 
@@ -597,8 +586,7 @@ function extendRuleMap ( test_obj ) {
   base_map   = { foo : 'fred' };
   extend_map = { foo : null };
   check_map  = {};
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
-  catch( error ) { ret_data = error; }
+  ret_data   = pcss_obj._extendRuleMap_( base_map, extend_map );
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
 
@@ -606,8 +594,7 @@ function extendRuleMap ( test_obj ) {
   base_map   = { foo : 'fred', red : '#f00' };
   extend_map = { foo : null };
   check_map  = { red : '#f00' };
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
-  catch( error ) { ret_data = error; }
+  ret_data   = pcss_obj._extendRuleMap_( base_map, extend_map );
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
 
@@ -615,8 +602,7 @@ function extendRuleMap ( test_obj ) {
   base_map   = { foo : 'fred', red : '#f00' };
   extend_map = { foo : null,   red : null   };
   check_map  = {};
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss_obj._extendRuleMap_( base_map, extend_map );
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
 
@@ -624,14 +610,12 @@ function extendRuleMap ( test_obj ) {
   base_map   = configMap._02_base_map_;
   extend_map = configMap._02_extend_map_;
   check_map  = configMap._02_check_map_;
-  try { ret_data = pcss_obj._extendRuleMap_( base_map, extend_map ); }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss_obj._extendRuleMap_( base_map, extend_map );
   test_obj.deepEqual( base_map, check_map, expect_str );
   test_obj.ok( ret_data === base_map, expect_str );
 
   expect_str = '_init_module_ again should return "nu-" regardless of args';
-  try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'foo' }); }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'foo' });
   test_obj.ok( ret_data === 'nu-', expect_str );
 
   test_obj.done();
@@ -665,151 +649,112 @@ function createVSheets ( test_obj ) {
   test_obj.expect( 17 );
 
   expect_str = 'Stylesheet count should === 0';
-  try { ret_data = document.styleSheets.length; }
-  catch( error ) { ret_data = error; }
-  test_obj.ok( ret_data === 0, expect_str + ' NOT ' + ret_data );
+  ret_data = document.styleSheets.length;
+  test_obj.ok( ret_data === __0, expect_str + ' NOT ' + ret_data );
 
   expect_str = '_init_module_ should return "foo-"';
-  try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'foo' }); }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'foo' });
   test_obj.ok( ret_data === 'foo-', expect_str );
 
   expect_str = 'Stylesheet count should === 2';
-  try { ret_data = document.styleSheets.length; }
-  catch( error ) { ret_data = error; }
+  ret_data = document.styleSheets.length;
   test_obj.ok( ret_data === 2, expect_str + ' NOT ' + ret_data );
 
   expect_str = 'Add vsheet _s00_';
-  try {
-    ret_data = pcss._setVsheet_({
-      _vsheet_id_     : '_s00_',
-      _mode_str_      : '_add_',
-      _selector_list_ : s00_selector_list
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._setVsheet_({
+    _vsheet_id_     : '_s00_',
+    _mode_str_      : '_add_',
+    _selector_list_ : s00_selector_list
+  });
   test_obj.ok( ret_data === '_s00_', expect_str );
 
   expect_str = 'Vsheet _s00_ JSON is as expected';
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : '_s00_',
-      _asset_type_    : '_vsheet_',
-      _asset_subtype_ : '_selector_list_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : '_s00_',
+    _asset_type_    : '_vsheet_',
+    _asset_subtype_ : '_selector_list_'
+  });
   test_obj.ok( ret_data === configMap._03_json01_, expect_str );
 
   expect_str = 'Add vsheet _s01_';
-  try {
-    ret_data = pcss._setVsheet_({
-      _vsheet_id_     : '_s01_',
-      _mode_str_      : '_add_',
-      _selector_list_ : s01_selector_list
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._setVsheet_({
+    _vsheet_id_     : '_s01_',
+    _mode_str_      : '_add_',
+    _selector_list_ : s01_selector_list
+  });
   test_obj.ok( ret_data === '_s01_', expect_str );
 
   expect_str = 'Vsheet _s01_ JSON is as expected';
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : '_s01_',
-      _asset_type_    : '_vsheet_',
-      _asset_subtype_ : '_selector_list_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : '_s01_',
+    _asset_type_    : '_vsheet_',
+    _asset_subtype_ : '_selector_list_'
+  });
   test_obj.ok( ret_data === configMap._03_json02_, expect_str );
 
   expect_str = 'Add cascade _c00_';
-  try {
-    ret_data = pcss._setCascade_({
-      _cascade_id_     : '_c00_',
-      _mode_str_       : '_add_',
-      _vsheet_id_list_ : [ '_s00_', '_s01_' ],
-      _regen_type_     : '_none_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._setCascade_({
+    _cascade_id_     : '_c00_',
+    _mode_str_       : '_add_',
+    _vsheet_id_list_ : [ '_s00_', '_s01_' ],
+    _regen_type_     : '_none_'
+  });
   test_obj.ok( ret_data === '_c00_', expect_str );
 
   expect_str = 'cascade css_str is empty before processing';
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : '_c00_',
-      _asset_type_    : '_cascade_',
-      _asset_subtype_ : '_css_str_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : '_c00_',
+    _asset_type_    : '_cascade_',
+    _asset_subtype_ : '_css_str_'
+  });
   test_obj.ok( ret_data === '""', expect_str );
 
   expect_str = 'cascade merged_selector_list is empty before processing';
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : '_c00_',
-      _asset_type_    : '_cascade_',
-      _asset_subtype_ : '_merged_selector_list_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : '_c00_',
+    _asset_type_    : '_cascade_',
+    _asset_subtype_ : '_merged_selector_list_'
+  });
   test_obj.ok( ret_data === undefined, expect_str );
 
   expect_str = 'Change cascade _c00_ _regen_type_ to _merge_';
-  try {
-    ret_data = pcss._setCascade_({
-      _cascade_id_     : '_c00_',
-      _mode_str_       : '_change_',
-      _regen_type_     : '_merge_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._setCascade_({
+    _cascade_id_     : '_c00_',
+    _mode_str_       : '_change_',
+    _regen_type_     : '_merge_'
+  });
   test_obj.ok( ret_data === '_c00_', expect_str );
 
   expect_str = 'cascade css_str is empty after merge';
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : '_c00_',
-      _asset_type_    : '_cascade_',
-      _asset_subtype_ : '_css_str_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : '_c00_',
+    _asset_type_    : '_cascade_',
+    _asset_subtype_ : '_css_str_'
+  });
   test_obj.ok( ret_data === '""', expect_str );
 
   expect_str = 'cascade merged_selector_list is populated after _merge_';
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : '_c00_',
-      _asset_type_    : '_cascade_',
-      _asset_subtype_ : '_merged_selector_list_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : '_c00_',
+    _asset_type_    : '_cascade_',
+    _asset_subtype_ : '_merged_selector_list_'
+  });
   test_obj.ok( ret_data === configMap._03_merged_01_, expect_str );
 
   expect_str = 'Change cascade _c00_ _regen_type_ to _prepare_';
-  try {
-    ret_data = pcss._setCascade_({
-      _cascade_id_     : '_c00_',
-      _mode_str_       : '_change_',
-      _regen_type_     : '_prepare_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._setCascade_({
+    _cascade_id_     : '_c00_',
+    _mode_str_       : '_change_',
+    _regen_type_     : '_prepare_'
+  });
   test_obj.ok( ret_data === '_c00_', expect_str );
 
   expect_str = 'cascade css_str is populated after _prepare_';
-  try {
-    ret_data = pcss._getAssetJson_({
-      _asset_id_      : '_c00_',
-      _asset_type_    : '_cascade_',
-      _asset_subtype_ : '_css_str_'
-    });
-  }
-  catch( error ) { ret_data = error; }
+  ret_data = pcss._getAssetJson_({
+    _asset_id_      : '_c00_',
+    _asset_type_    : '_cascade_',
+    _asset_subtype_ : '_css_str_'
+  });
   test_obj.ok( ret_data === '"body{margin:2rem;font-size:1.5rem}"', expect_str );
   document.addEventListener( '_pcss_prepared_',
     function( event_obj ){
@@ -838,7 +783,7 @@ function createVSheets ( test_obj ) {
   // sporadic errors in the event handler above
   setTimeout( function () {
     expect_str = 'Remove _rule_lock_list_ from s00';
-    delete s00_selector_list[0]._rule_lock_list_;
+    delete s00_selector_list[__0]._rule_lock_list_;
     try {
       ret_data = pcss._setVsheet_({
         _vsheet_id_     : '_s00_',
@@ -848,18 +793,18 @@ function createVSheets ( test_obj ) {
     }
     catch( error ) { ret_data = error; }
     test_obj.ok( ret_data === '_s00_', expect_str );
-  }, 0 );
+  }, __0 );
 }
 // == . END 03. createVSheets =========================================
 
-// == BEGIN 4: checkResolver =========================================
+// == BEGIN 4. checkResolver ==========================================
 function checkResolver ( test_obj ) {
   var
     input_list  = configMap._04_rule_map_list_,
     expect_list = configMap._04_expect_list_,
     pcss_obj    = loadFreshPcssObj(),
 
-    smap, expect_str, ret_data,
+    context_map, expect_str, ret_data,
     fn_next_rule_map, fn_onprepared
   ;
 
@@ -893,17 +838,17 @@ function checkResolver ( test_obj ) {
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === '_c02_', expect_str );
 
-  smap = {
+  context_map = {
     _rule_map_list_ : input_list,
     _expect_list_   : expect_list,
     _test_obj_      : test_obj,
 
-    _prepared_idx_  : 0,
-    _rule_map_idx_  : 0
+    _prepared_idx_  : __0,
+    _rule_map_idx_  : __0
   };
 
-  fn_next_rule_map = nextRuleMap04.bind(   smap );
-  fn_onprepared    = onPrepared04.bind(  smap );
+  fn_next_rule_map = nextRuleMap04.bind( context_map );
+  fn_onprepared    = onPrepared04.bind(  context_map );
 
   document.addEventListener( '_pcss_prepared_', fn_onprepared );
   fn_next_rule_map();
@@ -917,7 +862,7 @@ function makeCascades ( test_obj ) {
     expect_list = configMap._05_expect_list_,
     pcss_obj    = loadFreshPcssObj(),
 
-    smap, expect_str, ret_data,
+    context_map, expect_str, ret_data,
     fn_next_cascade, fn_onprepared
   ;
 
@@ -928,17 +873,17 @@ function makeCascades ( test_obj ) {
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === 'bar-', expect_str );
 
-  smap = {
+  context_map = {
     _input_list_    : input_list,
     _expect_list_   : expect_list,
     _test_obj_      : test_obj,
 
-    _prepared_idx_  : 0,
-    _input_idx_     : 0
+    _prepared_idx_  : __0,
+    _input_idx_     : __0
   };
 
-  fn_next_cascade = nextCascade05.bind( smap );
-  fn_onprepared   = onPrepared05.bind(  smap );
+  fn_next_cascade = nextCascade05.bind( context_map );
+  fn_onprepared   = onPrepared05.bind(  context_map );
 
   document.addEventListener( '_pcss_prepared_', fn_onprepared );
   fn_next_cascade();

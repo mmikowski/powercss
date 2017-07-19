@@ -1343,8 +1343,7 @@ Example   | pcss._setCascade_({
 Purpose   | Adds, changes, or deletes a cascade
 Arguments | _cascade_id_     (req) The ID for a cascade
           | _mode_str_       (req) '_add_', '_change_', or '_delete_'
-          | _vsheet_id_list_ (opt) List of vsheet ids in order of
-          |   application.
+          | _vsheet_id_list_ (opt) Ordered list of vsheet ids
           | _mixin_map_      (opt) The mixin_map for this cascade.
           | _regen_type_     (opt) '_none_', '_merge_', '_prepare_',
           |                      or '_all_' (default is _merge_)

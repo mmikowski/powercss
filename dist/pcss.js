@@ -12,8 +12,8 @@
 /*global Event, pcss:true, window:true */
 
 /* istanbul ignore next */
-try          { var __window = window; }
-catch ( e1 ) { __window = global.window; }
+try              { var __window = window;    }
+catch ( ignore ) { __window = global.window; }
 
 // == BEGIN MODULE PCSS ===============================================
 var pcss = (function () {
@@ -82,7 +82,7 @@ var pcss = (function () {
     __n1      = -1,
     __blank   = '',
     __undef   = __winRef[ vMap._undefined_ ],
-    __console = __winRef[ vMap._console_ ],
+    __console = __winRef[ vMap._console_   ],
 
     // Top Configuration Map (configMap)
     configMap = {
@@ -211,6 +211,7 @@ var pcss = (function () {
 
     if ( isCapable ) {
       // Determine dispatchModeStr
+      // noinspection IfStatementWithTooManyBranchesJS
       if ( __docRef[ vMap._dispatchEvent_ ] ) {
         try {
           dispatchModeStr = '_wk_';
@@ -261,7 +262,7 @@ var pcss = (function () {
         case '_wk_' :
           __docRef[ vMap._dispatchEvent_ ]( event_obj );
           break;
-        case '_ms_' : __docRef[ name ](); break;
+        case '_ms_'   : __docRef[ name ](); break;
         case '_mson_' : __docRef[ 'on' + name ](); break;
         default :
           logIt( '_unsupported_', dispatchModeStr );
@@ -964,24 +965,6 @@ var pcss = (function () {
     return active_rule_map;
   }
 
-  function setStyleAttr ( arg_map ) {
-    var
-      selector_str    = arg_map._selector_str_,
-      attr_key        = arg_map._attr_key_,
-      attr_val        = arg_map._attr_val_,
-      active_rule_map = stateMap._active_rule_map_,
-      rule_obj, style_obj
-      ;
-
-    if ( ! active_rule_map ) { active_rule_map = setActiveRuleMap(); }
-    if ( ! active_rule_map ) { return; }
-    rule_obj  = active_rule_map[ selector_str ];
-    style_obj = rule_obj && rule_obj.style;
-
-    if ( style_obj && style_obj[ vMap._hasOwnProp_ ]( attr_key ) ) {
-      style_obj[ attr_key ] = attr_val;
-    }
-  }
   // 2.14 Private method /initCheck/
   // Wrapper function that checks init before proceeding
   //
@@ -1020,7 +1003,7 @@ var pcss = (function () {
       ;
 
     // 4.1.2 Init element prefix
-    if ( ! stateMap._style_el_prefix_ ) {
+    if ( stateMap._style_el_prefix_ === __undef ) {
       style_el_prefix += '-';
       stateMap._style_el_prefix_ = style_el_prefix;
       // Create two style elements '<prefix>-0' and '<prefix>-1'
@@ -1028,14 +1011,14 @@ var pcss = (function () {
     }
 
     // 4.1.3 Initialize cssKeyMap and cssValMap
-    if ( ! css_key_map ) {
+    if ( css_key_map === __undef ) {
       css_key_map = pcss._cfg_ && pcss._cfg_._cssKeyMap_;
     }
-    if ( ! css_val_map ) {
+    if ( css_val_map === __undef ) {
       css_val_map = pcss._cfg_ && pcss._cfg_._cssValMap_;
     }
 
-    if ( ! ( css_key_map && css_val_map ) ) { return; }
+    if ( css_key_map === css_val_map === __undef ) { return; }
     cssKeyMap = css_key_map;
     cssValMap = css_val_map;
 
@@ -1097,6 +1080,7 @@ var pcss = (function () {
       change_type = opt_map._change_type_ || '_replace_',
       mixin_map   = opt_map._mixin_map_   || {},
       regen_type  = opt_map._regen_type_  || '_all_',
+      clone_map   = cloneData( mixin_map ),
 
       cascade_map_map = stateMap._cascade_map_map_,
 
@@ -1113,13 +1097,10 @@ var pcss = (function () {
     // 4.3.2 Set mixin map
     switch ( change_type ) {
       case '_replace_' :
-        stateMap._global_mixin_map_ = cloneData( mixin_map );
+        stateMap._global_mixin_map_ = clone_map;
         break;
       case '_merge_' :
-        extendRuleMap(
-          stateMap._global_mixin_map_,
-          cloneData( mixin_map )
-        );
+        extendRuleMap( stateMap._global_mixin_map_, clone_map );
         break;
       default: return __0;
     }
@@ -1373,6 +1354,7 @@ var pcss = (function () {
   // end 4.6 Public method /setVsheet/
 
   // 4.7 Public method /setCascade/
+  // ------------------------------
   // Example   | pcss._setCascade_({
   //           |   _cascade_id_     : '_c01_',
   //           |   _mode_str_       : '_add_',
@@ -1383,11 +1365,10 @@ var pcss = (function () {
   // Purpose   | Adds, changes, or deletes a cascade
   // Arguments | _cascade_id_     (req) The ID for a cascade
   //           | _mode_str_       (req) '_add_', '_change_', or '_delete_'
-  //           | _vsheet_id_list_ (opt) List of vsheet ids in order of
-  //           |   application.
+  //           | _vsheet_id_list_ (opt) Ordered list of vsheet ids
   //           | _mixin_map_      (opt) The mixin_map for this cascade.
   //           | _regen_type_     (opt) '_none_', '_merge_', '_prepare_',
-  //           |                      or '_all_' (default is _merge_)
+  //           |                      '_all_', or '_use_' (default is _merge_)
   // Notes     | _regen_type_ defaults to '_merge_' on Add, '_all_'
   //           | on other operations.
   // Settings  | none
@@ -1490,7 +1471,49 @@ var pcss = (function () {
   // 4.9 Public method /getCssValMap/
   function getCssValMap () { return cssValMap; }
 
-  // 4.10 Public method /getGlobalMixinMap/
+  // 4.10 Public method /setStyleAttr/
+  // ---------------------------------
+  // Example   | pcss._setStyleAttr_({
+  //           |   _selector_str_   : '.my_class',
+  //           |   _attr_key_       : 'font-size',
+  //           |   _attr_val_       : '12pt'
+  //           | });
+  // Purpose   | Immediately changes a selector definition in
+  //           | the currently active style sheet. In the example provided,
+  //           | all text within the selected class would be resized to 12pt.
+  //           | Each attribute change can cause a document reflow.
+  // Arguments | _selector_str_   (req) A CSS selector like '#my_id'
+  //           | _attr_key_       (req) A CSS attribute like 'color'
+  //           | _attr_val_       (req) A CSS value like '#ff0000'
+  // Notes     | Sometimes it is more efficient to change a single style than to
+  //           | generate and double-buffer-switch a stylesheet. Profile
+  //           | code if performance is important!
+  //           | Future versions will accept a map of attributes to apply to a
+  //           | single selector.
+  // Settings  | none
+  // Throws    | none
+  // Returns   | undef
+  //
+  function setStyleAttr ( arg_map ) {
+    var
+      selector_str    = arg_map._selector_str_,
+      attr_key        = arg_map._attr_key_,
+      attr_val        = arg_map._attr_val_,
+      active_rule_map = stateMap._active_rule_map_,
+      rule_obj, style_obj
+      ;
+
+    if ( ! active_rule_map ) { active_rule_map = setActiveRuleMap(); }
+    if ( ! active_rule_map ) { return; }
+    rule_obj  = active_rule_map[ selector_str ];
+    style_obj = rule_obj && rule_obj.style;
+
+    if ( style_obj && style_obj[ vMap._hasOwnProp_ ]( attr_key ) ) {
+      style_obj[ attr_key ] = attr_val;
+    }
+  }
+
+  // 4.11 Public method /getGlobalMixinMap/
   function getGlobalMixinMap () { return stateMap._global_mixin_map_; }
   return {
     _initModule_        : initModule,
@@ -1514,8 +1537,10 @@ var pcss = (function () {
 // == BEGIN 5. BROWSER AND NODE SUPPORT ===============================
 /* istanbul ignore next */
 try {
-  global.pcss = pcss;
+  global.pcss    = pcss;
   module.exports = pcss;
 }
-catch ( ignore ) {}
+catch ( ignore ) {
+  window.pcss = pcss;
+}
 // == . END 5. BROWSER AND NODE SUPPORT ===============================
