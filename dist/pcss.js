@@ -1149,9 +1149,7 @@ var pcss = (function () {
   // Arguments | _asset_type_ (req), either '_vsheet_' or '_cascade_'
   // Settings  | none
   // Throws    | none
-  // Returns   | A list of the asset IDs requested. PowerCSS will
-  //           | NEVER use this list pointer, so you may mutate as
-  //           | you please.
+  // Returns   | A list of the asset IDs
   //
   function getAssetIdList ( arg_opt_map ) {
     // 4.4.1 Init and arguments

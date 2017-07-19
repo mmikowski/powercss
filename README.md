@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/mmikowski/powercss/badge.svg?branch=master)](https://coveralls.io/github/mmikowski/powercss?branch=master)
 
 ## Overview
-Unleash JavaScript to create custom styling for every person that uses your web application. PowerCSS employs merging, caching, compression, and double-buffering to exceed the flexibility - and often the speed - of static CSS files. Here is a [presentation][1] of some of the PowerCSS concepts in practice. The dedicated website is at [powercss.org][2].
+Unleash JavaScript to create custom styling for every user of a web application. PowerCSS employs merging, caching, compression, and double-buffering to exceed the flexibility - and often the speed - of static CSS files. Here is a [presentation][1] of some of the PowerCSS concepts in practice. The dedicated website is at [powercss.org][2].
 
 ## The Goal
 A significant problem with traditional CSS files - whether written by an expert or someone using {less} or Sass - is that they are **not** written at run-time. With static CSS, application controlled styling that is responsive to the user's environment is either limited or simply not possible.
@@ -14,30 +14,19 @@ We feel that PowerCSS has achieved its primary goal and is often better than sta
 
 ## Key benefits
 
-- **Real-time styling** - Create custom styling for every user of your
-  application at any time.
-- **Pure JS** - Remove the need for **any** static CSS files.
-- **Name-spaced** - Play well with frameworks, jQuery, other libraries,
-  and third-party JavaScript.
-- **Double-buffering** - Minimize page re-flows with this automatic
-  feature. It can speed up some styling changes by more than 10x.
-- **Merging and caching** - Control when your styling is updated
-  using time-based minimal processing.
-- **Mixins** - Create custom symbols at multiple levels: virtual
-  stylesheet, virtual cascade, and global. Change a mixin map and watch
-  the styles change immediately.
-- **Familiar work-flow** - Leverage your experience with static CSS
-  files using virtual stylesheets and cascades.
-- **Machine optimized CSS** - Have the browser work more efficiently
-  as only **one stylesheet** is used for styling at any given time,
-  and **numerous redundancies** are removed during its preparation.
-- **Highly compressible** - Compress your styling to a fraction of static CSS.
-- **Quality code** - Use well tested and documented code. A commit hook is
-  used to ensure no changes occur unless they pass **JSLint**
-  *and* **regression tests**.
-- **Media queries** and arbitrary-depth conditionals
 - **MIT license**
 - **No dependencies**
+- **Real-time styling** - Create custom styling for every user at any time.
+- **Pure JS** - Remove the need for **any** static CSS files.
+- **Name-spaced** - Play well with frameworks, jQuery, other libraries, and third-party JavaScript.
+- **Double-buffering** - Minimize page re-flows with this automatic feature. It can speed up some styling changes by more than 10x.
+- **Merging and caching** - Control when styling is updated using time-based minimal processing.
+- **Mixins** - Create custom symbols at multiple levels: virtual stylesheet, virtual cascade, and global. Change a mixin map and watch the styles change immediately.
+- **Familiar work-flow** - Leverage experience with static CSS files using virtual stylesheets and cascades.
+- **Machine optimized CSS** - Have the browser work more efficiently as only **one stylesheet** is used for styling at any given time, and **numerous redundancies** are removed during its preparation.
+- **Highly compressible** - Compress styling to a fraction of static stylesheets.
+- **Quality code** - Use well tested and documented code. A commit hook is used to ensure no changes occur unless they pass **JSLint** and **regression tests**.
+- **Media queries** and arbitrary-depth conditionals
 
 ## Code Style
 PowerCSS is [a library][0] written in the code style presented in the book **Single Page Web Applications - JavaScript end-to-end** which is available from [Amazon][3] and directly from [Manning][4]. It uses a **git** hook to block any code that fails to pass JSLint and regression tests. All object keys have an underscore prefix and suffix like `_this_` which makes them easy targets for compression.
@@ -86,7 +75,7 @@ Let's create an HTML file named `pcss._ex001_.html` to illustrate the basic capa
   <a href="../"><div class="pcss-_logo_" title="PowerCSS"></div></a>
   <h2>Example 001: The basics</h2>
   <div class="pcss-_box_">PowerCSS 01<br/>
-    <input title="name" type="text" placeholder="your name here"/>
+    <input title="name" type="text" placeholder="Name here"/>
   </div>
   <div class="pcss-_box_">PowerCSS 03</div>
   <div class="pcss-_box_">PowerCSS 04</div>
@@ -157,8 +146,7 @@ pcss._ex001_ = function () {
 Yes, Virginia, our code really *does* pass JSLint.
 
 ### 3. Add (virtual) stylesheets
-Virtual stylesheets (**vsheets**) contain the same information as a traditional CSS file but in JSON format and using symbols instead of literal strings. Let's add two **vsheets** definition to `pcss._ex001_.js`. Don't worry about the syntax yet; we will discuss that in the **Mixin maps**
-section.
+Virtual stylesheets (**vsheets**) contain the same information as a traditional CSS file but in JSON format and using symbols instead of literal strings. Let's add two **vsheets** definition to `pcss._ex001_.js`. Don't worry about the syntax yet; we will discuss that in the **Mixin maps** section.
 
 ```js
   // Begin define selector lists
@@ -271,19 +259,10 @@ section.
   // End Add vsheets
 ```
 
-
-Selectors are defined in a list because their order is important
-in CSS. PowerCSS records the **vsheet** definition, but it doesn't
-compile it to CSS yet - that comes later. Now that we have two
-**vsheets**, let's use them in a virtual **cascade**.
+Selectors are defined in a list because their order is important in CSS. PowerCSS records the **vsheet** definition, but it doesn't compile it to CSS yet - that comes later. Now that we have two **vsheets** we can use them in a virtual **cascade**.
 
 ### 4. Add and use a (virtual) cascade
-Now we will define a **cascade** which includes an ordered list of **vsheets**.
-This is very much like traditional CSS development where we link to static
-stylesheet files in an HTML document. A **cascade** merges multiple **vsheets**
-into one. This is similar to how a browser merges multiple CSS files on load.
-However, with PowerCSS we can have many **cascades** which are automatically
-updated whenever any change affects them.
+Now we will define a **cascade** which includes an ordered list of **vsheets**. This is very much like traditional CSS development where we link to static stylesheet files in an HTML document. A **cascade** merges multiple **vsheets** into one. This is similar to how a browser merges multiple CSS files on load. However, with PowerCSS we can have many **cascades** which are automatically updated whenever any change affects them.
 
 Let's add one now:
 
@@ -299,14 +278,10 @@ Let's add one now:
 };
 ```
 
-
 We can now save the `pcss._ex001_.js` file. Now let's review the results.
 
 ### What we have wrought
-When we [open][7] `pcss._ex001_.html` in a modern browser, we should
-multiple boxes that have been styled according to the **cascade**.
-We can view the generated CSS in the browser using the development
-tools and modify it as if we had written it ourselves:
+When we [open][7] `pcss._ex001_.html` in a modern browser, we should multiple boxes that have been styled according to the **cascade**. We can view the generated CSS in the browser using the development tools and modify it as if we had written it ourselves:
 
 ```css
 /* Begin _base_ style */
@@ -384,37 +359,17 @@ input:focus {
 /* End _box_ style */
 ```
 
-
-Of course, if that was all that PowerCSS provided, why bother?
-When all we need static styling it is certainly simpler to create
-traditional CSS files using a nice, comfortable text editor or IDE.
-However, when we need our application to change styling based on
-any real-time environmental factor, that's where PowerCSS really
-shines.
+Of course, if that was all that PowerCSS provided, why bother? When all we need static styling it is certainly simpler to create traditional CSS files using a nice, comfortable text editor or IDE. However, when we need our application to change styling based on any real-time environmental factor, that's where PowerCSS really shines. 
 
 ## Example 002: Double-buffering
-This example is illustrated by `pcss._ex002_.html` which can
-be found in the `node_modules/powercss/examples` directory or [online][9].
-Open the file with your browser to see the results.
+This example is illustrated by `pcss._ex002_.html` which can be found in the `node_modules/powercss/examples` directory or [online][9]. Open the file with a browser to see the results.
 
-Double-buffering is an common technique to minimize processing and
-flicker across many areas of computer graphics. PowerCSS creates two
-`style` elements, and switches between them to apply CSS.
-PowerCSS never enables a `style` element until the CSS is completely
-written to it. This allows us to change all styles on a page with just
-one document re-flow, which can be insanely fast compared to changing
-styles individually from multiple stylesheets.
+Double-buffering is an common technique to minimize processing and flicker across many areas of computer graphics. PowerCSS creates two `style` elements, and switches between them to apply CSS. PowerCSS never enables a `style` element until the CSS is completely written to it. This allows us to change all styles on a page with just one document re-flow, which can be insanely fast compared to changing styles individually from multiple stylesheets.
 
-PowerCSS is intended to replace **all** stylesheets for an
-application. While we can use external sheets for our CSS during
-development, we shouldn't need them for production release.
-PowerCSS plays very nicely with others and is designed to avoid conflict
-with third-party web components.
+PowerCSS is intended to replace **all** stylesheets for an application. While we can use external sheets for our CSS during development, we shouldn't need them for production release. PowerCSS plays very nicely with others and is designed to avoid conflict with third-party web components.
 
 ## Example 003: **Mixin maps**
-This example is illustrated by `pcss._ex003_.html` which can
-be found in the `node_modules/powercss/examples` directory or [online][10].
-Open the file with your browser to see the results.
+This example is illustrated by `pcss._ex003_.html` which can be found in the `node_modules/powercss/examples` directory or [online][10]. Open the file with a browser to see the results.
 
 ### Symbol substitution
 A CSS rule declaration looks like the following:
@@ -423,49 +378,25 @@ A CSS rule declaration looks like the following:
 background-color : #fff;
 ```
 
+The expression to the left of the color we refer to as the rule **key**. The text after the colon but before the semicolon we refer to as the rule **value**. Here the **key** is `color` and the **value** is `#fff`.
 
-The expression to the left of the color we refer to as the rule **key**.
-The text after the colon but before the semicolon we refer to as the rule
-**value**. Here the **key** is `color` and the **value** is `#fff`.
-
-Our **vsheets** are defined using *symbol substitution*. That is, we
-use a symbol to indicate the actual key and *often* the value instead of
-the literal values. For example, to declare background-color, we use:
+Our **vsheets** are defined using *symbol substitution*. That is, we use a symbol to indicate the actual key and *often* the value instead of the literal values. For example, to declare background-color, we use:
 
 ```js
 _background_color_ : '_xfff_'
 ```
 
-
-At first glance, that might seem silly. However, using symbols for rule
-**keys** and **values** help us greatly when compressing our files.
-In the example above, our JavaScript rule can be compressed like so:
+At first glance, that might seem silly. However, using symbols for rule **keys** and **values** help us greatly when compressing our files. In the example above, our JavaScript rule can be compressed like so:
 
 ```js
 nx:'qr'
 ```
 
+This is 24% of the size of the native CSS (7 vs 29 characters). And some CSS keys and values can be especially verbose. One downside to this approach, of course, is we must declare the symbols initially. The default `pcss._cfg_._cssKeyMap_` and `pcss._cfg_._cssValMap_` are provided by the `pcss.cfg.js` library. `cssKeyMap` provides the **key** symbols and `cssValMap` provide the **value** symbols.
 
-This is 24% of the size of the native CSS (7 vs 29 characters).
-And some CSS keys and values can be especially verbose. One downside to
-this approach, of course, is we must declare the symbols initially.
-The `cssKeyMap` defines our rule **key** symbols in the PowerCSS library
-file, `pcss.js`, and `cssValMap` defines our common rule **value** symbols.
-**Value** symbols may also be extended with **mixin** maps.
+We have compiled a pretty exhaustive list of commonly used keywords and values but the rule keys needed will vary depending on project. If we use a unknown key during development a warning is logged to the JavaScript console and the rule is skipped. One can easily copy these symbols into `pcss.cfg.js` and make sure they are defined in `cssKeyMap` or `cssValMap` as required.
 
-We have compiled a pretty exhaustive list of commonly used keywords and values,
-but the rule keys needed will vary depending on project. During development,
-if we use a unknown key, a warning is logged to the JavaScript console and
-the rule is skipped. One can easily copy these symbols into `pcss.js`
-and make sure they are defined in `cssKeyMap` or `cssValMap` as required.
-
-Alternately, when we have completed a project, we use a simple Perl script
-to report the number of users for each `_symbol_` across the project.
-A symbol that only appears once is not used except for its declaration,
-and therefore can be safely deleted, e.g. "pruned."
-
-We are exploring how to improve the initialization of the `cssKeyMap`
-and `cssValMap` data. Suggestions are welcome :)
+When we have completed a project we can use a script to report the number of uses for each `_symbol_`. A symbol that only appears once is not used except for its declaration, and therefore can be safely pruned.
 
 ### Rule value substitutions
 There are four types of CSS value substitution supported by PowerCSS:
@@ -478,8 +409,7 @@ There are four types of CSS value substitution supported by PowerCSS:
 In addition, we can `lock` a rule value in a cascade.
 
 ### Setting a **mixin map**
-**mixin map**s are settable at the **vsheet**, **cascade**, or global level
-as illustrated below:
+**mixin map**s are settable at the **vsheet**, **cascade**, or global level as shown below:
 
 ```js
   // Vsheet option - add
@@ -519,7 +449,7 @@ as illustrated below:
   });
 ```
 
-A **mixin map** is simple key-value pair object as illustrated below:
+A **mixin map** is simple key-value pair object as shown below:
 
 ```js
   // Example mixin map
@@ -531,7 +461,6 @@ A **mixin map** is simple key-value pair object as illustrated below:
   };
 ```
 
-
 We can get a copy of a **mixin map** using `_getAssetJson_`.
 
 ### The four type of **mixin maps**
@@ -539,8 +468,8 @@ PowerCSS uses values from four **mixin map** types:
 
 1. The **built-in** value map, `cssValMap`. This is a set of common
    CSS values that are available by default. For example, the symbol
-   `_fixed_` resolves to 'fixed' in the resulting CSS. This map is
-   found in the the PowerCSS library file, `pcss.js`.
+   `_fixed_` resolves to 'fixed' in the resulting CSS.
+   The default `pcss._cfg_._cssValMap_` is provided by `pcss.cfg.js`.
 2. The **global mixin map** is used across all **cascades** and, as
    a consequence, by all **vsheets** they use.
 3. **Cascade mixin maps** are exclusive to one **cascade** and
@@ -548,26 +477,21 @@ PowerCSS uses values from four **mixin map** types:
 4. **Vsheet mixin maps** are exclusive to one **vsheet**.
 
 ### **mixin map** precedence
-The precedence of these **mixin maps** (also known as a 'scope chain')
-is as follows:
+The precedence of these **mixin maps** (also known as a 'scope chain') is as follows:
 
 ```bash
   vsheet > cascade > global > built-in
 ```
 
 
-This means that **vsheets** mixin values have priority over **cascade**
-mixin values which have priority over **global** mixin values which have
-priority over **built-in** values. Think of this as "the last match
-wins." Consider the following PowerCSS rule definition:
+This means that **vsheets** mixin values have priority over **cascade** mixin values which have priority over **global** mixin values which have priority over **built-in** values. Think of this as "the last match wins." Consider the following PowerCSS rule definition:
 
 ```js
   rule_map : { _background_ : '_bcolor_', ... }
 ```
 
 
-Now let's define **mixin map** values at three levels.
-In pseudo code, it looks something like this:
+Now let's define **mixin map** values at three levels. In pseudo code, it looks something like this:
 
 ```js
   builtin._bcolor_ = undefined;
@@ -577,17 +501,11 @@ In pseudo code, it looks something like this:
 ```
 
 
-Here the **vsheet** level value, 'blue', "wins" and the CSS processor
-will use *that* instead of any **cascade**, **global**, or **built-in** value.
-In other words, the resulting CSS will read `background:blue`.
+Here the **vsheet** level value, 'blue', "wins" and the CSS processor will use *that* instead of any **cascade**, **global**, or **built-in** value. In other words, the resulting CSS will read `background:blue`.
 
-What if we have multiple **vsheets** that set `_bcolor_`? Easy: the last
-vsheet in the cascade to set `_bcolor_` wins unless the value has been
-**locked** earlier in the *cascade* - see the **Locked values**
-section below.
+What if we have multiple **vsheets** that set `_bcolor_`? Easy: the last vsheet in the cascade to set `_bcolor_` wins unless the value has been **locked** earlier in the *cascade* - see the **Locked values** section below.
 
-What if we used a **vsheet** that didn't have a mixin map? Then
-the mixin value would be defined at just two levels:
+What if we used a **vsheet** that didn't have a mixin map? Then the mixin value would be defined at just two levels:
 
 ```js
   builtin._bcolor_ = undefined;
@@ -597,31 +515,22 @@ the mixin value would be defined at just two levels:
 ```
 
 
-Here the **cascade** level value will "win" and the CSS generator
-will use 'green' instead of any **global** or **built-in** value.
-And so on. If the value is still undefined at the end of the scope chain,
-a warning is issued and the property (`background`, in this case) is skipped.
+Here the **cascade** level value will "win" and the CSS generator will use 'green' instead of any **global** or **built-in** value. And so on. If the value is still undefined at the end of the scope chain, a warning is issued and the property (`background`, in this case) is skipped.
 
-An astute reader will notice that a **vsheet** can be used across many
-**cascades** which is a powerful capability. However, do keep this in
-in mind when setting **mixin maps** at the **vsheet** level.
+An astute reader will notice that a **vsheet** can be used across many **cascades** which is a powerful capability. However, do keep this in in mind when setting **mixin maps** at the **vsheet** level.
 
 ### Literal values
-Literal values are just that: a string we want to use as-is. Simply wrap any
-string in an array to have it read as a literal, as illustrated below:
+Literal values are just that: a string we want to use as-is. Simply wrap any string in an array to have it read as a literal, as shown below:
 
 ```js
   rule_map : { _background_ : [ 'blue' ], ... }
 ```
 
 
-We use an array wrapper to identify literals instead of symbol names.
-This makes our code very compressor friendly.
+We use an array wrapper to identify literals instead of symbol names. This makes our code very compressor friendly.
 
 ### Alternate values
-Sometimes we want to provide alternate rules for a style so that
-our code will work across multiple browsers. In this case, we can
-wrap all alternate values in an object with an `_alt_list_` property.
+Sometimes we want to provide alternate rules for a style so that our code will work across multiple browsers. In this case, we can wrap all alternate values in an object with an `_alt_list_` property.
 
 ```js
   { _selector_str_ : 'body',
@@ -651,9 +560,7 @@ background : linear-gradient(to bottom, #f85032 0%, #6d362d 100%);
 ```
 
 
-We are not limited literal values as the us of the built-in mixin key
-like `_xfff_` shows. We could even define the entire alternatives map
-as a mixin, like so:
+We are not limited literal values as the us of the built-in mixin key like `_xfff_` shows. We could even define the entire alternatives map as a mixin, like so:
 
 ```js
   mixin_map = {
@@ -679,20 +586,17 @@ Because now everywhere we want to use it, the line declaration becomes:
 ```
 
 
-This compresses to something like the following, which is 2.9% the size
-of the minimized CSS equivalent:
+This compresses to something like the following, which is 2.9% the size of the minimized CSS equivalent:
 
 ```js
 ck:'_r'
 ```
 
 
-Remember the order of alternatives in CSS is important: the last supported
-declaration will always be used.
+Remember the order of alternatives in CSS is important: the last supported declaration will always be used.
 
 ### Concatenated values
-Sometimes we want to use multiple literal or key values as a single string,
-usually separated by a space. For this we use a "double list" technique:
+Sometimes we want to use multiple literal or key values as a single string, usually separated by a space. For this we use a "double list" technique:
 
 ```js
   { _selector_str_ : 'li',
@@ -704,18 +608,16 @@ usually separated by a space. For this we use a "double list" technique:
 ```
 
 
-This is very similar to alternate values. The resulting CSS should
-look like this.
+This is very similar to alternate values. The resulting CSS should look like this.
 
-    border : .125rem solid #f85032
+```css
+  border : .125rem solid #f85032
+```
 
 We can use built-in, mixin and literal values, as the example above shows.
 
 ### Locked values
-Typically in a cascade, the last property value in "wins". However, it
-is feasible to prevent overwriting critical properties later
-in the cascade. One just needs to specify rules to be locked for
-the provided rule map in the **vsheet** definition:
+Typically in a cascade, the last property value in "wins". However, it is feasible to prevent overwriting critical properties later in the cascade. One just needs to specify rules to be locked for the provided rule map in the **vsheet** definition:
 
     box_selector_list = [
       { _select_str_ : '.pcss-_box_',
@@ -730,46 +632,21 @@ the provided rule map in the **vsheet** definition:
 This prevents any later **vsheet** from overriding the value for
 `_font_size_` for the `.pcss-_box_` selector in the cascade.
 
-An astute reader will again notice that a **vsheet** can be used across
-many **cascades**. Please keep this in mind when locking rule values.
+An astute reader will again notice that a **vsheet** can be used across many **cascades**. Please keep this in mind when locking rule values.
 
 ## Example 004: Compression
-This example is illustrated by `pcss._ex004_.html` which can
-be found in the `node_modules/powercss/examples` directory or [online][11].
-Open the file with your browser to see the results.
+This example is may be found at `node_modules/powercss/examples/pcss._ex004_.html` directory or [online][11]. Open the file with a browser to see the results.
 
-CSS uses long keywords and values, and is often quite repetitive.
-A PowerCSS solution can often be compressed to a fraction of the size
-of minimized CSS. Consider the example above where we created the
-`_global_red_grad_map_` symbol. The initial definition required 276
-characters, or 113% of minimized CSS. However, if we use this symbol
-more than once, we come out far ahead, as the compressed PowerCSS
-representation is only 2.9% the size of the minimized CSS. If we use
-the gradient 3 times, the PowerCSS representation is 39.5% the size of
-minimized CSS. If we use it 5 times, the PowerCSS representation is
-less than 25% the size.
+CSS uses long keywords and values, and is often quite repetitive. A PowerCSS solution can often be compressed to a fraction of the size of minimized CSS. Consider the example above where we created the `_global_red_grad_map_` symbol. The initial definition required 276 characters, or 113% of minimized CSS. However, if we use this symbol more than once, we come out far ahead, as the compressed PowerCSS representation is only 2.9% the size of the minimized CSS. If we use the gradient 3 times, the PowerCSS representation is 39.5% the size of minimized CSS. If we use it 5 times, the PowerCSS representation is less than 25% the size.
 
-PowerCSS code and modules that use it can be highly compressed thanks to
-the use of easily recognized symbols that start and end in an underscore like
-`_css_str_`. After concatenating all JavaScript files in our project,
-we can replace these symbols with unique tokens, using the shortest tokens
-for the most common symbols. We call this the **SuperPack** technique, and
-we can often reduce file size to 50% of `UglifyJS` alone.
+PowerCSS code and modules that use it can be highly compressed thanks to the use of easily recognized symbols that start and end in an underscore like `_css_str_`. After concatenating all JavaScript files in our project, we can replace these symbols with unique tokens, using the shortest tokens for the most common symbols. We call this the **SuperPack** technique, and we can often reduce file size to 50% of `UglifyJS` alone.
 
-In Example 004, the PowerCSS library and the CSS directives were reduced to
-30% of their original size, and to 15% when using the SuperPack" technique
-described above.
+In Example 004, the PowerCSS library and the CSS directives were reduced to 30% of their original size, and to 15% when using the SuperPack" technique described above.
 
 ## Example 005: Performance
-This example is illustrated by `pcss._ex005_.html` which can
-be found in the `node_modules/powercss/examples` directory or [online][11].
-Open the file with your browser to see the results.
+This example may be found at `node_modules/powercss/examples/pcss._ex005_.html` or [online][11]. Open the file with a browser to see the results.
 
-We have taken great care to ensure PowerCSS is as fast, or sometimes
-even faster than static CSS. We calculate the cascades in
-software and only provide to the browser a single optimized stylesheet
-to render. The browser rendering engine doesn't need to work loading
-and merging sometimes dozens of external stylesheets.
+We have taken great care to ensure PowerCSS is as fast, or sometimes even faster than static CSS. We calculate the cascades in software and only provide to the browser a single optimized stylesheet to render. The browser rendering engine doesn't need to work loading and merging sometimes dozens of external stylesheets.
 
 Any change to PowerCSS has up to four process phases:
 
@@ -778,10 +655,7 @@ Any change to PowerCSS has up to four process phases:
 3. Create and store the CSS of any affected cascades
 4. Write the CSS to the stylesheet element
 
-The `_setVsheet_`, `_setCascade_`, and `_setGlobalMixinMap_` methods
-all accept a `_regen_type_` parameter which defines how far to proceed
-with processing on **all cascades** affected by a change. The accepted
-values are listed below, along with the defaults:
+The `_setVsheet_`, `_setCascade_`, and `_setGlobalMixinMap_` methods all accept a `_regen_type_` parameter which defines how far to proceed with processing on **all cascades** affected by a change. The accepted values are listed below, along with the defaults:
 
 ```
 _regen_type_ value means for the affect cascades:
@@ -799,11 +673,7 @@ _regen_type_ value means for the affect cascades:
 ```
 
 
-We recommend sticking with the defaults until and if we see performance issues.
-Depending on the application, setting `_regen_type_` to `_all_` for all
-**vsheets** and **cascades** may make the most sense. For others, setting
-`regen_type` to `_none_` and then directing all processing steps at their
-convenience will provide the best solution. Here is an example:
+We recommend sticking with the defaults until and if we see performance issues. Depending on the application, setting `_regen_type_` to `_all_` for all **vsheets** and **cascades** may make the most sense. For others, setting `regen_type` to `_none_` and then directing all processing steps at their convenience will provide the best solution. Here is an example:
 
 ```js
   // Initial definition of cascade
@@ -869,13 +739,10 @@ The default `_regen_type_` may change if test results warrant it.
 ## Conditional expressions
 
 ### Use
-PowerCSS supports arbitrary-depth `conditional expressions` which
-can be used to construct `@media` queries as described in the
-**The Power Cookbook** section.
+PowerCSS supports arbitrary-depth `conditional expressions` which can be used to construct `@media` queries as described in the **The Power Cookbook** section.
 
 ### Syntax
-PowerCSS provides the `_begin_cond_str_` and `_end_cond_str_`
-objects to create a conditional closure:
+PowerCSS provides the `_begin_cond_str_` and `_end_cond_str_` objects to create a conditional closure:
 
 ```js
   selector_list = [
@@ -895,8 +762,7 @@ This will result in the following *invalid* CSS text:
 ```
 
 ### Nesting
-We can nest conditional expressions as deep as we want and PowerCSS
-will create the closures:
+We can nest conditional expressions as deep as we want and PowerCSS will create the closures:
 
 ```js
   selector_list = [
@@ -919,9 +785,7 @@ This will result in the following *invalid* CSS:
   .foo{ .bar{ .bing{ .baz{ margin : 0 } } } }
 ```
 
-We can optionally include the end condition string to ensure
-our closures match. If they do not, a warning is printed to
-the console:
+We can optionally include the end condition string to ensure our closures match. If they do not, a warning is printed to the console:
 
 ```js
   selector_list = [
@@ -937,8 +801,7 @@ the console:
 ```
 
 ### Redundancies
-PowerCSS will combine and remove redundancies for each unique scope.
-The latest declaration always 'wins'. Consider the following declaration:
+PowerCSS will combine and remove redundancies for each unique scope. The latest declaration always 'wins'. Consider the following declaration:
 
 ```js
   selector_list = [
@@ -978,14 +841,10 @@ This will result in a single conditional expression in the output CSS:
 ```
 
 ### Future use
-Future implementations of CSS will support [arbitrary-depth nesting][13]
-and PowerCSS should be ready with minor changes.
+Future implementations of CSS will support [arbitrary-depth nesting][13] and PowerCSS should be ready with minor changes.
 
 ## The PowerCSS cookbook
-No matter how clean an API, sometimes its easier to think in terms
-of "what do we want to accomplish."  This is perhaps the reason
-programming language "cookbooks" have been so successful over the
-years. Our most popular recipes are listed below.
+No matter how clean an API, sometimes its easier to think in terms of "what do we want to accomplish."  This is perhaps the reason programming language "cookbooks" have been so successful over the years. Our most popular recipes are listed below.
 
 ### Virtual stylesheet (**vsheet**) recipes
 #### Add a **vsheet**
@@ -1022,8 +881,7 @@ years. Our most popular recipes are listed below.
 ```
 
 #### Add a media query to a **vsheet**
-The following `selector_list` adjustments will provide a media
-query closure:
+The following `selector_list` adjustments will provide a media query closure:
 
 ```js
   selector_list = [
@@ -1064,10 +922,7 @@ Using the bullet-proof font declaration format:
 ```
 
 #### Delete a **vsheet** selector list
-Deleting a selector list independently is not supported.
-However, one may change the `_selector_list_` to an empty array
-for a similar effect. Setting the value to `undefined` will
-not work.
+Deleting a selector list independently is not supported. However, one may change the `_selector_list_` to an empty array for a similar effect. Setting the value to `undefined` will not work.
 
 ```js
   pcss._setVsheet_({
@@ -1079,10 +934,7 @@ not work.
 
 
 #### Delete a **vsheet** mixin map
-Deleting a vsheet mixin map independently is not supported.
-However, one may change `_mixin_map_` to an empty object
-for a similar effect. Setting the value to `undefined` will
-not work.
+Deleting a vsheet mixin map independently is not supported. However, one may change `_mixin_map_` to an empty object for a similar effect. Setting the value to `undefined` will not work.
 
 ```js
   pcss._setVsheet_({
@@ -1094,13 +946,7 @@ not work.
 
 
 #### Delete an entire **vsheet**
-Recall that deleting a single **vsheet** will redefine all
-**cascades** that use it. Setting `_regen_type_` to
-`_none_` will ensure no processing will take place as a result
-of this call, whereas setting it to `_all_` will result in
-all **cascades** being processed as fully is possible.
-If an active cascade is currently in use, it will double-buffer
-switched to the updated CSS as soon as it is ready.
+Recall that deleting a single **vsheet** will redefine all **cascades** that use it. Setting `_regen_type_` to `_none_` will ensure no processing will take place as a result of this call, whereas setting it to `_all_` will result in all **cascades** being processed as fully is possible. If an active cascade is currently in use, it will double-buffer switched to the updated CSS as soon as it is ready.
 
 ```js
   pcss._setVsheet_({
@@ -1133,10 +979,7 @@ switched to the updated CSS as soon as it is ready.
 
 
 #### Use the same selector list to define multiple **vsheets**
-Because PowerCSS never changes our data, we can create a
-selector list definition, use it to create a **vsheet**, modify it,
-and then use it to create another, **vsheet**. This process can be repeated
-indefinitely. Here is an example:
+Because PowerCSS never changes our data, we can create a selector list definition, use it to create a **vsheet**, modify it, and then use it to create another, **vsheet**. This process can be repeated indefinitely. Here is an example:
 
 ```js
   // Define _box01_ vsheet
@@ -1202,10 +1045,7 @@ indefinitely. Here is an example:
 
 
 #### Delete a vsheet id list from a **cascade**
-Deleting a vsheet ID list independently is not supported.
-However, one may change the `_vsheet_id_list_` to an empty array
-for a similar effect. Setting the value to `undefined` will
-not work.
+Deleting a vsheet ID list independently is not supported. However, one may change the `_vsheet_id_list_` to an empty array for a similar effect. Setting the value to `undefined` will not work.
 
 ```js
   pcss._setCascade_({
@@ -1217,10 +1057,7 @@ not work.
 
 
 #### Delete a mixin map from a **cascade**
-Deleting a mixin map independently is not supported.
-However, one may change the `_mixin_map_` to an empty array
-for a similar effect. Setting the value to `undefined` will
-not work.
+Deleting a mixin map independently is not supported. However, one may change the `_mixin_map_` to an empty array for a similar effect. Setting the value to `undefined` will not work.
 
 ```js
   pcss._setCascade_({
@@ -1292,11 +1129,10 @@ the styling will be removed.
 #### Set the style element prefixes
 
 ```js
-pcss._initModule_({_style_el_prefix_ : 'ns' });
+style_el_prefix = pcss._initModule_({_style_el_prefix_ : 'ns' });
 ```
 
-The style element prefix may only be set once on the initial call.
-Subsequent calls will ignore any request to change this.
+The style element prefix may only be set once on the initial call. Subsequent calls will ignore any request to change this.
 
 #### Get the current style prefix
 
@@ -1304,7 +1140,7 @@ Subsequent calls will ignore any request to change this.
 style_el_prefix = pcss._initModule_();
 ```
 
-The `_initModule_` method returns the style prefix in use.
+Call `_initModule_` without arguments to get the current style element prefix.
 
 #### Disable PowerCSS
 
@@ -1312,20 +1148,17 @@ The `_initModule_` method returns the style prefix in use.
 pcss._togglePcss_( false );
 ```
 
-
 #### Enable PowerCSS
 
 ```js
 pcss._togglePcss_( true );
 ```
 
-
 #### Toggle PowerCSS
 
 ```js
 pcss._togglePcss();
 ```
-
 
 #### Change the global mixin map
 
@@ -1372,7 +1205,6 @@ Throws    | A string error object if style elements already exist
 Returns   | The style prefix, e.g. 'ns-'
 ```
 
-
 ### `_extendRuleMap_`
 
 ```
@@ -1389,7 +1221,6 @@ Returns   | none
           |   - base_map is modified.
           |   - extend_map is not.
 ```
-
 
 ### `_setGlobalMixinMap_`
 
@@ -1423,7 +1254,6 @@ Throws    | none
 Returns   | true (enabled) or false (disabled)
 ```
 
-
 ### `_getAssetIdList_`
 
 ```
@@ -1437,11 +1267,8 @@ Purpose   | Return the list of all vsheets or cascades.
 Arguments | _asset_type_ (req), either '_vsheet_' or '_cascade_'
 Settings  | none
 Throws    | none
-Returns   | A list of the asset IDs requested. PowerCSS will
-          | NEVER use this list pointer, so you may mutate as
-          | you please.
+Returns   | A list of the asset IDs requested.
 ```
-
 
 ### `_getAssetJson_`
 
@@ -1474,7 +1301,6 @@ Returns   | A JSON string of the requested asset.
           | returned is 'undefined'.
 ```
 
-
 ### `_setVsheet_`
 See **The PowerCSS cookbook** section to see how `_setVsheet_`
 may be used to accomplish common tasks.
@@ -1501,7 +1327,6 @@ Settings  | none
 Throws    | none
 Returns   | vsheet_id, or undef on failure
 ```
-
 
 ### `_setCascade_`
 See **The PowerCSS cookbook** section to explore how `_setCascade_`
@@ -1562,7 +1387,7 @@ Arguments | _selector_str_   (req) A CSS selector like '#my_id'
           | _attr_key_       (req) A CSS attribute like 'color'
           | _attr_val_       (req) A CSS value like '#ff0000'
 Notes     | Sometimes it is more efficient to change a single style than to
-          | generate and double-buffer-switch a stylesheet. Profile your
+          | generate and double-buffer-switch a stylesheet. Profile
           | code if performance is important!
           | Future versions will accept a map of attributes to apply to a
           | single selector.
@@ -1572,8 +1397,7 @@ Returns   | undef
 ```
 
 ## Regression tests
-Regression tests are found under the `test` directory. You may
-run using the `npm`, like so:
+We may run using the `npm`, like so:
 
 ```bash
 cd node_modules/powercss;
@@ -1581,14 +1405,10 @@ npm install; # install development dependencies
 npm test;    # run regression tests
 ```
 
-Code coverage metrics and production deployments are underway to help flush
-out any remaining refinements or bugs. Assistance with regression tests in
-the form of code or requested use cases is welcome!
+Code coverage metrics and production deployments are underway to help flush out any remaining refinements or bugs. Assistance with regression tests in the form of code or requested use cases is welcome!
 
 ## Compatibility
-Confirmed to work on Chrome 48, Safari 9, Firefox 44, IE 9+,
-and Edge browsers. We expect it to work on much earlier versions of
-Chrome, Safari, and Firefox, but have yet to determine how low we can go.
+Confirmed to work on Chrome 48, Safari 9, Firefox 44, IE 9+, and Edge browsers. We expect it to work on much earlier versions of Chrome, Safari, and Firefox, but have yet to determine how low we can go.
 
 ## Release Notes
 ### Copyright (c)
@@ -1679,9 +1499,7 @@ MIT
 [absurdjs][5], [responsive.j$][6]
 
 ## Contribute!
-If you want to help out with PowerCSS, we are hosted at
-GitHub. Any improvements or suggestions are welcome!
-You can reach me at mike[dot]mikowski[at]gmail[dotcom].
+Any improvements or suggestions are welcome.
 
 ## End
 [0]:http://mmikowski.github.io/no-frameworks
