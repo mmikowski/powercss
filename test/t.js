@@ -69,10 +69,10 @@ var
       _color_          : '_xfff_',
       _text_align_     : '_center_'
     },
-    _03_json01_ : '[{"_selector_str_":"body","_rule_lock_list_":'
+    _03_json_01_ : '[{"_selector_str_":"body","_rule_lock_list_":'
       + '["_font_size_"],"_rule_map_":{"_margin_":"_0_",'
       + '"_font_size_":"_1d5rem_"}}]',
-    _03_json02_ : '[{"_selector_str_":"body","_rule_map_":'
+    _03_json_02_ : '[{"_selector_str_":"body","_rule_map_":'
       + '{"_margin_":"_2rem_","_font_size_":"_2rem_"}}]',
     _03_merged_01_ : '[{"_selector_str_":"body","_rule_lock_list_"'
       + ':["_font_size_"],"_rule_map_":{"_margin_":"_2rem_",'
@@ -509,7 +509,7 @@ function loadFreshPcssObj () {
   return pcss_obj;
 }
 
-// == BEGIN 1. testInit ==============================================
+// == BEGIN test 010 testInit =========================================
 function testInit ( test_obj ) {
   var
     method_list = [
@@ -552,9 +552,9 @@ function testInit ( test_obj ) {
 
   test_obj.done();
 }
-// == . END 1. testInit ==============================================
+// == . END test 010 testInit =========================================
 
-// == BEGIN 2. extendRuleMap =========================================
+// == BEGIN test 020 extendRuleMap ====================================
 function extendRuleMap ( test_obj ) {
   var
     pcss_obj = loadFreshPcssObj(),
@@ -620,9 +620,9 @@ function extendRuleMap ( test_obj ) {
 
   test_obj.done();
 }
-// == . END 02. extendRuleMap =========================================
+// == . END test 020 extendRuleMap ====================================
 
-// == BEGIN 03. createVSheets =========================================
+// == BEGIN test 030 createVSheets ====================================
 function createVSheets ( test_obj ) {
   var
     pcss_obj = loadFreshPcssObj(),
@@ -674,7 +674,7 @@ function createVSheets ( test_obj ) {
     _asset_type_    : '_vsheet_',
     _asset_subtype_ : '_selector_list_'
   });
-  test_obj.ok( ret_data === configMap._03_json01_, expect_str );
+  test_obj.ok( ret_data === configMap._03_json_01_, expect_str );
 
   expect_str = 'Add vsheet _s01_';
   ret_data = pcss._setVsheet_({
@@ -690,7 +690,7 @@ function createVSheets ( test_obj ) {
     _asset_type_    : '_vsheet_',
     _asset_subtype_ : '_selector_list_'
   });
-  test_obj.ok( ret_data === configMap._03_json02_, expect_str );
+  test_obj.ok( ret_data === configMap._03_json_02_, expect_str );
 
   expect_str = 'Add cascade _c00_';
   ret_data = pcss._setCascade_({
@@ -795,9 +795,9 @@ function createVSheets ( test_obj ) {
     test_obj.ok( ret_data === '_s00_', expect_str );
   }, __0 );
 }
-// == . END 03. createVSheets =========================================
+// == .END test 030 createVSheets =====================================
 
-// == BEGIN 4. checkResolver ==========================================
+// == BEGIN test 040 checkResolver ====================================
 function checkResolver ( test_obj ) {
   var
     input_list  = configMap._04_rule_map_list_,
@@ -809,6 +809,19 @@ function checkResolver ( test_obj ) {
   ;
 
   test_obj.expect( 41 );
+
+  context_map = {
+    _rule_map_list_ : input_list,
+    _expect_list_   : expect_list,
+    _test_obj_      : test_obj,
+
+    _prepared_idx_  : __0,
+    _rule_map_idx_  : __0
+  };
+
+  fn_next_rule_map = nextRuleMap04.bind( context_map );
+  fn_onprepared    = onPrepared04.bind(  context_map );
+  document.addEventListener( '_pcss_prepared_', fn_onprepared );
 
   expect_str = '_init_module_ should return "bar-"';
   try { ret_data = pcss_obj._initModule_({ _style_el_prefix_ : 'bar' }); }
@@ -838,24 +851,12 @@ function checkResolver ( test_obj ) {
   catch( error ) { ret_data = error; }
   test_obj.ok( ret_data === '_c02_', expect_str );
 
-  context_map = {
-    _rule_map_list_ : input_list,
-    _expect_list_   : expect_list,
-    _test_obj_      : test_obj,
-
-    _prepared_idx_  : __0,
-    _rule_map_idx_  : __0
-  };
-
-  fn_next_rule_map = nextRuleMap04.bind( context_map );
-  fn_onprepared    = onPrepared04.bind(  context_map );
-
-  document.addEventListener( '_pcss_prepared_', fn_onprepared );
   fn_next_rule_map();
 }
-// == . END 04. checkResolver =========================================
+// == . END test 040 checkResolver ====================================
 
-// == BEGIN 50: makeCascades ==========================================
+// == BEGIN test 050 makeCascades =====================================
+// == . END test 050 makeCascades =====================================
 function makeCascades ( test_obj ) {
   var
     input_list  = configMap._05_input_list_,
@@ -888,9 +889,9 @@ function makeCascades ( test_obj ) {
   document.addEventListener( '_pcss_prepared_', fn_onprepared );
   fn_next_cascade();
 }
-// == . END 50: makeCascades ==========================================
+// == . END test 050 makeCascades =====================================
 
-// == BEGIN 06: getData ===============================================
+// == BEGIN test 060 getData ==========================================
 function getData ( test_obj ) {
   var
     pcss_obj    = loadFreshPcssObj(),
@@ -951,10 +952,17 @@ function getData ( test_obj ) {
   });
   test_obj.ok( ret_data === '[]', expect_str );
 
+  // =======
+  expect_str = 'Set body font size';
+  ret_data = pcss_obj._setStyleAttr_({
+    _selector_str_   : 'body',
+    _attr_key_       : 'font-size',
+    _attr_val_       : '16px'
+  });
+
   test_obj.done();
 }
-// == . END 06: getData ===============================================
-
+// == . END test 060 getData ==========================================
 
 module.exports = {
   testInit      : testInit,
