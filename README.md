@@ -1,30 +1,16 @@
 # PowerCSS - JavaScript-powered real-time CSS
+
+[![Coverage Status](https://coveralls.io/repos/github/mmikowski/powercss/badge.svg?branch=master)](https://coveralls.io/github/mmikowski/powercss?branch=master)
+
 ## Overview
-Unleash JavaScript to create custom styling for every person that uses
-your web application. PowerCSS employs merging, caching, compression, and
-double-buffering to exceed the flexibility - and often the speed - of
-static CSS files. Here is a [presentation][1] of some of the PowerCSS
-concepts in practice. The dedicated website is at [powercss.org][2].
+Unleash JavaScript to create custom styling for every person that uses your web application. PowerCSS employs merging, caching, compression, and double-buffering to exceed the flexibility - and often the speed - of static CSS files. Here is a [presentation][1] of some of the PowerCSS concepts in practice. The dedicated website is at [powercss.org][2].
 
 ## The Goal
-A significant problem with traditional CSS files - whether written by an
-expert or someone using {less} or Sass - is that they are **not** written
-at run-time. With static CSS, application controlled styling that is
-responsive to the user's environment is either limited or
-simply not possible.
+A significant problem with traditional CSS files - whether written by an expert or someone using {less} or Sass - is that they are **not** written at run-time. With static CSS, application controlled styling that is responsive to the user's environment is either limited or simply not possible.
 
-PowerCSS provides the tools to write and apply infinitely adjustable CSS
-based on almost any real-time data available to an application: device
-orientation, ambient temperature, ambient light, GPS location,
-heart rate, or time of day. Traditional static CSS files can't compete with
-this flexibility.
+PowerCSS provides the tools to write and apply infinitely adjustable CSS based on almost any real-time data available to an application: device orientation, ambient temperature, ambient light, GPS location, heart rate, or time of day. Traditional static CSS files can't compete with this flexibility.
 
-We feel that PowerCSS has achieved its primary goal and is often better
-than static CSS in many other respects as well. It provides a simple and
-familiar API where experienced CSS authors can use their existing skills
-to be up and running in minutes. A minified PowerCSS solution can download
-faster, render faster after loading, and can speed up some operations by 10x
-or more compared to traditional CSS. What's not to like?
+We feel that PowerCSS has achieved its primary goal and is often better than static CSS in many other respects as well. It provides a simple and familiar API where experienced CSS authors can use their existing skills to be up and running in minutes. A minified PowerCSS solution can download faster, render faster after loading, and can speed up some operations by 10x or more compared to traditional CSS. What's not to like?
 
 ## Key benefits
 
@@ -54,36 +40,22 @@ or more compared to traditional CSS. What's not to like?
 - **No dependencies**
 
 ## Code Style
-PowerCSS is [a library][0] written in the code style presented in the
-book **Single Page Web Applications - JavaScript end-to-end**
-which is available from [Amazon][3] and directly from [Manning][4].
-It uses a **git** hook to block any code that fails to pass JSLint and
-regression tests. All object keys have an underscore prefix and suffix
-like `_this_` which makes them easy targets for compression.
+PowerCSS is [a library][0] written in the code style presented in the book **Single Page Web Applications - JavaScript end-to-end** which is available from [Amazon][3] and directly from [Manning][4]. It uses a **git** hook to block any code that fails to pass JSLint and regression tests. All object keys have an underscore prefix and suffix like `_this_` which makes them easy targets for compression.
 
-PowerCSS employs a strict data integrity policy: All regular methods
-never change an argument. Only the utility method `_extendRuleMap_`
-changes an argument and this is explicit stated in the API docs.
-Conversely, PowerCSS does not return pointers to its arrays or objects;
-instead one can acquire snapshots using `_getAssetJson_`
-and `_getAssetIdList_`.
+PowerCSS employs a strict data integrity policy: All regular methods never change an argument. Only the utility method `_extendRuleMap_` changes an argument and this is explicit stated in the API docs. Conversely, PowerCSS does not return pointers to its arrays or objects; instead one can acquire snapshots using `_getAssetJson_` and `_getAssetIdList_`.
 
 ## Example 001: The basics
-We were careful to change as little of the existing CSS work-flow as
-possible. Here are the steps we will take to create our first example:
+We were careful to change as little of the existing CSS work-flow as possible. Here are the steps we will take to create our first example:
 
 1. Create an HTML document
 2. Start a JavaScript file
 3. Add (virtual) stylesheets
 4. Add and use a (virtual) cascade
 
-
 Let's get started!
 
 ### 1. Create an HTML document
-Let's create an HTML file named `pcss._ex001_.html` to illustrate
-the basic capabilities of PowerCSS. A complete copy of this file can
-be found in the `node_modules/powercss/examples` directory or [online][7].
+Let's create an HTML file named `pcss._ex001_.html` to illustrate the basic capabilities of PowerCSS. A complete copy of this file can be found in the `node_modules/powercss/examples` directory or [online][7].
 
 ```html
 <!doctype html>
@@ -139,18 +111,12 @@ be found in the `node_modules/powercss/examples` directory or [online][7].
 </html>
 ```
 
-Our strategy is to first render the CSS, then the HTML,
-and *then* enable analytics. On load, the `body` is not displayed.
-This is changed once the PowerCSS stylesheet is written and enabled.
+Our strategy is to first render the CSS, then the HTML, and *then* enable analytics. On load, the `body` is not displayed. This is changed once the PowerCSS stylesheet is written and enabled.
 
 ### 2. Start a JavaScript file
-Let's start a JavaScript file named to `pcss._ex001_.js` to
-provide PowerCSS directives. A complete copy can of this file can
-be found in the `node_modules/powercss/examples/js` directory or [online][8].
+Let's start a JavaScript file named to `pcss._ex001_.js` to provide PowerCSS directives. A complete copy can of this file can be found in the `node_modules/powercss/examples/js` directory or [online][8].
 
-We start our module with identification, JSLint settings, and a reminder
-of preferred CSS attribute order. Then we declare our function variables,
-and finally we initialize the PowerCSS module.
+We start our module with identification, JSLint settings, and a reminder of preferred CSS attribute order. Then we declare our function variables, and finally we initialize the PowerCSS module.
 
 ```js
 /* pss._ex001_.js
@@ -191,10 +157,7 @@ pcss._ex001_ = function () {
 Yes, Virginia, our code really *does* pass JSLint.
 
 ### 3. Add (virtual) stylesheets
-Virtual stylesheets (**vsheets**) contain the same information as a
-traditional CSS file but in JSON format and using symbols instead of
-literal strings.  Let's add two **vsheets** definition to `pcss._ex001_.js`.
-Don't worry about the syntax yet; we will discuss that in the **Mixin maps**
+Virtual stylesheets (**vsheets**) contain the same information as a traditional CSS file but in JSON format and using symbols instead of literal strings. Let's add two **vsheets** definition to `pcss._ex001_.js`. Don't worry about the syntax yet; we will discuss that in the **Mixin maps**
 section.
 
 ```js
@@ -311,13 +274,13 @@ section.
 
 Selectors are defined in a list because their order is important
 in CSS. PowerCSS records the **vsheet** definition, but it doesn't
-compile it to CSS yet - that comes later.  Now that we have two
+compile it to CSS yet - that comes later. Now that we have two
 **vsheets**, let's use them in a virtual **cascade**.
 
 ### 4. Add and use a (virtual) cascade
 Now we will define a **cascade** which includes an ordered list of **vsheets**.
 This is very much like traditional CSS development where we link to static
-stylesheet files in an HTML document.  A **cascade** merges multiple **vsheets**
+stylesheet files in an HTML document. A **cascade** merges multiple **vsheets**
 into one. This is similar to how a browser merges multiple CSS files on load.
 However, with PowerCSS we can have many **cascades** which are automatically
 updated whenever any change affects them.
@@ -957,7 +920,7 @@ This will result in the following *invalid* CSS:
 ```
 
 We can optionally include the end condition string to ensure
-our closures match.  If they do not, a warning is printed to
+our closures match. If they do not, a warning is printed to
 the console:
 
 ```js
@@ -1399,7 +1362,7 @@ Example   | pcss._initModule_({
           |   _css_val_map_     : {...}
           | });
 Purpose   | Initializes style elements using the provided prefix
-Arguments | _style_el_prefix_  (opt) A prefix to name-space the two 
+Arguments | _style_el_prefix_  (opt) A prefix to name-space the two
           |   <style> elements. If not provided, the prefix 'pcss'
           |    will be used.
           | _css_key_map_, _css_val_map_ (opt) Maps to used to look-up
@@ -1577,10 +1540,10 @@ Example   | pcss._getGlobalMixinMap_();
 Purpose   | Returns the currently set global mixin map.
 Arguments | none
 Notes     | This returns a mixinmap pointer, which can lead to problems
-          | if the application tampers with the content.  Don't do that.
+          | if the application tampers with the content. Don't do that.
 Settings  | none
 Throws    | none
-Returns   | The global mixin map.  This could be undef.
+Returns   | The global mixin map. This could be undef.
 ```
 
 ### `_setStyleAttr_` (new in 1.3)
@@ -1591,7 +1554,7 @@ Example   | pcss._setStyleAttr_({
           |   _attr_key_       : 'font-size',
           |   _attr_val_       : '12pt'
           | });
-Purpose   | Immediately changes a selector definition in 
+Purpose   | Immediately changes a selector definition in
           | the currently active style sheet. In the example provided,
           | all text within the selected class would be resized to 12pt.
           | Each attribute change can cause a document reflow.
@@ -1599,7 +1562,7 @@ Arguments | _selector_str_   (req) A CSS selector like '#my_id'
           | _attr_key_       (req) A CSS attribute like 'color'
           | _attr_val_       (req) A CSS value like '#ff0000'
 Notes     | Sometimes it is more efficient to change a single style than to
-          | generate and double-buffer-switch a stylesheet.  Profile your
+          | generate and double-buffer-switch a stylesheet. Profile your
           | code if performance is important!
           | Future versions will accept a map of attributes to apply to a
           | single selector.
@@ -1609,7 +1572,7 @@ Returns   | undef
 ```
 
 ## Regression tests
-Regression tests are found under the `test` directory.  You may
+Regression tests are found under the `test` directory. You may
 run using the `npm`, like so:
 
 ```bash
@@ -1671,11 +1634,11 @@ MIT
 ### Version 1.0.x
 - (x) Released 2016-03-25.
 
-### Version 1.1.x 
+### Version 1.1.x
 - (x) Released 2016-03-25.
 - (x) Added support for CSS conditional expressions.
 - (x) Changed built-in keys to use "bottom" instead of "btm", as this was
-  needlessly confusing.  Example: `_border_btm_` becomes `_border_bottom_`.
+  needlessly confusing. Example: `_border_btm_` becomes `_border_bottom_`.
 - Added method `_getGlobalMixinMap_`.
 - Fully backward compatible to 1.0 API.
 
@@ -1690,12 +1653,12 @@ MIT
 - (x) Release 2016-09-12.
 - (x) Expanded keywords support in pcss.cfg.js.
 - (x) Removed unfinished bower support.
-- (x) Added `setStyleAttr` which provides capability to change styles 
+- (x) Added `setStyleAttr` which provides capability to change styles
       after the stylesheet has been written.
 - (x) Fully backward compatible to 1.0 API.
 
 ### Version 1.3.x (planned)
-- (x) Update `setStyleAttr` to accept a map of attributes and values to 
+- (x) Update `setStyleAttr` to accept a map of attributes and values to
   apply for a selector.
 
 ### Version 1.4.x (planned)

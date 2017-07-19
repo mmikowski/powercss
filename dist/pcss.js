@@ -1113,10 +1113,13 @@ var pcss = (function () {
     // 4.3.2 Set mixin map
     switch ( change_type ) {
       case '_replace_' :
-        stateMap._global_mixin_map_ = mixin_map;
+        stateMap._global_mixin_map_ = cloneData( mixin_map );
         break;
       case '_merge_' :
-        extendRuleMap( stateMap._global_mixin_map_ );
+        extendRuleMap(
+          stateMap._global_mixin_map_,
+          cloneData( mixin_map )
+        );
         break;
       default: return __0;
     }

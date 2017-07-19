@@ -977,9 +977,9 @@ function getData ( test_obj ) {
   // =======
   expect_str = 'global mixin map is replaced as expected';
   ret_data = pcss_obj._setGlobalMixinMap_({
-    _mixin_map_  : { bing : 'bang' },
-    _change_type_  : '_replace_',
-    _regen_type_ : '_all_'
+    _mixin_map_   : { bing : 'bang' },
+    _change_type_ : '_replace_',
+    _regen_type_  : '_all_'
   });
   ret_data = pcss_obj._getAssetJson_({
     _asset_type_ : '_global_mixin_map_'
@@ -989,15 +989,14 @@ function getData ( test_obj ) {
   // =======
   expect_str = 'global mixin map is merged as expected';
   ret_data = pcss_obj._setGlobalMixinMap_({
-    _mixin_map_  : { foo : 'bar' },
-    _mode_type_  : '_merge_',
-    _regen_type_ : '_all_'
+    _mixin_map_   : { foo : 'bar' },
+    _change_type_ : '_merge_',
+    _regen_type_  : '_all_'
   });
   ret_data = pcss_obj._getAssetJson_({
     _asset_type_ : '_global_mixin_map_'
   });
   ret_map = JSON.parse( ret_data );
-  console.warn( '>>>>', ret_data );
   test_obj.deepEqual( ret_map, {bing:'bang',foo:'bar'}, expect_str );
 
   // =======
