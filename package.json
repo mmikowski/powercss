@@ -54,5 +54,5 @@
     "setup": "bin/setup",
     "test": "node_modules/.bin/nodeunit test/t.js"
   },
-  "version": "1.4.0"
+  "version": "1.4.1"
 }

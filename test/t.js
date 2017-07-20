@@ -510,6 +510,7 @@ function loadFreshPcssObj () {
   global.document = doc_obj;
 
   pcssObj = require( configMap._file_core_name_ );
+  global.pcss = pcssObj;
   require( configMap._file_cfg_name_ );
 
 }

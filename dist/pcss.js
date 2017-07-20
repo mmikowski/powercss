@@ -9,11 +9,7 @@
   regexp : true,  sloppy  : true, vars     : false,
   white  : true,  todo    : true, unparam  : true
 */
-/*global Event, pcss:true, window:true */
-
-/* istanbul ignore next */
-try         { var  __window = global.window; }
-catch ( e ) { __window = window; }
+/*global Event */
 
 // == BEGIN MODULE PCSS ===============================================
 var pcss = (function () {
@@ -27,13 +23,13 @@ var pcss = (function () {
     __j2str     = JSON.stringify,
     __str2j     = JSON.parse,
 
-    __docRef    = __window.document,
+    __winRef    = window,
+    __docRef    = window.document,
     __isArray   = Array.isArray,
     __false     = false,
     __null      = null,
     __true      = true,
     __timeStamp = Date.now,
-    __winRef    = __window,
 
     vMap = {
       _appendChild_    : 'appendChild',
@@ -1529,6 +1525,8 @@ var pcss = (function () {
 
   // 4.11 Public method /getGlobalMixinMap/
   function getGlobalMixinMap () { return stateMap._global_mixin_map_; }
+
+  // 4.12 Return IIFE map
   return {
     _initModule_        : initModule,
 
@@ -1550,11 +1548,6 @@ var pcss = (function () {
 
 // == BEGIN 5. BROWSER AND NODE SUPPORT ===============================
 /* istanbul ignore next */
-try {
-  global.pcss    = pcss;
-  module.exports = pcss;
-}
-catch ( e ) {
-  window.pcss    = pcss;
-}
-// == . END 5. BROWSER AND NODE SUPPORT ===============================
+try { module.exports = pcss; }
+catch ( ignore ) {}
+// == 5 . END BROWSER AND NODE SUPPORT ===================================

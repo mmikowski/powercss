@@ -9,7 +9,7 @@
   regexp : true, sloppy : true,     vars : false,
   white : true,    todo : true,  unparam : true
 */
-/*global pcss */
+/*global */
 
 var __ns = 'pcss', __NS;
 /* istanbul ignore next */
