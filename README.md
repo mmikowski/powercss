@@ -1468,31 +1468,31 @@ MIT
 - (x) Added `_getCssKeyMap_` and `_getCssValMap_` methods.
 - (x) Fully backward compatible to 1.0 API
 
-### Version 1.3.x (current)
+### Version 1.3.x
 - (x) Release 2016-09-12.
 - (x) Expanded keywords support in pcss.cfg.js.
 - (x) Removed unfinished bower support.
 - (x) Added `setStyleAttr` which provides capability to change styles
       after the stylesheet has been written.
 - (x) Fully backward compatible to 1.0 API.
-
-### Version 1.3.x (planned)
 - (x) Update `setStyleAttr` to accept a map of attributes and values to
   apply for a selector.
 
-### Version 1.4.x (planned)
+### Version 1.4.x (current)
+- (x) Release 2017-07-19.
+- (x) Convert from nodeunitb to nodeunit + jsdom
+- (x) Add coverage reporting to coveralls.io
+- (x) Update tests to expand coverage
+
+### TODO
+- (o) Add extendo-map expansion
 - (o) Use a double-buffered stylesheet per cascade.
   This would better support isolated web feature components,
   e.g. one for a chat feature, one for a comment feature, etc.
   Deleting a cascade should remove the associated stylesheet(s).
   Write the double-buffer stylesheet elements only as needed.
 - (o) Provide tools to convert existing CSS to PowerCSS JavaScript.
-
-### Version 1.5.x (planned)
-- (o) Add extendo-map expansion
-
-### Version 1.5.x (planned)
-- Add extendo-map expansion
+- (o) Extendo-map expansion
 
 ## Similar Projects
 [absurdjs][5], [responsive.j$][6]

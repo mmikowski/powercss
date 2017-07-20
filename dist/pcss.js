@@ -3,17 +3,17 @@
  * Michael S. Mikowski - mike.mikowski@gmail.com
  * See README.md for further documentation.
 */
-/*jslint        browser : true, continue : true,
-  devel : true,  indent : 2,      maxerr : 50,
-  newcap : true,  nomen : true, plusplus : true,
-  regexp : true, sloppy : true,     vars : false,
-  white : true,    todo : true,  unparam : true
+/*jslint          browser : true, continue : true,
+  devel  : true,  indent  : 2,    maxerr   : 50,
+  newcap : true,  nomen   : true, plusplus : true,
+  regexp : true,  sloppy  : true, vars     : false,
+  white  : true,  todo    : true, unparam  : true
 */
 /*global Event, pcss:true, window:true */
 
 /* istanbul ignore next */
-try              { var __window = window;    }
-catch ( ignore ) { __window = global.window; }
+try         { var  __window = global.window; }
+catch ( e ) { __window = window; }
 
 // == BEGIN MODULE PCSS ===============================================
 var pcss = (function () {
@@ -137,6 +137,7 @@ var pcss = (function () {
   // == BEGIN 2. PRIVATE METHODS ======================================
   // 2.1 Private method /cloneData/
   function cloneData ( data ) {
+    /* istanbul ignore next */
     if ( ! data ) { return data; }
     //noinspection NestedFunctionCallJS
     return __str2j( __j2str( data ) );
@@ -175,6 +176,7 @@ var pcss = (function () {
   // end 2.4
 
   // 2.5 Private method /publishEvent/
+  /* istanbul ignore next */
   publishEvent = (function publishEvent () {
     var
       initEventName = '_pcss_init_',
@@ -286,12 +288,14 @@ var pcss = (function () {
     var text_el, childnode_list;
     // Old Firefox and IE
     if ( style_el[ vMap._hasOwnProp_ ]( vMap._cssText_ ) ) {
+      /* istanbul ignore next */
       if ( style_el[ vMap._cssText_ ] !== css_str ) {
         style_el[ vMap._cssText_ ] = css_str;
       }
     }
     // New Firefox
     else if ( style_el[ vMap._hasOwnProp_ ]( vMap._textContent_ ) ) {
+      /* istanbul ignore next */
       if ( style_el[ vMap._textContent_ ] !== css_str ) {
         style_el[ vMap._textContent_ ] = css_str;
       }
@@ -325,6 +329,7 @@ var pcss = (function () {
 
     for ( i = __0; i < __2; i++ ) {
       style_el_id = style_el_prefix +  __Str( i );
+      /* istanbul ignore next */
       if ( !! __docRef[ vMap._getElById_ ]( style_el_id ) ) {
         throw '_sheet_id_is_already_in_use_ ' + style_el_id;
       }
@@ -596,7 +601,6 @@ var pcss = (function () {
       first_data, first_type
       ;
 
-
     key_list  = __keys( rule_map );
     if ( key_list[ vMap._length_ ] === __0 ) { return __blank; }
 
@@ -604,7 +608,8 @@ var pcss = (function () {
     rule_key  = key_list[ __0 ];
     solve_key = cssKeyMap[ rule_key ];
     if ( solve_key === __undef ) {
-      logIt( '_unsupported_rule_key_symbol_', rule_key );
+      logIt( '_unsupported_rule_key_symbol_0_', rule_key );
+      return;
     }
 
     frame_obj = {
@@ -658,7 +663,9 @@ var pcss = (function () {
 
         solve_key = cssKeyMap[ rule_key ];
         if ( solve_key === __undef ) {
-          logIt( '_unsupported_rule_key_symbol_', rule_key );
+          logIt( '_unsupported_rule_key_symbol_1_', rule_key );
+          frame_obj._val_idx_++;
+          continue _RESOLVE_;
         }
         frame_obj._solve_key_ = solve_key;
       }
@@ -841,9 +848,11 @@ var pcss = (function () {
       // 2.12.2.3 add rule map and store
       if ( rule_map ) {
         rule_str = makeRuleMapStr( rule_map, merged_mixin_map );
-        solve_selector_str += '{' + rule_str + '}';
+        if ( rule_str ) {
+          solve_selector_str += '{' + rule_str + '}';
+          solve_selector_list[ vMap._push_ ]( solve_selector_str );
+        }
       }
-      solve_selector_list[ vMap._push_ ]( solve_selector_str );
       // end 2.12.2.3
     }
     // end 2.12.2 Consider each selector map in list
@@ -1013,14 +1022,12 @@ var pcss = (function () {
     // 4.1.3 Initialize cssKeyMap and cssValMap
     if ( css_key_map === __undef ) {
       css_key_map = pcss._cfg_ && pcss._cfg_._cssKeyMap_;
+      cssKeyMap = css_key_map;
     }
     if ( css_val_map === __undef ) {
       css_val_map = pcss._cfg_ && pcss._cfg_._cssValMap_;
+      cssValMap = css_val_map;
     }
-
-    if ( css_key_map === css_val_map === __undef ) { return; }
-    cssKeyMap = css_key_map;
-    cssValMap = css_val_map;
 
     // 4.1.4 return prefix
     stateMap._is_init_ = __true;
@@ -1388,8 +1395,9 @@ var pcss = (function () {
       cascade_map_map = stateMap._cascade_map_map_,
       now_ms          = __timeStamp(),
 
-      cascade_map, unknown_id_list,
-      style_el,    style_el_idx
+      el_cascade_list, cascade_map,
+      unknown_id_list, style_el,
+      style_el_idx
       ;
 
     if ( ! regen_type ) {
@@ -1434,17 +1442,22 @@ var pcss = (function () {
     }
     // end 4.7.2
 
-    // 4.7.3 Delete, change, or add data as provided
+    // 4.7.3 Process delete
     if ( mode_str === '_delete_' ) {
       delete cascade_map_map[ cascade_id ];
-      style_el_idx = stateMap._style_el_idx_;
-      if ( stateMap[ style_el_idx ] === cascade_id ) {
+      style_el_idx    = stateMap._style_el_idx_;
+      el_cascade_list = stateMap._el_cascade_list_;
+
+      if ( el_cascade_list[ style_el_idx ] === cascade_id ) {
         style_el = stateMap._style_el_list_[ style_el_idx ];
         writeToStyleEl( style_el, __blank );
+        el_cascade_list[ style_el_idx ] = undefined;
       }
       return cascade_id;
     }
+    // end 4.7.3
 
+    // 4.7.4 Verify sheet id list
     if ( vsheet_id_list ) {
       unknown_id_list = checkVsheetIds( vsheet_id_list );
       if ( unknown_id_list[ vMap._length_ ] > __0 ) {
@@ -1454,11 +1467,12 @@ var pcss = (function () {
       cascade_map._vsheet_id_list_ = cloneData( vsheet_id_list );
       cascade_map._vsheet_ms_      = now_ms;
     }
+
+    // 4.7.5 Process mixin map if provided
     if ( mixin_map ) {
       cascade_map._mixin_map_ = cloneData( mixin_map );
       cascade_map._mixin_ms_  = now_ms;
     }
-    // end 4.7.3
 
     regenCascade( cascade_map, regen_type );
     return cascade_id;
@@ -1540,7 +1554,7 @@ try {
   global.pcss    = pcss;
   module.exports = pcss;
 }
-catch ( ignore ) {
-  window.pcss = pcss;
+catch ( e ) {
+  window.pcss    = pcss;
 }
 // == . END 5. BROWSER AND NODE SUPPORT ===============================
