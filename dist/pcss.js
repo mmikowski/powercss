@@ -1531,16 +1531,17 @@ var pcss = (function () {
     _initModule_        : initModule,
 
     _extendRuleMap_     : extendRuleMap,
-    _togglePcss_        : initCheck[ vMap._bind_ ]( togglePcss        ),
-    _setGlobalMixinMap_ : initCheck[ vMap._bind_ ]( setGlobalMixinMap ),
-    _getAssetIdList_    : initCheck[ vMap._bind_ ]( getAssetIdList    ),
-    _getAssetJson_      : initCheck[ vMap._bind_ ]( getAssetJson      ),
+    _getAssetIdList_    : getAssetIdList,
+    _getAssetJson_      : getAssetJson,
+    _getCssValMap_      : getCssValMap,
+    _getCssKeyMap_      : getCssKeyMap,
+    _getGlobalMixinMap_ : getGlobalMixinMap,
+    _setGlobalMixinMap_ : setGlobalMixinMap,
+    _setStyleAttr_      : setStyleAttr,
+
+    _setCascade_        : initCheck[ vMap._bind_ ]( setCascade ),
     _setVsheet_         : initCheck[ vMap._bind_ ]( setVsheet         ),
-    _setCascade_        : initCheck[ vMap._bind_ ]( setCascade        ),
-    _getCssValMap_      : initCheck[ vMap._bind_ ]( getCssValMap      ),
-    _getCssKeyMap_      : initCheck[ vMap._bind_ ]( getCssKeyMap      ),
-    _getGlobalMixinMap_ : initCheck[ vMap._bind_ ]( getGlobalMixinMap ),
-    _setStyleAttr_      : initCheck[ vMap._bind_ ]( setStyleAttr      )
+    _togglePcss_        : initCheck[ vMap._bind_ ]( togglePcss )
   };
   // == . END 4. PUBLIC METHODS =======================================
 }());
