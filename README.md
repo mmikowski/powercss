@@ -1483,6 +1483,7 @@ MIT
 - (x) Convert from nodeunitb to nodeunit + jsdom
 - (x) Add coverage reporting to coveralls.io
 - (x) Update tests to expand coverage
+- (x) Selector string without rule map is inserted verbatim into CSS
 
 ### TODO
 - (o) Add extendo-map expansion
@@ -1495,7 +1496,7 @@ MIT
 - (o) Extendo-map expansion
 
 ## Similar Projects
-[absurdjs][5], [responsive.j$][6]
+[absurdjs][5], [responsive.js][6]
 
 ## Contribute!
 Any improvements or suggestions are welcome.

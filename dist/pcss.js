@@ -846,9 +846,11 @@ var pcss = (function () {
         rule_str = makeRuleMapStr( rule_map, merged_mixin_map );
         if ( rule_str ) {
           solve_selector_str += '{' + rule_str + '}';
-          solve_selector_list[ vMap._push_ ]( solve_selector_str );
         }
       }
+      // Selector strings without rule maps are pushed as-is into css.
+      // This is useful for content like animation text
+      solve_selector_list[ vMap._push_ ]( solve_selector_str );
       // end 2.12.2.3
     }
     // end 2.12.2 Consider each selector map in list
