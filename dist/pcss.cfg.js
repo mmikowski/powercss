@@ -306,10 +306,10 @@ __NS._cfg_ = (function () {
       _inline_table_ : 'inline-table',
       _table_        : 'table',
       _table_cell_   : 'table-cell',
-      _table_row_    : 'table-row'
+      _table_row_    : 'table-row',
+      _wrap_         : 'wrap'
     }
     ;
-
 
   return {
     _cssKeyMap_ : cssKeyMap,
