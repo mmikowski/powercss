@@ -126,7 +126,15 @@ __NS._cfg_ = (function () {
       _white_space_            : 'white-space',
       _width_                  : 'width',
       _word_break_             : 'word-break',
-      _z_index_                : 'z-index'
+      _z_index_                : 'z-index',
+
+      // new for 1.4.4
+      __ms_flex_       : '-ms-flex',
+      __ms_flex_wrap_  : '-ms-flex-wrap',
+      _flex_           : 'flex',
+      _flex_wrap_      : 'flex-wrap',
+      _text_transform_ : 'text-transform'
+
     },
 
     // Common CSS values
@@ -291,9 +299,17 @@ __NS._cfg_ = (function () {
       _underline_     : 'underline',
       _uppercase_     : 'uppercase',
       _vertical_      : 'vertical',
-      _visible_       : 'visible'
+      _visible_       : 'visible',
+
+      // new for 1.4.4
+      _flex_         : 'flex',
+      _inline_table_ : 'inline-table',
+      _table_        : 'table',
+      _table_cell_   : 'table-cell',
+      _table_row_    : 'table-row'
     }
     ;
+
 
   return {
     _cssKeyMap_ : cssKeyMap,
