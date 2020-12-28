@@ -377,19 +377,17 @@ var pcss = (function () {
   // Returns   : none
   //   base_map is modified, extend_map is not.
   //
-  function extendRuleMap ( base_map, arg_extend_map ) {
+  function extendRuleMap ( base_map, extend_map ) {
     var
-      extend_map,
       key_list,  key_count,
       rule_key,  rule_data, i
       ;
 
     // return undef if objects are not provided
-    if ( getVarType( base_map       ) !== vMap._object_
-      || getVarType( arg_extend_map ) !== vMap._object_
+    if ( getVarType( base_map   ) !== vMap._object_
+      || getVarType( extend_map ) !== vMap._object_
     ) { return; }
 
-    extend_map = cloneData( arg_extend_map );
     key_list   = __keys( extend_map );
     key_count  = key_list[ vMap._length_ ];
 
@@ -972,7 +970,16 @@ var pcss = (function () {
     return active_rule_map;
   }
 
-  // 2.14 Private method /initCheck/
+  // 2.14 Private method /castMap/
+  function castMap ( data, alt_data ) {
+    if ( getVarType( data ) === vMap._object_ ) {
+      return data;
+    }
+    return alt_data;
+  }
+  // end 2.14
+
+  // 2.15 Private method /initCheck/
   // Wrapper function that checks init before proceeding
   //
   function initCheck () {
@@ -982,7 +989,7 @@ var pcss = (function () {
     }
     return target_fn[ vMap._apply_ ]( this, arguments );
   }
-  // end 2.14
+  // end 2.15
   // == END 2. PRIVATE METHODS ========================================
 
   // == BEGIN 3. EVENT HANDLERS =======================================
@@ -1006,7 +1013,9 @@ var pcss = (function () {
       opt_map         = arg_map || {},
       style_el_prefix = opt_map._style_el_prefix_ || 'pcss',
       css_key_map     = opt_map._css_key_map_,
-      css_val_map     = opt_map._css_val_map_
+      css_val_map     = opt_map._css_val_map_,
+
+      base_key_map, base_val_map
       ;
 
     // 4.1.2 Init element prefix
@@ -1018,14 +1027,20 @@ var pcss = (function () {
     }
 
     // 4.1.3 Initialize cssKeyMap and cssValMap
-    if ( css_key_map === __undef ) {
-      css_key_map = pcss._cfg_ && pcss._cfg_._cssKeyMap_;
-      cssKeyMap = css_key_map;
+    if ( pcss._cfg_ ) {
+      base_key_map = pcss._cfg_._cssKeyMap_;
+      base_val_map = pcss._cfg_._cssValMap_;
     }
-    if ( css_val_map === __undef ) {
-      css_val_map = pcss._cfg_ && pcss._cfg_._cssValMap_;
-      cssValMap = css_val_map;
-    }
+
+    cssKeyMap = extendRuleMap( 
+      castMap( base_key_map, {} ),
+      castMap( css_key_map,  {} )
+    );
+
+    cssValMap = extendRuleMap( 
+      castMap( base_val_map, {} ),
+      castMap( css_val_map,  {} )
+    );
 
     // 4.1.4 return prefix
     stateMap._is_init_ = __true;

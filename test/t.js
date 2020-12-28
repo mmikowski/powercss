@@ -545,7 +545,7 @@ function testInit ( test_obj ) {
   expect_str = '_init_module_ should return "pcss-"';
   try { ret_data = pcssObj._initModule_(); }
   catch( error ) { ret_data = error; }
-  test_obj.ok( ret_data === 'pcss-', expect_str );
+  test_obj.ok( ret_data === 'pcss-', expect_str, ret_data );
 
   expect_str = 'Initial toggle should return false';
   try { ret_data = pcssObj._togglePcss_(); }
