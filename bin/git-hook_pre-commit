@@ -13,17 +13,16 @@ set -u;
 # set -e;
 
 ## BEGIN Layout variables ==================================================
-NODE_EXE=$(which node);
-LINK_PATH=$(readlink -f -- "${0}");
-BIN_PATH=$(cd "${LINK_PATH%/*}" && echo "${PWD}");
-GGG_DIR=$(cd "$(git rev-parse --show-toplevel)" && pwd );
-PKG_FILE=$(find "${GGG_DIR}" -type f -wholename "${GGG_DIR}/package.json" );
-PKG_DIR=$(dirname "${PKG_FILE}");
-MODS_DIR=$(find "${GGG_DIR}" -type d -wholename "${GGG_DIR}/node_modules" );
-WAPP_DIR=$(dirname "${MODS_DIR}");
+NODE_EXE="$(command -v node)";
+LINK_PATH="$(readlink -f -- "${0}")";
+BIN_PATH="$(cd "${LINK_PATH%/*}" && echo "${PWD}")";
+GGG_DIR="$(cd "$(git rev-parse --show-toplevel)" && pwd)";
+PKG_FILE="$(find "${GGG_DIR}" -type f -wholename "${GGG_DIR}/package.json")";
+PKG_DIR="$(dirname "${PKG_FILE}")";
+MODS_DIR="$(find "${GGG_DIR}" -type d -wholename "${GGG_DIR}/node_modules")";
 JSLINT_EXE="${MODS_DIR}/.bin/jslint";
 NU_EXE="${MODS_DIR}/.bin/nodeunit";
-NU_FILE="${WAPP_DIR}/test/t.js";
+NU_DIR="${GGG_DIR}/test";
 MAKEDOC_EXE="${GGG_DIR}/bin/make_doc";
 LIST_FILE="/tmp/git-pre-commit.${$}.list.tmp";
 TMP_FILE="/tmp/git-pre-commit.${$}.tmp";
@@ -39,10 +38,9 @@ CHECK_STR="";
 # PKG_FILE     : ${PKG_FILE}
 # PKG_DIR      : ${PKG_DIR}
 # MODS_DIR     : ${MODS_DIR}
-# WAPP_DIR     : ${WAPP_DIR}
 # JSLINT_EXE   : ${JSLINT_EXE}
 # NU_EXE       : ${NU_EXE}
-# NU_FILE      : ${NU_FILE}
+# NU_DIR       : ${NU_DIR}
 # MAKEDOC_EXE  : ${MAKEDOC_EXE}
 # LIST_FILE    : ${LIST_FILE}
 # TMP_FILE     : ${TMP_FILE}
@@ -55,7 +53,7 @@ CHECK_STR="";
 if [ ! -x "${JSLINT_EXE}" ]; then
   echo "JSLint executable not found."
   echo "Please execute the following command: "
-  echo "  cd ${WAPP_DIR}; npm install ";
+  echo "  cd ${GGG_DIR}; npm install ";
   exit 1;
 fi
 
@@ -134,7 +132,7 @@ echo;
 ##  "${MAKEDOC_EXE}";
 ##  RET_VAL=$?;
 ##  if [ "${RET_VAL}" -eq "0" ]; then
-##    echo "Document file failure".
+##    echo "Document file failure";
 ##    echo "Please check your installation.";
 ##    exit "${RET_VAL}";
 ##  fi
@@ -143,25 +141,24 @@ echo;
 
 ## BEGIN Run regression tests ==============================================
 if [ ! -x "${NODE_EXE}" ]; then
-  echo "Node not found.  Please install nodejs and ensure it is "
-  echo " found in your PATH environment variable."
+  echo "Node not found.  Please install nodejs and ensure it is ";
+  echo " found in your PATH environment variable.";
   exit 1;
 fi
 
 if [ ! -x "${NU_EXE}" ]; then
-  echo "Nodeunit not found.  Please run "
-  echo "cd ${WAPP_DIR}; npm install"
-  echo
-fi
-
-if [ ! -r "${NU_FILE}" ]; then
-  echo "Nodeunit file ${NU_FILE} not found."
-  echo "Please ensure it exists."
-  echo
+  echo "Nodeunit not found.  Please run ";
+  echo "cd ${GGG_DIR}; npm install";
+  echo;
   exit 1;
 fi
 
 echo "Running regression tests";
-"${NU_EXE}" "${NU_FILE}"
-exit $?;
+_ret_int=0;
+while read _test_file; do
+  if "${NU_EXE}" "${_test_file}"; then
+    true; else _ret_int=1;
+  fi
+done < <(find "${NU_DIR}" -mindepth 1 -maxdepth 1 | grep '\.js$' | sort);
+exit "${_ret_int}";
 ## END Run regression tests ================================================
