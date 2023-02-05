@@ -967,14 +967,14 @@ function getData ( test_obj ) {
   test_obj.ok( ret_data === '["c2","c4"]', expect_str );
 
   // =======
-  expect_str = 'List of cascade ids'
+  expect_str = 'List of cascade ids';
   ret_data = pcssObj._getAssetIdList_({
     _asset_type_ : '_cascade_'
   });
   test_obj.deepEqual( ret_data, [ 'c0', 'c1', 'c2', 'c3', 'c4' ], expect_str );
 
   // =======
-  expect_str = 'Try to add an existing cascade id'
+  expect_str = 'Try to add an existing cascade id';
   ret_data = pcssObj._setCascade_({
     _cascade_id_  : 'c2',
     _mode_str_    : '_add_',
@@ -1005,7 +1005,7 @@ function getData ( test_obj ) {
   test_obj.ok( ret_data === '[null,"c4"]', expect_str );
 
   // =======
-  expect_str = 'List of cascade ids with c2 deleted'
+  expect_str = 'List of cascade ids with c2 deleted';
   ret_data = pcssObj._getAssetIdList_({
     _asset_type_ : '_cascade_'
   });
@@ -1017,7 +1017,7 @@ function getData ( test_obj ) {
     _cascade_id_     : 'c0',
     _mode_str_       : '_foo_bar_'
   });
-  expect_str = 'Mode not supported, returns undefined'; 
+  expect_str = 'Mode not supported, returns undefined';
   test_obj.ok( ret_data === undefined, expect_str );
 
   // =======
@@ -1027,21 +1027,21 @@ function getData ( test_obj ) {
     _mode_str_       : '_change_',
     _regen_type_     : '_use_'
   });
-  expect_str = 'Cascade removed, returns undefined'; 
+  expect_str = 'Cascade removed, returns undefined';
   test_obj.ok( ret_data === undefined, expect_str );
 
   // =======
-  expect_str = 'List of vsheet ids'
+  expect_str = 'List of vsheet ids';
   ret_data = pcssObj._getAssetIdList_({
     _asset_type_ : '_vsheet_'
   });
-  test_obj.deepEqual( ret_data, [ 
+  test_obj.deepEqual( ret_data, [
     's0c0', 's0c1', 's1c1', 's0c2', 's0c3', 's1c3', 's0c4'
     ], expect_str
   );
 
   // =======
-  expect_str = 'Unsupported asset time'
+  expect_str = 'Unsupported asset time';
   ret_data = pcssObj._getAssetIdList_({
     _asset_type_ : '_unsupported_'
   });
@@ -1060,7 +1060,7 @@ function getData ( test_obj ) {
   ret_data = pcssObj._getCssKeyMap_();
   key_list = Object.keys( ret_data );
   test_obj.ok( key_list.length > 0, expect_str );
-  
+
   // =======
   expect_str = 'cssValMap is not empty';
   ret_data = pcssObj._getCssValMap_();
